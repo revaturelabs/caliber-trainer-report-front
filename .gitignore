@@ -102,3 +102,17 @@ dist
 
 # TernJS port file
 .tern-port
+
+
+# ~~~~~ADDED to block IDE/OS specific files~~~~~
+# MacOS users
+.DS_Store
+
+# intelliJ (VCS) files to ignore
+/.idea/
+.idea/*
+*.iml
+
+# eclipse files to ignore
+*.project
+*.classpath
