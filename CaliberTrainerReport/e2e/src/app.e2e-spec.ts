@@ -8,9 +8,9 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display test chart message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('CaliberTrainerReport app is running!');
+    expect(page.getTitleText()).toEqual('test-chart works!');
   });
 
   afterEach(async () => {
