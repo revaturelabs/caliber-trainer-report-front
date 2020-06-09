@@ -45,7 +45,11 @@ export class TestChartComponent implements OnInit{
         scales: {
           yAxes: [{
             ticks: {
-              beginAtZero: true
+              beginAtZero: true,
+              suggestedMax: 50,
+              callback: function(value, index, values) {
+                return value + '%';
+            }
             }
           }]
         },
