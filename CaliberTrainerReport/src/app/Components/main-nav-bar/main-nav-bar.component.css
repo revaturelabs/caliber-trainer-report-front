@@ -97,6 +97,8 @@
     margin-right: 18px;
     text-align: end;
     margin-top: 40px;
+    top: 0px;
+    padding-top: 14px;
 }
 
 #hambDropdown {
@@ -117,7 +119,7 @@
 .hambBG {
     background-color: #b1b1b1;
     width: 300px;
-    height: 84px;
+    height: 90px;
     display: inline;
     position: absolute;
     z-index: 1;

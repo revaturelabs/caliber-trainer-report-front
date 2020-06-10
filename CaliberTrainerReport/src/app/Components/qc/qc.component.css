@@ -1,0 +1,20 @@
+html {
+  font-family: ‘Prompt’, sans-serif;
+}
+
+.qc-title{
+  margin: 0 auto;
+  display: grid;
+  border: 2px solid #ea753e;
+  width: 95%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.qc-title h2{
+  justify-self: center;
+}
+
+.qc-title select{
+  justify-self: center;
+  margin-bottom: 10px;
+}
