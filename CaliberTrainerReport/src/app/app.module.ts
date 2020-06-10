@@ -15,7 +15,7 @@ import { AssessmentBatchesIndivCategoryTechnicalStatusComponent } from './Compon
 import { AssessmentBatchesTrendCategoryTechnicalStatusComponent } from './Components/assessment-batches-trend-category-technical-status/assessment-batches-trend-category-technical-status.component';
 import { QCComponent } from './Components/qc/qc.component';
 import { AssessmentComponent } from './Components/assessment/assessment.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './Components/home/home.component';
 
 @NgModule({
   declarations: [

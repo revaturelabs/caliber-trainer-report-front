@@ -1,11 +1,10 @@
-<link href=“https://fonts.googleapis.com/css2?family=Prompt&display=swap” rel=“stylesheet”>
 <div class="mainNavBG">
     <nav class="mainNav">
         <div class="mainLogo"> <a href="#"> <img src="https://imgur.com/QMNMf4M.png" class="mainLogoIMG"></a> </div>
         <div class="mainTitle" *ngIf="isBig">CALIBER TRAINER REPORT</div>
         <div class="navButtonSection">
-            <div class="firstBtn" *ngIf="isBig"><a href="#">View QC Reports</a></div>
-            <div class="secondBtn" *ngIf="isBig"><a href="#">View Assessment Reports</a></div>
+            <div class="firstBtn" *ngIf="isBig"><a routerLink="/qc">View QC Reports</a></div>
+            <div class="secondBtn" *ngIf="isBig"><a routerLink="/assessment">View Assessment Reports</a></div>
         </div>
         <div class="hBSection" *ngIf="!isBig">
             <div class="hamburgerButton" *ngIf="!isBig">
