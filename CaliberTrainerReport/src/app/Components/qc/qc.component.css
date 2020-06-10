@@ -2,11 +2,22 @@ html {
   font-family: ‘Prompt’, sans-serif;
 }
 
+
+.qc-body{
+  margin: 0 auto;
+  width: 95%;
+}
+
+.qc-graph-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 15px;
+}
+
 .qc-title{
   margin: 0 auto;
   display: grid;
   border: 2px solid #ea753e;
-  width: 95%;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
