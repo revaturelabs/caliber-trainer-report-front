@@ -26,14 +26,14 @@ export class TestChartComponent implements OnInit{
           fill: false
         },
         {
-          label: 'Okay',
+          label: 'Average',
           data: this.firstChartService.getYOkayData(),
           backgroundColor: '#3f91e8',
           backgroundHoverColor: '#3f91e8',
           borderWidth: 1
         },
         {
-          label: 'Bad',
+          label: 'Poor',
           data: this.firstChartService.getYBadData(),
           backgroundColor: '#e33936',
           backgroundHoverColor: '#e33936',
@@ -45,7 +45,11 @@ export class TestChartComponent implements OnInit{
         scales: {
           yAxes: [{
             ticks: {
-              beginAtZero: true
+              beginAtZero: true,
+              suggestedMax: 50,
+              callback: function(value, index, values) {
+                return value + '%';
+            }
             }
           }]
         },
