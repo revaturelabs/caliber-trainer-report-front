@@ -45,8 +45,7 @@ export class TestChartComponent implements OnInit{
         scales: {
           yAxes: [{
             ticks: {
-              beginAtZero: true,
-              padding: 50
+              beginAtZero: true
             }
           }]
         },
