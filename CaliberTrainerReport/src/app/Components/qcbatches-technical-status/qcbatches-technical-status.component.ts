@@ -53,7 +53,7 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
             ticks: {
               beginAtZero: true,
               suggestedMax: 50,
-              callback: function (value, index, values) {
+              callback (value, index, values) {
                 return value + '%';
               }
             }
@@ -75,15 +75,15 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
   graphAdjust() {
     this.width = window.innerWidth;
     if (this.width < 1261) {
-      console.log('Screen less than 1261px'); // FOR MOBILE PHONE
+      // console.log('Screen less than 1261px'); // FOR MOBILE PHONE
       this.isBig = false;
-      
-      document.getElementById("divChart").style.width = "80vw";
+
+      document.getElementById('divChart').style.width = '80vw';
     } else {
-      console.log('Screen width is at least 1261px');
+      // console.log('Screen width is at least 1261px');
       this.isBig = true;
 
-      document.getElementById("divChart").style.width = "45vw";
+      document.getElementById('divChart').style.width = '45vw';
     }
   }
 
@@ -92,16 +92,16 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
     this.width = window.innerWidth;
 
     if (this.width < 1261) {
-      console.log('Screen less than 1010px'); // FOR MOBILE PHONE
+      // console.log('Screen less than 1010px'); // FOR MOBILE PHONE
       this.isBig = false;
 
 
-      document.getElementById("divChart").style.width = "80vw";
+      document.getElementById('divChart').style.width = '80vw';
     } else {
-      console.log('Screen width is at least 1010px');
+      // console.log('Screen width is at least 1010px');
       this.isBig = true;
 
-      document.getElementById("divChart").style.width = "45vw";
+      document.getElementById('divChart').style.width = '45vw';
     }
   }
 

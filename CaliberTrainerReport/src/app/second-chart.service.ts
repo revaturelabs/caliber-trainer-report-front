@@ -4,14 +4,13 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SecondChartService {
-xlabels: string[]; // Push batches onto here
-  yGoodlabels: any[];
-  yOkaylabels: any[];
-  yBadlabels: any[];
+  xlabels: string[]; // Push batches onto here
+
+  yAvglabels: any[];
   constructor() { }
 
   // X-axis variables...
-  getXData(): string[]{
+  getXData(): string[] {
     this.xlabels = [];
     this.xlabels.push('Batch 745');
     this.xlabels.push('Batch 746');
@@ -20,36 +19,31 @@ xlabels: string[]; // Push batches onto here
     return this.xlabels;
   }
 
-  // First column on each x-cell
-  // Must match size of x-axis variables
-  getYGoodData(): any[]{
-    this.yGoodlabels = [];
-    this.yGoodlabels.push(14);
-    this.yGoodlabels.push(4);
-    this.yGoodlabels.push(40);
-    this.yGoodlabels.push(20);
-    return this.yGoodlabels;
+  getAvgCategoryScoresObservables(category: string){
+    // this will be making our observable
+
   }
 
-  // Second column on each x-cell
-  // Must match size of x-axis variables
-  getYOkayData(): any[]{
-    this.yOkaylabels = [];
-    this.yOkaylabels.push(1);
-    this.yOkaylabels.push(2);
-    this.yOkaylabels.push(3);
-    this.yOkaylabels.push(4);
-    return this.yOkaylabels;
+
+  getAvgCategoryScores(category: string): any[] {
+
+    this.yAvglabels = [];
+
+
+    if (category === 'SQL'){
+    // our subscribe method eventually
+      this.getAvgCategoryScoresObservables(category);
+      this.yAvglabels.push(0);
+      this.yAvglabels.push(1);
+      this.yAvglabels.push(2);
+      this.yAvglabels.push(3);
+    }else if (category === 'Java'){
+      this.yAvglabels.push(2);
+      this.yAvglabels.push(0);
+      this.yAvglabels.push(3);
+      this.yAvglabels.push(1);
+    }
+    return this.yAvglabels;
   }
 
-  // Third column on each x-cell
-  // Must match size of x-axis variables
-  getYBadData(): any[]{
-    this.yBadlabels = [];
-    this.yBadlabels.push(10);
-    this.yBadlabels.push(20);
-    this.yBadlabels.push(30);
-    this.yBadlabels.push(40);
-    return this.yBadlabels;
-  }
 }
