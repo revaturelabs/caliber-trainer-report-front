@@ -37,16 +37,16 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
   }
 
   displayGraph() {
-    if(this.myLineChart){
+    if (this.myLineChart){
       this.myLineChart.destroy();
     }
 
-    let yLabels = {
+    const yLabels = {
       0: 'Poor',
       1: 'Average',
       2: 'Good',
       3: 'Superstar'
-    }
+    };
 
     this.myLineChart = new Chart('secondChart', {
       type: 'line',
@@ -54,7 +54,7 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
         labels: this.secondChartService.getXData(),
         datasets: [{
           label: 'Overall Average', // Name the series
-          data: [3, 0, 1, 2], // Specify the data values array
+          data: this.secondChartService.getAvgCategoryScores(this.pickedCategory), // Specify the data values array
           fill: false,
           borderColor: '#2196f3', // Add custom color border (Line)
           backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
@@ -68,7 +68,7 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
               beginAtZero: true,
               suggestedMax: 3,
               stepSize: 1,
-              callback: function(value, index, values) {
+              callback(value, index, values) {
                 return yLabels[value];
               }
             }
@@ -89,15 +89,15 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
   graphAdjust() {
     this.width = window.innerWidth;
     if (this.width < 1261) {
-      console.log('Screen less than 1261px'); // FOR MOBILE PHONE
+      // console.log('Screen less than 1261px'); // FOR MOBILE PHONE
       this.isBig = false;
-      
-      document.getElementById("divChart2").style.width = "80vw";
+
+      document.getElementById('divChart2').style.width = '80vw';
     } else {
-      console.log('Screen width is at least 1261px');
+      // console.log('Screen width is at least 1261px');
       this.isBig = true;
-      
-      document.getElementById("divChart2").style.width = "45vw";
+
+      document.getElementById('divChart2').style.width = '45vw';
     }
   }
 
@@ -106,16 +106,16 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
     this.width = window.innerWidth;
 
     if (this.width < 1261) {
-      console.log('Screen less than 1260px'); // FOR MOBILE PHONE
+      // console.log('Screen less than 1260px'); // FOR MOBILE PHONE
       this.isBig = false;
 
 
-      document.getElementById("divChart2").style.width = "80vw";
+      document.getElementById('divChart2').style.width = '80vw';
     } else {
-      console.log('Screen width is at least 1260px');
+     // console.log('Screen width is at least 1260px');
       this.isBig = true;
 
-      document.getElementById("divChart2").style.width = "45vw";
+      document.getElementById('divChart2').style.width = '45vw';
     }
   }
 
