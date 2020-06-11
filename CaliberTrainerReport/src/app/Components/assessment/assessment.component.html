@@ -1,1 +1,31 @@
-<p>assessment works!</p>
+<div class="assessment-body" >
+    <div class="assessment-title">
+        <h2>Assessment Technical Status</h2>
+        <select id="assessment-graph-selector" [(ngModel)]="selectedValue">
+            <option value="all">Show all graphs</option>
+            <option value="status">Average Scores by Batch</option>
+            <option value="category">Score by Category</option>
+            <option value="trend">Trend by Category</option>
+        </select>
+    </div>
+
+    <div class="assessment-graph-grid" *ngIf="selectedValue == 'all'">
+        <app-assessment-batches-technical-status></app-assessment-batches-technical-status>
+        <app-assessment-batches-indiv-category-technical-status>
+        </app-assessment-batches-indiv-category-technical-status>
+        <app-assessment-batches-trend-category-technical-status>
+        </app-assessment-batches-trend-category-technical-status>
+    </div>
+    <div class="assessment-graph-grid" *ngIf="selectedValue == 'status'">
+        <app-assessment-batches-technical-status></app-assessment-batches-technical-status>
+
+    </div>
+    <div class="assessment-graph-grid" *ngIf="selectedValue == 'category'">
+        <app-assessment-batches-indiv-category-technical-status>
+        </app-assessment-batches-indiv-category-technical-status>
+    </div>
+    <div class="assessment-graph-grid" *ngIf="selectedValue == 'trend'">
+        <app-assessment-batches-trend-category-technical-status>
+        </app-assessment-batches-trend-category-technical-status>
+    </div>
+</div>

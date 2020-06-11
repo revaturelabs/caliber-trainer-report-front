@@ -1,1 +1,19 @@
-<p>assessment-batches-indiv-category-technical-status works!</p>
+<div class="card-layout">
+    <div class="card-title">
+        <span>Assessment scores according to category</span>
+        <fa-icon class="barGraphIcon" [icon]="barGraphIcon"></fa-icon>
+        
+        <div class="batches-dropdown">
+            <select id="assessment-graph-selector" (change)="updateGraph()" [(ngModel)]="pickedBatch">
+                <option *ngFor="let batch of batches" [value]="batch" >{{batch}}</option>
+              </select>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id="divChart">
+            <canvas id="fifthChart"> 
+        
+            </canvas>
+        </div>        
+    </div>
+</div>

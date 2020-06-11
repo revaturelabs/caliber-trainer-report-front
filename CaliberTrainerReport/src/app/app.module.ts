@@ -16,6 +16,9 @@ import { AssessmentBatchesTrendCategoryTechnicalStatusComponent } from './Compon
 import { QCComponent } from './Components/qc/qc.component';
 import { AssessmentComponent } from './Components/assessment/assessment.component';
 import { HomeComponent } from './Components/home/home.component';
+import { SecondChartService } from './second-chart.service';
+import { FourthChartService } from './fourth-chart.service';
+import { FifthChartService } from './fifth-chart.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,7 @@ import { HomeComponent } from './Components/home/home.component';
     FontAwesomeModule,
     FormsModule
   ],
-  providers: [FirstChartService],
+  providers: [FirstChartService,SecondChartService,FourthChartService,FifthChartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

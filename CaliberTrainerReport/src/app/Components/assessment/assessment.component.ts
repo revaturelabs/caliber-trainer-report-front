@@ -6,10 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./assessment.component.css']
 })
 export class AssessmentComponent implements OnInit {
+  selectedValue: string;
 
   constructor() { }
 
   ngOnInit(): void {
+    
+    this.selectedValue = 'all';
   }
 
 }
