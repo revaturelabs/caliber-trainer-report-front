@@ -1,4 +1,5 @@
 import { browser, by, element } from 'protractor';
+import { MainNavBarComponent } from '../../src/app/Components/main-nav-bar/main-nav-bar.component';
 
 export class AppPage {
   navigateTo(): Promise<unknown> {
@@ -33,5 +34,19 @@ export class AppPage {
         .actions()
         .click()
         
+  }
+
+  getAllGraphs() {
+    browser.sleep(3000);
+    browser.driver.manage().window().setSize(1920, 1080); // isBig = true
+    element(by.id('demo')).click();
+    return element.all(by.tagName('canvas'));
+  }
+  getAllGraphsMobileView() {
+    browser.sleep(3000);
+    browser.driver.manage().window().setSize(1000, 1080); // isBig = false
+    element(by.className('hambIcon')).click();
+    element(by.id('demo2')).click();
+    return element.all(by.tagName('canvas'));
   }
 }
