@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
 import { SecondChartService } from 'src/app/second-chart.service';
@@ -15,9 +15,15 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
   myLineChart: any;
   categories: string[];
 
+  // Dealing with Scalability
+  width: number;
+  isBig: boolean;
+
   constructor(private secondChartService: SecondChartService) { }
 
   ngOnInit(): void {
+
+    this.graphAdjust();
 
     this.pickedCategory = 'Java';
     this.categories = ['Java', 'SQL', 'Javascript', 'Servlet'];
@@ -31,7 +37,10 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
   }
 
   displayGraph() {
-    
+    if(this.myLineChart){
+      this.myLineChart.destroy();
+    }
+
     let yLabels = {
       0: 'Poor',
       1: 'Average',
@@ -69,7 +78,6 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
           display: true,
           text: `QC scores based on ${this.pickedCategory}`
         },
-        responsive: true,
         hover: {
           mode: 'nearest',
           intersect: true
@@ -77,5 +85,40 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
       }
     });
   }
+
+  graphAdjust() {
+    this.width = window.innerWidth;
+    if (this.width < 1261) {
+      console.log('Screen less than 1261px'); // FOR MOBILE PHONE
+      this.isBig = false;
+      
+      document.getElementById("divChart2").style.width = "80vw";
+    } else {
+      console.log('Screen width is at least 1261px');
+      this.isBig = true;
+      
+      document.getElementById("divChart2").style.width = "45vw";
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.width = window.innerWidth;
+
+    if (this.width < 1261) {
+      console.log('Screen less than 1260px'); // FOR MOBILE PHONE
+      this.isBig = false;
+
+
+      document.getElementById("divChart2").style.width = "80vw";
+    } else {
+      console.log('Screen width is at least 1260px');
+      this.isBig = true;
+
+      document.getElementById("divChart2").style.width = "45vw";
+    }
+  }
+
+
 
 }
