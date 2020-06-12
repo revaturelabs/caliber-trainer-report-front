@@ -18,12 +18,8 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
   myChart: any;
   batches: string[];
 
-<<<<<<< HEAD
-  constructor(private thirdChartService: ThirdChartService) {}
-=======
   constructor(private thirdChartService: ThirdChartService,  private qcTS: QCComponent) { }
 
->>>>>>> 10a1d7fe6bcb2ee6c3f669042d435cb62701e818
 
   ngOnInit(): void {
     this.graphAdjust();
@@ -36,12 +32,6 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
   updateGraph() {
     console.log('Changed batch!');
     this.displayGraph();
-<<<<<<< HEAD
-  }
-
-  displayGraph() {
-    if (this.myChart) {
-=======
     
   }
 
@@ -49,7 +39,6 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
     const elmnt = document.getElementById("thirdChart");
     const y = elmnt.scrollTop;
     if (this.myChart){
->>>>>>> 10a1d7fe6bcb2ee6c3f669042d435cb62701e818
       this.myChart.destroy();
     }
 
@@ -109,18 +98,6 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
         },
       },
     });
-    this.goToBottom();
-  }
-
-<<<<<<< HEAD
-  goToBottom() {
-    let el = document.getElementById('bottom-elem');
-    el.scrollTop = el.scrollHeight;
-=======
-    const htmlElement = document.documentElement;
-    htmlElement.scrollTop = y;
-    console.log("Scrolled to top");
->>>>>>> 10a1d7fe6bcb2ee6c3f669042d435cb62701e818
   }
 
   scroll(el: HTMLElement) {
@@ -146,15 +123,12 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
     }
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  @HostListener('window:resize', ['$event']) 
+    onResize(event) {
     if (this.qcTS.selectedValue === 'all') {
 
       this.width = window.innerWidth;
 
-<<<<<<< HEAD
-      document.getElementById('divChart').style.width = '80vw';
-=======
       if (this.width < 1281) {
         // console.log('Screen less than 1260px'); // FOR MOBILE PHONE
         this.isBig = false;
@@ -166,7 +140,6 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
 
         document.getElementById('divChart3').style.width = '45vw';
       }
->>>>>>> 10a1d7fe6bcb2ee6c3f669042d435cb62701e818
     } else {
       document.getElementById('divChart3').style.width = '90vw';
 
