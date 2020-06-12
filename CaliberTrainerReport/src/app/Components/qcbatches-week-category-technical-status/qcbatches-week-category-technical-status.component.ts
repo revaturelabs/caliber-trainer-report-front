@@ -34,7 +34,7 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
   doGetTableData(): void {
     this.thirdChartService.getTableData().subscribe(resp=>{
       this.tableData = resp;
-      console.log(this.tableData);
+      //console.log(this.tableData);
       this.batches = this.getBatches();
       this.pickedBatch = this.batches[0];
       this.displayGraph();
