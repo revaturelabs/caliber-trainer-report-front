@@ -1,4 +1,9 @@
 import { Injectable } from '@angular/core';
+import { HttpHeaders, HttpClient, HttpResponse } from '@angular/common/http';
+import { UrlService } from './url.service';
+import { Observable } from 'rxjs';
+import { TechnicalStatusByWeek } from './Classes/TechnicalStatusByWeek';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +13,14 @@ export class ThirdChartService {
   yGoodData: any[];
   yOkayData: any[];
   yBadData: any[];
-  constructor() { }
+  constructor(private http: HttpClient, private urlService: UrlService) { }
+
+  // returns array of TechnicalStatusByWeek objects containing data for the graph
+  getTableData(): Observable<TechnicalStatusByWeek[]>{
+    return this.http.get(this.urlService.getUrl() + 'TechnicalStatusByWeek', {withCredentials: false}).pipe(
+      map(resp => resp as TechnicalStatusByWeek[])
+    );
+  }
 
   // X-axis variables...
   getXData(): string[]{

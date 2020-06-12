@@ -19,6 +19,8 @@ import { HomeComponent } from './Components/home/home.component';
 import { SecondChartService } from './second-chart.service';
 import { FourthChartService } from './fourth-chart.service';
 import { FifthChartService } from './fifth-chart.service';
+import { UrlService } from './url.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -39,9 +41,10 @@ import { FifthChartService } from './fifth-chart.service';
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [FirstChartService,SecondChartService,FourthChartService,FifthChartService],
+  providers: [FirstChartService,SecondChartService,FourthChartService,FifthChartService,UrlService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
