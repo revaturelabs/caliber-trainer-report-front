@@ -16,15 +16,15 @@
         <app-assessment-batches-trend-category-technical-status>
         </app-assessment-batches-trend-category-technical-status>
     </div>
-    <div class="assessment-graph-grid" *ngIf="selectedValue == 'status'">
-        <app-assessment-batches-technical-status></app-assessment-batches-technical-status>
-
+    <div class="assessment-graph-full" *ngIf="selectedValue == 'status'">
+        <app-assessment-batches-technical-status>
+        </app-assessment-batches-technical-status>
     </div>
-    <div class="assessment-graph-grid" *ngIf="selectedValue == 'category'">
+    <div class="assessment-graph-full" *ngIf="selectedValue == 'category'">
         <app-assessment-batches-indiv-category-technical-status>
         </app-assessment-batches-indiv-category-technical-status>
     </div>
-    <div class="assessment-graph-grid" *ngIf="selectedValue == 'trend'">
+    <div class="assessment-graph-full" *ngIf="selectedValue == 'trend'">
         <app-assessment-batches-trend-category-technical-status>
         </app-assessment-batches-trend-category-technical-status>
     </div>

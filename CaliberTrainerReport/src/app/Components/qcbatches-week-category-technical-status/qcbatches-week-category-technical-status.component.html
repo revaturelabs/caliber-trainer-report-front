@@ -4,7 +4,7 @@
         <fa-icon class="barGraphIcon" [icon]="barGraphIcon"></fa-icon>
         <div class="batch-dropdown">
             <select id="qc-graph-selector" (change)="updateGraph()" [(ngModel)]="pickedBatch">
-                <option *ngFor="let batch of batches" [value]="batch" >{{batch}}</option>
+                <option *ngFor="let batch of batches" [value]="batch" (click)=scroll(targetLocation) >{{batch}}</option>
                 <!-- <option value="Batch 745">Batch 745</option>
                 <option value="Batch 746">Batch 746</option>
                 <option value="Batch 747">Batch 747</option>
@@ -12,7 +12,7 @@
             </select>
         </div>
     </div>
-    <div class="card-body">
+    <div #targetLocation class="card-body">
         <div id="divChart3">
             <canvas id="thirdChart"> 
         

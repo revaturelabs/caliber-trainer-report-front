@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
 import { SecondChartService } from 'src/app/second-chart.service';
-
+import { QCComponent } from 'src/app/Components/qc/qc.component';
 
 @Component({
   selector: 'app-qcbatches-indiv-category-technical-status',
@@ -19,7 +19,7 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
   width: number;
   isBig: boolean;
 
-  constructor(private secondChartService: SecondChartService) { }
+  constructor(private secondChartService: SecondChartService, private qcTS: QCComponent) { }
 
   ngOnInit(): void {
 
@@ -87,35 +87,44 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
   }
 
   graphAdjust() {
-    this.width = window.innerWidth;
-    if (this.width < 1261) {
-      // console.log('Screen less than 1261px'); // FOR MOBILE PHONE
-      this.isBig = false;
+    if (this.qcTS.selectedValue === 'all') {
+      this.width = window.innerWidth;
+      if (this.width < 1281) {
+        // console.log('Screen less than 1261px'); // FOR MOBILE PHONE
+        this.isBig = false;
 
-      document.getElementById('divChart2').style.width = '80vw';
+        document.getElementById('divChart2').style.width = '80vw';
+      } else {
+        // console.log('Screen width is at least 1261px');
+        this.isBig = true;
+
+        document.getElementById('divChart2').style.width = '45vw';
+      }
     } else {
-      // console.log('Screen width is at least 1261px');
-      this.isBig = true;
-
-      document.getElementById('divChart2').style.width = '45vw';
+      document.getElementById('divChart2').style.width = '90vw';
     }
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.width = window.innerWidth;
+    if (this.qcTS.selectedValue === 'all') {
 
-    if (this.width < 1261) {
-      // console.log('Screen less than 1260px'); // FOR MOBILE PHONE
-      this.isBig = false;
+      this.width = window.innerWidth;
 
+      if (this.width < 1281) {
+        // console.log('Screen less than 1260px'); // FOR MOBILE PHONE
+        this.isBig = false;
 
-      document.getElementById('divChart2').style.width = '80vw';
+        document.getElementById('divChart2').style.width = '80vw';
+      } else {
+        // console.log('Screen width is at least 1260px');
+        this.isBig = true;
+
+        document.getElementById('divChart2').style.width = '45vw';
+      }
     } else {
-     // console.log('Screen width is at least 1260px');
-      this.isBig = true;
+      document.getElementById('divChart2').style.width = '90vw';
 
-      document.getElementById('divChart2').style.width = '45vw';
     }
   }
 
