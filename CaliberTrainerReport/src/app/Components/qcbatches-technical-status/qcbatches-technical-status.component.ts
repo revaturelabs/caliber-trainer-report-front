@@ -23,12 +23,14 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
   superstarData: any[];
   nullData: any[];
 
+  myGraph: any;
 
   constructor(private firstChartService: FirstChartService, private qcTS: QCComponent) { }
 
   ngOnInit(): void {
     this.graphAdjust();
 
+    // This method receives the JSON object from the URL GET request
     this.firstChartService.getTechnicalStatusPerBatch().subscribe(
       resp => {
         console.log(resp);
@@ -37,40 +39,51 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
         this.technicalStatus = this.firstGraphObj.technicalStatus;
         console.log(this.technicalStatus);
 
+        // Initializing the arrays for our data
         this.goodData = [];
         this.averageData = [];
         this.poorData = [];
         this.superstarData = [];
         this.nullData = [];
-      
-        for(let batches of this.technicalStatus){
+
+        // This for loop goes through each batch
+        for (const batches of this.technicalStatus) {
+
+          // This for loop calculates the total technical scores for each batch
           let total = 0;
-          for(let num of batches){
+          for (const num of batches) {
             total += num;
           }
 
-          console.log("total: " + total);
+          // Seperates data into each technical score type (good, bad, avg) and performs math
+          // to get the weighted value out of 100%
 
-          this.poorData.push((batches[0]/total)*100);
-          this.averageData.push((batches[1]/total)*100);
-          this.goodData.push((batches[2]/total)*100);
-          this.superstarData.push((batches[3]/total)*100);
-          this.nullData.push((batches[4]/total)*100);
-          // this.getPercentageFromData(this.poorData, this.averageData, this.goodData);
+          // Expects order to be from bad[0] -> avg[1] -> good[2] -> superstar[3] -> null[4]
+          this.poorData.push((batches[0] / total) * 100);
+          this.averageData.push((batches[1] / total) * 100);
+          this.goodData.push((batches[2] / total) * 100);
+          this.superstarData.push((batches[3] / total) * 100);
+          this.nullData.push((batches[4] / total) * 100);
         }
-        // console.log("P: " + this.poorData );
-        // console.log("A: " + this.averageData);
-        // console.log("G: " + this.goodData);
 
-
+        // This actually passes the data to display the graph after receiving the data from the observables
         this.displayGraph(this.batchNames, this.poorData, this.averageData, this.goodData, this.superstarData, this.nullData);
       }
     );
   }
 
-  displayGraph(batchNames: string[], poorDisplayData: any[], avgDisplayData: any[], goodDisplayData: any[], superstarDisplayData: any[], nullDisplayData: any[]){
+  displayGraph(batchNames: string[], 
+                poorDisplayData: any[], 
+                avgDisplayData: any[], 
+                goodDisplayData: any[], 
+                superstarDisplayData: any[], 
+                nullDisplayData: any[]) {
 
-    const myChart = new Chart('firstChart', {
+    if (this.myGraph) {
+      this.myGraph.destroy();
+    }
+
+    this.myGraph = new Chart('firstChart', {
       type: 'bar',
       data: {
         labels: batchNames,
@@ -118,7 +131,7 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
             ticks: {
               beginAtZero: true,
               suggestedMax: 100,
-              callback (value, index, values) {
+              callback(value, index, values) {
                 return value + '%';
               }
             }
