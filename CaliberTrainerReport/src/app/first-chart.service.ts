@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
+
 export class FirstChartService {
   xlabels: string[]; // Push batches onto here
   yGoodlabels: any[];

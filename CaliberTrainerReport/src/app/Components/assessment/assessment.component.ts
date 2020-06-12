@@ -13,6 +13,8 @@ export class AssessmentComponent implements OnInit {
   ngOnInit(): void {
     
     this.selectedValue = 'all';
+
+    
   }
 
 }

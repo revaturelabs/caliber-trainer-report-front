@@ -1,7 +1,9 @@
-import { Component, OnInit, HostListener} from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { faChartBar } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
 import { FifthChartService } from 'src/app/fifth-chart.service';
+import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
+
 
 @Component({
   selector: 'app-assessment-batches-indiv-category-technical-status',
@@ -18,7 +20,7 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
 
   myBarGraph: any;
 
-  constructor(private fifthChartService: FifthChartService) { }
+  constructor(private fifthChartService: FifthChartService, private assessmentTS: AssessmentComponent) { }
 
   ngOnInit(): void {
     this.graphAdjust();
@@ -33,8 +35,8 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
     this.displayGraph();
   }
 
-  displayGraph(){
-    if (this.myBarGraph){
+  displayGraph() {
+    if (this.myBarGraph) {
       this.myBarGraph.destroy();
     }
 
@@ -71,7 +73,7 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
             ticks: {
               beginAtZero: true,
               suggestedMax: 100,
-              callback (value, index, values) {
+              callback(value, index, values) {
                 return value + '%';
               }
             }
@@ -93,34 +95,44 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
 
   graphAdjust() {
     this.width = window.innerWidth;
-    if (this.width < 1261) {
-      // console.log('Screen less than 1261px'); // FOR MOBILE PHONE
-      this.isBig = false;
+    if (this.assessmentTS.selectedValue === 'all') {
 
-      document.getElementById('divChart').style.width = '80vw';
+      if (this.width < 1281) {
+        // console.log('Screen less than 1261px'); // FOR MOBILE PHONE
+        this.isBig = false;
+
+        document.getElementById('divChart5').style.width = '80vw';
+      } else {
+        // console.log('Screen width is at least 1261px');
+        this.isBig = true;
+
+        document.getElementById('divChart5').style.width = '45vw';
+      }
     } else {
-      // console.log('Screen width is at least 1261px');
-      this.isBig = true;
-
-      document.getElementById('divChart').style.width = '45vw';
+      document.getElementById('divChart5').style.width = '90vw';
     }
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.width = window.innerWidth;
+    if (this.assessmentTS.selectedValue === 'all') {
+      this.width = window.innerWidth;
 
-    if (this.width < 1261) {
-      // console.log('Screen less than 1010px'); // FOR MOBILE PHONE
-      this.isBig = false;
+      if (this.width < 1281) {
+        // console.log('Screen less than 1010px'); // FOR MOBILE PHONE
+        this.isBig = false;
 
 
-      document.getElementById('divChart').style.width = '80vw';
+        document.getElementById('divChart5').style.width = '80vw';
+      } else {
+        // console.log('Screen width is at least 1010px');
+        this.isBig = true;
+
+        document.getElementById('divChart5').style.width = '45vw';
+      }
     } else {
-      // console.log('Screen width is at least 1010px');
-      this.isBig = true;
+      document.getElementById('divChart5').style.width = '90vw';
 
-      document.getElementById('divChart').style.width = '45vw';
     }
   }
 

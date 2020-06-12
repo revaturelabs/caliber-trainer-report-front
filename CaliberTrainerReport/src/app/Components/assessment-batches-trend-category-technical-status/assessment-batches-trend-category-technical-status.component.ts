@@ -2,6 +2,8 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Chart } from 'node_modules/chart.js';
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { SixthChartService } from 'src/app/sixth-chart.service';
+import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
+
 
 @Component({
   selector: 'app-assessment-batches-trend-category-technical-status',
@@ -18,7 +20,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent implements O
   width: number;
   isBig: boolean;
 
-  constructor(private sixthChartService: SixthChartService) { }
+  constructor(private sixthChartService: SixthChartService, private assessmentTS: AssessmentComponent) { }
 
   ngOnInit(): void {
     this.graphAdjust();
@@ -76,37 +78,50 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent implements O
     });
 
   }
+  
+  scroll(el: HTMLElement) {
+    el.scrollIntoView();
+  }
 
   graphAdjust() {
-    this.width = window.innerWidth;
-    if (this.width < 1261) {
-      // console.log('Screen less than 1261px'); // FOR MOBILE PHONE
-      this.isBig = false;
+    if (this.assessmentTS.selectedValue === 'all') {
+      this.width = window.innerWidth;
+      if (this.width < 1281) {
+        // console.log('Screen less than 1261px'); // FOR MOBILE PHONE
+        this.isBig = false;
 
-      document.getElementById('divChart').style.width = '80vw';
+        document.getElementById('divChart6').style.width = '80vw';
+      } else {
+        // console.log('Screen width is at least 1261px');
+        this.isBig = true;
+
+        document.getElementById('divChart6').style.width = '45vw';
+      }
     } else {
-      // console.log('Screen width is at least 1261px');
-      this.isBig = true;
-
-      document.getElementById('divChart').style.width = '45vw';
+      document.getElementById('divChart6').style.width = '90vw';
     }
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.width = window.innerWidth;
+    if (this.assessmentTS.selectedValue === 'all') {
 
-    if (this.width < 1261) {
-      // console.log('Screen less than 1260px'); // FOR MOBILE PHONE
-      this.isBig = false;
+      this.width = window.innerWidth;
 
+      if (this.width < 1281) {
+        // console.log('Screen less than 1260px'); // FOR MOBILE PHONE
+        this.isBig = false;
 
-      document.getElementById('divChart').style.width = '80vw';
+        document.getElementById('divChart6').style.width = '80vw';
+      } else {
+        // console.log('Screen width is at least 1260px');
+        this.isBig = true;
+
+        document.getElementById('divChart6').style.width = '45vw';
+      }
     } else {
-      // console.log('Screen width is at least 1260px');
-      this.isBig = true;
+      document.getElementById('divChart6').style.width = '90vw';
 
-      document.getElementById('divChart').style.width = '45vw';
     }
   }
 
