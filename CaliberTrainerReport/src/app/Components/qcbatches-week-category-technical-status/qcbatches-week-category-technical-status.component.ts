@@ -31,10 +31,12 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
   updateGraph() {
     console.log('Changed batch!');
     this.displayGraph();
-
+    
   }
 
   displayGraph() {
+    const elmnt = document.getElementById("qc-graph-selector");
+    const y = elmnt.scrollTop;
     if (this.myChart){
       this.myChart.destroy();
     }
@@ -92,7 +94,6 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
         },
       }
     });
-
   }
 
   graphAdjust() {
@@ -101,12 +102,12 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
       // console.log('Screen less than 1261px'); // FOR MOBILE PHONE
       this.isBig = false;
 
-      document.getElementById('divChart').style.width = '80vw';
+      document.getElementById('divChart3').style.width = '80vw';
     } else {
       // console.log('Screen width is at least 1261px');
       this.isBig = true;
 
-      document.getElementById('divChart').style.width = '45vw';
+      document.getElementById('divChart3').style.width = '45vw';
     }
   }
 
@@ -119,12 +120,12 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
       this.isBig = false;
 
 
-      document.getElementById('divChart').style.width = '80vw';
+      document.getElementById('divChart3').style.width = '80vw';
     } else {
       // console.log('Screen width is at least 1010px');
       this.isBig = true;
 
-      document.getElementById('divChart').style.width = '45vw';
+      document.getElementById('divChart3').style.width = '45vw';
     }
   }
 

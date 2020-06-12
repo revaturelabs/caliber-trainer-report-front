@@ -6,6 +6,7 @@ html {
 .qc-body{
   margin: 0 auto;
   width: 95%;
+  margin-bottom: 100px;
 }
 
 .qc-graph-grid{
