@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { faChartBar } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
 import { ThirdChartService } from 'src/app/third-chart.service';
+import { TechnicalStatusByWeek } from 'src/app/Classes/TechnicalStatusByWeek';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
 
 @Component({
@@ -17,6 +18,7 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
   // pickedWeek: any;
   myChart: any;
   batches: string[];
+  tableData: TechnicalStatusByWeek[];
 
   constructor(private thirdChartService: ThirdChartService,  private qcTS: QCComponent) { }
 
@@ -24,9 +26,31 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
   ngOnInit(): void {
     this.graphAdjust();
 
-    this.pickedBatch = 'Batch 745';
-    this.batches = ['Batch 745', 'Batch 746', 'Batch 747', 'Batch 748'];
-    this.displayGraph();
+
+    this.doGetTableData(); // to init call to back end for data // *********************
+  }
+
+  // calls getTableData() to initialize the data into the tableData variable
+  doGetTableData(): void {
+    this.thirdChartService.getTableData().subscribe(resp=>{
+      this.tableData = resp;
+      console.log(this.tableData);
+      this.batches = this.getBatches();
+      this.pickedBatch = this.batches[0];
+      this.displayGraph();
+
+    });
+  }
+  // returns array of the batch ids (need for populating batch drop-down list)
+  getBatches(): string[] {
+    // TODO... right now this is just a test, need to replace lines below with real code
+    const batches = [];
+    for (const batch of this.tableData){
+      if (batches.indexOf(batch.batchName) === -1) {
+        batches.push(batch.batchName);
+      }
+    }
+    return batches;
   }
 
   updateGraph() {
