@@ -14,18 +14,82 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
   width: number;
   isBig: boolean;
 
+  firstGraphObj: any;
+  batchNames: string[];
+  technicalStatus: any[];
+  poorData: any[];
+  averageData: any[];
+  goodData: any[];
+  superstarData: any[];
+  nullData: any[];
+
+  myGraph: any;
+
   constructor(private firstChartService: FirstChartService, private qcTS: QCComponent) { }
 
   ngOnInit(): void {
     this.graphAdjust();
 
-    const myChart = new Chart('firstChart', {
+    // This method receives the JSON object from the URL GET request
+    this.firstChartService.getTechnicalStatusPerBatch().subscribe(
+      resp => {
+        console.log(resp);
+        this.firstGraphObj = resp;
+        this.batchNames = this.firstGraphObj.batchName;
+        this.technicalStatus = this.firstGraphObj.technicalStatus;
+        console.log(this.technicalStatus);
+
+        // Initializing the arrays for our data
+        this.goodData = [];
+        this.averageData = [];
+        this.poorData = [];
+        this.superstarData = [];
+        this.nullData = [];
+
+        // This for loop goes through each batch
+        for (const batches of this.technicalStatus) {
+
+          // This for loop calculates the total technical scores for each batch
+          let total = 0;
+          for (const num of batches) {
+            total += num;
+          }
+
+          // Seperates data into each technical score type (good, bad, avg) and performs math
+          // to get the weighted value out of 100%
+
+          // Expects order to be from bad[0] -> avg[1] -> good[2] -> superstar[3] -> null[4]
+          this.poorData.push((batches[0] / total) * 100);
+          this.averageData.push((batches[1] / total) * 100);
+          this.goodData.push((batches[2] / total) * 100);
+          this.superstarData.push((batches[3] / total) * 100);
+          this.nullData.push((batches[4] / total) * 100);
+        }
+
+        // This actually passes the data to display the graph after receiving the data from the observables
+        this.displayGraph(this.batchNames, this.poorData, this.averageData, this.goodData, this.superstarData, this.nullData);
+      }
+    );
+  }
+
+  displayGraph(batchNames: string[], 
+                poorDisplayData: any[], 
+                avgDisplayData: any[], 
+                goodDisplayData: any[], 
+                superstarDisplayData: any[], 
+                nullDisplayData: any[]) {
+
+    if (this.myGraph) {
+      this.myGraph.destroy();
+    }
+
+    this.myGraph = new Chart('firstChart', {
       type: 'bar',
       data: {
-        labels: this.firstChartService.getXData(),
+        labels: batchNames,
         datasets: [{
           label: 'Good',
-          data: this.firstChartService.getYGoodData(),
+          data: goodDisplayData,
           backgroundColor: '#3fe86c',
           backgroundHoverColor: '#3fe86c',
           borderWidth: 1,
@@ -33,16 +97,30 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
         },
         {
           label: 'Average',
-          data: this.firstChartService.getYOkayData(),
+          data: avgDisplayData,
           backgroundColor: '#ebc634',
           backgroundHoverColor: '#ebc634',
           borderWidth: 1
         },
         {
           label: 'Poor',
-          data: this.firstChartService.getYBadData(),
+          data: poorDisplayData,
           backgroundColor: '#e33936',
           backgroundHoverColor: '#e33936',
+          borderWidth: 1
+        },
+        {
+          label: 'Superstar',
+          data: superstarDisplayData,
+          backgroundColor: 'blue',
+          backgroundHoverColor: 'blue',
+          borderWidth: 1
+        },
+        {
+          label: 'Null',
+          data: nullDisplayData,
+          backgroundColor: 'black',
+          backgroundHoverColor: 'black',
           borderWidth: 1
         }
         ]
@@ -52,8 +130,8 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
           yAxes: [{
             ticks: {
               beginAtZero: true,
-              suggestedMax: 50,
-              callback (value, index, values) {
+              suggestedMax: 100,
+              callback(value, index, values) {
                 return value + '%';
               }
             }
@@ -71,6 +149,7 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
       }
     });
   }
+
   graphAdjust() {
     if (this.qcTS.selectedValue === 'all') {
       this.width = window.innerWidth;
