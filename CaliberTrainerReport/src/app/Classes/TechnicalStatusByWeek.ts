@@ -1,6 +1,10 @@
 export class TechnicalStatusByWeek {
     batchName: string;
-    percentage: number;
-    category: string;
+    nullPercent: number;
+    poorPercent: number;
+    averagePercent: number;
+    goodPercent: number;
+    superstarPercent: number;
+    categories: string[];
     week: string;
 }
