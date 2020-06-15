@@ -59,30 +59,31 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
           // to get the weighted value out of 100%
 
           // Expects order to be from bad[0] -> avg[1] -> good[2] -> superstar[3] -> null[4]
-          this.poorData.push((batches[0] / total) * 100);
-          this.averageData.push((batches[1] / total) * 100);
-          this.goodData.push((batches[2] / total) * 100);
-          this.superstarData.push((batches[3] / total) * 100);
-          this.nullData.push((batches[4] / total) * 100);
+          this.poorData.push(Math.round((batches[0] / total) * 100));
+          this.averageData.push(Math.round((batches[1] / total) * 100));
+          this.goodData.push(Math.round((batches[2] / total) * 100));
+          this.superstarData.push(Math.round((batches[3] / total) * 100));
+          this.nullData.push(Math.round((batches[4] / total) * 100));
         }
-
         // This actually passes the data to display the graph after receiving the data from the observables
-        this.displayGraph(this.batchNames, this.poorData, this.averageData, this.goodData, this.superstarData, this.nullData);
+        this.displayGraphAll(this.batchNames, this.poorData, this.averageData, this.goodData, this.superstarData, this.nullData);
       }
     );
   }
 
-  displayGraph(batchNames: string[], 
-                poorDisplayData: any[], 
-                avgDisplayData: any[], 
-                goodDisplayData: any[], 
-                superstarDisplayData: any[], 
-                nullDisplayData: any[]) {
+  displayGraphAll(batchNames: string[],
+                  poorDisplayData: any[],
+                  avgDisplayData: any[],
+                  goodDisplayData: any[],
+                  superstarDisplayData: any[],
+                  nullDisplayData: any[]) {
+
+    console.log('Superstar: ' + superstarDisplayData);
+    console.log('Null: ' + nullDisplayData);
 
     if (this.myGraph) {
       this.myGraph.destroy();
     }
-
     this.myGraph = new Chart('firstChart', {
       type: 'bar',
       data: {
@@ -108,22 +109,7 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
           backgroundColor: '#e33936',
           backgroundHoverColor: '#e33936',
           borderWidth: 1
-        },
-        {
-          label: 'Superstar',
-          data: superstarDisplayData,
-          backgroundColor: 'blue',
-          backgroundHoverColor: 'blue',
-          borderWidth: 1
-        },
-        {
-          label: 'Null',
-          data: nullDisplayData,
-          backgroundColor: 'black',
-          backgroundHoverColor: 'black',
-          borderWidth: 1
-        }
-        ]
+        }]
       },
       options: {
         scales: {
@@ -148,6 +134,50 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
         },
       }
     });
+
+    let superstarTotal = 0;
+    for (const num of superstarDisplayData) {
+      superstarTotal += num;
+    }
+
+    if (superstarTotal > 0) {
+      this.appendSuperstarDataset(superstarDisplayData);
+    }
+
+    let nullTotal = 0;
+    for (const num of nullDisplayData) {
+      nullTotal += num;
+    }
+
+    if (nullTotal > 0){
+      this.appendNullDataset(nullDisplayData);
+    }
+  }
+
+  appendSuperstarDataset(superstarDisplayData: any[]) {
+    const dataset = {
+      label: 'Superstar',
+      data: superstarDisplayData,
+      backgroundColor: 'blue',
+      backgroundHoverColor: 'blue',
+      borderWidth: 1
+    };
+
+    this.myGraph.data.datasets.push(dataset);
+    this.myGraph.update();
+  }
+
+  appendNullDataset(nullDisplayData: any[]) {
+    const dataset = {
+      label: 'Null',
+      data: nullDisplayData,
+      backgroundColor: 'black',
+      backgroundHoverColor: 'black',
+      borderWidth: 1
+    };
+
+    this.myGraph.data.datasets.push(dataset);
+    this.myGraph.update();
   }
 
   graphAdjust() {
