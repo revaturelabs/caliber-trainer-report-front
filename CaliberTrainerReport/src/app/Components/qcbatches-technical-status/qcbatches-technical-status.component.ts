@@ -59,11 +59,11 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
           // to get the weighted value out of 100%
 
           // Expects order to be from bad[0] -> avg[1] -> good[2] -> superstar[3] -> null[4]
-          this.poorData.push(Math.round((batches[0] / total) * 100));
-          this.averageData.push(Math.round((batches[1] / total) * 100));
-          this.goodData.push(Math.round((batches[2] / total) * 100));
-          this.superstarData.push(Math.round((batches[3] / total) * 100));
-          this.nullData.push(Math.round((batches[4] / total) * 100));
+          this.poorData.push(Math.round((batches[0] * 100 / total) * 100) / 100);
+          this.averageData.push(Math.round((batches[1] * 100 / total) * 100) / 100);
+          this.goodData.push(Math.round((batches[2] * 100 / total) * 100) / 100);
+          this.superstarData.push(Math.round((batches[3] * 100 / total) * 100) / 100);
+          this.nullData.push(Math.round((batches[4] * 100 / total) * 100) / 100);
         }
         // This actually passes the data to display the graph after receiving the data from the observables
         this.displayGraphAll(this.batchNames, this.poorData, this.averageData, this.goodData, this.superstarData, this.nullData);
@@ -132,6 +132,13 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
           mode: 'nearest',
           intersect: true
         },
+        tooltips: {
+          callbacks: {
+              label: function(tooltipItem, data){
+                return data.datasets[tooltipItem.datasetIndex].label + ": " + tooltipItem.yLabel + "%";
+              }
+            }
+        }
       }
     });
 
@@ -169,10 +176,10 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
 
   appendNullDataset(nullDisplayData: any[]) {
     const dataset = {
-      label: 'Null',
+      label: 'Not Graded',
       data: nullDisplayData,
-      backgroundColor: 'black',
-      backgroundHoverColor: 'black',
+      backgroundColor: '#7a7b7d',
+      backgroundHoverColor: '#7a7b7d',
       borderWidth: 1
     };
 
