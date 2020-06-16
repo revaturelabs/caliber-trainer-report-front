@@ -15,27 +15,45 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
   width: number;
   isBig: boolean;
 
-  pickedBatch: any;
-  batches: string[];
-
+  categories: string[];
   myBarGraph: any;
+
+  examScores: number[];
+  verbalScores: number[];
+  projectScores: number[];
 
   constructor(private fifthChartService: FifthChartService, private assessmentTS: AssessmentComponent) { }
 
   ngOnInit(): void {
     this.graphAdjust();
 
-    this.pickedBatch = '1804 Apr16 -2';
-    this.batches = ['1804 Apr16 -2', '1901 Jan06 Other', '1903 Mar04 Full Stack Java/JEE', '1909 Sep30 Other'];
-    this.displayGraph();
+    this.categories = [];
+    this.examScores = [];
+    this.verbalScores = [];
+    this.projectScores = [];
+
+    this.fifthChartService.getScorePerCategory().subscribe(
+      resp => {
+        // tslint:disable-next-line: forin
+        for (const cat of resp.categories){
+          this.categories.push(cat.name);
+        }
+        for (const scores of resp.average){
+          this.examScores.push(Math.round(scores[0] * 100) / 100);
+          this.verbalScores.push(Math.round(scores[1] * 100) / 100);
+          this.projectScores.push(Math.round(scores[2] * 100) / 100);
+        }
+        this.displayGraph(this.categories, this.examScores, this.verbalScores, this.projectScores);
+      }
+    );
+
+
   }
 
-  updateGraph() {
-    console.log('Changed batch!');
-    this.displayGraph();
-  }
+  displayGraph(categoriesDisplayData: string[],
+               examDisplayScores: number[], verbalDisplayScores: number[], projectDisplayScores: number[]) {
+    // console.log('THIS: ' + categoriesDisplayData);
 
-  displayGraph() {
     if (this.myBarGraph) {
       this.myBarGraph.destroy();
     }
@@ -43,24 +61,24 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
     this.myBarGraph = new Chart('fifthChart', {
       type: 'bar',
       data: {
-        labels: this.fifthChartService.getXData(),
+        labels: categoriesDisplayData,
         datasets: [{
           label: 'Exam',
-          data: this.fifthChartService.getYExamData(),
+          data: examDisplayScores,
           backgroundColor: '#3aaff2',
           backgroundHoverColor: '#3aaff2',
           borderWidth: 1
         },
         {
           label: 'Verbal',
-          data: this.fifthChartService.getYVerbalData(),
+          data: verbalDisplayScores,
           backgroundColor: '#7af23a',
           backgroundHoverColor: '#7af23a',
           borderWidth: 1
         },
         {
           label: 'Project',
-          data: this.fifthChartService.getYProjectData(),
+          data: projectDisplayScores,
           backgroundColor: '#f23a6e',
           backgroundHoverColor: '#f23a6e',
           borderWidth: 1
@@ -81,13 +99,20 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
         },
         title: {
           display: true,
-          text: `Percent of each assessment technical status for Batch ${this.pickedBatch}`
+          text: `Percent of each assessment technical status`
         },
         responsive: true,
         hover: {
           mode: 'nearest',
           intersect: true
         },
+        tooltips: {
+          callbacks: {
+              label: function(tooltipItem, data){
+                return data.datasets[tooltipItem.datasetIndex].label + ": " + tooltipItem.yLabel + "%";
+              }
+            }
+        }
       }
     });
 
