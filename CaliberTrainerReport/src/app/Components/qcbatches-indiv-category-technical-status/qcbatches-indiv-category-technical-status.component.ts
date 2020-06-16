@@ -14,6 +14,7 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
   pickedCategory: any;
   myLineChart: any;
   categories: string[];
+  selectedValue: any;
 
   // Dealing with Scalability
   width: number;
@@ -22,7 +23,7 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
   constructor(private secondChartService: SecondChartService, private qcTS: QCComponent) { }
 
   ngOnInit(): void {
-
+    this.selectedValue = this.qcTS.selectedValue;
     this.graphAdjust();
 
     this.pickedCategory = 'Java';

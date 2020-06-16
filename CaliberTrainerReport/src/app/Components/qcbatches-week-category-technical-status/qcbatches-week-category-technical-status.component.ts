@@ -19,13 +19,15 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
   myChart: any;
   batches: string[];
   tableData: TechnicalStatusByWeek[];
+  selectedValue: any;
 
   constructor(private thirdChartService: ThirdChartService,  private qcTS: QCComponent) { }
 
 
   ngOnInit(): void {
-    this.graphAdjust();
+    this.selectedValue = this.qcTS.selectedValue;
 
+    this.graphAdjust();
 
     this.doGetTableData(); // to init call to back end for data // *********************
   }
