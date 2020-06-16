@@ -5,10 +5,21 @@
     </div>
     <div class="card-body">
         <div id="divChart">
-            <canvas id="firstChart"> 
-        
-            </canvas>
+            <canvas id="firstChart"></canvas>
         </div>
-        <div class="extra-info" *ngIf="currentSelectedValue != 'all'">Text</div>
+        <div class="extraDataContainer" *ngIf="currentSelectedValue != 'all'">
+            <div class="extraData">
+                <ul>
+                    <li *ngFor="let batch of batchNames; let i = index">
+                        {{batch}}
+                        <ul>
+                            <li>Good: {{goodData[i]}}%</li>
+                            <li>Average: {{averageData[i]}}%</li>
+                            <li>Poor: {{poorData[i]}}%</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
