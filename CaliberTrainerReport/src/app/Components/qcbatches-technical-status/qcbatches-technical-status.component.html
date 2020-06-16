@@ -7,26 +7,22 @@
         <div id="divChart">
             <canvas id="firstChart"></canvas>
         </div>
-        <div class="extraDataContainer" *ngIf="currentSelectedValue != 'all'">
-            <div class="extraData">
-                <ul>
-                    <li *ngFor="let batch of batchNames; let i = index">
-                        {{batch}}
-                        <ul>
-                            <li>Good: {{goodData[i]}}%</li>
-                            <li>Average: {{averageData[i]}}%</li>
-                            <li>Poor: {{poorData[i]}}%</li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+        <div *ngIf="selectedValue == 'status'" class="extraDataTable">
+            <hr class="breakPoint">
+            <h4 class="tableTitle">
+                <fa-icon class="barGraphIcon" [icon]="tableGraphIcon"></fa-icon>
+                Raw Techical Scores         
+                <fa-icon class="" [icon]="tableGraphIcon"></fa-icon>
+            </h4>
+            <table>
+                <th></th>
+                <th *ngFor="let batch of batchNames; let i = index">{{batch}}</th>
+                <tr><td class="description superstar-text">Superstar</td>  <td class="leftColumnStyle" *ngFor="let super of superstarRawData">{{super}}</td></tr>
+                <tr><td class="description good-text">Good</td> <td class="leftColumnStyle" *ngFor="let good of goodRawData">{{good}}</td></tr>
+                <tr><td class="description average-text">Average</td> <td class="leftColumnStyle" *ngFor="let average of averageRawData">{{average}}</td></tr>
+                <tr><td class="description poor-text">Poor</td> <td class="leftColumnStyle" *ngFor="let poor of poorRawData">{{poor}}</td></tr>
+                <tr><td class="description null-text">Not Graded</td> <td class="leftColumnStyle" *ngFor="let nully of nullRawData">{{nully}}</td></tr>
+            </table>
         </div>
-    </div>
-    <div *ngIf="selectedValue == 'status'">
-        <table>
-            <th>Table</th>
-            <tr>Table</tr>
-            <td>Table Data</td>
-        </table>
     </div>
 </div>

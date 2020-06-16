@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { faChartBar } from '@fortawesome/free-solid-svg-icons';
+import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
 import { FirstChartService } from 'src/app/first-chart.service';
 import { Chart } from 'node_modules/chart.js';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
@@ -11,6 +11,7 @@ import { QCComponent } from 'src/app/Components/qc/qc.component';
 })
 export class QCBatchesTechnicalStatusComponent implements OnInit {
   barGraphIcon = faChartBar;
+  tableGraphIcon = faTable;
   width: number;
   isBig: boolean;
 
@@ -22,7 +23,11 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
   goodData: any[];
   superstarData: any[];
   nullData: any[];
-  currentSelectedValue: string;
+  poorRawData: any[];
+  averageRawData: any[];
+  goodRawData: any[];
+  superstarRawData: any[];
+  nullRawData: any[];
   selectedValue: any;
 
   myGraph: any;
@@ -33,7 +38,6 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
     this.selectedValue = this.qcTS.selectedValue;
     console.log(this.selectedValue);
     this.graphAdjust();
-    this.currentSelectedValue = this.qcTS.selectedValue;
     // This method receives the JSON object from the URL GET request
     this.firstChartService.getTechnicalStatusPerBatch().subscribe(
       resp => {
@@ -49,6 +53,11 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
         this.poorData = [];
         this.superstarData = [];
         this.nullData = [];
+        this.superstarRawData = [];
+        this.goodRawData = [];
+        this.averageRawData = [];
+        this.poorRawData = [];
+        this.nullRawData = [];
 
         // This for loop goes through each batch
         for (const batches of this.technicalStatus) {
@@ -58,6 +67,13 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
           for (const num of batches) {
             total += num;
           }
+
+          this.poorRawData.push(batches[0]);
+          this.averageRawData.push(batches[1]);
+          this.goodRawData.push(batches[2]);
+          this.superstarRawData.push(batches[3]);
+          this.nullRawData.push(batches[4]);
+
 
           // Seperates data into each technical score type (good, bad, avg) and performs math
           // to get the weighted value out of 100%

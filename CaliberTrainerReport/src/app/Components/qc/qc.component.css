@@ -31,3 +31,8 @@ html {
   justify-self: center;
   margin-bottom: 10px;
 }
+
+.legend {
+  font-size: 12px;
+  color: grey;
+}
