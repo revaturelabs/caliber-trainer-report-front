@@ -22,16 +22,25 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
   goodData: any[];
   superstarData: any[];
   nullData: any[];
+<<<<<<< HEAD
   currentSelectedValue: string;
+=======
+  selectedValue: any;
+>>>>>>> 3250eadd82249dcdd76c4f3b3c39422064b07ead
 
   myGraph: any;
 
   constructor(private firstChartService: FirstChartService, private qcTS: QCComponent) { }
 
   ngOnInit(): void {
+    this.selectedValue = this.qcTS.selectedValue;
+    console.log(this.selectedValue);
     this.graphAdjust();
+<<<<<<< HEAD
     this.currentSelectedValue = this.qcTS.selectedValue;
 
+=======
+>>>>>>> 3250eadd82249dcdd76c4f3b3c39422064b07ead
     // This method receives the JSON object from the URL GET request
     this.firstChartService.getTechnicalStatusPerBatch().subscribe(
       resp => {
