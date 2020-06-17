@@ -38,7 +38,7 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
 
     this.secondChartService.getAvgCategoryScoresObservables().subscribe(
       resp => {
-        console.log(resp);
+        // console.log(resp);
         for (const obj of resp.batchByCategory) {
           this.categoriesName.push(obj.categoryName);
           this.categoriesObj.push(obj.batches);
@@ -55,7 +55,7 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
           this.yValues.push(Math.round((totalValue / quantity) * 100) / 100);
         }
 
-        console.log("UMMM " + this.yValues);
+        // console.log("UMMM " + this.yValues);
 
         for (const score of resp.batchByCategory[0].batches) {
           this.batchNames.push(score.batchName);
