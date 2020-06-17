@@ -31,7 +31,7 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
 
   myGraph: any;
 
-  constructor(private thirdChartService: ThirdChartService,  private qcTS: QCComponent) { }
+  constructor(private thirdChartService: ThirdChartService, private qcTS: QCComponent) { }
 
   ngOnInit(): void {
     this.selectedValue = this.qcTS.selectedValue;
@@ -44,13 +44,13 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
         this.batches = this.getBatches();
         this.pickedBatch = this.batches[0];
         this.displayGraph();
-    });
+      });
   }
 
   // returns array of the batch ids (need for populating batch drop-down list)
   getBatches(): string[] {
     const batches = [];
-    for (const batch of this.thirdGraphObj){
+    for (const batch of this.thirdGraphObj) {
       if (batches.indexOf(batch.batchName) === -1) {
         batches.push(batch.batchName);
       }
@@ -61,7 +61,7 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
   displayGraph() {
     const elmnt = document.getElementById('thirdChart');
     const y = elmnt.scrollTop;
-    if (this.myGraph){
+    if (this.myGraph) {
       this.myGraph.destroy();
     }
 
@@ -111,7 +111,7 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
       },
       options: {
         scales: {
-          xAxes: [{stacked: true}],
+          xAxes: [{ stacked: true }],
           yAxes: [
             {
               stacked: true,
@@ -121,9 +121,16 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
                 callback(value, index, values) {
                   return value + '%';
                 }
-              }
-            }
+              },
+            },
           ]
+        },
+        tooltips: {
+          callbacks: {
+            label: function (tooltipItem, data) {
+              return data.datasets[tooltipItem.datasetIndex].label + ": " + tooltipItem.yLabel + "%";
+            }
+          }
         },
         title: {
           display: true,
@@ -143,9 +150,9 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
   }
 
   // X-axis variables (categories)
-  getXData(batch: string): string[]{
+  getXData(batch: string): string[] {
     this.xlabels = [];
-    for (const batchCategory of this.thirdGraphObj){
+    for (const batchCategory of this.thirdGraphObj) {
       this.xlabels.push(batchCategory.category);
     }
     return this.xlabels;
@@ -153,7 +160,7 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
 
   getSuperstarScores(batch: string): any[] {
     this.superstarData = [];
-    for (const batchCategory of this.thirdGraphObj){
+    for (const batchCategory of this.thirdGraphObj) {
       this.superstarData.push(batchCategory.superstarAvg);
     }
     return this.superstarData;
@@ -161,7 +168,7 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
 
   getGoodScores(batch: string): any[] {
     this.goodData = [];
-    for (const batchCategory of this.thirdGraphObj){
+    for (const batchCategory of this.thirdGraphObj) {
       this.goodData.push(batchCategory.goodAvg);
     }
     return this.goodData;
@@ -169,7 +176,7 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
 
   getAverageScores(batch: string): any[] {
     this.averageData = [];
-    for (const batchCategory of this.thirdGraphObj){
+    for (const batchCategory of this.thirdGraphObj) {
       this.averageData.push(batchCategory.averageAvg);
     }
     return this.averageData;
@@ -177,7 +184,7 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
 
   getPoorScores(batch: string): any[] {
     this.poorData = [];
-    for (const batchCategory of this.thirdGraphObj){
+    for (const batchCategory of this.thirdGraphObj) {
       this.poorData.push(batchCategory.poorAvg);
     }
     return this.poorData;
@@ -185,7 +192,7 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
 
   getNullScores(batch: string): any[] {
     this.nullData = [];
-    for (const batchCategory of this.thirdGraphObj){
+    for (const batchCategory of this.thirdGraphObj) {
       this.nullData.push(batchCategory.nullAvg);
     }
     return this.nullData;
