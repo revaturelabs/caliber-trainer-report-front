@@ -39,7 +39,6 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
     // This method receives the JSON object from the URL GET request
     this.thirdChartService.getTechnicalStatusByWeek().subscribe(
       resp => {
-        console.log(resp);
         this.thirdGraphObj = resp;
 
         this.batches = this.getBatches();
