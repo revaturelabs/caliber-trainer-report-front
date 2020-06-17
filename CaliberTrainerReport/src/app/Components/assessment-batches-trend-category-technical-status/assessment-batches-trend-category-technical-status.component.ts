@@ -13,8 +13,12 @@ import { AssessmentComponent } from 'src/app/Components/assessment/assessment.co
 export class AssessmentBatchesTrendCategoryTechnicalStatusComponent implements OnInit {
   lineGraphIcon = faChartLine;
   pickedCategory: any;
-  categories: string[];
+  categoriesName: string[];
   myLineChart: any;
+  batchNames: string[];
+
+  categoriesObj: any[];
+  yValues: any[];
 
   // Dealing with Scalability
   width: number;
@@ -25,19 +29,60 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent implements O
   ngOnInit(): void {
     this.graphAdjust();
 
-    this.pickedCategory = 'Java';
-    this.categories = ['Java', 'SQL', 'Javascript', 'Servlet'];
-    this.displayGraph();
+    this.categoriesName = [];
+    this.categoriesObj = [];
+    this.batchNames = [];
+    this.yValues = [];
+
+    this.pickedCategory = 0;
+
+    this.sixthChartService.getSixthGraphData().subscribe(
+      resp => {
+        for (const score of resp.categories) {
+          this.categoriesName.push(score.category);
+          this.categoriesObj.push(score.batchAssessments);
+        }
+        for (const stuff of this.categoriesObj[this.pickedCategory]) {
+
+          let total = 0;
+          for (const indivScore of stuff.assessments) {
+            total += indivScore;
+          }
+          this.yValues.push((total / stuff.assessments.length));
+        }
+        for (const score of resp.categories[0].batchAssessments) {
+          this.batchNames.push(score.batchName);
+        }
+
+        this.displayGraph(this.batchNames, this.yValues);
+      }
+    );
 
   }
 
   updateGraph() {
     console.log('Changed category!');
-    this.displayGraph();
+    this.yValues = [];
+    for (const stuff of this.categoriesObj[this.pickedCategory]) {
+
+      let total = 0;
+      for (const indivScore of stuff.assessments) {
+        total += indivScore;
+
+      }
+
+      if (isNaN(total / stuff.assessments.length)){
+        this.yValues.push(0);
+      }else {
+        this.yValues.push((total / stuff.assessments.length));
+      }
+    }
+
+    this.displayGraph(this.batchNames, this.yValues);
 
   }
 
-  displayGraph() {
+  displayGraph(batchDisplayNames: string[], yDisplayValues: any[]) {
     if (this.myLineChart) {
       this.myLineChart.destroy();
     }
@@ -45,10 +90,10 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent implements O
     this.myLineChart = new Chart('sixthChart', {
       type: 'line',
       data: {
-        labels: this.sixthChartService.getXData(),
+        labels: batchDisplayNames,
         datasets: [{
           label: 'Overall Average', // Name the series
-          data: this.sixthChartService.getAverageCategoryScores(this.pickedCategory), // Specify the data values array
+          data: yDisplayValues, // Specify the data values array
           fill: false,
           borderColor: '#2196f3', // Add custom color border (Line)
           backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
@@ -60,6 +105,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent implements O
           yAxes: [{
             ticks: {
               beginAtZero: true,
+              suggestedMax: 100,
               callback(value, index, values) {
                 return value + '%';
               }
@@ -68,7 +114,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent implements O
         },
         title: {
           display: true,
-          text: `Assessment scores based on ${this.pickedCategory}`
+          text: `Assessment scores based on ${this.categoriesName[this.pickedCategory]}`
         },
         hover: {
           mode: 'nearest',
@@ -78,7 +124,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent implements O
     });
 
   }
-  
+
   scroll(el: HTMLElement) {
     el.scrollIntoView();
   }
