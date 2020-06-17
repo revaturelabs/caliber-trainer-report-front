@@ -2,11 +2,6 @@
     <div class="card-title">
         <span>QC Overall Week Technical Scores</span>
         <fa-icon class="barGraphIcon" [icon]="barGraphIcon"></fa-icon>
-        <div class="batch-dropdown">
-            <select id="qc-graph-selector" (change)="updateGraph()" [(ngModel)]="pickedBatch">
-                <option *ngFor="let batch of batches" [value]="batch" (click)=scroll(targetLocation) >{{batch}}</option>
-            </select>
-        </div>
     </div>
     <div #targetLocation class="card-body">
         <div id="divChart3">
