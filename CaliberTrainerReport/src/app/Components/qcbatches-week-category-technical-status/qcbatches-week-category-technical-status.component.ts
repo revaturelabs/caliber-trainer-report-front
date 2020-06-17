@@ -59,11 +59,6 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
     return batches;
   }
 
-  updateGraph() {
-    console.log('Changed batch!');
-    this.displayGraph();
-  }
-
   displayGraph() {
     const elmnt = document.getElementById('thirdChart');
     const y = elmnt.scrollTop;
@@ -148,67 +143,51 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
     console.log('Scrolled to top');
   }
 
-  // X-axis variables (week & categories)
+  // X-axis variables (categories)
   getXData(batch: string): string[]{
     this.xlabels = [];
-    for (const batchWeek of this.thirdGraphObj){
-      if (batchWeek.batchName === batch) {
-        let xLabel = 'Week ' + batchWeek.week;
-        for (const category of batchWeek.categories) {
-          xLabel = xLabel + ': ' + category;
-        }
-        this.xlabels.push(xLabel);
-      }
+    for (const batchCategory of this.thirdGraphObj){
+      this.xlabels.push(batchCategory.category);
     }
     return this.xlabels;
   }
 
   getSuperstarScores(batch: string): any[] {
     this.superstarData = [];
-    for (const batchWeek of this.thirdGraphObj){
-      if (batchWeek.batchName === batch) {
-        this.superstarData.push(batchWeek.superstarPercent);
-      }
+    for (const batchCategory of this.thirdGraphObj){
+      this.superstarData.push(batchCategory.superstarAvg);
     }
     return this.superstarData;
   }
 
   getGoodScores(batch: string): any[] {
     this.goodData = [];
-    for (const batchWeek of this.thirdGraphObj){
-      if (batchWeek.batchName === batch) {
-        this.goodData.push(batchWeek.goodPercent);
-      }
+    for (const batchCategory of this.thirdGraphObj){
+      this.goodData.push(batchCategory.goodAvg);
     }
     return this.goodData;
   }
 
   getAverageScores(batch: string): any[] {
     this.averageData = [];
-    for (const batchWeek of this.thirdGraphObj){
-      if (batchWeek.batchName === batch) {
-        this.averageData.push(batchWeek.averagePercent);
-      }
+    for (const batchCategory of this.thirdGraphObj){
+      this.averageData.push(batchCategory.averageAvg);
     }
     return this.averageData;
   }
 
   getPoorScores(batch: string): any[] {
     this.poorData = [];
-    for (const batchWeek of this.thirdGraphObj){
-      if (batchWeek.batchName === batch) {
-        this.poorData.push(batchWeek.poorPercent);
-      }
+    for (const batchCategory of this.thirdGraphObj){
+      this.poorData.push(batchCategory.poorAvg);
     }
     return this.poorData;
   }
 
   getNullScores(batch: string): any[] {
     this.nullData = [];
-    for (const batchWeek of this.thirdGraphObj){
-      if (batchWeek.batchName === batch) {
-        this.nullData.push(batchWeek.nullPercent);
-      }
+    for (const batchCategory of this.thirdGraphObj){
+      this.nullData.push(batchCategory.nullAvg);
     }
     return this.nullData;
   }
