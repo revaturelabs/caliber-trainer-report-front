@@ -36,16 +36,13 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedValue = this.qcTS.selectedValue;
-    console.log(this.selectedValue);
     this.graphAdjust();
     // This method receives the JSON object from the URL GET request
     this.firstChartService.getTechnicalStatusPerBatch().subscribe(
       resp => {
-        console.log(resp);
         this.firstGraphObj = resp;
         this.batchNames = this.firstGraphObj.batchName;
         this.technicalStatus = this.firstGraphObj.technicalStatus;
-        console.log(this.technicalStatus);
 
         // Initializing the arrays for our data
         this.goodData = [];
@@ -98,8 +95,6 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
                   superstarDisplayData: any[],
                   nullDisplayData: any[]) {
 
-    console.log('Superstar: ' + superstarDisplayData);
-    console.log('Null: ' + nullDisplayData);
 
     if (this.myGraph) {
       this.myGraph.destroy();

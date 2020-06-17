@@ -1,4 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { UrlService } from './url.service';
+import { map } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +12,14 @@ export class SecondChartService {
   xlabels: string[]; // Push batches onto here
 
   yAvglabels: any[];
-  constructor() { }
+  constructor(private http: HttpClient, private urlService: UrlService) { }
+
+  getAvgCategoryScoresObservables(): Observable<any>{
+    // this will be making our observable
+    return this.http.get(this.urlService.getUrl() + 'BatchTechnicalStatusBySkillCategory/').pipe(
+      map(resp => resp)
+    );
+  }
 
   // X-axis variables...
   getXData(): string[] {
@@ -19,12 +31,6 @@ export class SecondChartService {
     return this.xlabels;
   }
 
-  getAvgCategoryScoresObservables(category: string){
-    // this will be making our observable
-
-  }
-
-
   getAvgCategoryScores(category: string): any[] {
 
     this.yAvglabels = [];
@@ -32,7 +38,6 @@ export class SecondChartService {
 
     if (category === 'SQL'){
     // our subscribe method eventually
-      this.getAvgCategoryScoresObservables(category);
       this.yAvglabels.push(0);
       this.yAvglabels.push(1);
       this.yAvglabels.push(2);
