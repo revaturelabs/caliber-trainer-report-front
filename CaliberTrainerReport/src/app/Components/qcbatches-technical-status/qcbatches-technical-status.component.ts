@@ -71,16 +71,35 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
           this.superstarRawData.push(batches[3]);
           this.nullRawData.push(batches[4]);
 
-
           // Seperates data into each technical score type (good, bad, avg) and performs math
           // to get the weighted value out of 100%
-
           // Expects order to be from bad[0] -> avg[1] -> good[2] -> superstar[3] -> null[4]
-          this.poorData.push(Math.round((batches[0] * 100 / total) * 100) / 100);
-          this.averageData.push(Math.round((batches[1] * 100 / total) * 100) / 100);
-          this.goodData.push(Math.round((batches[2] * 100 / total) * 100) / 100);
-          this.superstarData.push(Math.round((batches[3] * 100 / total) * 100) / 100);
-          this.nullData.push(Math.round((batches[4] * 100 / total) * 100) / 100);
+          if (batches[0] === 0) {
+            this.poorData.push(.5);
+          } else {
+            this.poorData.push(Math.round((batches[0] * 100 / total) * 100) / 100);
+          }
+          if (batches[1] === 0) {
+            this.averageData.push(.5);
+          } else {
+            this.averageData.push(Math.round((batches[1] * 100 / total) * 100) / 100);
+          }
+          if (batches[2] === 0) {
+            this.goodData.push(.5);
+          } else {
+            this.goodData.push(Math.round((batches[2] * 100 / total) * 100) / 100);
+          }
+          if (batches[3] === 0) {
+            this.superstarData.push(.5);
+          } else {
+            this.superstarData.push(Math.round((batches[3] * 100 / total) * 100) / 100);
+          }
+          if (batches[4] === 0) {
+            this.nullData.push(.5);
+          } else {
+            this.nullData.push(Math.round((batches[4] * 100 / total) * 100) / 100);
+          }
+
         }
         // This actually passes the data to display the graph after receiving the data from the observables
         this.displayGraphAll(this.batchNames, this.poorData, this.averageData, this.goodData, this.superstarData, this.nullData);
@@ -149,8 +168,14 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
         },
         tooltips: {
           callbacks: {
-              label: function(tooltipItem, data){
+              label: function(tooltipItem, data) {
+                var value = data.datasets[0].data[tooltipItem.index];
+                if (tooltipItem.yLabel === .5) {
+                  tooltipItem.yLabel = 0;
+                }
                 return data.datasets[tooltipItem.datasetIndex].label + ": " + tooltipItem.yLabel + "%";
+
+
               }
             }
         }
