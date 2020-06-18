@@ -38,7 +38,6 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
 
     this.secondChartService.getAvgCategoryScoresObservables().subscribe(
       resp => {
-        // console.log(resp);
         for (const obj of resp.batchByCategory) {
           this.categoriesName.push(obj.categoryName);
           this.categoriesObj.push(obj.batches);
@@ -55,8 +54,6 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
           this.yValues.push(Math.round((totalValue / quantity) * 100) / 100);
         }
 
-        // console.log("UMMM " + this.yValues);
-
         for (const score of resp.batchByCategory[0].batches) {
           this.batchNames.push(score.batchName);
         }
@@ -67,7 +64,6 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
   }
 
   updateGraph() {
-    console.log('Changed category!');
     this.yValues = [];
     for (const stuff of this.categoriesObj[this.pickedCategory]){
       const score = stuff.score;
@@ -141,12 +137,11 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
     if (this.qcTS.selectedValue === 'all') {
       this.width = window.innerWidth;
       if (this.width < 1281) {
-        // console.log('Screen less than 1261px'); // FOR MOBILE PHONE
+         // FOR MOBILE PHONE
         this.isBig = false;
 
         document.getElementById('divChart2').style.width = '80vw';
       } else {
-        // console.log('Screen width is at least 1261px');
         this.isBig = true;
 
         document.getElementById('divChart2').style.width = '45vw';
@@ -163,12 +158,11 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
       this.width = window.innerWidth;
 
       if (this.width < 1281) {
-        // console.log('Screen less than 1260px'); // FOR MOBILE PHONE
+        // FOR MOBILE PHONE
         this.isBig = false;
 
         document.getElementById('divChart2').style.width = '80vw';
       } else {
-        // console.log('Screen width is at least 1260px');
         this.isBig = true;
 
         document.getElementById('divChart2').style.width = '45vw';

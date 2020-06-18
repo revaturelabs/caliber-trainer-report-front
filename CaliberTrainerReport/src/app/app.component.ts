@@ -16,7 +16,6 @@ export class AppComponent implements OnInit {
     this.urlService.initializeData().subscribe(
       resp => {
         this.dataIsDoneLoading = resp.status;
-        console.log("RESP: "+resp + "And status code: " + this.dataIsDoneLoading);
 
         if(this.dataIsDoneLoading === 200){
           console.log("Data is done loading.");

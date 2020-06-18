@@ -231,12 +231,11 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
     if (this.qcTS.selectedValue === 'all') {
       this.width = window.innerWidth;
       if (this.width < 1281) {
-        // console.log('Screen less than 1261px'); // FOR MOBILE PHONE
+        // FOR MOBILE PHONE
         this.isBig = false;
 
         document.getElementById('divChart').style.width = '80vw';
       } else {
-        // console.log('Screen width is at least 1261px');
         this.isBig = true;
 
         document.getElementById('divChart').style.width = '45vw';
@@ -252,13 +251,12 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
 
       this.width = window.innerWidth;
 
-      if (this.width < 1281) {
-        // console.log('Screen less than 1260px'); // FOR MOBILE PHONE
+      if (this.width < 1281) { 
+        // FOR MOBILE PHONE
         this.isBig = false;
 
         document.getElementById('divChart').style.width = '80vw';
       } else {
-        // console.log('Screen width is at least 1260px');
         this.isBig = true;
 
         document.getElementById('divChart').style.width = '45vw';

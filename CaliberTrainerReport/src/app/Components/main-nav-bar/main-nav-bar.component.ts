@@ -18,10 +18,9 @@ export class MainNavBarComponent implements OnInit {
     this.width = window.innerWidth;
 
     if (this.width < 1010) {
-      console.log('Screen less than 1010px'); // FOR MOBILE PHONE
+      // FOR MOBILE PHONE
       this.isBig = false;
     } else {
-      console.log('Screen width is at least 1010px');
       this.isBig = true;
     }
 
@@ -29,7 +28,6 @@ export class MainNavBarComponent implements OnInit {
   }
 
   openMenu(){
-    console.log('Hamburger menu being clickeD!');
     this.hamburgerOpen = !this.hamburgerOpen;
     if (this.hamburgerOpen){
       document.getElementById('hambDropdown').style.display = 'grid';
@@ -43,11 +41,10 @@ export class MainNavBarComponent implements OnInit {
     this.width = window.innerWidth;
 
     if (this.width < 1010) {
-      console.log('Screen less than 1010px'); // FOR MOBILE PHONE
+      // FOR MOBILE PHONE
       this.isBig = false;
 
     } else {
-      console.log('Screen width is at least 1010px');
       this.isBig = true;
       this.hamburgerOpen = false;
       document.getElementById('hambDropdown').style.display = 'none';

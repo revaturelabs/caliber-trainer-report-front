@@ -61,7 +61,6 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent implements O
   }
 
   updateGraph() {
-    console.log('Changed category!');
     this.yValues = [];
     for (const stuff of this.categoriesObj[this.pickedCategory]) {
 
@@ -133,12 +132,11 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent implements O
     if (this.assessmentTS.selectedValue === 'all') {
       this.width = window.innerWidth;
       if (this.width < 1281) {
-        // console.log('Screen less than 1261px'); // FOR MOBILE PHONE
+        //FOR MOBILE PHONE
         this.isBig = false;
 
         document.getElementById('divChart6').style.width = '80vw';
       } else {
-        // console.log('Screen width is at least 1261px');
         this.isBig = true;
 
         document.getElementById('divChart6').style.width = '45vw';
@@ -155,12 +153,11 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent implements O
       this.width = window.innerWidth;
 
       if (this.width < 1281) {
-        // console.log('Screen less than 1260px'); // FOR MOBILE PHONE
+        // FOR MOBILE PHONE
         this.isBig = false;
 
         document.getElementById('divChart6').style.width = '80vw';
       } else {
-        // console.log('Screen width is at least 1260px');
         this.isBig = true;
 
         document.getElementById('divChart6').style.width = '45vw';

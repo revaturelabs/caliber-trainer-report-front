@@ -34,7 +34,6 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
 
     this.fifthChartService.getScorePerCategory().subscribe(
       resp => {
-        // tslint:disable-next-line: forin
         for (const cat of resp.categories){
           this.categories.push(cat.name);
         }
@@ -52,7 +51,6 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
 
   displayGraph(categoriesDisplayData: string[],
                examDisplayScores: number[], verbalDisplayScores: number[], projectDisplayScores: number[]) {
-    // console.log('THIS: ' + categoriesDisplayData);
 
     if (this.myBarGraph) {
       this.myBarGraph.destroy();
@@ -121,14 +119,12 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
   graphAdjust() {
     this.width = window.innerWidth;
     if (this.assessmentTS.selectedValue === 'all') {
-
       if (this.width < 1281) {
-        // console.log('Screen less than 1261px'); // FOR MOBILE PHONE
+        // FOR MOBILE PHONE
         this.isBig = false;
 
         document.getElementById('divChart5').style.width = '80vw';
       } else {
-        // console.log('Screen width is at least 1261px');
         this.isBig = true;
 
         document.getElementById('divChart5').style.width = '45vw';
@@ -144,13 +140,12 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
       this.width = window.innerWidth;
 
       if (this.width < 1281) {
-        // console.log('Screen less than 1010px'); // FOR MOBILE PHONE
+        // FOR MOBILE PHONE
         this.isBig = false;
 
 
         document.getElementById('divChart5').style.width = '80vw';
       } else {
-        // console.log('Screen width is at least 1010px');
         this.isBig = true;
 
         document.getElementById('divChart5').style.width = '45vw';
