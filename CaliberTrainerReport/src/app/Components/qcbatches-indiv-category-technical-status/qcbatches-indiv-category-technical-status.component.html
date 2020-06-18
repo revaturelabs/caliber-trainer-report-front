@@ -1,6 +1,6 @@
 <div class="card-layout">
     <div class="card-title">
-        <span>QC Overall Batch Technical Scores</span>
+        <span>QC Technical Scores By Category Across Batches</span>
         <fa-icon class="lineGraphIcon" [icon]="lineGraphIcon"></fa-icon>
 
         <div class="category-dropdown">
@@ -15,13 +15,24 @@
                 
             </canvas>
         </div>
+        <div *ngIf="selectedValue == 'individual'" class="extraDataTable">
+            <hr class="breakPoint">
+            <h4 class="tableTitle">
+                <fa-icon class="barGraphIcon" [icon]="tableGraphIcon"></fa-icon>
+                Raw technical scores by category across batches      
+                <fa-icon class="" [icon]="tableGraphIcon"></fa-icon>
+            </h4>
+        
+            <table>
+                <th></th>
+                <th *ngFor="let batch of batchNames; let i = index">{{batch}}</th>
+                <tr><td class="description superstar-text">Superstar</td>  <td class="leftColumnStyle" *ngFor="let super of superstarRawScore">{{super}}</td></tr>
+                <tr><td class="description good-text">Good</td> <td class="leftColumnStyle" *ngFor="let good of goodRawScore">{{good}}</td></tr>
+                <tr><td class="description average-text">Average</td> <td class="leftColumnStyle" *ngFor="let average of averageRawScore">{{average}}</td></tr>
+                <tr><td class="description poor-text">Poor</td> <td class="leftColumnStyle" *ngFor="let poor of poorRawScore">{{poor}}</td></tr>
+            </table>
+        </div>
+
     </div>
-    <div *ngIf="selectedValue == 'individual'">
-        <table>
-            <caption>table</caption>
-            <th>Table</th>
-            <tr>Table</tr>
-            <td>Table Data</td>
-        </table>
-    </div>
+
 </div>
