@@ -3,7 +3,6 @@ import { faChartBar } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
 import { ThirdChartService } from 'src/app/third-chart.service';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-qcbatches-week-category-technical-status',
