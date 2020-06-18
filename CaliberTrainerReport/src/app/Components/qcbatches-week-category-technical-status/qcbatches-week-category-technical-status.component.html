@@ -1,0 +1,20 @@
+<div class="card-layout">
+    <div class="card-title">
+        <span>QC Overall Week Technical Scores</span>
+        <fa-icon class="barGraphIcon" [icon]="barGraphIcon"></fa-icon>
+    </div>
+    <div #targetLocation class="card-body">
+        <div id="divChart3">
+            <canvas id="thirdChart"> 
+        
+            </canvas>
+        </div>        
+    </div>
+    <div *ngIf="selectedValue == 'week'">
+        <table>
+            <th>Table</th>
+            <tr>Table</tr>
+            <td>Table Data</td>
+        </table>
+    </div>
+</div>

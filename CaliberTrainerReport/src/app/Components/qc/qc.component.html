@@ -1,0 +1,28 @@
+<div class="qc-body">
+  <div class="qc-title">
+    <h2>QC Techical Status</h2>
+    <select id="qc-graph-selector"  [(ngModel)]="selectedValue">
+      <option value="all">Show all graphs</option>
+      <option value="status">Overall Batches</option>
+      <option value="individual">Category by Topic</option>
+      <option value="week">Category by Week</option>
+    </select>
+  </div>
+  <div class="qc-graph-grid" *ngIf="selectedValue == 'all'">
+
+    <app-qcbatches-technical-status></app-qcbatches-technical-status>
+    <app-qcbatches-indiv-category-technical-status></app-qcbatches-indiv-category-technical-status>
+    <app-qcbatches-week-category-technical-status></app-qcbatches-week-category-technical-status>
+
+  </div>
+  <div class="qc-graph-full" *ngIf="selectedValue == 'status'">
+    <app-qcbatches-technical-status></app-qcbatches-technical-status>
+
+  </div><div class="qc-graph-full" *ngIf="selectedValue == 'individual'">
+    <app-qcbatches-indiv-category-technical-status></app-qcbatches-indiv-category-technical-status>
+
+  </div><div class="qc-graph-full" *ngIf="selectedValue == 'week'">
+    <app-qcbatches-week-category-technical-status></app-qcbatches-week-category-technical-status>
+
+  </div>
+</div>

@@ -1,10 +1,3 @@
-/* You can add global styles to this file, and also import other style files */
-body{
-    width: 100%;
-    margin: 0 auto;
-    font-family: ‘Prompt’, sans-serif;
-}
-
 .card-layout {
     display: grid;
     grid-template-rows: 50px auto;
@@ -22,7 +15,17 @@ body{
     border-top-left-radius: 10px;
 }
 
-#divChart {
+.lineGraphIcon {
+    margin-left: 15px;
+    transform: translateY(1px);
+}
+
+.category-dropdown{
+    margin-left: auto;
+    margin-right: 2vw;
+}
+
+#divChart2 {
     display: block;
     position: relative; 
     width: 45vw;

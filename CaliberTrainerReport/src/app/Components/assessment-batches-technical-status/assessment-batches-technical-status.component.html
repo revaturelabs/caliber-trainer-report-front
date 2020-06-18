@@ -1,0 +1,20 @@
+<div class="card-layout">
+    <div class="card-title">
+        <span>Assessment scores according to batch</span>
+        <fa-icon class="radarGraphIcon" [icon]="radarChartIcon"></fa-icon>
+    
+    
+        <div class="batches-dropdown">
+            <select id="assessment-graph-selector" (change)="updateGraph()" [(ngModel)]="pickedBatch">
+                <option *ngFor="let batch of batches" [value]="batch" >{{batch}}</option>
+              </select>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id="divChart">
+            <canvas id="fourthChart"> 
+        
+            </canvas>
+        </div>        
+    </div>
+</div>

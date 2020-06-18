@@ -1,0 +1,17 @@
+
+.category-dropdown{
+    margin-left: auto;
+    margin-right: 2vw;
+}
+
+.lineGraphIcon {
+    margin-left: 15px;
+    transform: translateY(1px);
+}
+
+#divChart6 {
+    display: block;
+    position: relative; 
+    width: 45vw;
+    margin: 0 auto;
+}

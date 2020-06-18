@@ -1,0 +1,38 @@
+html {
+  font-family: ‘Prompt’, sans-serif;
+}
+
+
+.qc-body{
+  margin: 0 auto;
+  width: 95%;
+  margin-bottom: 100px;
+}
+
+.qc-graph-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+
+  grid-gap: 15px;
+}
+
+.qc-title{
+  margin: 0 auto;
+  display: grid;
+  border: 2px solid #ea753e;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.qc-title h2{
+  justify-self: center;
+}
+
+.qc-title select{
+  justify-self: center;
+  margin-bottom: 10px;
+}
+
+.legend {
+  font-size: 12px;
+  color: grey;
+}

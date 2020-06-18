@@ -1,0 +1,32 @@
+html {
+    font-family: ‘Prompt’, sans-serif;
+}
+
+.assessment-body {
+    margin: 0 auto;
+    width: 95%;
+    margin-bottom: 100px;
+}
+
+.assessment-graph-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+    grid-gap: 15px;
+}
+
+.assessment-title {
+    margin: 0 auto;
+    display: grid;
+    border: 2px solid #ea753e;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.assessment-title h2 {
+    justify-self: center;
+}
+
+.assessment-title select {
+    justify-self: center;
+    margin-bottom: 10px;
+}
