@@ -38,9 +38,21 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
           this.categories.push(cat.name);
         }
         for (const scores of resp.average){
-          this.examScores.push(Math.round(scores[0] * 100) / 100);
-          this.verbalScores.push(Math.round(scores[1] * 100) / 100);
-          this.projectScores.push(Math.round(scores[2] * 100) / 100);
+          if (scores[0] === 0) {
+            this.examScores.push(0.5);
+          } else {
+            this.examScores.push(Math.round(scores[0] * 100) / 100);
+          }
+          if (scores[1] === 0) {
+            this.verbalScores.push(0.5);
+          } else {
+            this.verbalScores.push(Math.round(scores[1] * 100) / 100);
+          }
+          if(scores[2] === 0) {
+            this.projectScores.push(0.5);
+          } else {
+            this.projectScores.push(Math.round(scores[2] * 100) / 100);
+          }
         }
         this.displayGraph(this.categories, this.examScores, this.verbalScores, this.projectScores);
       }
@@ -49,8 +61,7 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
 
   }
 
-  displayGraph(categoriesDisplayData: string[],
-               examDisplayScores: number[], verbalDisplayScores: number[], projectDisplayScores: number[]) {
+  displayGraph(categoriesDisplayData: string[], examDisplayScores: number[], verbalDisplayScores: number[], projectDisplayScores: number[]) {
 
     if (this.myBarGraph) {
       this.myBarGraph.destroy();
@@ -107,6 +118,9 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
         tooltips: {
           callbacks: {
               label: function(tooltipItem, data){
+                if (tooltipItem.yLabel === .5) {
+                  tooltipItem.yLabel = 0;
+                }
                 return data.datasets[tooltipItem.datasetIndex].label + ": " + tooltipItem.yLabel + "%";
               }
             }
