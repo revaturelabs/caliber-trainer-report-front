@@ -67,13 +67,35 @@ body{
 .good-text {
     color: #3fe86c;
 }
+
 .average-text {
     color: #ebc634;
 }
+
 .poor-text {
     color: #e33936;
 }
+
 .null-text {
+    color: #7a7b7d;
+}
+
+.exam-text {
+    color: #3aaff2;
+}
+.verbal-text {
+    color: #7af23a;
+}
+
+.project-text {
+    color: #f23a6e;
+}
+
+.presentation-text {
+    color: #8732a8;
+}
+
+.other-text {
     color: #7a7b7d;
 }
 

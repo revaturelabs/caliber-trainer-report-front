@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { faChartBar } from '@fortawesome/free-solid-svg-icons';
+import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
 import { FifthChartService } from 'src/app/fifth-chart.service';
 import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
@@ -12,6 +12,7 @@ import { AssessmentComponent } from 'src/app/Components/assessment/assessment.co
 })
 export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
   barGraphIcon = faChartBar;
+  tableGraphIcon = faTable;
   width: number;
   isBig: boolean;
 
@@ -21,47 +22,78 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
   examScores: number[];
   verbalScores: number[];
   projectScores: number[];
+  presentationScores: number[];
+  otherScores: number[];
+  examRawScores: number[];
+  verbalRawScores: number[];
+  projectRawScores: number[];
+  presentationRawScores: number[];
+  otherRawScores: number[];
+  selectedValue: any;
 
   constructor(private fifthChartService: FifthChartService, private assessmentTS: AssessmentComponent) { }
 
   ngOnInit(): void {
+    this.selectedValue = this.assessmentTS.selectedValue;
     this.graphAdjust();
 
     this.categories = [];
     this.examScores = [];
     this.verbalScores = [];
     this.projectScores = [];
+    this.presentationScores = [];
+    this.otherScores = [];
+    this.examRawScores = [];
+    this.verbalRawScores = [];
+    this.projectRawScores = [];
+    this.presentationRawScores = [];
+    this.otherRawScores = [];
 
     this.fifthChartService.getScorePerCategory().subscribe(
       resp => {
-        for (const cat of resp.categories){
-          this.categories.push(cat.name);
+        for (const cat of resp){
+          this.categories.push(cat.category);
         }
-        for (const scores of resp.average){
-          if (scores[0] === 0) {
+        for (const scores of resp){
+          this.examRawScores.push(Math.round(scores.average[0]  * 10) / 10);
+          this.verbalRawScores.push(Math.round(scores.average[1]  * 10) / 10);
+          this.projectRawScores.push(Math.round(scores.average[2]  * 10) / 10);
+          this.presentationRawScores.push(Math.round(scores.average[3]  * 10) / 10);
+          this.otherRawScores.push(Math.round(scores.average[4]  * 10) / 10);
+          if (scores.average[0] === 0) {
             this.examScores.push(0.5);
           } else {
-            this.examScores.push(Math.round(scores[0] * 100) / 100);
+            this.examScores.push(Math.round(scores.average[0] * 100) / 100);
           }
-          if (scores[1] === 0) {
+          if (scores.average[1] === 0) {
             this.verbalScores.push(0.5);
           } else {
-            this.verbalScores.push(Math.round(scores[1] * 100) / 100);
+            this.verbalScores.push(Math.round(scores.average[1] * 100) / 100);
           }
-          if(scores[2] === 0) {
+          if(scores.average[2] === 0) {
             this.projectScores.push(0.5);
           } else {
-            this.projectScores.push(Math.round(scores[2] * 100) / 100);
+            this.projectScores.push(Math.round(scores.average[2] * 100) / 100);
+          }
+          if(scores.average[3] === 0) {
+            this.presentationScores.push(0.5);
+          } else {
+            this.presentationScores.push(Math.round(scores.average[3] * 100) / 100);
+          }
+          if(scores.average[4] === 0) {
+            this.otherScores.push(0.5);
+          } else {
+            this.otherScores.push(Math.round(scores.average[4] * 100) / 100);
           }
         }
-        this.displayGraph(this.categories, this.examScores, this.verbalScores, this.projectScores);
+        this.displayGraph(this.categories, this.examScores, this.verbalScores, this.projectScores, this.presentationScores, this.otherScores);
       }
     );
 
 
   }
 
-  displayGraph(categoriesDisplayData: string[], examDisplayScores: number[], verbalDisplayScores: number[], projectDisplayScores: number[]) {
+  displayGraph(categoriesDisplayData: string[], examDisplayScores: number[], verbalDisplayScores: number[], projectDisplayScores: number[], presentationDisplayScores: number[], otherDisplayScores: number[],) {
 
     if (this.myBarGraph) {
       this.myBarGraph.destroy();
@@ -91,6 +123,20 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
           backgroundColor: '#f23a6e',
           backgroundHoverColor: '#f23a6e',
           borderWidth: 1
+        },
+        {
+          label: 'Presentation',
+          data: presentationDisplayScores,
+          backgroundColor: '#8732a8',
+          backgroundHoverColor: '#8732a8',
+          borderWidth: 1
+        },
+        {
+          label: 'Other',
+          data: otherDisplayScores,
+          backgroundColor: '#7a7b7d',
+          backgroundHoverColor: '#7a7b7d',
+          borderWidth: 1
         }
         ]
       },
@@ -108,7 +154,7 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
         },
         title: {
           display: true,
-          text: `Percent of each assessment technical status`
+          text: `Percent of each assessment technical status by category`
         },
         responsive: true,
         hover: {
