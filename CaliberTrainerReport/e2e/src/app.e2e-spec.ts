@@ -1,11 +1,7 @@
 import { AppPage } from './app.po';
 import { browser, logging, by, element } from 'protractor';
 
-<<<<<<< HEAD
-describe('Caliber Graph Page', () => {
-=======
 describe('End to end testing for Caliber Trainer Report', () => {
->>>>>>> 0ecf21353b91ba4e429edfd27a32e307182dede1
   let page: AppPage;
 
   beforeEach(() => {
