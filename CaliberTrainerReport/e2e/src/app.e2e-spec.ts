@@ -1,15 +1,8 @@
 import { AppPage } from './app.po';
 import { browser, logging, by, element } from 'protractor';
 
-<<<<<<< HEAD
-describe('End to end testing for Caliber Trainer Report', () => {
-=======
-<<<<<<< HEAD
-describe('End to end testing for Caliber Trainer Report', () => {
-=======
-describe('Caliber Graph Page', () => {
->>>>>>> f1617f9b3dd455f7b496f875e5dbd054860c7409
->>>>>>> 0f874f70e388f16996de0d4ce0c4514a5d3751c1
+
+describe('Testing Navigation and Top Navbar', () => {
   let page: AppPage;
 
   beforeEach(() => {
@@ -18,7 +11,7 @@ describe('Caliber Graph Page', () => {
 
   it('should display the title of the application on the navbar on wide screen', () => {
     page.navigateTo();
-    expect(page.getNavBarTitle(1920, 1080)).toEqual('CALIBER TRAINER REPORT');
+    expect(page.getNavBarTitle(1920, 1080)).toEqual('EXCALIBER');
   });
 
   it('should display Revature icon on navbar', () => {
@@ -30,7 +23,7 @@ describe('Caliber Graph Page', () => {
     page.navigateTo();
     expect(page.getNavBarViewQCReportsButton(1920, 1080).getText()).toBe('View QC Reports');
   });
-  
+
   it('should display Assessment button on navbar', () => {
     page.navigateTo();
     expect(page.getNavBarViewAssessmentReportsButton(1920, 1080).getText()).toBe('View Assessment Reports');

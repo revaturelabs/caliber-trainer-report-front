@@ -1,15 +1,17 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { faChartArea } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
 import { FourthChartService } from 'src/app/fourth-chart.service';
 import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-assessment-batches-technical-status',
   templateUrl: './assessment-batches-technical-status.component.html',
-  styleUrls: ['./assessment-batches-technical-status.component.css']
+  styleUrls: ['./assessment-batches-technical-status.component.css'],
 })
-export class AssessmentBatchesTechnicalStatusComponent implements OnInit {
+export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
+  private fourthChartServiceSubscription: Subscription;
   radarChartIcon = faChartArea;
   pickedBatch: any;
   myRadarGraph: any;
@@ -22,7 +24,10 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit {
   isBig: boolean;
   scoreNames: string[];
 
-  constructor(private fourthChartService: FourthChartService, private assessmentTS: AssessmentComponent) { }
+  constructor(
+    private fourthChartService: FourthChartService,
+    private assessmentTS: AssessmentComponent
+  ) {}
 
   ngOnInit(): void {
     this.selectedValue = this.assessmentTS.selectedValue;
@@ -34,27 +39,27 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit {
     this.batchesObj = [];
     this.allBatches = [];
     this.scoreNames = ['Exam', 'Verbal', 'Presentation', 'Project', 'Other'];
-    this.fourthChartService.getAssessmentByBatch().subscribe(
-      resp => {
-        this.allBatches = resp;
-        for (const [index, value] of this.allBatches.entries()) {
-          for (let j = 0; j < this.allBatches[index].assessmentScores.length; j++) {
-            this.allBatches[index].assessmentScores[j] = Math.round(this.allBatches[index].assessmentScores[j] * 100) / 100;
-          }
+    this.fourthChartServiceSubscription = this.fourthChartService.getAssessmentByBatch().subscribe((resp) => {
+      this.allBatches = resp;
+      for (const [index, value] of this.allBatches.entries()) {
+        for (
+          let j = 0;
+          j < this.allBatches[index].assessmentScores.length;
+          j++
+        ) {
+          this.allBatches[index].assessmentScores[j] =
+            Math.round(this.allBatches[index].assessmentScores[j] * 100) / 100;
         }
-
-        for (const item of resp) {
-          this.batchNames.push(item.batchName);
-        }
-
-        this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
-
-        this.displayGraph(this.batchesObj);
       }
-    );
 
+      for (const item of resp) {
+        this.batchNames.push(item.batchName);
+      }
 
+      this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
 
+      this.displayGraph(this.batchesObj);
+    });
   }
 
   updateGraph() {
@@ -80,9 +85,9 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit {
             pointBackgroundColor: 'blue',
             pointHoverBackgroundColor: '#937cfa33',
             pointHoverBorderColor: 'blue',
-            data: yDisplayValue
-          }
-        ]
+            data: yDisplayValue,
+          },
+        ],
       },
       options: {
         scale: {
@@ -90,26 +95,30 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit {
             beginAtZero: true,
             suggestedMax: 100,
             suggestedMin: 0,
-            stepSize: 20
-          }
+            stepSize: 20,
+          },
         },
         title: {
           display: true,
-          text: `Average assessment scores based on Batch: ${this.batchNames[this.pickedBatch]}`
+          text: `Average assessment scores based on Batch: ${
+            this.batchNames[this.pickedBatch]
+          }`,
         },
         hover: {
           mode: 'nearest',
-          intersect: true
+          intersect: true,
         },
         tooltips: {
           mode: 'index',
           callbacks: {
             label: (tooltipItem, data) => {
-              return data.labels[tooltipItem.index] + ': ' + tooltipItem.yLabel + '%';
-            }
-          }
-        }
-      }
+              return (
+                data.labels[tooltipItem.index] + ': ' + tooltipItem.yLabel + '%'
+              );
+            },
+          },
+        },
+      },
     });
   }
 
@@ -134,7 +143,6 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     if (this.assessmentTS.selectedValue === 'all') {
-
       this.width = window.innerWidth;
 
       if (this.width < 1281) {
@@ -149,13 +157,14 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit {
       }
     } else {
       document.getElementById('divChart').style.width = '90vw';
-
     }
   }
 
   // This method selects the large view of the graph when double clicking the graph title.
   doubleClickGraph4(): void {
-    const graphSelector = document.getElementById('assessment-graph-selector') as HTMLSelectElement;
+    const graphSelector = document.getElementById(
+      'assessment-graph-selector'
+    ) as HTMLSelectElement;
     if (graphSelector.value === 'status') {
       graphSelector.value = 'all';
     } else {
@@ -163,4 +172,7 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.fourthChartServiceSubscription.unsubscribe();
+  }
 }
