@@ -168,5 +168,14 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent implements O
     }
   }
 
+  // This method selects the large view of the graph when double clicking the graph title.
+  doubleClickGraph6(): void {
+    const graphSelector = document.getElementById('assessment-graph-selector') as HTMLSelectElement;
+    if (graphSelector.value === 'trend') {
+      graphSelector.value = 'all';
+    } else {
+      graphSelector.value = 'trend';
+    }
+  }
 
 }

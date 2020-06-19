@@ -254,4 +254,14 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
     }
   }
 
+  // This method selects the large view of the graph when double clicking the graph title.
+  doubleClickGraph3(): void {
+    const graphSelector = document.getElementById('qc-graph-selector') as HTMLSelectElement;
+    if (graphSelector.value === 'week') {
+      graphSelector.value = 'all';
+    } else {
+      graphSelector.value = 'week';
+    }
+  }
+
 }
