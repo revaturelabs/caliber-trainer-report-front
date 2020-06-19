@@ -24,7 +24,7 @@
     <table>
         <th></th>
         <th *ngFor="let name of scoreNames; let i = index">{{name}}</th>
-        <tr><td class="description score-text" >{{pickedBatch}}</td>  <td class="leftColumnStyle" *ngFor="let batch of batchesObj" >{{batch}}%</td></tr> 
+        <tr><td class="description score-text" >{{batchNames[pickedBatch]}}</td>  <td class="leftColumnStyle" *ngFor="let batch of batchesObj" >{{batch}}%</td></tr> 
 
 
     </table>

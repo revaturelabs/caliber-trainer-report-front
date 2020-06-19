@@ -20,7 +20,6 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit {
   // Dealing with Scalability
   width: number;
   isBig: boolean;
-  selectedValue: any;
   scoreNames: string[];
 
   constructor(private fourthChartService: FourthChartService, private assessmentTS: AssessmentComponent) { }
