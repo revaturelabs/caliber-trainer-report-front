@@ -95,6 +95,10 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
 
   displayGraph(categoriesDisplayData: string[], examDisplayScores: number[], verbalDisplayScores: number[], projectDisplayScores: number[], presentationDisplayScores: number[], otherDisplayScores: number[],) {
 
+    if (categoriesDisplayData.length === 0 ){
+      this.myBarGraph.destroy();
+    }
+
     if (this.myBarGraph) {
       this.myBarGraph.destroy();
     }
@@ -173,7 +177,6 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
         }
       }
     });
-
   }
 
   graphAdjust() {
