@@ -1,5 +1,5 @@
 import { AppPage } from './app.po';
-import { browser, logging, by, element } from 'protractor';
+import { browser, by, element } from 'protractor';
 
 
 describe('Testing Navigation and Top Navbar', () => {
