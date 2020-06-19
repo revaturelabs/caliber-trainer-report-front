@@ -1,15 +1,17 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
 import { FirstChartService } from 'src/app/first-chart.service';
 import { Chart } from 'node_modules/chart.js';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-qcbatches-technical-status',
   templateUrl: './qcbatches-technical-status.component.html',
-  styleUrls: ['./qcbatches-technical-status.component.css']
+  styleUrls: ['./qcbatches-technical-status.component.css'],
 })
-export class QCBatchesTechnicalStatusComponent implements OnInit {
+export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
+  private firstChartServiceSubscription: Subscription;
   barGraphIcon = faChartBar;
   tableGraphIcon = faTable;
   width: number;
@@ -32,17 +34,19 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
 
   myGraph: any;
 
-  constructor(private firstChartService: FirstChartService, private qcTS: QCComponent) { }
+  constructor(
+    private firstChartService: FirstChartService,
+    private qcTS: QCComponent
+  ) {}
 
   ngOnInit(): void {
     this.selectedValue = this.qcTS.selectedValue;
     this.graphAdjust();
     // This method receives the JSON object from the URL GET request
-    this.firstChartService.getTechnicalStatusPerBatch().subscribe(
-      resp => {
+    this.firstChartServiceSubscription = this.firstChartService
+      .getTechnicalStatusPerBatch()
+      .subscribe((resp) => {
         this.firstGraphObj = resp;
-        this.batchNames = this.firstGraphObj.batchName;
-        this.technicalStatus = this.firstGraphObj.technicalStatus;
 
         // Initializing the arrays for our data
         this.goodData = [];
@@ -55,10 +59,17 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
         this.averageRawData = [];
         this.poorRawData = [];
         this.nullRawData = [];
+        this.batchNames = [];
+        this.technicalStatus = [];
+
+        // Store batch names
+        for (const batch of this.firstGraphObj) {
+          this.batchNames.push(batch.batchName);
+          this.technicalStatus.push(batch.technicalStatus);
+        }
 
         // This for loop goes through each batch
         for (const batches of this.technicalStatus) {
-
           // This for loop calculates the total technical scores for each batch
           let total = 0;
           for (const num of batches) {
@@ -75,46 +86,61 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
           // to get the weighted value out of 100%
           // Expects order to be from bad[0] -> avg[1] -> good[2] -> superstar[3] -> null[4]
           if (batches[0] === 0) {
-            this.poorData.push(.5);
+            this.poorData.push(0.5);
           } else {
-            this.poorData.push(Math.round((batches[0] * 100 / total) * 100) / 100);
+            this.poorData.push(
+              Math.round(((batches[0] * 100) / total) * 100) / 100
+            );
           }
           if (batches[1] === 0) {
-            this.averageData.push(.5);
+            this.averageData.push(0.5);
           } else {
-            this.averageData.push(Math.round((batches[1] * 100 / total) * 100) / 100);
+            this.averageData.push(
+              Math.round(((batches[1] * 100) / total) * 100) / 100
+            );
           }
           if (batches[2] === 0) {
-            this.goodData.push(.5);
+            this.goodData.push(0.5);
           } else {
-            this.goodData.push(Math.round((batches[2] * 100 / total) * 100) / 100);
+            this.goodData.push(
+              Math.round(((batches[2] * 100) / total) * 100) / 100
+            );
           }
           if (batches[3] === 0) {
-            this.superstarData.push(.5);
+            this.superstarData.push(0.5);
           } else {
-            this.superstarData.push(Math.round((batches[3] * 100 / total) * 100) / 100);
+            this.superstarData.push(
+              Math.round(((batches[3] * 100) / total) * 100) / 100
+            );
           }
           if (batches[4] === 0) {
-            this.nullData.push(.5);
+            this.nullData.push(0.5);
           } else {
-            this.nullData.push(Math.round((batches[4] * 100 / total) * 100) / 100);
+            this.nullData.push(
+              Math.round(((batches[4] * 100) / total) * 100) / 100
+            );
           }
-
         }
         // This actually passes the data to display the graph after receiving the data from the observables
-        this.displayGraphAll(this.batchNames, this.poorData, this.averageData, this.goodData, this.superstarData, this.nullData);
-      }
-    );
+        this.displayGraphAll(
+          this.batchNames,
+          this.poorData,
+          this.averageData,
+          this.goodData,
+          this.superstarData,
+          this.nullData
+        );
+      });
   }
 
-  displayGraphAll(batchNames: string[],
-                  poorDisplayData: any[],
-                  avgDisplayData: any[],
-                  goodDisplayData: any[],
-                  superstarDisplayData: any[],
-                  nullDisplayData: any[]) {
-
-
+  displayGraphAll(
+    batchNames: string[],
+    poorDisplayData: any[],
+    avgDisplayData: any[],
+    goodDisplayData: any[],
+    superstarDisplayData: any[],
+    nullDisplayData: any[]
+  ) {
     if (this.myGraph) {
       this.myGraph.destroy();
     }
@@ -122,63 +148,70 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
       type: 'bar',
       data: {
         labels: batchNames,
-        datasets: [{
-          label: 'Good',
-          data: goodDisplayData,
-          backgroundColor: '#3fe86c',
-          backgroundHoverColor: '#3fe86c',
-          borderWidth: 1,
-          fill: false
-        },
-        {
-          label: 'Average',
-          data: avgDisplayData,
-          backgroundColor: '#ebc634',
-          backgroundHoverColor: '#ebc634',
-          borderWidth: 1
-        },
-        {
-          label: 'Poor',
-          data: poorDisplayData,
-          backgroundColor: '#e33936',
-          backgroundHoverColor: '#e33936',
-          borderWidth: 1
-        }]
+        datasets: [
+          {
+            label: 'Good',
+            data: goodDisplayData,
+            backgroundColor: '#3fe86c',
+            backgroundHoverColor: '#3fe86c',
+            borderWidth: 1,
+            fill: false,
+          },
+          {
+            label: 'Average',
+            data: avgDisplayData,
+            backgroundColor: '#ebc634',
+            backgroundHoverColor: '#ebc634',
+            borderWidth: 1,
+          },
+          {
+            label: 'Poor',
+            data: poorDisplayData,
+            backgroundColor: '#e33936',
+            backgroundHoverColor: '#e33936',
+            borderWidth: 1,
+          },
+        ],
       },
       options: {
         scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true,
-              suggestedMax: 100,
-              callback(value, index, values) {
-                return value + '%';
-              }
-            }
-          }]
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+                suggestedMax: 100,
+                callback(value, index, values) {
+                  return value + '%';
+                },
+              },
+            },
+          ],
         },
         title: {
           display: true,
-          text: 'Percent of each QC technical status per batch'
+          text: 'Percent of each QC technical status per batch',
         },
         responsive: true,
         hover: {
           mode: 'nearest',
-          intersect: true
+          intersect: true,
         },
         tooltips: {
           callbacks: {
-              label: function(tooltipItem, data) {
-                if (tooltipItem.yLabel === .5) {
-                  tooltipItem.yLabel = 0;
-                }
-                return data.datasets[tooltipItem.datasetIndex].label + ": " + tooltipItem.yLabel + "%";
-
-
+            label: function (tooltipItem, data) {
+              if (tooltipItem.yLabel === 0.5) {
+                tooltipItem.yLabel = 0;
               }
-            }
-        }
-      }
+              return (
+                data.datasets[tooltipItem.datasetIndex].label +
+                ': ' +
+                tooltipItem.yLabel +
+                '%'
+              );
+            },
+          },
+        },
+      },
     });
 
     let superstarTotal = 0;
@@ -195,7 +228,7 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
       nullTotal += num;
     }
 
-    if (nullTotal > 0){
+    if (nullTotal > 0) {
       this.appendNullDataset(nullDisplayData);
     }
   }
@@ -206,7 +239,7 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
       data: superstarDisplayData,
       backgroundColor: 'blue',
       backgroundHoverColor: 'blue',
-      borderWidth: 1
+      borderWidth: 1,
     };
 
     this.myGraph.data.datasets.push(dataset);
@@ -219,7 +252,7 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
       data: nullDisplayData,
       backgroundColor: '#7a7b7d',
       backgroundHoverColor: '#7a7b7d',
-      borderWidth: 1
+      borderWidth: 1,
     };
 
     this.myGraph.data.datasets.push(dataset);
@@ -247,10 +280,9 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     if (this.qcTS.selectedValue === 'all') {
-
       this.width = window.innerWidth;
 
-      if (this.width < 1281) { 
+      if (this.width < 1281) {
         // FOR MOBILE PHONE
         this.isBig = false;
 
@@ -262,13 +294,14 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
       }
     } else {
       document.getElementById('divChart').style.width = '90vw';
-
     }
   }
 
   // This method selects the large view of the graph when double clicking the graph title.
   doubleClickGraph1(): void {
-    const graphSelector = document.getElementById('qc-graph-selector') as HTMLSelectElement;
+    const graphSelector = document.getElementById(
+      'qc-graph-selector'
+    ) as HTMLSelectElement;
     if (graphSelector.value === 'status') {
       graphSelector.value = 'all';
     } else {
@@ -276,4 +309,7 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.firstChartServiceSubscription.unsubscribe();
+  }
 }

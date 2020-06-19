@@ -1,9 +1,12 @@
-    <div class="card-layout">
+<div class="card-layout">
     <div class="card-title">
         <span>Caliber 2 JSON Import Menu</span>
         <fa-icon class="faDatabase" [icon]="databaseIcon"></fa-icon>
 
     </div>
-    <app-progress></app-progress>
-    <app-upload></app-upload>
-    <img src="" *ngIf="displayLoader | async" />
+    <div class="card-body">
+        <app-progress></app-progress>
+        <app-upload></app-upload>
+        <img src="" *ngIf="displayLoader | async" />
+    </div>
+</div>
