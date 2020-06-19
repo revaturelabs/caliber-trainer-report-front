@@ -14,19 +14,18 @@ export class FileUploadService {
   private fileList$: Subject<string[]> = new Subject<string[]>();
   private displayLoader$: Subject<boolean> = new BehaviorSubject<boolean>(false);
   private regHeaders = new HttpHeaders({'Content-Type': 'application/json'});
-  
+
   constructor(private http: HttpClient, private urlService: UrlService){}
 
-  
-    
+
+
     public isLoading(): Observable<boolean> {
       return this.displayLoader$;
     }
 
     public upload(fileName: string, fileContent: string): void {
-      if(fileName && fileContent){
-        const body = `fileName=${fileName}&fileContent=${fileContent}`; 
-        console.log(fileContent);
+      if (fileName && fileContent){
+        const body = fileContent;
         this.displayLoader$.next(true);
         this.http.post(this.urlService.getUrl() + "JSONController", body, {headers: this.regHeaders, withCredentials: true})
       .pipe(finalize(() => this.displayLoader$.next(false)))

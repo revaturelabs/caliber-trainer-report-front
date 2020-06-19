@@ -14,6 +14,4 @@ export class HomeComponent {
 
   public displayLoader: Observable<boolean> = this.fileUploadService.isLoading();
   constructor(private fileUploadService: FileUploadService) { }
-
-  
 }
