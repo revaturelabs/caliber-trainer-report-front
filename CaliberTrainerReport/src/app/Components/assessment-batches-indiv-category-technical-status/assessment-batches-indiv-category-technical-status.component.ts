@@ -57,8 +57,8 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
         for (const scores of resp){
           this.examRawScores.push(Math.round(scores.average[0]  * 10) / 10);
           this.verbalRawScores.push(Math.round(scores.average[1]  * 10) / 10);
-          this.projectRawScores.push(Math.round(scores.average[2]  * 10) / 10);
-          this.presentationRawScores.push(Math.round(scores.average[3]  * 10) / 10);
+          this.presentationRawScores.push(Math.round(scores.average[2]  * 10) / 10);
+          this.projectRawScores.push(Math.round(scores.average[3]  * 10) / 10);
           this.otherRawScores.push(Math.round(scores.average[4]  * 10) / 10);
           if (scores.average[0] === 0) {
             this.examScores.push(0.5);
@@ -71,14 +71,14 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
             this.verbalScores.push(Math.round(scores.average[1] * 100) / 100);
           }
           if(scores.average[2] === 0) {
-            this.projectScores.push(0.5);
-          } else {
-            this.projectScores.push(Math.round(scores.average[2] * 100) / 100);
-          }
-          if(scores.average[3] === 0) {
             this.presentationScores.push(0.5);
           } else {
-            this.presentationScores.push(Math.round(scores.average[3] * 100) / 100);
+            this.presentationScores.push(Math.round(scores.average[2] * 100) / 100);
+          }
+          if(scores.average[3] === 0) {
+            this.projectScores.push(0.5);
+          } else {
+            this.projectScores.push(Math.round(scores.average[3] * 100) / 100);
           }
           if(scores.average[4] === 0) {
             this.otherScores.push(0.5);
@@ -118,17 +118,17 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent implements O
           borderWidth: 1
         },
         {
-          label: 'Project',
-          data: projectDisplayScores,
-          backgroundColor: '#f23a6e',
-          backgroundHoverColor: '#f23a6e',
-          borderWidth: 1
-        },
-        {
           label: 'Presentation',
           data: presentationDisplayScores,
           backgroundColor: '#8732a8',
           backgroundHoverColor: '#8732a8',
+          borderWidth: 1
+        },
+        {
+          label: 'Project',
+          data: projectDisplayScores,
+          backgroundColor: '#f23a6e',
+          backgroundHoverColor: '#f23a6e',
           borderWidth: 1
         },
         {
