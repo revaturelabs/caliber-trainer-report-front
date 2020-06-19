@@ -34,7 +34,6 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit {
     this.fourthChartService.getAssessmentByBatch().subscribe(
       resp => {
         this.allBatches = resp;
-        console.log(resp);
         for (const [index, value] of this.allBatches.entries()) {
           for (let j = 0; j < this.allBatches[index].assessmentScores.length; j++) {
             this.allBatches[index].assessmentScores[j] = Math.round(this.allBatches[index].assessmentScores[j] * 100) / 100;

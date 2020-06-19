@@ -52,7 +52,6 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
           this.categoriesName.push(obj.categoryName);
           this.categoriesObj.push(obj.batches);
         }
-        console.log(this.categoriesObj);
 
         for (const stuff of this.categoriesObj[this.pickedCategory]){
           const score = stuff.score;
@@ -70,7 +69,6 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
 
           this.yValues.push(Math.round((totalValue / quantity) * 100) / 100);
         }
-        console.log(this.averageRawScore);
 
         for (const score of resp.batchByCategory[0].batches) {
           this.batchNames.push(score.batchName);
