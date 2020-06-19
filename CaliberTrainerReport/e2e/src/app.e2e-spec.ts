@@ -1,7 +1,7 @@
 import { AppPage } from './app.po';
 import { browser, logging } from 'protractor';
 
-describe('Caliber Graphe Page', () => {
+describe('Caliber Graph Page', () => {
   let page: AppPage;
 
   beforeEach(() => {

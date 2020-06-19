@@ -1,8 +1,9 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
 import { SecondChartService } from 'src/app/second-chart.service';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
+
 
 @Component({
   selector: 'app-qcbatches-indiv-category-technical-status',
@@ -11,11 +12,17 @@ import { QCComponent } from 'src/app/Components/qc/qc.component';
 })
 export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
   lineGraphIcon = faChartLine;
+  tableGraphIcon = faTable;
   pickedCategory: any;
   myLineChart: any;
   categoriesName: string[];
   categoriesObj: any[];
   selectedValue: any;
+  poorRawScore: any[];
+  averageRawScore:any[];
+  goodRawScore: any[];
+  superstarRawScore: any[];
+
 
   batchNames: string[];
   yValues: any[];
@@ -29,12 +36,15 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
   ngOnInit(): void {
     this.selectedValue = this.qcTS.selectedValue;
     this.graphAdjust();
-
     this.categoriesObj = [];
     this.categoriesName = [];
     this.yValues = [];
     this.batchNames = [];
     this.pickedCategory = 0;
+    this.poorRawScore = [];
+    this.averageRawScore =[];
+    this.goodRawScore = [];
+    this.superstarRawScore = [];
 
     this.secondChartService.getAvgCategoryScoresObservables().subscribe(
       resp => {
@@ -42,17 +52,25 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
           this.categoriesName.push(obj.categoryName);
           this.categoriesObj.push(obj.batches);
         }
+        console.log(this.categoriesObj);
 
         for (const stuff of this.categoriesObj[this.pickedCategory]){
           const score = stuff.score;
           let totalValue = 0;
           let quantity = 0;
 
+          this.poorRawScore.push(score.poor);
+          this.averageRawScore.push(score.average);
+          this.goodRawScore.push(score.good);
+          this.superstarRawScore.push(score.superstar);
+          
+
           totalValue = (score.poor * 0) + (score.average * 1) + (score.good * 2) + (score.superstar * 3);
           quantity = score.poor + score.average + score.good + score.superstar;
 
           this.yValues.push(Math.round((totalValue / quantity) * 100) / 100);
         }
+        console.log(this.averageRawScore);
 
         for (const score of resp.batchByCategory[0].batches) {
           this.batchNames.push(score.batchName);
@@ -60,15 +78,25 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
 
         this.displayGraph(this.batchNames, this.yValues);
       }
+      
     );
   }
 
   updateGraph() {
     this.yValues = [];
+    this.poorRawScore = [];
+    this.averageRawScore =[];
+    this.goodRawScore = [];
+    this.superstarRawScore = [];
     for (const stuff of this.categoriesObj[this.pickedCategory]){
       const score = stuff.score;
       let totalValue = 0;
       let quantity = 0;
+
+      this.poorRawScore.push(score.poor);
+      this.averageRawScore.push(score.average);
+      this.goodRawScore.push(score.good);
+      this.superstarRawScore.push(score.superstar);
 
       totalValue = (score.poor * 0) + (score.average * 1) + (score.good * 2) + (score.superstar * 3);
       quantity = score.poor + score.average + score.good + score.superstar;

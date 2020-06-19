@@ -1,0 +1,38 @@
+/* .card-layout {
+    display: grid;
+    grid-template-rows: 50px auto;
+    margin-top: 30px;
+    margin: 0 auto;
+    width: 95%;
+    margin-bottom: 100px;
+}
+
+.card-title {
+    background-color: #ea753e;
+    align-items: center;
+    display: flex;
+    padding-left: 3vw;
+    font-size: 15pt;
+    color: white;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.faDatabase {
+    margin-left: 15px;
+    transform: translateY(1px);
+}
+
+#divMenu {
+    display: block;
+    position: relative; 
+    width: 45vw;
+    margin: 0 auto;
+}
+
+.card-body {
+    display: grid;
+    justify-items: center;
+    border: 2px solid #ea753e;
+
+} */

@@ -1,4 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { UrlService } from './url.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -6,7 +10,14 @@ import { Injectable } from '@angular/core';
 export class FourthChartService {
 
   data: any[];
-  constructor() { }
+  constructor(private http: HttpClient, private urlService: UrlService) { }
+
+
+  getAssessmentByBatch(): Observable<any>{
+    return this.http.get(this.urlService.getUrl() + 'AssessmentByBatch/').pipe(
+      map(resp => resp)
+    );
+  }
 
   getAvgAssessmentScores(batch: string): any[]{
     this.data = [];

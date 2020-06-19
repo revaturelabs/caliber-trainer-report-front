@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,8 +18,12 @@ import { HomeComponent } from './Components/home/home.component';
 import { SecondChartService } from './second-chart.service';
 import { FourthChartService } from './fourth-chart.service';
 import { FifthChartService } from './fifth-chart.service';
+import { FileUploadService } from './file-upload.service';
 import { UrlService } from './url.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { UploadComponent } from './Components/jsonuploader/upload.component';
+import { ProgressPage } from './Components/progresspage/progress.component';
 
 @NgModule({
   declarations: [
@@ -33,16 +37,20 @@ import { HttpClientModule } from '@angular/common/http';
     AssessmentBatchesTrendCategoryTechnicalStatusComponent,
     QCComponent,
     AssessmentComponent,
-    HomeComponent
+    HomeComponent,
+    UploadComponent,
+    ProgressPage
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
-  providers: [FirstChartService,SecondChartService,FourthChartService,FifthChartService,UrlService],
+  providers: [FirstChartService, SecondChartService, FourthChartService, FifthChartService, UrlService, FileUploadService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

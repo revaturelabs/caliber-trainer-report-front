@@ -13,8 +13,9 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit {
   radarChartIcon = faChartArea;
   pickedBatch: any;
   myRadarGraph: any;
-  batches: string[];
-
+  batchNames: string[];
+  batchesObj: any[];
+  allBatches: any[];
   // Dealing with Scalability
   width: number;
   isBig: boolean;
@@ -24,17 +25,41 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit {
   ngOnInit(): void {
     this.graphAdjust();
 
-    this.pickedBatch = '1804 Apr16 -2';
-    this.batches = ['1804 Apr16 -2', '1901 Jan06 Other', '1903 Mar04 Full Stack Java/JEE', '1909 Sep30 Other'];
-    this.displayGraph();
+    this.pickedBatch = 0;
+    this.batchNames = [];
+    this.batchesObj = [];
+    this.allBatches = [];
+
+    this.fourthChartService.getAssessmentByBatch().subscribe(
+      resp => {
+        this.allBatches = resp;
+
+        for (const [index, value] of this.allBatches.entries()) {
+          for (let j = 0; j < this.allBatches[index].assessmentScores.length; j++) {
+            this.allBatches[index].assessmentScores[j] = Math.round(this.allBatches[index].assessmentScores[j] * 100) / 100;
+          }
+        }
+
+        for (const item of resp) {
+          this.batchNames.push(item.batchName);
+        }
+
+        this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
+        this.displayGraph(this.batchesObj);
+      }
+    );
+
+
 
   }
 
   updateGraph() {
-    this.displayGraph();
+    this.batchesObj = [];
+    this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
+    this.displayGraph(this.batchesObj);
   }
 
-  displayGraph() {
+  displayGraph(yDisplayValue: any[]) {
     if (this.myRadarGraph) {
       this.myRadarGraph.destroy();
     }
@@ -42,7 +67,7 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit {
     this.myRadarGraph = new Chart('fourthChart', {
       type: 'radar',
       data: {
-        labels: ['Exam', 'Verbal', 'Project'],
+        labels: ['Exam', 'Verbal', 'Presentation', 'Project', 'Other'],
         datasets: [
           {
             label: 'Average assessment scores',
@@ -51,7 +76,7 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit {
             pointBackgroundColor: 'blue',
             pointHoverBackgroundColor: '#937cfa33',
             pointHoverBorderColor: 'blue',
-            data: this.fourthChartService.getAvgAssessmentScores(this.pickedBatch)
+            data: yDisplayValue
           }
         ]
       },
@@ -61,19 +86,24 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit {
             beginAtZero: true,
             suggestedMax: 100,
             suggestedMin: 0,
-            stepSize: 20,
-            callback(value, index, values) {
-              return value + '%';
-            }
+            stepSize: 20
           }
         },
         title: {
           display: true,
-          text: `Average assessment scores based on Batch: ${this.pickedBatch}`
+          text: `Average assessment scores based on Batch: ${this.batchNames[this.pickedBatch]}`
         },
         hover: {
           mode: 'nearest',
           intersect: true
+        },
+        tooltips: {
+          mode: 'index',
+          callbacks: {
+            label: (tooltipItem, data) => {
+              return data.labels[tooltipItem.index] + ': ' + tooltipItem.yLabel + '%';
+            }
+          }
         }
       }
     });
