@@ -15,7 +15,22 @@
             <canvas id="fourthChart"> 
         
             </canvas>
-        </div>
-        <div *ngIf="selectedValue == 'status'" class="extraDataTable">This is some text</div>
+        </div>        
+    <div *ngIf="selectedValue == 'status'" class="extraDataTable">
+    <hr class="breakPoint">
+    <h4 class="tableTitle">
+        Raw Assessment Technical Status
+    </h4>
+    <table>
+        <th></th>
+        <th *ngFor="let name of scoreNames; let i = index">{{name}}</th>
+        <tr><td class="description score-text" >{{pickedBatch}}</td>  <td class="leftColumnStyle" *ngFor="let batch of batchesObj" >{{batch}}%</td></tr> 
+
+
+    </table>
+     
+    
+    
     </div>
+
 </div>

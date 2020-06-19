@@ -40,91 +40,91 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
     // This method receives the JSON object from the URL GET request
     this.firstChartService.getTechnicalStatusPerBatch().subscribe(
       resp => {
-                this.firstGraphObj = resp;
+        this.firstGraphObj = resp;
 
-                // Initializing the arrays for our data
-                this.goodData = [];
-                this.averageData = [];
-                this.poorData = [];
-                this.superstarData = [];
-                this.nullData = [];
-                this.superstarRawData = [];
-                this.goodRawData = [];
-                this.averageRawData = [];
-                this.poorRawData = [];
-                this.nullRawData = [];
-                this.batchNames = [];
-                this.technicalStatus = [];
+        // Initializing the arrays for our data
+        this.goodData = [];
+        this.averageData = [];
+        this.poorData = [];
+        this.superstarData = [];
+        this.nullData = [];
+        this.superstarRawData = [];
+        this.goodRawData = [];
+        this.averageRawData = [];
+        this.poorRawData = [];
+        this.nullRawData = [];
+        this.batchNames = [];
+        this.technicalStatus = [];
 
-                // Store batch names
-                for (const batch of this.firstGraphObj) {
-                  this.batchNames.push(batch.batchName);
-                  this.technicalStatus.push(batch.technicalStatus);
-                }
+        // Store batch names
+        for (const batch of this.firstGraphObj) {
+          this.batchNames.push(batch.batchName);
+          this.technicalStatus.push(batch.technicalStatus);
+        }
 
-                // This for loop goes through each batch
-                for (const batches of this.technicalStatus) {
-                  // This for loop calculates the total technical scores for each batch
-                  let total = 0;
-                  for (const num of batches) {
-                    total += num;
-                  }
+        // This for loop goes through each batch
+        for (const batches of this.technicalStatus) {
+          // This for loop calculates the total technical scores for each batch
+          let total = 0;
+          for (const num of batches) {
+            total += num;
+          }
 
-                  this.poorRawData.push(batches[0]);
-                  this.averageRawData.push(batches[1]);
-                  this.goodRawData.push(batches[2]);
-                  this.superstarRawData.push(batches[3]);
-                  this.nullRawData.push(batches[4]);
+          this.poorRawData.push(batches[0]);
+          this.averageRawData.push(batches[1]);
+          this.goodRawData.push(batches[2]);
+          this.superstarRawData.push(batches[3]);
+          this.nullRawData.push(batches[4]);
 
-                  // Seperates data into each technical score type (good, bad, avg) and performs math
-                  // to get the weighted value out of 100%
-                  // Expects order to be from bad[0] -> avg[1] -> good[2] -> superstar[3] -> null[4]
-                  if (batches[0] === 0) {
-                    this.poorData.push(0.5);
-                  } else {
-                    this.poorData.push(
-                      Math.round(((batches[0] * 100) / total) * 100) / 100
-                    );
-                  }
-                  if (batches[1] === 0) {
-                    this.averageData.push(0.5);
-                  } else {
-                    this.averageData.push(
-                      Math.round(((batches[1] * 100) / total) * 100) / 100
-                    );
-                  }
-                  if (batches[2] === 0) {
-                    this.goodData.push(0.5);
-                  } else {
-                    this.goodData.push(
-                      Math.round(((batches[2] * 100) / total) * 100) / 100
-                    );
-                  }
-                  if (batches[3] === 0) {
-                    this.superstarData.push(0.5);
-                  } else {
-                    this.superstarData.push(
-                      Math.round(((batches[3] * 100) / total) * 100) / 100
-                    );
-                  }
-                  if (batches[4] === 0) {
-                    this.nullData.push(0.5);
-                  } else {
-                    this.nullData.push(
-                      Math.round(((batches[4] * 100) / total) * 100) / 100
-                    );
-                  }
-                }
-                // This actually passes the data to display the graph after receiving the data from the observables
-                this.displayGraphAll(
-                  this.batchNames,
-                  this.poorData,
-                  this.averageData,
-                  this.goodData,
-                  this.superstarData,
-                  this.nullData
-                );
-              }
+          // Seperates data into each technical score type (good, bad, avg) and performs math
+          // to get the weighted value out of 100%
+          // Expects order to be from bad[0] -> avg[1] -> good[2] -> superstar[3] -> null[4]
+          if (batches[0] === 0) {
+            this.poorData.push(0.5);
+          } else {
+            this.poorData.push(
+              Math.round(((batches[0] * 100) / total) * 100) / 100
+            );
+          }
+          if (batches[1] === 0) {
+            this.averageData.push(0.5);
+          } else {
+            this.averageData.push(
+              Math.round(((batches[1] * 100) / total) * 100) / 100
+            );
+          }
+          if (batches[2] === 0) {
+            this.goodData.push(0.5);
+          } else {
+            this.goodData.push(
+              Math.round(((batches[2] * 100) / total) * 100) / 100
+            );
+          }
+          if (batches[3] === 0) {
+            this.superstarData.push(0.5);
+          } else {
+            this.superstarData.push(
+              Math.round(((batches[3] * 100) / total) * 100) / 100
+            );
+          }
+          if (batches[4] === 0) {
+            this.nullData.push(0.5);
+          } else {
+            this.nullData.push(
+              Math.round(((batches[4] * 100) / total) * 100) / 100
+            );
+          }
+        }
+        // This actually passes the data to display the graph after receiving the data from the observables
+        this.displayGraphAll(
+          this.batchNames,
+          this.poorData,
+          this.averageData,
+          this.goodData,
+          this.superstarData,
+          this.nullData
+        );
+      }
     );
   }
 
@@ -296,5 +296,4 @@ export class QCBatchesTechnicalStatusComponent implements OnInit {
       graphSelector.value = 'status';
     }
   }
-
 }
