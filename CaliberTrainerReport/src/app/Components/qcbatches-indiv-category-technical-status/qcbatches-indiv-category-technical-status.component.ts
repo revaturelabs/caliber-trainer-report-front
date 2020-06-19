@@ -201,6 +201,14 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
     }
   }
 
-
+  // This method selects the large view of the graph when double clicking the graph title.
+  doubleClickGraph2(): void {
+    const graphSelector = document.getElementById('qc-graph-selector') as HTMLSelectElement;
+    if (graphSelector.value === 'individual') {
+      graphSelector.value = 'all';
+    } else {
+      graphSelector.value = 'individual';
+    }
+  }
 
 }
