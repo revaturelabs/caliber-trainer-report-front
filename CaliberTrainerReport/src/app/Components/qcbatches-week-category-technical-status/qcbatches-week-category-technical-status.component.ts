@@ -19,10 +19,15 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
   pickedBatch: any;
 
   xlabels: string[]; // week numbers
+  nullCount: any[];
   nullData: any[];
+  poorCount: any[];
   poorData: any[];
+  averageCount: any[];
   averageData: any[];
+  goodCount: any[];
   goodData: any[];
+  superstarCount: any[];
   superstarData: any[];
   categories: string[];
 
@@ -157,40 +162,50 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
 
   getSuperstarScores(batch: string): any[] {
     this.superstarData = [];
+    this.superstarCount = [];
     for (const batchCategory of this.thirdGraphObj) {
       this.superstarData.push(batchCategory.superstarAvg);
+      this.superstarCount.push(batchCategory.superstarCount);
     }
     return this.superstarData;
   }
 
   getGoodScores(batch: string): any[] {
     this.goodData = [];
+    this.goodCount = [];
     for (const batchCategory of this.thirdGraphObj) {
       this.goodData.push(batchCategory.goodAvg);
+      this.goodCount.push(batchCategory.goodCount);
     }
     return this.goodData;
   }
 
   getAverageScores(batch: string): any[] {
     this.averageData = [];
+    this.averageCount = [];
     for (const batchCategory of this.thirdGraphObj) {
       this.averageData.push(batchCategory.averageAvg);
+      this.averageCount.push(batchCategory.averageCount);
     }
     return this.averageData;
   }
 
   getPoorScores(batch: string): any[] {
     this.poorData = [];
+    this.poorCount = [];
     for (const batchCategory of this.thirdGraphObj) {
       this.poorData.push(batchCategory.poorAvg);
+      this.poorCount.push(batchCategory.poorCount);
     }
     return this.poorData;
   }
 
   getNullScores(batch: string): any[] {
     this.nullData = [];
+    this.nullCount = [];
     for (const batchCategory of this.thirdGraphObj) {
       this.nullData.push(batchCategory.nullAvg);
+      this.nullCount.push(batchCategory.nullCount);
     }
     return this.nullData;
   }
