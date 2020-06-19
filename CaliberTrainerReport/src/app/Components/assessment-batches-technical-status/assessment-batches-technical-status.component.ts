@@ -19,17 +19,20 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit {
   // Dealing with Scalability
   width: number;
   isBig: boolean;
+  selectedValue: any;
+  scoreNames: string[];
 
   constructor(private fourthChartService: FourthChartService, private assessmentTS: AssessmentComponent) { }
 
   ngOnInit(): void {
     this.graphAdjust();
 
+    this.selectedValue = this.assessmentTS.selectedValue;
     this.pickedBatch = 0;
     this.batchNames = [];
     this.batchesObj = [];
     this.allBatches = [];
-
+    this.scoreNames = ['Exam', 'Verbal', 'Presentation', 'Project', 'Other'];
     this.fourthChartService.getAssessmentByBatch().subscribe(
       resp => {
         this.allBatches = resp;
@@ -67,7 +70,7 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit {
     this.myRadarGraph = new Chart('fourthChart', {
       type: 'radar',
       data: {
-        labels: ['Exam', 'Verbal', 'Presentation', 'Project', 'Other'],
+        labels: this.scoreNames,
         datasets: [
           {
             label: 'Average assessment scores',
