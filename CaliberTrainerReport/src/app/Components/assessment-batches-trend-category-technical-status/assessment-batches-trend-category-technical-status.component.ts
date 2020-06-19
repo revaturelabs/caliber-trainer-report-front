@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { Chart } from 'node_modules/chart.js';
-import { faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
 import { SixthChartService } from 'src/app/sixth-chart.service';
 import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
 import { Subscription } from 'rxjs';
@@ -18,10 +18,13 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
   implements OnInit, OnDestroy {
   private sixthChartServiceSubscription: Subscription;
   lineGraphIcon = faChartLine;
+  tableGraphIcon = faTable;
   pickedCategory: any;
   categoriesName: string[];
   myLineChart: any;
   batchNames: string[];
+  selectedValue: string;
+
 
   categoriesObj: any[];
   yValues: any[];
@@ -36,18 +39,21 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
   ) {}
 
   ngOnInit(): void {
+    this.selectedValue = this.assessmentTS.selectedValue;
     this.graphAdjust();
 
     this.categoriesName = [];
     this.categoriesObj = [];
     this.batchNames = [];
     this.yValues = [];
+ 
 
     this.pickedCategory = 0;
 
     this.sixthChartServiceSubscription = this.sixthChartService
       .getSixthGraphData()
       .subscribe((resp) => {
+        console.log(resp);
         for (const score of resp.categories) {
           this.categoriesName.push(score.category);
           this.categoriesObj.push(score.batchAssessments);
@@ -57,7 +63,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
           for (const indivScore of stuff.assessments) {
             total += indivScore;
           }
-          this.yValues.push(total / stuff.assessments.length);
+          this.yValues.push(Math.round((total / stuff.assessments.length)*100)/100);
         }
         for (const score of resp.categories[0].batchAssessments) {
           this.batchNames.push(score.batchName);
@@ -78,7 +84,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
       if (isNaN(total / stuff.assessments.length)) {
         this.yValues.push(0);
       } else {
-        this.yValues.push(total / stuff.assessments.length);
+        this.yValues.push(Math.round((total / stuff.assessments.length)*100)/100);
       }
     }
 
