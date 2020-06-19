@@ -14,7 +14,7 @@ export class SixthChartService {
   constructor(private http: HttpClient, private urlService: UrlService) { }
 
   getSixthGraphData(): Observable<any>{
-    return this.http.get(this.urlService.getUrl() + 'assessscoresbycategoryallbatches/').pipe(
+    return this.http.get(this.urlService.getUrlWithId() + 'AssessScoresByCategoryAllBatches').pipe(
       map(resp => resp)
     );
   }

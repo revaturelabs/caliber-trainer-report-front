@@ -12,9 +12,8 @@ export class FourthChartService {
   data: any[];
   constructor(private http: HttpClient, private urlService: UrlService) { }
 
-
   getAssessmentByBatch(): Observable<any>{
-    return this.http.get(this.urlService.getUrl() + 'AssessmentByBatch/').pipe(
+    return this.http.get(this.urlService.getUrlWithId() + 'AssessmentByBatch/').pipe(
       map(resp => resp)
     );
   }

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FileUploadService } from '../../file-upload.service';
-
-
+import { GetTrainerService } from 'src/app/get-trainer.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-upload',
@@ -18,7 +18,7 @@ export class UploadComponent {
 
   private fileName;
 
-  constructor(private fb: FormBuilder, public fileUploadService: FileUploadService) { }
+  constructor(private fb: FormBuilder, public fileUploadService: FileUploadService, private getTrainerServ: GetTrainerService) { }
 
   public onFileChange(event) {
     const reader = new FileReader();
@@ -38,5 +38,9 @@ export class UploadComponent {
 
   public onSubmit(): void {
     this.fileUploadService.upload(this.fileName, this.formGroup.get('file').value);
-  } 
+  }
+
+  test() {
+    console.log(this.getTrainerServ.getTrainerList().pipe(first()).subscribe());
+  }
 }
