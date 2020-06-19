@@ -9,8 +9,7 @@ import { QCBatchesWeekCategoryTechnicalStatusComponent } from './Components/qcba
 import { AssessmentBatchesTechnicalStatusComponent } from './Components/assessment-batches-technical-status/assessment-batches-technical-status.component';
 import { AssessmentBatchesIndivCategoryTechnicalStatusComponent } from './Components/assessment-batches-indiv-category-technical-status/assessment-batches-indiv-category-technical-status.component';
 import { AssessmentBatchesTrendCategoryTechnicalStatusComponent } from './Components/assessment-batches-trend-category-technical-status/assessment-batches-trend-category-technical-status.component';
-
-
+import { UploadComponent } from './Components/jsonuploader/upload.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,6 +21,7 @@ const routes: Routes = [
   { path: 'assessmenttechnicalstatus', component: AssessmentBatchesTechnicalStatusComponent},
   { path: 'assessmentindivtechnicalstatus', component: AssessmentBatchesIndivCategoryTechnicalStatusComponent},
   { path: 'assessmenttrendtechnicalstatus', component: AssessmentBatchesTrendCategoryTechnicalStatusComponent},
+  { path: 'uploader', component: UploadComponent },
   {path: '**', redirectTo: ''}
 ];
 
