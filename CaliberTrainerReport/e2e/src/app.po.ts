@@ -1,11 +1,31 @@
 import { browser, by, element } from 'protractor';
-import { MainNavBarComponent } from '../../src/app/Components/main-nav-bar/main-nav-bar.component';
 
 export class AppPage {
-  navigateTo(): Promise<unknown> {
-    return browser.get(browser.baseUrl) as Promise<unknown>;
+  navigateTo() {
+    return browser.get('');
   }
-  getAllGraphsOnPage(){
+
+  getNavBarTitle(width, height): Promise<any> {
+    browser.driver.manage().window().setSize(width, height);
+    return element(by.css('app-main-nav-bar div.mainTitle')).getText() as Promise<any>;
+  }
+
+  getNavBarRevatureIcon(){
+    return element(by.css('[src = "https://imgur.com/QMNMf4M.png"]'));
+  }
+
+  getNavBarViewQCReportsButton(width, height){
+    browser.driver.manage().window().setSize(width, height);
+    return element(by.css('[routerLink = "/qc"]'));
+  }
+
+  getNavBarViewAssessmentReportsButton(width, height){
+    browser.driver.manage().window().setSize(width, height);
+    return element(by.css('[routerLink = "/assessment"]'));
+  }
+
+
+  getAllGraphsOnPage() {
     return element.all(by.id('divChart'));
   }
 
@@ -16,24 +36,23 @@ export class AppPage {
 
   // Second Test Gets the Canvas Table
   getCanvasTable(): Promise<any> {
-    return element(by.tagName('canvas')).getText() as Promise <any>;
+    return element(by.tagName('canvas')).getText() as Promise<any>;
   }
 
   // Third Test Changes teh Canvas Table
   changeCanvasTable(): Promise<any> {
     return element(by.tagName('label')).getText() as Promise<any>;
   }
-  selectPrevLabel(){
+  selectPrevLabel() {
     browser
-        .actions()
-        .click()
+      .actions()
+      .click()
 
   }
-  selectNextLabel(){
+  selectNextLabel() {
     browser
-        .actions()
-        .click()
-        
+      .actions()
+      .click()
   }
 
   getAllGraphs() {
