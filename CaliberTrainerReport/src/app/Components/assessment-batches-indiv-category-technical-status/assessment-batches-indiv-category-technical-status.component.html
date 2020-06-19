@@ -22,8 +22,8 @@
                 <th *ngFor="let category of categories; let i = index">{{category}}</th>
                 <tr><td class="description exam-text">Exam</td>  <td class="leftColumnStyle" *ngFor="let exam of examRawScores">{{exam}}</td></tr>
                 <tr><td class="description verbal-text">Verbal</td> <td class="leftColumnStyle" *ngFor="let verbal of verbalRawScores">{{verbal}}</td></tr>
-                <tr><td class="description project-text">Project</td> <td class="leftColumnStyle" *ngFor="let project of projectRawScores">{{project}}</td></tr>
                 <tr><td class="description presentation-text">Presentation</td> <td class="leftColumnStyle" *ngFor="let presentation of presentationRawScores">{{presentation}}</td></tr>
+                <tr><td class="description project-text">Project</td> <td class="leftColumnStyle" *ngFor="let project of projectRawScores">{{project}}</td></tr>
                 <tr><td class="description other-text">Other</td> <td class="leftColumnStyle" *ngFor="let other of otherRawScores">{{other}}</td></tr>
             </table>
         </div>
