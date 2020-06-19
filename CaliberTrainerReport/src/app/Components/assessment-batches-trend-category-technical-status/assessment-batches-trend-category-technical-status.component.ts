@@ -53,7 +53,6 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
     this.sixthChartServiceSubscription = this.sixthChartService
       .getSixthGraphData()
       .subscribe((resp) => {
-        console.log(resp);
         for (const score of resp.categories) {
           this.categoriesName.push(score.category);
           this.categoriesObj.push(score.batchAssessments);
