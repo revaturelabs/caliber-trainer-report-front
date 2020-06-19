@@ -1,49 +1,61 @@
 import { AppPage } from './app.po';
-import { browser, logging } from 'protractor';
+import { browser, logging, by, element } from 'protractor';
 
+<<<<<<< HEAD
 describe('Caliber Graph Page', () => {
+=======
+describe('End to end testing for Caliber Trainer Report', () => {
+>>>>>>> 0ecf21353b91ba4e429edfd27a32e307182dede1
   let page: AppPage;
 
   beforeEach(() => {
     page = new AppPage();
   });
 
-  // it('should display test chart message', () => {
-  //   page.navigateTo();
-  //   expect(page.getTitleText()).toEqual('test-chart works!');
-  // });
+  it('should display the title of the application on the navbar on wide screen', () => {
+    page.navigateTo();
+    expect(page.getNavBarTitle(1920, 1080)).toEqual('CALIBER TRAINER REPORT');
+  });
+
+  it('should display Revature icon on navbar', () => {
+    page.navigateTo();
+    expect(page.getNavBarRevatureIcon().isPresent()).toBe(true);
+  });
+
+  it('should display QC button on navbar', () => {
+    page.navigateTo();
+    expect(page.getNavBarViewQCReportsButton(1920, 1080).getText()).toBe('View QC Reports');
+  });
   
-  //
-  it('should display only good chart message', () => {
-    
-  });
-
-  // test case is set to good change it to look at bad results
-  it('should change the display to only bad', () =>{
-
-  });
-
-  // test case to test if the number of charts are showing up properly
-  // in the QC overview, when the screen is Big.
-  it('should display all graphs', () =>{
+  it('should display Assessment button on navbar', () => {
     page.navigateTo();
-    expect(page.getAllGraphs().count()).toBe(2);
+    expect(page.getNavBarViewAssessmentReportsButton(1920, 1080).getText()).toBe('View Assessment Reports');
   });
 
-  // test case to test if the number of charts are showing up properly
-  // in the QC overview, when the screen is not Big.
-  it('should display all graphs', () =>{
+  it('should display QC button under Hamburger collapse button', () => {
     page.navigateTo();
-    expect(page.getAllGraphsMobileView().count()).toBe(2);
+    browser.driver.manage().window().setSize(315, 812);
+    element(by.css('app-main-nav-bar .hambIcon')).click();
+    expect(element(by.css('[href="/qc"]')).getText()).toBe('View QC Reports');
   });
 
+  it('should display Assessment button under Hamburger collapse button', () => {
+    page.navigateTo();
+    browser.driver.manage().window().setSize(315, 812);
+    element(by.css('app-main-nav-bar .hambIcon')).click();
+    expect(element(by.css('[href="/assessment"]')).getText()).toBe('View Assessment Reports');
+  });
 
+  it('should navigate to QC assessment reports page from Homepage', () => {
+    page.navigateTo();
+    page.getNavBarViewQCReportsButton(1920, 1080).click();
+    expect(element(by.css('app-qc h2')).getText()).toBe('QC Technical Status');
+  });
 
-  // afterEach(async () => {
-  //   // Assert that there are no errors emitted from the browser
-  //   const logs = await browser.manage().logs().get(logging.Type.BROWSER);
-  //   expect(logs).not.toContain(jasmine.objectContaining({
-  //     level: logging.Level.SEVERE,
-  //   } as logging.Entry));
-  // });
+  it('should navigate to QC assessment reports page from Homepage', () => {
+    page.navigateTo();
+    page.getNavBarViewAssessmentReportsButton(1920, 1080).click();
+    expect(element(by.css('app-assessment h2')).getText()).toBe('Assessment Technical Status');
+  });
+
 });
