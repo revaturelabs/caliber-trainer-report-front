@@ -146,6 +146,7 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
     if (this.myGraph) {
       this.myGraph.destroy();
     }
+    const graphText = 'Percent of each QC technical status per batch';
     this.myGraph = new Chart('firstChart', {
       type: 'bar',
       data: {
@@ -175,45 +176,7 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
           },
         ],
       },
-      options: {
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-                suggestedMax: 100,
-                callback(value, index, values) {
-                  return value + '%';
-                },
-              },
-            },
-          ],
-        },
-        title: {
-          display: true,
-          text: 'Percent of each QC technical status per batch',
-        },
-        responsive: true,
-        hover: {
-          mode: 'nearest',
-          intersect: true,
-        },
-        tooltips: {
-          callbacks: {
-            label: (tooltipItem, data) => {
-              if (tooltipItem.yLabel === 0.5) {
-                tooltipItem.yLabel = 0;
-              }
-              return (
-                data.datasets[tooltipItem.datasetIndex].label +
-                ': ' +
-                tooltipItem.yLabel +
-                '%'
-              );
-            },
-          },
-        },
-      },
+      options: this.displayGraphService.graphOptions(graphText)
     });
 
     let superstarTotal = 0;

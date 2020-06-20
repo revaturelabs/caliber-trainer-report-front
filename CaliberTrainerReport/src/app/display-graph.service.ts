@@ -24,4 +24,48 @@ export class DisplayGraphService {
     }
     return isBig;
     }
+
+    graphOptions(titleText) {
+      const graphOpt = {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+                suggestedMax: 100,
+                callback(value) {
+                  return value + '%';
+                },
+              },
+            },
+          ],
+        },
+        title: {
+          display: true,
+          text: titleText,
+        },
+        responsive: true,
+        hover: {
+          mode: 'nearest',
+          intersect: true,
+        },
+        tooltips: {
+          callbacks: {
+            label: (tooltipItem, data) => {
+              if (tooltipItem.yLabel === 0.5) {
+                tooltipItem.yLabel = 0;
+              }
+              return (
+                data.datasets[tooltipItem.datasetIndex].label +
+                ': ' +
+                tooltipItem.yLabel +
+                '%'
+              );
+            },
+          },
+        },
+      };
+
+      return graphOpt;
+    }
 }

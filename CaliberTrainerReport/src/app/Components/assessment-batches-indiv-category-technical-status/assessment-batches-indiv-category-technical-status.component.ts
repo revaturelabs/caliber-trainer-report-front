@@ -129,7 +129,7 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
     if (this.myBarGraph) {
       this.myBarGraph.destroy();
     }
-
+    const graphText = 'Percent of each assessment technical status by category';
     this.myBarGraph = new Chart('fifthChart', {
       type: 'bar',
       data: {
@@ -172,45 +172,7 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
           },
         ],
       },
-      options: {
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-                suggestedMax: 100,
-                callback(value, index, values) {
-                  return value + '%';
-                },
-              },
-            },
-          ],
-        },
-        title: {
-          display: true,
-          text: `Percent of each assessment technical status by category`,
-        },
-        responsive: true,
-        hover: {
-          mode: 'nearest',
-          intersect: true,
-        },
-        tooltips: {
-          callbacks: {
-            label: (tooltipItem, data) => {
-              if (tooltipItem.yLabel === 0.5) {
-                tooltipItem.yLabel = 0;
-              }
-              return (
-                data.datasets[tooltipItem.datasetIndex].label +
-                ': ' +
-                tooltipItem.yLabel +
-                '%'
-              );
-            },
-          },
-        },
-      },
+      options: this.displayGraphService.graphOptions(graphText)
     });
   }
 
