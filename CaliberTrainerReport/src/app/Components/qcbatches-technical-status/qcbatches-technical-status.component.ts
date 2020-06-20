@@ -198,7 +198,7 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
         },
         tooltips: {
           callbacks: {
-            label: function (tooltipItem, data) {
+            label: (tooltipItem, data) => {
               if (tooltipItem.yLabel === 0.5) {
                 tooltipItem.yLabel = 0;
               }

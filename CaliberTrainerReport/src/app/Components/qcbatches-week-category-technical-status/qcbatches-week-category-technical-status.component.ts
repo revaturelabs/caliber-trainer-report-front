@@ -135,7 +135,7 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit, On
         },
         tooltips: {
           callbacks: {
-            label: function (tooltipItem, data) {
+            label: (tooltipItem, data) => {
               return (
                 data.datasets[tooltipItem.datasetIndex].label +
                 ': ' +

@@ -46,7 +46,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
     this.categoriesObj = [];
     this.batchNames = [];
     this.yValues = [];
- 
+
 
     this.pickedCategory = 0;
 
@@ -62,7 +62,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
           for (const indivScore of stuff.assessments) {
             total += indivScore;
           }
-          this.yValues.push(Math.round((total / stuff.assessments.length)*100)/100);
+          this.yValues.push(Math.round((total / stuff.assessments.length) * 100) / 100);
         }
         for (const score of resp.categories[0].batchAssessments) {
           this.batchNames.push(score.batchName);
@@ -83,7 +83,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
       if (isNaN(total / stuff.assessments.length)) {
         this.yValues.push(0);
       } else {
-        this.yValues.push(Math.round((total / stuff.assessments.length)*100)/100);
+        this.yValues.push(Math.round((total / stuff.assessments.length) * 100) / 100);
       }
     }
 
@@ -146,7 +146,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
     if (this.assessmentTS.selectedValue === 'all') {
       this.width = window.innerWidth;
       if (this.width < 1281) {
-        //FOR MOBILE PHONE
+        // FOR MOBILE PHONE
         this.isBig = false;
 
         document.getElementById('divChart6').style.width = '80vw';
