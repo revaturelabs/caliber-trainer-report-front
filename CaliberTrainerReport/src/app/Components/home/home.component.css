@@ -1,26 +1,10 @@
- .card-layout {
+.card-layout {
     display: grid;
     grid-template-rows: 50px auto;
     margin: 0 auto;
     width: 80%;
     margin-bottom: 100px;
-    text-align: center;;
-}
-
-.card-title {
-    background-color: #ea753e;
-    align-items: center;
-    display: flex;
-    padding-left: 3vw;
-    font-size: 15pt;
-    color: white;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
-}
-
-.faDatabase {
-    margin-left: 15px;
-    transform: translateY(1px);
+    text-align: center;
 }
 
 .card-body {

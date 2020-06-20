@@ -116,7 +116,7 @@ tr:nth-of-type(even) {
     border-left: 1px solid #c8c8c8;
 }
 
-.lineGraphIcon, .barGraphIcon, .radarGraphIcon {
+.lineGraphIcon, .barGraphIcon, .radarGraphIcon, .faDatabase {
     margin-left: 8px;
     transform: translateY(1px);
 }
