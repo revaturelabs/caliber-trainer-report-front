@@ -25,8 +25,8 @@
             </h4>
             <table>
                 <caption></caption>
-                <th></th>
-                <th *ngFor="let batch of batchNames; let i = index">{{batch}}</th>
+                <th scope="col"></th>
+                <th scope="col" *ngFor="let batch of batchNames; let i = index">{{batch}}</th>
                 <tr>
                     <td class="description">{{categoriesName[pickedCategory]}}</td>
                     <td *ngFor="let score of yValues; let i = index">{{score}}%</td>

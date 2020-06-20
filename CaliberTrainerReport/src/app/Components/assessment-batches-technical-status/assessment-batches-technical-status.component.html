@@ -17,20 +17,15 @@
             </canvas>
         </div>        
     <div *ngIf="selectedValue == 'status'" class="extraDataTable">
-    <hr class="breakPoint">
-    <h4 class="tableTitle">
-        Raw Assessment Technical Status
-    </h4>
-    <table>
-        <th></th>
-        <th *ngFor="let name of scoreNames; let i = index">{{name}}</th>
-        <tr><td class="description score-text" >{{batchNames[pickedBatch]}}</td>  <td class="leftColumnStyle" *ngFor="let batch of batchesObj" >{{batch}}%</td></tr> 
-
-
-    </table>
-     
-    
-    
+        <hr class="breakPoint">
+        <h4 class="tableTitle">
+            Raw Assessment Technical Status
+        </h4>
+        <table>
+            <th scope="col"></th>
+            <th scope="col" *ngFor="let name of scoreNames; let i = index">{{name}}</th>
+            <tr><td class="description score-text" >{{batchNames[pickedBatch]}}</td><td class="leftColumnStyle" *ngFor="let batch of batchesObj">{{batch}}%</td></tr>
+        </table>
     </div>
 
 </div>

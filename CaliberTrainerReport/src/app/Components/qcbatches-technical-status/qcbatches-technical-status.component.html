@@ -15,8 +15,8 @@
                 <fa-icon class="" [icon]="tableGraphIcon"></fa-icon>
             </h4>
             <table>
-                <th></th>
-                <th *ngFor="let batch of batchNames; let i = index">{{batch}}</th>
+                <th scope="col"></th>
+                <th scope="col" *ngFor="let batch of batchNames; let i = index">{{batch}}</th>
                 <tr><td class="description superstar-text">Superstar</td>  <td class="leftColumnStyle" *ngFor="let super of superstarRawData">{{super}}</td></tr>
                 <tr><td class="description good-text">Good</td> <td class="leftColumnStyle" *ngFor="let good of goodRawData">{{good}}</td></tr>
                 <tr><td class="description average-text">Average</td> <td class="leftColumnStyle" *ngFor="let average of averageRawData">{{average}}</td></tr>
