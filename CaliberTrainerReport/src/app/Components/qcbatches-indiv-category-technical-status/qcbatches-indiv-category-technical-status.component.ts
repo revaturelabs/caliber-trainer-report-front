@@ -58,27 +58,7 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
           this.categoriesName.push(obj.categoryName);
           this.categoriesObj.push(obj.batches);
         }
-
-        for (const stuff of this.categoriesObj[this.pickedCategory]) {
-          const score = stuff.score;
-          let totalValue = 0;
-          let quantity = 0;
-
-          this.poorRawScore.push(score.poor);
-          this.averageRawScore.push(score.average);
-          this.goodRawScore.push(score.good);
-          this.superstarRawScore.push(score.superstar);
-
-          totalValue =
-            score.poor * 0 +
-            score.average * 1 +
-            score.good * 2 +
-            score.superstar * 3;
-          quantity = score.poor + score.average + score.good + score.superstar;
-
-          this.yValues.push(Math.round((totalValue / quantity) * 100) / 100);
-        }
-
+        this.setScoreValues();
         for (const score of resp.batchByCategory[0].batches) {
           this.batchNames.push(score.batchName);
         }
@@ -93,6 +73,12 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
     this.averageRawScore = [];
     this.goodRawScore = [];
     this.superstarRawScore = [];
+
+    this.setScoreValues();
+    this.displayGraph(this.batchNames, this.yValues);
+  }
+
+  setScoreValues() {
     for (const stuff of this.categoriesObj[this.pickedCategory]) {
       const score = stuff.score;
       let totalValue = 0;
@@ -108,15 +94,20 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
         score.average * 1 +
         score.good * 2 +
         score.superstar * 3;
-      quantity = score.poor + score.average + score.good + score.superstar;
+      quantity =
+        score.poor +
+        score.average +
+        score.good +
+        score.superstar;
 
       if (isNaN(totalValue / quantity)) {
         this.yValues.push(0);
       } else {
-        this.yValues.push(Math.round((totalValue / quantity) * 100) / 100);
+        this.yValues.push(
+          Math.round((totalValue / quantity) * 100) / 100
+        );
       }
     }
-    this.displayGraph(this.batchNames, this.yValues);
   }
 
   displayGraph(batchDisplayNames: string[], yDisplayValues: any[]) {
