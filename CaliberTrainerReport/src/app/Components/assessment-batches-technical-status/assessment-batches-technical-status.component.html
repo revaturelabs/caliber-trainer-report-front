@@ -7,11 +7,11 @@
         <div class="batches-dropdown">
             <select id="assessment-graph-selector" (change)="updateGraph()" [(ngModel)]="pickedBatch">
                 <option *ngFor="let batch of batchNames; let i = index" [value]="i" >{{batch}}</option>
-              </select>
+            </select>
         </div>
     </div>
     <div class="card-body">
-        <div id="divChart">
+        <div id="divChart4" class="divChart">
             <canvas id="fourthChart"> 
         
             </canvas>

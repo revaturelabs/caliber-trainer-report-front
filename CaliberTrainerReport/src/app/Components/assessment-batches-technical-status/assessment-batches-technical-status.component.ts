@@ -119,25 +119,26 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
   }
 
   graphAdjust() {
+    const chartElem = document.getElementById('divChart4');
     if (this.assessmentTS.selectedValue === 'all') {
       this.width = window.innerWidth;
       if (this.width < 1281) {
         // FOR MOBILE PHONE
         this.isBig = false;
 
-        document.getElementById('divChart').style.width = '80vw';
+        chartElem.style.width = '80vw';
       } else {
         this.isBig = true;
-
-        document.getElementById('divChart').style.width = '45vw';
+        chartElem.style.width = '45vw';
       }
     } else {
-      document.getElementById('divChart').style.width = '90vw';
+      chartElem.style.width = '90vw';
     }
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
+    const chartElem = document.getElementById('divChart4');
     if (this.assessmentTS.selectedValue === 'all') {
       this.width = window.innerWidth;
 
@@ -145,14 +146,14 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
         // FOR MOBILE PHONE
         this.isBig = false;
 
-        document.getElementById('divChart').style.width = '80vw';
+        chartElem.style.width = '80vw';
       } else {
         this.isBig = true;
 
-        document.getElementById('divChart').style.width = '45vw';
+        chartElem.style.width = '45vw';
       }
     } else {
-      document.getElementById('divChart').style.width = '90vw';
+      chartElem.style.width = '90vw';
     }
   }
 
