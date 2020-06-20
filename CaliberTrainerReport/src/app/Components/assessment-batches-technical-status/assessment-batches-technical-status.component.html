@@ -18,10 +18,12 @@
         </div>        
     <div *ngIf="selectedValue == 'status'" class="extraDataTable">
         <hr class="breakPoint">
-        <h4 class="tableTitle">
-            Raw Assessment Technical Status
-        </h4>
         <table>
+            <caption>
+                <h4 class="tableTitle">
+                    {{batchNames[pickedBatch]}} Raw Assessment Scores
+                </h4>
+            </caption>
             <th scope="col"></th>
             <th scope="col" *ngFor="let name of scoreNames; let i = index">{{name}}</th>
             <tr><td class="description score-text" >{{batchNames[pickedBatch]}}</td><td class="leftColumnStyle" *ngFor="let batch of batchesObj">{{batch}}%</td></tr>

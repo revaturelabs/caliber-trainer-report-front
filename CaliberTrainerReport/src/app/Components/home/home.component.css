@@ -1,7 +1,6 @@
  .card-layout {
     display: grid;
     grid-template-rows: 50px auto;
-    margin-top: 30px;
     margin: 0 auto;
     width: 80%;
     margin-bottom: 100px;
