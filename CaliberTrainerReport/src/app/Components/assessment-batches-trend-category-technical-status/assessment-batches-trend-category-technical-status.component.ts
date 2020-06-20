@@ -4,6 +4,7 @@ import { faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
 import { SixthChartService } from 'src/app/sixth-chart.service';
 import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
 import { Subscription } from 'rxjs';
+import { DisplayGraphService } from 'src/app/display-graph.service';
 
 
 @Component({
@@ -35,7 +36,8 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
 
   constructor(
     private sixthChartService: SixthChartService,
-    private assessmentTS: AssessmentComponent
+    private assessmentTS: AssessmentComponent,
+    private displayGraphService: DisplayGraphService
   ) {}
 
   ngOnInit(): void {
@@ -144,21 +146,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
 
   graphAdjust() {
     const chartElem = document.getElementById('divChart6');
-    if (this.assessmentTS.selectedValue === 'all') {
-      this.width = window.innerWidth;
-      if (this.width < 1281) {
-        // FOR MOBILE PHONE
-        this.isBig = false;
-
-        chartElem.style.width = '80vw';
-      } else {
-        this.isBig = true;
-
-        chartElem.style.width = '45vw';
-      }
-    } else {
-      chartElem.style.width = '90vw';
-    }
+    this.isBig = this.displayGraphService.graphAdjust(chartElem, this.assessmentTS.selectedValue, this.isBig);
   }
 
   @HostListener('window:resize', ['$event'])

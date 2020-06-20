@@ -4,6 +4,7 @@ import { Chart } from 'node_modules/chart.js';
 import { FourthChartService } from 'src/app/fourth-chart.service';
 import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
 import { Subscription } from 'rxjs';
+import { DisplayGraphService } from 'src/app/display-graph.service';
 
 @Component({
   selector: 'app-assessment-batches-technical-status',
@@ -26,7 +27,8 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
 
   constructor(
     private fourthChartService: FourthChartService,
-    private assessmentTS: AssessmentComponent
+    private assessmentTS: AssessmentComponent,
+    private displayGraphService: DisplayGraphService
   ) {}
 
   ngOnInit(): void {
@@ -120,20 +122,12 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
 
   graphAdjust() {
     const chartElem = document.getElementById('divChart4');
-    if (this.assessmentTS.selectedValue === 'all') {
-      this.width = window.innerWidth;
-      if (this.width < 1281) {
-        // FOR MOBILE PHONE
-        this.isBig = false;
+    this.isBig = this.displayGraphService.graphAdjust(
+          chartElem,
+          this.assessmentTS.selectedValue,
+          this.isBig
+        );
 
-        chartElem.style.width = '80vw';
-      } else {
-        this.isBig = true;
-        chartElem.style.width = '45vw';
-      }
-    } else {
-      chartElem.style.width = '90vw';
-    }
   }
 
   @HostListener('window:resize', ['$event'])

@@ -4,6 +4,7 @@ import { Chart } from 'node_modules/chart.js';
 import { FifthChartService } from 'src/app/fifth-chart.service';
 import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
 import { Subscription } from 'rxjs';
+import { DisplayGraphService } from 'src/app/display-graph.service';
 
 
 @Component({
@@ -40,7 +41,8 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
 
   constructor(
     private fifthChartService: FifthChartService,
-    private assessmentTS: AssessmentComponent
+    private assessmentTS: AssessmentComponent,
+    private displayGraphService: DisplayGraphService
   ) {}
 
   ngOnInit(): void {
@@ -213,21 +215,13 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
   }
 
   graphAdjust() {
-    if (this.assessmentTS.selectedValue === 'all') {
-      this.width = window.innerWidth;
-      if (this.width < 1281) {
-        // FOR MOBILE PHONE
-        this.isBig = false;
+    const chartElem = document.getElementById('divChart5');
+    this.isBig = this.displayGraphService.graphAdjust(
+          chartElem,
+          this.assessmentTS.selectedValue,
+          this.isBig
+        );
 
-        document.getElementById('divChart5').style.width = '80vw';
-      } else {
-        this.isBig = true;
-
-        document.getElementById('divChart5').style.width = '45vw';
-      }
-    } else {
-      document.getElementById('divChart5').style.width = '90vw';
-    }
   }
 
   @HostListener('window:resize', ['$event'])

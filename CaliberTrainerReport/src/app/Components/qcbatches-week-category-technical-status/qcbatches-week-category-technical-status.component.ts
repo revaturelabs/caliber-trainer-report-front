@@ -4,6 +4,7 @@ import { Chart } from 'node_modules/chart.js';
 import { ThirdChartService } from 'src/app/third-chart.service';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
+import { DisplayGraphService } from 'src/app/display-graph.service';
 
 @Component({
   selector: 'app-qcbatches-week-category-technical-status',
@@ -39,7 +40,8 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit, On
 
   constructor(
     private thirdChartService: ThirdChartService,
-    private qcTS: QCComponent
+    private qcTS: QCComponent,
+    private displayGraphService: DisplayGraphService
   ) {}
 
   ngOnInit(): void {
@@ -225,21 +227,11 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit, On
 
   graphAdjust() {
     const chartElem = document.getElementById('divChart3');
-    if (this.qcTS.selectedValue === 'all') {
-      this.width = window.innerWidth;
-      if (this.width < 1281) {
-        // FOR MOBILE PHONE
-        this.isBig = false;
-
-        chartElem.style.width = '80vw';
-      } else {
-        this.isBig = true;
-
-        chartElem.style.width = '45vw';
-      }
-    } else {
-      chartElem.style.width = '90vw';
-    }
+    this.isBig = this.displayGraphService.graphAdjust(
+      chartElem,
+      this.qcTS.selectedValue,
+      this.isBig
+    );
   }
 
   @HostListener('window:resize', ['$event'])
