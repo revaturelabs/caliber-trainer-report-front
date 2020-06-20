@@ -41,14 +41,10 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
     this.scoreNames = ['Exam', 'Verbal', 'Presentation', 'Project', 'Other'];
     this.fourthChartServiceSubscription = this.fourthChartService.getAssessmentByBatch().subscribe((resp) => {
       this.allBatches = resp;
-      for (const [index, value] of this.allBatches.entries()) {
-        for (
-          let j = 0;
-          j < this.allBatches[index].assessmentScores.length;
-          j++
-        ) {
-          this.allBatches[index].assessmentScores[j] =
-            Math.round(this.allBatches[index].assessmentScores[j] * 100) / 100;
+      for (const i of this.allBatches.keys()) {
+        for (const [j, value] of this.allBatches[i].assessmentScores.entries()) {
+          this.allBatches[i].assessmentScores[j] =
+            Math.round(value * 100) / 100;
         }
       }
 
