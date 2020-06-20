@@ -143,41 +143,27 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
   }
 
   graphAdjust() {
+    const chartElem = document.getElementById('divChart6');
     if (this.assessmentTS.selectedValue === 'all') {
       this.width = window.innerWidth;
       if (this.width < 1281) {
         // FOR MOBILE PHONE
         this.isBig = false;
 
-        document.getElementById('divChart6').style.width = '80vw';
+        chartElem.style.width = '80vw';
       } else {
         this.isBig = true;
 
-        document.getElementById('divChart6').style.width = '45vw';
+        chartElem.style.width = '45vw';
       }
     } else {
-      document.getElementById('divChart6').style.width = '90vw';
+      chartElem.style.width = '90vw';
     }
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    if (this.assessmentTS.selectedValue === 'all') {
-      this.width = window.innerWidth;
-
-      if (this.width < 1281) {
-        // FOR MOBILE PHONE
-        this.isBig = false;
-
-        document.getElementById('divChart6').style.width = '80vw';
-      } else {
-        this.isBig = true;
-
-        document.getElementById('divChart6').style.width = '45vw';
-      }
-    } else {
-      document.getElementById('divChart6').style.width = '90vw';
-    }
+  onResize() {
+    this.graphAdjust();
   }
 
   // This method selects the large view of the graph when double clicking the graph title.

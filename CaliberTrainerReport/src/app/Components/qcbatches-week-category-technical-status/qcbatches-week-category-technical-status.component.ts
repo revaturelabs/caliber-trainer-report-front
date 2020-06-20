@@ -243,24 +243,8 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit, On
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    const chartElem = document.getElementById('divChart3');
-    if (this.qcTS.selectedValue === 'all') {
-      this.width = window.innerWidth;
-
-      if (this.width < 1281) {
-        // FOR MOBILE PHONE
-        this.isBig = false;
-
-        chartElem.style.width = '80vw';
-      } else {
-        this.isBig = true;
-
-        chartElem.style.width = '45vw';
-      }
-    } else {
-      chartElem.style.width = '90vw';
-    }
+  onResize() {
+    this.graphAdjust();
   }
 
   // This method selects the large view of the graph when double clicking the graph title.
