@@ -33,4 +33,21 @@ export class AppPage {
     element(by.css('input[type="submit"]')).click();
   }
 
+  navigateToReportsPage(reportPage: string){
+    this.navigateTo();
+    this.uploadTestJSONFile();
+    if (reportPage === 'QC'){
+      this.getNavBarViewQCReportsButton(1920, 1080).click();
+    }else {
+      this. getNavBarViewAssessmentReportsButton(1920, 1080).click();
+    }
+  }
+
+  testQCTables(chartName: string){
+    let graphWidth;
+    graphWidth = element(by.id(chartName)).getAttribute('width');
+    expect(graphWidth).toBeGreaterThan(1000);
+    expect(element(by.xpath('//table/th[2]')).isPresent()).toBe(true);
+  }
+
 }

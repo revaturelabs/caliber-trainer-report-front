@@ -128,39 +128,65 @@ fdescribe('(POSITIVE)Testing file upload and graph display', () => {
 
   // 12
   it('should display qc batches technical status chart after json file upload', () => {
-    page.navigateTo();
-    page.uploadTestJSONFile();
-    page.getNavBarViewQCReportsButton(1920, 1080).click();
+    page.navigateToReportsPage('QC');
     expect(element(by.css('app-qcbatches-technical-status #divChart1 .chartjs-render-monitor')).isPresent()).toBe(true);
   });
 
   // 13
   it('should display qc batches individual category technical status chart after json file upload', () => {
-    page.navigateTo();
-    page.uploadTestJSONFile();
-    page.getNavBarViewQCReportsButton(1920, 1080).click();
+    page.navigateToReportsPage('QC');
     expect(element(by.css('app-qcbatches-indiv-category-technical-status #divChart2 .chartjs-render-monitor')).isPresent()).toBe(true);
   });
 
   // 14
   it('should display qc week category technical status chart after json file upload', () => {
-    page.navigateTo();
-    page.uploadTestJSONFile();
-    page.getNavBarViewQCReportsButton(1920, 1080).click();
+    page.navigateToReportsPage('QC');
     expect(element(by.css('app-qcbatches-week-category-technical-status #divChart3 .chartjs-render-monitor')).isPresent()).toBe(true);
   });
 
   // 18
-  fit('should full display the first graph and show graph raw data in table when dropdown for the graph is selected', () => {
-    page.navigateTo();
-    page.uploadTestJSONFile();
-    page.getNavBarViewQCReportsButton(1920, 1080).click();
+  it('should full display the first graph and show graph raw data in table when dropdown for the graph is selected', () => {
+    page.navigateToReportsPage('QC');
     element(by.id('qc-graph-selector')).click();
     element(by.css('[value="status"]')).click();
-    let graphWidth;
-    graphWidth = element(by.id('firstChart')).getAttribute('width');
-    expect(graphWidth).toBeGreaterThan(1000);
-    expect(element(by.xpath('//table/th[2]')).isPresent()).toBe(true);
+    page.testQCTables('firstChart');
+  });
+
+  // 19
+  it('should full display the second graph and show graph raw data in table when dropdown for the graph is selected', () => {
+    page.navigateToReportsPage('QC');
+    element(by.id('qc-graph-selector')).click();
+    element(by.css('[value="individual"]')).click();
+    page.testQCTables('secondChart');
+  });
+
+  // 20
+  it('should full display the third graph and show graph raw data in table when dropdown for the graph is selected', () => {
+    page.navigateToReportsPage('QC');
+    element(by.id('qc-graph-selector')).click();
+    element(by.css('[value="week"]')).click();
+    page.testQCTables('thirdChart');
+  });
+
+  // 21
+  it('should full display the first graph when double clicking the first graph title', () => {
+    page.navigateToReportsPage('QC');
+    browser.actions().doubleClick(element(by.css('app-qcbatches-technical-status .card-title'))).perform();
+    page.testQCTables('firstChart');
+  });
+
+  // 22
+  it('should full display the second graph when double clicking the second graph title', () => {
+    page.navigateToReportsPage('QC');
+    browser.actions().doubleClick(element(by.css('app-qcbatches-indiv-category-technical-status .card-title'))).perform();
+    page.testQCTables('secondChart');
+  });
+
+  // 23
+  fit('should full display the third graph when double clicking the second graph title', () => {
+    page.navigateToReportsPage('QC');
+    browser.actions().doubleClick(element(by.css('app-qcbatches-week-category-technical-status .card-title'))).perform();
+    page.testQCTables('thirdChart');
   });
 
 });
