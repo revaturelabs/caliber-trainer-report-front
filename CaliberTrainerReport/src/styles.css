@@ -22,7 +22,7 @@ body{
     border-top-left-radius: 10px;
 }
 
-#divChart {
+#divChart, .divChart {
     display: block;
     position: relative; 
     width: 45vw;
@@ -116,3 +116,12 @@ tr:nth-of-type(even) {
     border-left: 1px solid #c8c8c8;
 }
 
+.lineGraphIcon, .barGraphIcon, .radarGraphIcon, .faDatabase {
+    margin-left: 8px;
+    transform: translateY(1px);
+}
+
+.category-dropdown, .batches-dropdown{
+    margin-left: auto;
+    margin-right: 2vw;
+}

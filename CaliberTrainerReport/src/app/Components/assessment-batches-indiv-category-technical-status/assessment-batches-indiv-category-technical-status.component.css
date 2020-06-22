@@ -1,17 +1,1 @@
-
-.batches-dropdown{
-    margin-left: auto;
-    margin-right: 2vw;
-}
-
-.barGraphIcon {
-    margin-left: 15px;
-    transform: translateY(1px);
-}
-
-#divChart5 {
-    display: block;
-    position: relative; 
-    width: 45vw;
-    margin: 0 auto;
-}
+/* CSS is located in main style.css */

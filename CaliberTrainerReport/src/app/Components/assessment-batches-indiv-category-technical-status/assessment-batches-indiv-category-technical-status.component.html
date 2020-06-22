@@ -1,10 +1,10 @@
 <div class="card-layout">
-    <div class="card-title">
+    <div class="card-title" (dblclick)="doubleClickGraph5()">
         <span>Assessment Scores According to Category</span>
         <fa-icon class="barGraphIcon" [icon]="barGraphIcon"></fa-icon>
     </div>
     <div class="card-body">
-        <div id="divChart5">
+        <div id="divChart5" class="divChart">
             <canvas id="fifthChart"> 
         
             </canvas>
@@ -18,8 +18,8 @@
             </h4>
             <table>
                 <caption></caption>
-                <th></th>
-                <th *ngFor="let category of categories; let i = index">{{category}}</th>
+                <th scope="col"></th>
+                <th scope="col" *ngFor="let category of categories; let i = index">{{category}}</th>
                 <tr><td class="description exam-text">Exam</td>  <td class="leftColumnStyle" *ngFor="let exam of examRawScores">{{exam}}</td></tr>
                 <tr><td class="description verbal-text">Verbal</td> <td class="leftColumnStyle" *ngFor="let verbal of verbalRawScores">{{verbal}}</td></tr>
                 <tr><td class="description presentation-text">Presentation</td> <td class="leftColumnStyle" *ngFor="let presentation of presentationRawScores">{{presentation}}</td></tr>

@@ -1,15 +1,18 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { faChartBar } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
 import { ThirdChartService } from 'src/app/third-chart.service';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
+import { Subscription } from 'rxjs';
+import { DisplayGraphService } from 'src/app/display-graph.service';
 
 @Component({
   selector: 'app-qcbatches-week-category-technical-status',
   templateUrl: './qcbatches-week-category-technical-status.component.html',
-  styleUrls: ['./qcbatches-week-category-technical-status.component.css']
+  styleUrls: ['./qcbatches-week-category-technical-status.component.css'],
 })
-export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
+export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit, OnDestroy {
+  private thirdChartServiceSubscription: Subscription;
   barGraphIcon = faChartBar;
   width: number;
   isBig: boolean;
@@ -35,20 +38,23 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
 
   myGraph: any;
 
-  constructor(private thirdChartService: ThirdChartService, private qcTS: QCComponent) { }
+  constructor(
+    private thirdChartService: ThirdChartService,
+    private qcTS: QCComponent,
+    private displayGraphService: DisplayGraphService
+  ) {}
 
   ngOnInit(): void {
     this.selectedValue = this.qcTS.selectedValue;
     this.graphAdjust();
     // This method receives the JSON object from the URL GET request
-    this.thirdChartService.getTechnicalStatusByWeek().subscribe(
-      resp => {
-        this.thirdGraphObj = resp;
+    this.thirdChartServiceSubscription = this.thirdChartService.getTechnicalStatusByWeek().subscribe((resp) => {
+      this.thirdGraphObj = resp;
 
-        this.batches = this.getBatches();
-        this.pickedBatch = this.batches[0];
-        this.displayGraph();
-      });
+      this.batches = this.getBatches();
+      this.pickedBatch = this.batches[0];
+      this.displayGraph();
+    });
   }
 
   // returns array of the batch ids (need for populating batch drop-down list)
@@ -80,7 +86,7 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
             backgroundColor: '#2196f3',
             backgroundHoverColor: '#2196f3',
             borderWidth: 1,
-            fill: false
+            fill: false,
           },
           {
             label: 'Good',
@@ -88,30 +94,30 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
             backgroundColor: '#3fe86c',
             backgroundHoverColor: '#3fe86c',
             borderWidth: 1,
-            fill: false
+            fill: false,
           },
           {
             label: 'Average',
             data: this.getAverageScores(this.pickedBatch),
             backgroundColor: '#ebc634',
             backgroundHoverColor: '#ebc634',
-            borderWidth: 1
+            borderWidth: 1,
           },
           {
             label: 'Poor',
             data: this.getPoorScores(this.pickedBatch),
             backgroundColor: '#e33936',
             backgroundHoverColor: '#e33936',
-            borderWidth: 1
+            borderWidth: 1,
           },
           {
             label: 'Null',
             data: this.getNullScores(this.pickedBatch),
             backgroundColor: '#7a7b7d',
             backgroundHoverColor: '#7a7b7d',
-            borderWidth: 1
-          }
-        ]
+            borderWidth: 1,
+          },
+        ],
       },
       options: {
         scales: {
@@ -124,28 +130,33 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
                 suggestedMax: 50,
                 callback(value, index, values) {
                   return value + '%';
-                }
+                },
               },
             },
-          ]
+          ],
         },
         tooltips: {
           callbacks: {
-            label: function (tooltipItem, data) {
-              return data.datasets[tooltipItem.datasetIndex].label + ": " + tooltipItem.yLabel + "%";
-            }
-          }
+            label: (tooltipItem, data) => {
+              return (
+                data.datasets[tooltipItem.datasetIndex].label +
+                ': ' +
+                tooltipItem.yLabel +
+                '%'
+              );
+            },
+          },
         },
         title: {
           display: true,
-          text: 'Percent of each QC technical status per week'
+          text: 'Percent of each QC technical status per week',
         },
         responsive: true,
         hover: {
           mode: 'nearest',
-          intersect: true
+          intersect: true,
         },
-      }
+      },
     });
 
     const htmlElement = document.documentElement;
@@ -215,43 +226,32 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit {
   }
 
   graphAdjust() {
-    if (this.qcTS.selectedValue === 'all') {
-      this.width = window.innerWidth;
-      if (this.width < 1281) {
-       // FOR MOBILE PHONE
-        this.isBig = false;
-
-        document.getElementById('divChart3').style.width = '80vw';
-      } else {
-        this.isBig = true;
-
-        document.getElementById('divChart3').style.width = '45vw';
-      }
-    } else {
-      document.getElementById('divChart3').style.width = '90vw';
-    }
+    const chartElem = document.getElementById('divChart3');
+    this.isBig = this.displayGraphService.graphAdjust(
+      chartElem,
+      this.qcTS.selectedValue,
+      this.isBig
+    );
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    if (this.qcTS.selectedValue === 'all') {
+  onResize() {
+    this.graphAdjust();
+  }
 
-      this.width = window.innerWidth;
-
-      if (this.width < 1281) {
-        // FOR MOBILE PHONE
-        this.isBig = false;
-
-        document.getElementById('divChart3').style.width = '80vw';
-      } else {
-        this.isBig = true;
-
-        document.getElementById('divChart3').style.width = '45vw';
-      }
+  // This method selects the large view of the graph when double clicking the graph title.
+  doubleClickGraph3(): void {
+    const graphSelector = document.getElementById(
+      'qc-graph-selector'
+    ) as HTMLSelectElement;
+    if (graphSelector.value === 'week') {
+      graphSelector.value = 'all';
     } else {
-      document.getElementById('divChart3').style.width = '90vw';
-
+      graphSelector.value = 'week';
     }
   }
 
+  ngOnDestroy() {
+    this.thirdChartServiceSubscription.unsubscribe();
+  }
 }

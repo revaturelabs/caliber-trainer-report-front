@@ -1,16 +1,20 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
 import { SecondChartService } from 'src/app/second-chart.service';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
+import { Subscription } from 'rxjs';
+import { DisplayGraphService } from 'src/app/display-graph.service';
 
 
 @Component({
   selector: 'app-qcbatches-indiv-category-technical-status',
   templateUrl: './qcbatches-indiv-category-technical-status.component.html',
-  styleUrls: ['./qcbatches-indiv-category-technical-status.component.css']
+  styleUrls: ['./qcbatches-indiv-category-technical-status.component.css'],
 })
-export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
+export class QCBatchesIndivCategoryTechnicalStatusComponent
+  implements OnInit, OnDestroy {
+  private secondChartServiceSubscription: Subscription;
   lineGraphIcon = faChartLine;
   tableGraphIcon = faTable;
   pickedCategory: any;
@@ -19,10 +23,9 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
   categoriesObj: any[];
   selectedValue: any;
   poorRawScore: any[];
-  averageRawScore:any[];
+  averageRawScore: any[];
   goodRawScore: any[];
   superstarRawScore: any[];
-
 
   batchNames: string[];
   yValues: any[];
@@ -31,7 +34,11 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
   width: number;
   isBig: boolean;
 
-  constructor(private secondChartService: SecondChartService, private qcTS: QCComponent) { }
+  constructor(
+    private secondChartService: SecondChartService,
+    private qcTS: QCComponent,
+    private displayGraphService: DisplayGraphService
+  ) {}
 
   ngOnInit(): void {
     this.selectedValue = this.qcTS.selectedValue;
@@ -42,53 +49,39 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
     this.batchNames = [];
     this.pickedCategory = 0;
     this.poorRawScore = [];
-    this.averageRawScore =[];
+    this.averageRawScore = [];
     this.goodRawScore = [];
     this.superstarRawScore = [];
 
-    this.secondChartService.getAvgCategoryScoresObservables().subscribe(
-      resp => {
+    this.secondChartServiceSubscription = this.secondChartService
+      .getAvgCategoryScoresObservables()
+      .subscribe((resp) => {
         for (const obj of resp.batchByCategory) {
           this.categoriesName.push(obj.categoryName);
           this.categoriesObj.push(obj.batches);
         }
-        console.log(this.categoriesObj);
-
-        for (const stuff of this.categoriesObj[this.pickedCategory]){
-          const score = stuff.score;
-          let totalValue = 0;
-          let quantity = 0;
-
-          this.poorRawScore.push(score.poor);
-          this.averageRawScore.push(score.average);
-          this.goodRawScore.push(score.good);
-          this.superstarRawScore.push(score.superstar);
-          
-
-          totalValue = (score.poor * 0) + (score.average * 1) + (score.good * 2) + (score.superstar * 3);
-          quantity = score.poor + score.average + score.good + score.superstar;
-
-          this.yValues.push(Math.round((totalValue / quantity) * 100) / 100);
-        }
-        console.log(this.averageRawScore);
-
+        this.setScoreValues();
         for (const score of resp.batchByCategory[0].batches) {
           this.batchNames.push(score.batchName);
         }
 
         this.displayGraph(this.batchNames, this.yValues);
-      }
-      
-    );
+      });
   }
 
   updateGraph() {
     this.yValues = [];
     this.poorRawScore = [];
-    this.averageRawScore =[];
+    this.averageRawScore = [];
     this.goodRawScore = [];
     this.superstarRawScore = [];
-    for (const stuff of this.categoriesObj[this.pickedCategory]){
+
+    this.setScoreValues();
+    this.displayGraph(this.batchNames, this.yValues);
+  }
+
+  setScoreValues() {
+    for (const stuff of this.categoriesObj[this.pickedCategory]) {
       const score = stuff.score;
       let totalValue = 0;
       let quantity = 0;
@@ -98,17 +91,25 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
       this.goodRawScore.push(score.good);
       this.superstarRawScore.push(score.superstar);
 
-      totalValue = (score.poor * 0) + (score.average * 1) + (score.good * 2) + (score.superstar * 3);
-      quantity = score.poor + score.average + score.good + score.superstar;
+      totalValue =
+        score.poor * 0 +
+        score.average * 1 +
+        score.good * 2 +
+        score.superstar * 3;
+      quantity =
+        score.poor +
+        score.average +
+        score.good +
+        score.superstar;
 
-      if (isNaN(totalValue / quantity)){
+      if (isNaN(totalValue / quantity)) {
         this.yValues.push(0);
-      }else {
-        this.yValues.push(Math.round((totalValue / quantity) * 100) / 100);
+      } else {
+        this.yValues.push(
+          Math.round((totalValue / quantity) * 100) / 100
+        );
       }
     }
-    this.displayGraph(this.batchNames, this.yValues);
-
   }
 
   displayGraph(batchDisplayNames: string[], yDisplayValues: any[]) {
@@ -120,87 +121,81 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent implements OnInit {
       0: 'Poor',
       1: 'Average',
       2: 'Good',
-      3: 'Superstar'
+      3: 'Superstar',
     };
 
     this.myLineChart = new Chart('secondChart', {
       type: 'line',
       data: {
         labels: batchDisplayNames,
-        datasets: [{
-          label: 'Overall Average', // Name the series
-          data: yDisplayValues, // Specify the data values array
-          fill: false,
-          borderColor: '#2196f3', // Add custom color border (Line)
-          backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
-          borderWidth: 1 // Specify bar border width
-        }]
+        datasets: [
+          {
+            label: 'Overall Average', // Name the series
+            data: yDisplayValues, // Specify the data values array
+            fill: false,
+            borderColor: '#2196f3', // Add custom color border (Line)
+            backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+            borderWidth: 1, // Specify bar border width
+          },
+        ],
       },
       options: {
         scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true,
-              suggestedMax: 3,
-              stepSize: 1,
-              callback(value, index, values) {
-                return yLabels[value];
-              }
-            }
-          }]
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+                suggestedMax: 3,
+                stepSize: 1,
+                callback(value, index, values) {
+                  return yLabels[value];
+                },
+              },
+            },
+          ],
         },
         title: {
           display: true,
-          text: `QC scores based on ${this.categoriesName[this.pickedCategory]}`
+          text: `QC scores based on ${
+            this.categoriesName[this.pickedCategory]
+          }`,
         },
         hover: {
           mode: 'nearest',
-          intersect: true
+          intersect: true,
         },
-      }
+      },
     });
   }
 
   graphAdjust() {
-    if (this.qcTS.selectedValue === 'all') {
-      this.width = window.innerWidth;
-      if (this.width < 1281) {
-         // FOR MOBILE PHONE
-        this.isBig = false;
+    const chartElem = document.getElementById('divChart2');
+    this.isBig = this.displayGraphService.graphAdjust(
+          chartElem,
+          this.qcTS.selectedValue,
+          this.isBig
+        );
 
-        document.getElementById('divChart2').style.width = '80vw';
-      } else {
-        this.isBig = true;
-
-        document.getElementById('divChart2').style.width = '45vw';
-      }
-    } else {
-      document.getElementById('divChart2').style.width = '90vw';
-    }
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    if (this.qcTS.selectedValue === 'all') {
+  onResize() {
+    this.graphAdjust();
+  }
 
-      this.width = window.innerWidth;
-
-      if (this.width < 1281) {
-        // FOR MOBILE PHONE
-        this.isBig = false;
-
-        document.getElementById('divChart2').style.width = '80vw';
-      } else {
-        this.isBig = true;
-
-        document.getElementById('divChart2').style.width = '45vw';
-      }
+  // This method selects the large view of the graph when double clicking the graph title.
+  doubleClickGraph2(): void {
+    const graphSelector = document.getElementById(
+      'qc-graph-selector'
+    ) as HTMLSelectElement;
+    if (graphSelector.value === 'individual') {
+      graphSelector.value = 'all';
     } else {
-      document.getElementById('divChart2').style.width = '90vw';
-
+      graphSelector.value = 'individual';
     }
   }
 
-
-
+  ngOnDestroy() {
+    this.secondChartServiceSubscription.unsubscribe();
+  }
 }
