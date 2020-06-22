@@ -2,7 +2,7 @@ import { AppPage } from './app.po';
 import { browser, by, element } from 'protractor';
 
 
-xdescribe('Testing Navigation and Top Navbar', () => {
+describe('Testing Navigation and Top Navbar', () => {
   let page: AppPage;
 
   beforeEach(() => {
@@ -112,7 +112,7 @@ describe('(NEGATIVE)Testing graph display', () => {
   });
 });
 
-fdescribe('(POSITIVE)Testing file upload and graph display', () => {
+describe('(POSITIVE)Testing file upload and graph display', () => {
   let page: AppPage;
 
   beforeEach(() => {
@@ -183,10 +183,38 @@ fdescribe('(POSITIVE)Testing file upload and graph display', () => {
   });
 
   // 23
-  fit('should full display the third graph when double clicking the second graph title', () => {
+  it('should full display the third graph when double clicking the third graph title', () => {
     page.navigateToReportsPage('QC');
     browser.actions().doubleClick(element(by.css('app-qcbatches-week-category-technical-status .card-title'))).perform();
     page.testQCTables('thirdChart');
+  });
+
+  // 24
+  it('should be able to navigate to the home page from the qc reports page by clicking the title', () => {
+    page.navigateToReportsPage('QC');
+    element(by.css('.mainTitle')).click();
+    expect(element(by.tagName('app-home')).isPresent()).toBe(true);
+  });
+
+  // 25
+  it('should be able to navigate to the home page from the assessment reports page by clicking the title', () => {
+    page.navigateToReportsPage('Assessment');
+    element(by.css('.mainTitle')).click();
+    expect(element(by.tagName('app-home')).isPresent()).toBe(true);
+  });
+
+  // 26
+  it('should navigate to the home page from the qc reports page by clicking the icon', () => {
+    page.navigateToReportsPage('QC');
+    element(by.css('.mainLogoIMG')).click();
+    expect(element(by.tagName('app-home')).isPresent()).toBe(true);
+  });
+
+  // 27
+  it('should navigate to the home page from the Assessments reports page by clicking the icon', () => {
+    page.navigateToReportsPage('Assessment');
+    element(by.css('.mainLogoIMG')).click();
+    expect(element(by.tagName('app-home')).isPresent()).toBe(true);
   });
 
 });
