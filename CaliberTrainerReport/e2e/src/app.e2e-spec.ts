@@ -92,22 +92,19 @@ describe('(NEGATIVE)Testing graph display', () => {
 
   // 15
   it('should not display qc batches technical status chart without uploading json file', () => {
-    page.navigateTo();
-    page.getNavBarViewQCReportsButton(1920, 1080).click();
+    page.navigateToReportsPage('QC');
     expect(element(by.css('app-qcbatches-technical-status #divChart1 .chartjs-render-monitor')).isPresent()).toBe(false);
   });
 
   // 16
   it('should not display qc batches individual category technical chart without uploading json file', () => {
-    page.navigateTo();
-    page.getNavBarViewQCReportsButton(1920, 1080).click();
+    page.navigateToReportsPage('QC');
     expect(element(by.css('app-qcbatches-indiv-category-technical-status #divChart2 .chartjs-render-monitor')).isPresent()).toBe(false);
   });
 
   // 17
   it('should not display qc week category technical chart without uploading json file', () => {
-    page.navigateTo();
-    page.getNavBarViewQCReportsButton(1920, 1080).click();
+    page.navigateToReportsPage('QC');
     expect(element(by.css('app-qcbatches-week-category-technical-status #divChart3 .chartjs-render-monitor')).isPresent()).toBe(false);
   });
 });
@@ -146,33 +143,24 @@ describe('(POSITIVE)Testing file upload and graph display', () => {
 
   // 18
   it('should full display the first graph and show graph raw data in table when dropdown for the graph is selected', () => {
-    page.navigateToReportsPage('QC');
-    element(by.id('qc-graph-selector')).click();
-    element(by.css('[value="status"]')).click();
-    page.testQCTables('firstChart');
+    page.dropdownRawDataQCTest('status', 'firstChart');
   });
 
   // 19
   it('should full display the second graph and show graph raw data in table when dropdown for the graph is selected', () => {
-    page.navigateToReportsPage('QC');
-    element(by.id('qc-graph-selector')).click();
-    element(by.css('[value="individual"]')).click();
-    page.testQCTables('secondChart');
+    // value individual
+    page.dropdownRawDataQCTest('individual', 'secondChart');
   });
 
   // 20
   it('should full display the third graph and show graph raw data in table when dropdown for the graph is selected', () => {
-    page.navigateToReportsPage('QC');
-    element(by.id('qc-graph-selector')).click();
-    element(by.css('[value="week"]')).click();
-    page.testQCTables('thirdChart');
+    // value week
+    page.dropdownRawDataQCTest('week', 'thirdChart');
   });
 
   // 21
   it('should full display the first graph when double clicking the first graph title', () => {
-    page.navigateToReportsPage('QC');
-    browser.actions().doubleClick(element(by.css('app-qcbatches-technical-status .card-title'))).perform();
-    page.testQCTables('firstChart');
+    page.doubleClickQCTest('app-qcbatches-technical-status', 'firstChart');
   });
 
   // 22
@@ -203,14 +191,14 @@ describe('(POSITIVE)Testing file upload and graph display', () => {
     expect(element(by.tagName('app-home')).isPresent()).toBe(true);
   });
 
-  // 26
+  // 29
   it('should navigate to the home page from the qc reports page by clicking the icon', () => {
     page.navigateToReportsPage('QC');
     element(by.css('.mainLogoIMG')).click();
     expect(element(by.tagName('app-home')).isPresent()).toBe(true);
   });
 
-  // 27
+  // 30
   it('should navigate to the home page from the Assessments reports page by clicking the icon', () => {
     page.navigateToReportsPage('Assessment');
     element(by.css('.mainLogoIMG')).click();
