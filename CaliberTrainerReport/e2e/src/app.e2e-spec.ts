@@ -83,7 +83,7 @@ xdescribe('Testing Navigation and Top Navbar', () => {
 
 });
 
-fdescribe('(NEGATIVE)Testing graph display', () => {
+describe('(NEGATIVE)Testing graph display', () => {
   let page: AppPage;
 
   beforeEach(() => {
@@ -91,28 +91,28 @@ fdescribe('(NEGATIVE)Testing graph display', () => {
   });
 
   // 15
-  fit('should not display qc batches technical status chart without uploading json file', () => {
+  it('should not display qc batches technical status chart without uploading json file', () => {
     page.navigateTo();
     page.getNavBarViewQCReportsButton(1920, 1080).click();
     expect(element(by.css('app-qcbatches-technical-status #divChart1 .chartjs-render-monitor')).isPresent()).toBe(false);
   });
 
   // 16
-  fit('should not display qc batches individual category technical chart without uploading json file', () => {
+  it('should not display qc batches individual category technical chart without uploading json file', () => {
     page.navigateTo();
     page.getNavBarViewQCReportsButton(1920, 1080).click();
     expect(element(by.css('app-qcbatches-indiv-category-technical-status #divChart2 .chartjs-render-monitor')).isPresent()).toBe(false);
   });
 
   // 17
-  fit('should not display qc week category technical chart without uploading json file', () => {
+  it('should not display qc week category technical chart without uploading json file', () => {
     page.navigateTo();
     page.getNavBarViewQCReportsButton(1920, 1080).click();
     expect(element(by.css('app-qcbatches-week-category-technical-status #divChart3 .chartjs-render-monitor')).isPresent()).toBe(false);
   });
 });
 
-describe('(POSITIVE)Testing file upload and graph display', () => {
+fdescribe('(POSITIVE)Testing file upload and graph display', () => {
   let page: AppPage;
 
   beforeEach(() => {
@@ -148,6 +148,19 @@ describe('(POSITIVE)Testing file upload and graph display', () => {
     page.uploadTestJSONFile();
     page.getNavBarViewQCReportsButton(1920, 1080).click();
     expect(element(by.css('app-qcbatches-week-category-technical-status #divChart3 .chartjs-render-monitor')).isPresent()).toBe(true);
+  });
+
+  // 18
+  fit('should full display the first graph and show graph raw data in table when dropdown for the graph is selected', () => {
+    page.navigateTo();
+    page.uploadTestJSONFile();
+    page.getNavBarViewQCReportsButton(1920, 1080).click();
+    element(by.id('qc-graph-selector')).click();
+    element(by.css('[value="status"]')).click();
+    let graphWidth;
+    graphWidth = element(by.id('firstChart')).getAttribute('width');
+    expect(graphWidth).toBeGreaterThan(1000);
+    expect(element(by.xpath('//table/th[2]')).isPresent()).toBe(true);
   });
 
 });
