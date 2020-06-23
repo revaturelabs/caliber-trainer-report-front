@@ -1,6 +1,5 @@
 import { AppPage } from './app.po';
 import { browser, by, element } from 'protractor';
-import { isNull, isUndefined } from 'util';
 
 
 describe('Testing Navigation and Top Navbar', () => {
