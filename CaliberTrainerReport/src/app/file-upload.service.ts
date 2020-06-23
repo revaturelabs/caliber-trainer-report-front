@@ -27,7 +27,7 @@ export class FileUploadService {
       if (fileName && fileContent){
         const body = fileContent;
         this.displayLoader$.next(true);
-        this.http.post(this.urlService.getUrl() + "JSONController", body, {headers: this.regHeaders, withCredentials: true})
+        this.http.post(this.urlService.getUrl2() + "JSONController", body, {headers: this.regHeaders, withCredentials: true})
       .pipe(finalize(() => this.displayLoader$.next(false)))
       .subscribe(res => {
         this.fileList.push(fileName);
