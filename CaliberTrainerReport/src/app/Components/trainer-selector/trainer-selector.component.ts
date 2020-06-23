@@ -2,6 +2,7 @@ import { Component, OnInit, DoCheck } from '@angular/core';
 import { Trainer } from '../../class/trainer';
 import { Router } from '@angular/router';
 import { GetTrainerService } from 'src/app/get-trainer.service';
+import { TrainerSessionService } from 'src/app/trainer-session.service';
 
 @Component({
   selector: 'app-trainer-selector',
@@ -11,7 +12,7 @@ import { GetTrainerService } from 'src/app/get-trainer.service';
 export class TrainerSelectorComponent implements OnInit, DoCheck {
   selectedValue: string;
   trainerList: Trainer[];
-  constructor(private getTrainerServ: GetTrainerService, private router: Router) {
+  constructor(private getTrainerServ: GetTrainerService, private router: Router, private setTrainerServ: TrainerSessionService) {
   }
 
   ngOnInit(): void {
@@ -20,16 +21,7 @@ export class TrainerSelectorComponent implements OnInit, DoCheck {
 
   // This function will populate the trainerList after the asynchronous call (getTrainerList()) is finished. The values for
   // trainerList are then populated for use with component initilization and storage data persistance.
-    this.getTrainerServ.getTrainerList().then(resp => {
-      for (const iter of JSON.parse(sessionStorage.getItem('currentTrainers'))) {
-        this.trainerList.push(iter);
-      }
-      if (sessionStorage.getItem('currentTrainers') && !(sessionStorage.getItem('selectedId'))) {
-        const ct = JSON.parse(sessionStorage.getItem('currentTrainers'));
-        this.selectedValue = ct[0].id;
-        sessionStorage.setItem('selectedId', ct[0].id);
-      }
-    });
+    this.selectedValue = this.setTrainerServ.setTrainerList(this.trainerList);
   }
 
   ngDoCheck(): void {

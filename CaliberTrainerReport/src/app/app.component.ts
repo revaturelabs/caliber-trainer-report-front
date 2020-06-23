@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UrlService } from 'src/app/url.service';
 import { GetTrainerService } from './get-trainer.service';
+import { TrainerSessionService } from './trainer-session.service';
 import { Trainer } from './class/trainer';
 
 @Component({
@@ -9,7 +10,7 @@ import { Trainer } from './class/trainer';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  constructor(private urlService: UrlService, private getTrainerServ: GetTrainerService) { }
+  constructor(private urlService: UrlService, private getTrainerServ: GetTrainerService, private setTrainerServ: TrainerSessionService) { }
 
   dataIsDoneLoading: any;
   title = 'CaliberTrainerReport';
@@ -19,15 +20,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.selectedValue = '';
     this.trainerList = [];
-    this.getTrainerServ.getTrainerList().then(resp => {
-      for (const iter of JSON.parse(sessionStorage.getItem('currentTrainers'))) {
-        this.trainerList.push(iter);
-      }
-      if (sessionStorage.getItem('currentTrainers') && !(sessionStorage.getItem('selectedId'))) {
-        const ct = JSON.parse(sessionStorage.getItem('currentTrainers'));
-        this.selectedValue = ct[0].id;
-        sessionStorage.setItem('selectedId', ct[0].id);
-      }
-    });
+    this.selectedValue = this.setTrainerServ.setTrainerList(this.trainerList);
   }
 }
