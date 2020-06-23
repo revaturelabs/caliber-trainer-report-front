@@ -1,12 +1,15 @@
 <div class="qc-body">
   <div class="qc-title">
     <h2>QC Technical Status</h2>
-    <select id="qc-graph-selector"  [(ngModel)]="selectedValue">
-      <option value="all">Show all graphs</option>
-      <option value="status">Overall Batches</option>
-      <option value="individual">Category by Topic</option>
-      <option value="week">Category by Week</option>
-    </select>
+    <div class="option-select-menu">
+      <app-trainer-selector></app-trainer-selector>
+      <select id="qc-graph-selector"  [(ngModel)]="selectedValue">
+        <option value="all">Show all graphs</option>
+        <option value="status">Overall Batches</option>
+        <option value="individual">Category by Topic</option>
+        <option value="week">Category by Week</option>
+      </select>
+    </div>
   </div>
   <div class="qc-graph-grid" *ngIf="selectedValue == 'all'">
 

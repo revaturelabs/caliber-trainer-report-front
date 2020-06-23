@@ -17,24 +17,24 @@ export class FileUploadService {
 
   constructor(private http: HttpClient, private urlService: UrlService){}
 
-
-
     public isLoading(): Observable<boolean> {
       return this.displayLoader$;
     }
 
     public upload(fileName: string, fileContent: string): void {
-      if (fileName && fileContent){
+      if (fileName && fileContent) {
         const body = fileContent;
         this.displayLoader$.next(true);
-        this.http.post(this.urlService.getUrl() + "JSONController", body, {headers: this.regHeaders, withCredentials: true})
-      .pipe(finalize(() => this.displayLoader$.next(false)))
-      .subscribe(res => {
-        this.fileList.push(fileName);
-        this.fileList$.next(this.fileList);
-      }, error => {
-        this.displayLoader$.next(false);
-      });
+        setTimeout( () => {this.http.post(this.urlService.getUrl() + 'JSONController', body,
+          {headers: this.regHeaders, withCredentials: true})
+          .pipe(finalize(() => this.displayLoader$.next(false)))
+          .subscribe(res => {
+            this.fileList.push(fileName);
+            this.fileList$.next(this.fileList);
+          }, error => {
+              this.displayLoader$.next(false);
+          });
+        }); // pacman timeout
       }
     }
 
