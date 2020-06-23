@@ -10,14 +10,4 @@ import { FileUploadService } from '../../file-upload.service';
 export class ProgressPage {
   public fileList$ = this.fileUploadService.fileList;
   constructor(private fileUploadService: FileUploadService) { }
-
-  // Might implement these methods hold off deleting
-  // public download(fileName: string):  void {
-  //   this.fileUploadService.download(fileName);
-  // }
-
-  // public remove(fileName: string):  void {
-  //   this.fileUploadService.remove(fileName);
-  // }
-
 }
