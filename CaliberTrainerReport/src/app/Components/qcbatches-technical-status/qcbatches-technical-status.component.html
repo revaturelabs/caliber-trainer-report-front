@@ -15,6 +15,7 @@
                 <fa-icon class="" [icon]="tableGraphIcon"></fa-icon>
             </h4>
             <table>
+                <caption></caption>
                 <th scope="col"></th>
                 <th scope="col" *ngFor="let batch of batchNames; let i = index">{{batch}}</th>
                 <tr><td class="description superstar-text">Superstar</td>  <td class="leftColumnStyle" *ngFor="let super of superstarRawData">{{super}}</td></tr>

@@ -36,3 +36,11 @@ html {
   font-size: 12px;
   color: grey;
 }
+
+.option-select-menu {
+  text-align: center;
+}
+
+select {
+  margin: 5px;
+}

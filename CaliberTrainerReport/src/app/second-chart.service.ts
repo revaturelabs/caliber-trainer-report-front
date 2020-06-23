@@ -16,7 +16,7 @@ export class SecondChartService {
 
   getAvgCategoryScoresObservables(): Observable<any>{
     // this will be making our observable
-    return this.http.get(this.urlService.getUrl() + 'BatchTechnicalStatusBySkillCategory/').pipe(
+    return this.http.get(this.urlService.getUrlWithId() + 'BatchTechnicalStatusBySkillCategory/').pipe(
       map(resp => resp)
     );
   }

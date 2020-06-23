@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProgressPage } from './progress.component';
+import { TrainerSelectorComponent } from './trainer-selector.component';
 
-describe('ProgressPage', () => {
-  let component: ProgressPage;
-  let fixture: ComponentFixture<ProgressPage>;
+describe('TrainerSelectorComponent', () => {
+  let component: TrainerSelectorComponent;
+  let fixture: ComponentFixture<TrainerSelectorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProgressPage ]
+      declarations: [ TrainerSelectorComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProgressPage);
+    fixture = TestBed.createComponent(TrainerSelectorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

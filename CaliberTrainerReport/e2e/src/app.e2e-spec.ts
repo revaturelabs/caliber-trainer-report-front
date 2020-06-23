@@ -117,10 +117,13 @@ describe('(POSITIVE)Testing file upload and graph display', () => {
   });
 
   // 11
-  it('should upload JSON file', () => {
+  it('should upload JSON file', async () => {
     page.navigateTo();
     page.uploadTestJSONFile();
-    expect(element(by.css('app-progress .uploaded-file')).isPresent()).toBe(true);
+    browser.switchTo().alert().accept();
+    browser.sleep(1000);
+    const sessionStorageArray: string = await browser.executeScript<string>('return window.sessionStorage.getItem("currentTrainers");');
+    expect(JSON.parse(sessionStorageArray).length > 0).toBe(true);
   });
 
   // 12
