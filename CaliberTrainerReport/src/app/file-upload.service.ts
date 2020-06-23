@@ -31,6 +31,8 @@ export class FileUploadService {
           .subscribe(res => {
             this.fileList.push(fileName);
             this.fileList$.next(this.fileList);
+            alert('JSON Uploaded!');
+            location.reload();
           }, error => {
               this.displayLoader$.next(false);
           });

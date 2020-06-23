@@ -15,12 +15,8 @@ export class TrainerSelectorComponent implements OnInit, DoCheck {
   }
 
   ngOnInit(): void {
-
     this.trainerList = [];
     this.selectedValue = sessionStorage.getItem('selectedId');
-    // setTimeout( () => { this.getTrainerServ.getTrainerList().subscribe(); }, 2004); // WVU
-    // for (const iter of JSON.parse(sessionStorage.getItem('currentTrainers'))) {
-    //   this.trainerList.push(iter);
 
   // This function will populate the trainerList after the asynchronous call (getTrainerList()) is finished. The values for
   // trainerList are then populated for use with component initilization and storage data persistance.
@@ -43,7 +39,6 @@ export class TrainerSelectorComponent implements OnInit, DoCheck {
 
   getSelectedTrainer(event: any) {
     // This works, refreshes via full reload.
-    console.log(this.router.url.split('/')[1]);
     this.router.navigateByUrl(this.router.url).then(() => {
       location.reload();
     });
