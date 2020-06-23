@@ -92,10 +92,10 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
       this.superstarRawScore.push(score.superstar);
 
       totalValue =
-        score.poor * 0 +
-        score.average * 1 +
-        score.good * 2 +
-        score.superstar * 3;
+        score.poor * 1 +
+        score.average * 2 +
+        score.good * 3 +
+        score.superstar * 4;
       quantity =
         score.poor +
         score.average +
@@ -118,10 +118,11 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
     }
 
     const yLabels = {
-      0: 'Poor',
-      1: 'Average',
-      2: 'Good',
-      3: 'Superstar',
+      0: 'No Data',
+      1: 'Poor',
+      2: 'Average',
+      3: 'Good',
+      4: 'Superstar',
     };
 
     this.myLineChart = new Chart('secondChart', {
@@ -145,7 +146,7 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
             {
               ticks: {
                 beginAtZero: true,
-                suggestedMax: 3,
+                suggestedMax: 4,
                 stepSize: 1,
                 callback(value, index, values) {
                   return yLabels[value];
