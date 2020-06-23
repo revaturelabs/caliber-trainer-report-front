@@ -33,7 +33,6 @@ export class TrainerSelectorComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck(): void {
-    const trainerSelector = document.getElementById('trainer-selector') as HTMLSelectElement;
     this.selectedValue = sessionStorage.getItem('selectedId');
   }
 
