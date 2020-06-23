@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FileUploadService } from '../../file-upload.service';
-import { GetTrainerService } from 'src/app/get-trainer.service';
 
 @Component({
   selector: 'app-upload',
