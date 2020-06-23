@@ -1,0 +1,1338 @@
+{
+  "employee": {
+    "email": "james.gosling@revature.com",
+    "firstName": "James",
+    "lastName": "Gosling"
+  },
+  "batches": [
+    {
+      "id": 121501,
+      "batchId": "Ix2x2UAB",
+      "name": "1804  Apr16 -2",
+      "startDate": "2018-04-23",
+      "endDate": "2018-06-29",
+      "skill": "JTA",
+      "location": "Revature LLC, Reston VA 20190",
+      "type": "Revature",
+      "qcNotes": [
+        {
+          "noteId": 398328,
+          "content": "mock content",
+          "week": 1,
+          "batchId": "Ix2x2UAB",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Good",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Java"
+          ]
+        },
+        {
+          "noteId": 399329,
+          "content": "mock content",
+          "week": 2,
+          "batchId": "Ix2x2UAB",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Good",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "SQL"
+          ]
+        },
+        {
+          "noteId": 401138,
+          "content": "mock content",
+          "week": 3,
+          "batchId": "Ix2x2UAB",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Good",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "JavaScript"
+          ]
+        },
+        {
+          "noteId": 404094,
+          "content": "mock content",
+          "week": 4,
+          "batchId": "Ix2x2UAB",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Good",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Servlet"
+          ]
+        },
+        {
+          "noteId": 405119,
+          "content": "mock content",
+          "week": 5,
+          "batchId": "Ix2x2UAB",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Good",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "AWS",
+            "Hibernate"
+          ]
+        },
+        {
+          "noteId": 407113,
+          "content": "mock content",
+          "week": 6,
+          "batchId": "Ix2x2UAB",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Average",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Testing"
+          ]
+        },
+        {
+          "noteId": 409140,
+          "content": "mock content",
+          "week": 7,
+          "batchId": "Ix2x2UAB",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Good",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "REST"
+          ]
+        },
+        {
+          "noteId": 410118,
+          "content": "mock content",
+          "week": 8,
+          "batchId": "Ix2x2UAB",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Good",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": []
+        }
+      ],
+      "assessments": [
+        {
+          "assessmentId": 177003,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 1,
+          "batchId": "Ix2x2UAB",
+          "assessmentCategory": 1,
+          "skillCategory": "Java",
+          "assignmentDate": null,
+          "average": 76.10
+        },
+        {
+          "assessmentId": 177004,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Verbal",
+          "weekNumber": 1,
+          "batchId": "Ix2x2UAB",
+          "assessmentCategory": 1,
+          "skillCategory": "Java",
+          "assignmentDate": null,
+          "average": 81.35
+        },
+        {
+          "assessmentId": 177023,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 2,
+          "batchId": "Ix2x2UAB",
+          "assessmentCategory": 2,
+          "skillCategory": "SQL",
+          "assignmentDate": null,
+          "average": 85.83
+        },
+        {
+          "assessmentId": 177024,
+          "rawScore": 50,
+          "assessmentTitle": null,
+          "assessmentType": "Verbal",
+          "weekNumber": 2,
+          "batchId": "Ix2x2UAB",
+          "assessmentCategory": 2,
+          "skillCategory": "SQL",
+          "assignmentDate": null,
+          "average": 82.31
+        },
+        {
+          "assessmentId": 177025,
+          "rawScore": 50,
+          "assessmentTitle": null,
+          "assessmentType": "Presentation",
+          "weekNumber": 2,
+          "batchId": "Ix2x2UAB",
+          "assessmentCategory": 2,
+          "skillCategory": "SQL",
+          "assignmentDate": null,
+          "average": 83.08
+        },
+        {
+          "assessmentId": 178000,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 3,
+          "batchId": "Ix2x2UAB",
+          "assessmentCategory": 12,
+          "skillCategory": "JavaScript",
+          "assignmentDate": null,
+          "average": 71.35
+        },
+        {
+          "assessmentId": 178001,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Verbal",
+          "weekNumber": 3,
+          "batchId": "Ix2x2UAB",
+          "assessmentCategory": 12,
+          "skillCategory": "JavaScript",
+          "assignmentDate": null,
+          "average": 80.58
+        },
+        {
+          "assessmentId": 179012,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 4,
+          "batchId": "Ix2x2UAB",
+          "assessmentCategory": 3,
+          "skillCategory": "Servlet",
+          "assignmentDate": null,
+          "average": 68.81
+        },
+        {
+          "assessmentId": 179018,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Presentation",
+          "weekNumber": 4,
+          "batchId": "Ix2x2UAB",
+          "assessmentCategory": 3,
+          "skillCategory": "Servlet",
+          "assignmentDate": null,
+          "average": 75.77
+        },
+        {
+          "assessmentId": 180007,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 5,
+          "batchId": "Ix2x2UAB",
+          "assessmentCategory": 18,
+          "skillCategory": "Hibernate",
+          "assignmentDate": null,
+          "average": 76.35
+        },
+        {
+          "assessmentId": 180008,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 5,
+          "batchId": "Ix2x2UAB",
+          "assessmentCategory": 16,
+          "skillCategory": "AWS",
+          "assignmentDate": null,
+          "average": 81.65
+        },
+        {
+          "assessmentId": 180016,
+          "rawScore": 200,
+          "assessmentTitle": null,
+          "assessmentType": "Verbal",
+          "weekNumber": 5,
+          "batchId": "Ix2x2UAB",
+          "assessmentCategory": 18,
+          "skillCategory": "Hibernate",
+          "assignmentDate": null,
+          "average": 81.15
+        },
+        {
+          "assessmentId": 180025,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 6,
+          "batchId": "Ix2x2UAB",
+          "assessmentCategory": 31,
+          "skillCategory": "Testing",
+          "assignmentDate": null,
+          "average": 73.38
+        },
+        {
+          "assessmentId": 180026,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Verbal",
+          "weekNumber": 6,
+          "batchId": "Ix2x2UAB",
+          "assessmentCategory": 31,
+          "skillCategory": "Testing",
+          "assignmentDate": null,
+          "average": 77.69
+        },
+        {
+          "assessmentId": 181002,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 7,
+          "batchId": "Ix2x2UAB",
+          "assessmentCategory": 21,
+          "skillCategory": "REST",
+          "assignmentDate": null,
+          "average": 72.52
+        },
+        {
+          "assessmentId": 181004,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Verbal",
+          "weekNumber": 7,
+          "batchId": "Ix2x2UAB",
+          "assessmentCategory": 21,
+          "skillCategory": "REST",
+          "assignmentDate": null,
+          "average": 80.38
+        }
+      ]
+    },
+    {
+      "id": 138502,
+      "batchId": "2rUNwAAM",
+      "name": "1901 Jan06 Other",
+      "startDate": "2019-01-10",
+      "endDate": "2019-03-18",
+      "skill": "OTHER",
+      "location": "Revature LLC, Reston VA 20190",
+      "type": "Revature",
+      "qcNotes": [
+        {
+          "noteId": 447435,
+          "content": "mock content",
+          "week": 1,
+          "batchId": "2rUNwAAM",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Good",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Java"
+          ]
+        },
+        {
+          "noteId": 448409,
+          "content": "mock content",
+          "week": 2,
+          "batchId": "2rUNwAAM",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Good",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "SQL"
+          ]
+        },
+        {
+          "noteId": 450431,
+          "content": "mock content",
+          "week": 3,
+          "batchId": "2rUNwAAM",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": null,
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "JavaScript"
+          ]
+        },
+        {
+          "noteId": 450436,
+          "content": "mock content",
+          "week": 4,
+          "batchId": "2rUNwAAM",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Average",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Servlet"
+          ]
+        },
+        {
+          "noteId": 451465,
+          "content": "mock content",
+          "week": 5,
+          "batchId": "2rUNwAAM",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Average",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Agile"
+          ]
+        },
+        {
+          "noteId": 451797,
+          "content": "mock content",
+          "week": 6,
+          "batchId": "2rUNwAAM",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Average",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Java"
+          ]
+        },
+        {
+          "noteId": 453356,
+          "content": "mock content",
+          "week": 7,
+          "batchId": "2rUNwAAM",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Good",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Java"
+          ]
+        },
+        {
+          "noteId": 453777,
+          "content": "mock content",
+          "week": 8,
+          "batchId": "2rUNwAAM",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Good",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": []
+        }
+      ],
+      "assessments": [
+        {
+          "assessmentId": 202081,
+          "rawScore": 100,
+          "assessmentTitle": "1901 PE Week1",
+          "assessmentType": "Exam",
+          "weekNumber": 1,
+          "batchId": "2rUNwAAM",
+          "assessmentCategory": 1,
+          "skillCategory": "Java",
+          "assignmentDate": null,
+          "average": 78.15
+        },
+        {
+          "assessmentId": 202096,
+          "rawScore": 100,
+          "assessmentTitle": "1901_Jan07_PE_Week2",
+          "assessmentType": "Exam",
+          "weekNumber": 2,
+          "batchId": "2rUNwAAM",
+          "assessmentCategory": 2,
+          "skillCategory": "SQL",
+          "assignmentDate": null,
+          "average": 82.45
+        },
+        {
+          "assessmentId": 203074,
+          "rawScore": 100,
+          "assessmentTitle": "1901_Jan07_PE_Week3",
+          "assessmentType": "Exam",
+          "weekNumber": 3,
+          "batchId": "2rUNwAAM",
+          "assessmentCategory": 12,
+          "skillCategory": "JavaScript",
+          "assignmentDate": null,
+          "average": 79.52
+        },
+        {
+          "assessmentId": 203140,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 4,
+          "batchId": "2rUNwAAM",
+          "assessmentCategory": 3,
+          "skillCategory": "Servlet",
+          "assignmentDate": null,
+          "average": 76.20
+        },
+        {
+          "assessmentId": 203148,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Project",
+          "weekNumber": 4,
+          "batchId": "2rUNwAAM",
+          "assessmentCategory": 3,
+          "skillCategory": "Servlet",
+          "assignmentDate": null,
+          "average": 74.78
+        },
+        {
+          "assessmentId": 204078,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 5,
+          "batchId": "2rUNwAAM",
+          "assessmentCategory": 30,
+          "skillCategory": "Agile",
+          "assignmentDate": null,
+          "average": 79.90
+        },
+        {
+          "assessmentId": 204079,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Verbal",
+          "weekNumber": 5,
+          "batchId": "2rUNwAAM",
+          "assessmentCategory": 30,
+          "skillCategory": "Agile",
+          "assignmentDate": null,
+          "average": 79.13
+        },
+        {
+          "assessmentId": 205079,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 6,
+          "batchId": "2rUNwAAM",
+          "assessmentCategory": 1,
+          "skillCategory": "Java",
+          "assignmentDate": null,
+          "average": 67.53
+        },
+        {
+          "assessmentId": 206063,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 7,
+          "batchId": "2rUNwAAM",
+          "assessmentCategory": 1,
+          "skillCategory": "Java",
+          "assignmentDate": null,
+          "average": 80.12
+        },
+        {
+          "assessmentId": 206064,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Presentation",
+          "weekNumber": 7,
+          "batchId": "2rUNwAAM",
+          "assessmentCategory": 1,
+          "skillCategory": "Java",
+          "assignmentDate": null,
+          "average": 80.45
+        }
+      ]
+    },
+    {
+      "id": 138523,
+      "batchId": "2rgIVAAY",
+      "name": "1903 Mar04 Full Stack Java/JEE",
+      "startDate": "2019-03-05",
+      "endDate": "2019-06-01",
+      "skill": "J2EE",
+      "location": "Revature LLC, Reston VA 20190",
+      "type": "Revature",
+      "qcNotes": [
+        {
+          "noteId": 455491,
+          "content": "mock content",
+          "week": 1,
+          "batchId": "2rgIVAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Average",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "JavaScript"
+          ]
+        },
+        {
+          "noteId": 456593,
+          "content": "mock content",
+          "week": 2,
+          "batchId": "2rgIVAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Good",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": []
+        },
+        {
+          "noteId": 458434,
+          "content": "mock content",
+          "week": 3,
+          "batchId": "2rgIVAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Average",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Java"
+          ]
+        },
+        {
+          "noteId": 458631,
+          "content": "mock content",
+          "week": 4,
+          "batchId": "2rgIVAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Poor",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "SQL"
+          ]
+        },
+        {
+          "noteId": 462403,
+          "content": "mock content",
+          "week": 5,
+          "batchId": "2rgIVAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Poor",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Servlet"
+          ]
+        },
+        {
+          "noteId": 463517,
+          "content": "mock content",
+          "week": 6,
+          "batchId": "2rgIVAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Poor",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Hibernate"
+          ]
+        },
+        {
+          "noteId": 464408,
+          "content": "mock content",
+          "week": 7,
+          "batchId": "2rgIVAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Average",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Java"
+          ]
+        },
+        {
+          "noteId": 464844,
+          "content": "mock content",
+          "week": 8,
+          "batchId": "2rgIVAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Average",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": []
+        },
+        {
+          "noteId": 465642,
+          "content": "mock content",
+          "week": 9,
+          "batchId": "2rgIVAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Poor",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Spring"
+          ]
+        },
+        {
+          "noteId": 467383,
+          "content": "mock content",
+          "week": 10,
+          "batchId": "2rgIVAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Average",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Java",
+            "Microservices"
+          ]
+        },
+        {
+          "noteId": 467827,
+          "content": "mock content",
+          "week": 11,
+          "batchId": "2rgIVAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Average",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": []
+        }
+      ],
+      "assessments": [
+        {
+          "assessmentId": 208060,
+          "rawScore": 100,
+          "assessmentTitle": "1922-W3-HTML,CSS,JS",
+          "assessmentType": "Exam",
+          "weekNumber": 1,
+          "batchId": "2rgIVAAY",
+          "assessmentCategory": 12,
+          "skillCategory": "JavaScript",
+          "assignmentDate": null,
+          "average": 80.38
+        },
+        {
+          "assessmentId": 212057,
+          "rawScore": 100,
+          "assessmentTitle": "190401_Week1Java",
+          "assessmentType": "Exam",
+          "weekNumber": 3,
+          "batchId": "2rgIVAAY",
+          "assessmentCategory": 1,
+          "skillCategory": "Java",
+          "assignmentDate": null,
+          "average": 81.62
+        },
+        {
+          "assessmentId": 212060,
+          "rawScore": 100,
+          "assessmentTitle": "1901 jan28 week sql",
+          "assessmentType": "Exam",
+          "weekNumber": 4,
+          "batchId": "2rgIVAAY",
+          "assessmentCategory": 2,
+          "skillCategory": "SQL",
+          "assignmentDate": null,
+          "average": 82.99
+        },
+        {
+          "assessmentId": 212062,
+          "rawScore": 100,
+          "assessmentTitle": "0304-Week4-Servlets/Angular",
+          "assessmentType": "Exam",
+          "weekNumber": 5,
+          "batchId": "2rgIVAAY",
+          "assessmentCategory": 3,
+          "skillCategory": "Servlet",
+          "assignmentDate": null,
+          "average": 78.97
+        },
+        {
+          "assessmentId": 212063,
+          "rawScore": 100,
+          "assessmentTitle": "0304-Week5-Hibernate/DevOps/AWS",
+          "assessmentType": "Exam",
+          "weekNumber": 6,
+          "batchId": "2rgIVAAY",
+          "assessmentCategory": 18,
+          "skillCategory": "Hibernate",
+          "assignmentDate": null,
+          "average": 72.58
+        },
+        {
+          "assessmentId": 212069,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 7,
+          "batchId": "2rgIVAAY",
+          "assessmentCategory": 1,
+          "skillCategory": "Java",
+          "assignmentDate": null,
+          "average": 73.84
+        },
+        {
+          "assessmentId": 214082,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 9,
+          "batchId": "2rgIVAAY",
+          "assessmentCategory": 19,
+          "skillCategory": "Spring",
+          "assignmentDate": null,
+          "average": 70.16
+        },
+        {
+          "assessmentId": 214083,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Verbal",
+          "weekNumber": 9,
+          "batchId": "2rgIVAAY",
+          "assessmentCategory": 19,
+          "skillCategory": "Spring",
+          "assignmentDate": null,
+          "average": 59.44
+        },
+        {
+          "assessmentId": 215087,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 10,
+          "batchId": "2rgIVAAY",
+          "assessmentCategory": 38,
+          "skillCategory": "Microservices",
+          "assignmentDate": null,
+          "average": 74.21
+        },
+        {
+          "assessmentId": 215088,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Presentation",
+          "weekNumber": 10,
+          "batchId": "2rgIVAAY",
+          "assessmentCategory": 1,
+          "skillCategory": "Java",
+          "assignmentDate": null,
+          "average": 83.13
+        }
+      ]
+    },
+    {
+      "id": 141512,
+      "batchId": "2ehKRAAY",
+      "name": "1909 Sep30 Other",
+      "startDate": "2019-10-01",
+      "endDate": "2019-12-28",
+      "skill": "OTHER",
+      "location": "Revature LLC, Reston VA 20190",
+      "type": "Revature",
+      "qcNotes": [
+        {
+          "noteId": 485015,
+          "content": "mock content",
+          "week": 1,
+          "batchId": "2ehKRAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Average",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Java"
+          ]
+        },
+        {
+          "noteId": 485390,
+          "content": "mock content",
+          "week": 2,
+          "batchId": "2ehKRAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Good",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Java"
+          ]
+        },
+        {
+          "noteId": 486389,
+          "content": "mock content",
+          "week": 3,
+          "batchId": "2ehKRAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Good",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Java"
+          ]
+        },
+        {
+          "noteId": 488806,
+          "content": "mock content",
+          "week": 4,
+          "batchId": "2ehKRAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Good",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Java",
+            "SQL"
+          ]
+        },
+        {
+          "noteId": 489363,
+          "content": "mock content",
+          "week": 5,
+          "batchId": "2ehKRAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Average",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Java",
+            "JavaScript"
+          ]
+        },
+        {
+          "noteId": 490490,
+          "content": "mock content",
+          "week": 6,
+          "batchId": "2ehKRAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Average",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Servlet"
+          ]
+        },
+        {
+          "noteId": 491500,
+          "content": "mock content",
+          "week": 7,
+          "batchId": "2ehKRAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Average",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Servlet",
+            "JVM"
+          ]
+        },
+        {
+          "noteId": 491974,
+          "content": "mock content",
+          "week": 8,
+          "batchId": "2ehKRAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Good",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "JVM"
+          ]
+        },
+        {
+          "noteId": 493382,
+          "content": "mock content",
+          "week": 9,
+          "batchId": "2ehKRAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Good",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "DevOps"
+          ]
+        },
+        {
+          "noteId": 493758,
+          "content": "mock content",
+          "week": 10,
+          "batchId": "2ehKRAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Good",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": [
+            "Performance Testing"
+          ]
+        },
+        {
+          "noteId": 494723,
+          "content": "mock content",
+          "week": 11,
+          "batchId": "2ehKRAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Average",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": []
+        },
+        {
+          "noteId": 500647,
+          "content": "mock content",
+          "week": 12,
+          "batchId": "2ehKRAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Poor",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": []
+        },
+        {
+          "noteId": 501189,
+          "content": "mock content",
+          "week": 13,
+          "batchId": "2ehKRAAY",
+          "associateId": null,
+          "employeeId": null,
+          "type": "QC_BATCH",
+          "technicalStatus": "Average",
+          "createdOn": null,
+          "lastUpdated": null,
+          "categories": []
+        }
+      ],
+      "assessments": [
+        {
+          "assessmentId": 233060,
+          "rawScore": 100,
+          "assessmentTitle": "Core Java extended - Blake",
+          "assessmentType": "Exam",
+          "weekNumber": 1,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 1,
+          "skillCategory": "Java",
+          "assignmentDate": null,
+          "average": 79.52
+        },
+        {
+          "assessmentId": 233061,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Verbal",
+          "weekNumber": 1,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 1,
+          "skillCategory": "Java",
+          "assignmentDate": null,
+          "average": 83.13
+        },
+        {
+          "assessmentId": 233090,
+          "rawScore": 75,
+          "assessmentTitle": "Java Exam",
+          "assessmentType": "Exam",
+          "weekNumber": 2,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 1,
+          "skillCategory": "Java",
+          "assignmentDate": null,
+          "average": 90.29
+        },
+        {
+          "assessmentId": 234068,
+          "rawScore": 125,
+          "assessmentTitle": "Java Verbal",
+          "assessmentType": "Verbal",
+          "weekNumber": 2,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 1,
+          "skillCategory": "Java",
+          "assignmentDate": null,
+          "average": 76.73
+        },
+        {
+          "assessmentId": 234084,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Other",
+          "weekNumber": 3,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 1,
+          "skillCategory": "Java",
+          "assignmentDate": null,
+          "average": 91.20
+        },
+        {
+          "assessmentId": 235057,
+          "rawScore": 100,
+          "assessmentTitle": "191007-W1-Core Java",
+          "assessmentType": "Exam",
+          "weekNumber": 3,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 1,
+          "skillCategory": "Java",
+          "assignmentDate": null,
+          "average": 77.98
+        },
+        {
+          "assessmentId": 235058,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Verbal",
+          "weekNumber": 3,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 1,
+          "skillCategory": "Java",
+          "assignmentDate": null,
+          "average": 83.93
+        },
+        {
+          "assessmentId": 235064,
+          "rawScore": 100,
+          "assessmentTitle": "SQL quiz",
+          "assessmentType": "Exam",
+          "weekNumber": 4,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 2,
+          "skillCategory": "SQL",
+          "assignmentDate": null,
+          "average": 89.02
+        },
+        {
+          "assessmentId": 236050,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Project",
+          "weekNumber": 4,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 1,
+          "skillCategory": "Java",
+          "assignmentDate": null,
+          "average": 80.80
+        },
+        {
+          "assessmentId": 236051,
+          "rawScore": 100,
+          "assessmentTitle": "blake-client-side--copy",
+          "assessmentType": "Exam",
+          "weekNumber": 5,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 12,
+          "skillCategory": "JavaScript",
+          "assignmentDate": null,
+          "average": 83.17
+        },
+        {
+          "assessmentId": 236077,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Verbal",
+          "weekNumber": 5,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 1,
+          "skillCategory": "Java",
+          "assignmentDate": null,
+          "average": 79.73
+        },
+        {
+          "assessmentId": 236099,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 6,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 3,
+          "skillCategory": "Servlet",
+          "assignmentDate": null,
+          "average": 73.04
+        },
+        {
+          "assessmentId": 237050,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Verbal",
+          "weekNumber": 6,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 3,
+          "skillCategory": "Servlet",
+          "assignmentDate": null,
+          "average": 76.03
+        },
+        {
+          "assessmentId": 238061,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 7,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 15081,
+          "skillCategory": "JVM",
+          "assignmentDate": null,
+          "average": 72.32
+        },
+        {
+          "assessmentId": 238062,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Project",
+          "weekNumber": 7,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 3,
+          "skillCategory": "Servlet",
+          "assignmentDate": null,
+          "average": 79.00
+        },
+        {
+          "assessmentId": 238075,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 8,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 15081,
+          "skillCategory": "JVM",
+          "assignmentDate": null,
+          "average": 72.56
+        },
+        {
+          "assessmentId": 241053,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Verbal",
+          "weekNumber": 8,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 15081,
+          "skillCategory": "JVM",
+          "assignmentDate": null,
+          "average": 72.06
+        },
+        {
+          "assessmentId": 239059,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 9,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 15071,
+          "skillCategory": "DevOps",
+          "assignmentDate": null,
+          "average": 70.81
+        },
+        {
+          "assessmentId": 241054,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Verbal",
+          "weekNumber": 9,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 15071,
+          "skillCategory": "DevOps",
+          "assignmentDate": null,
+          "average": 77.94
+        },
+        {
+          "assessmentId": 239098,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Exam",
+          "weekNumber": 10,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 15082,
+          "skillCategory": "Performance Testing",
+          "assignmentDate": null,
+          "average": 73.47
+        },
+        {
+          "assessmentId": 239099,
+          "rawScore": 100,
+          "assessmentTitle": null,
+          "assessmentType": "Verbal",
+          "weekNumber": 10,
+          "batchId": "2ehKRAAY",
+          "assessmentCategory": 15082,
+          "skillCategory": "Performance Testing",
+          "assignmentDate": null,
+          "average": 76.47
+        }
+      ]
+    }
+  ]
+}

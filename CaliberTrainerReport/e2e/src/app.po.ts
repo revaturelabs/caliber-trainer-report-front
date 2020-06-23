@@ -1,52 +1,65 @@
 import { browser, by, element } from 'protractor';
-import { MainNavBarComponent } from '../../src/app/Components/main-nav-bar/main-nav-bar.component';
 
 export class AppPage {
-  navigateTo(): Promise<unknown> {
-    return browser.get(browser.baseUrl) as Promise<unknown>;
-  }
-  getAllGraphsOnPage(){
-    return element.all(by.id('divChart'));
+  navigateTo() {
+    return browser.get('');
   }
 
-  // First Test Protractor gets the Title Text
-  getTitleText(): Promise<string> {
-    return element(by.tagName('app-test-chart')).getText() as Promise<string>;
+  getNavBarTitle(width, height): Promise<any> {
+    browser.driver.manage().window().setSize(width, height);
+    return element(by.css('app-main-nav-bar div.mainTitle')).getText() as Promise<any>;
   }
 
-  // Second Test Gets the Canvas Table
-  getCanvasTable(): Promise<any> {
-    return element(by.tagName('canvas')).getText() as Promise <any>;
+  getNavBarRevatureIcon() {
+    return element(by.css('[src = "https://imgur.com/QMNMf4M.png"]'));
   }
 
-  // Third Test Changes teh Canvas Table
-  changeCanvasTable(): Promise<any> {
-    return element(by.tagName('label')).getText() as Promise<any>;
-  }
-  selectPrevLabel(){
-    browser
-        .actions()
-        .click()
-
-  }
-  selectNextLabel(){
-    browser
-        .actions()
-        .click()
-        
+  getNavBarViewQCReportsButton(width, height) {
+    browser.driver.manage().window().setSize(width, height);
+    return element(by.css('[routerLink = "/qc"]'));
   }
 
-  getAllGraphs() {
-    browser.sleep(3000);
-    browser.driver.manage().window().setSize(1920, 1080); // isBig = true
-    element(by.id('demo')).click();
-    return element.all(by.tagName('canvas'));
+  getNavBarViewAssessmentReportsButton(width, height) {
+    browser.driver.manage().window().setSize(width, height);
+    return element(by.css('[routerLink = "/assessment"]'));
   }
-  getAllGraphsMobileView() {
-    browser.sleep(3000);
-    browser.driver.manage().window().setSize(1000, 1080); // isBig = false
-    element(by.className('hambIcon')).click();
-    element(by.id('demo2')).click();
-    return element.all(by.tagName('canvas'));
+
+  uploadTestJSONFile() {
+    const path = require('path');
+    const fileToUpload = '../JSONTestFiles/data.json';
+    const absolutePath = path.resolve(__dirname, fileToUpload);
+
+    element(by.css('input[type="file"]')).sendKeys(absolutePath);
+    element(by.css('input[type="submit"]')).click();
   }
+
+  navigateToReportsPage(reportPage: string){
+    this.navigateTo();
+    if (reportPage === 'QC'){
+      this.getNavBarViewQCReportsButton(1920, 1080).click();
+    }else {
+      this.getNavBarViewAssessmentReportsButton(1920, 1080).click();
+    }
+  }
+
+  testQCTables(chartName: string){
+    let graphWidth;
+    graphWidth = element(by.id(chartName)).getAttribute('width');
+    expect(graphWidth).toBeGreaterThan(1000);
+    expect(element(by.xpath('//table/th[2]')).isPresent()).toBe(true);
+  }
+
+  dropdownRawDataQCTest(dropdownValue: string, chartName: string) {
+    this.navigateToReportsPage('QC');
+    element(by.id('qc-graph-selector')).click();
+    element(by.css(`[value=${dropdownValue}]`)).click();
+    this.testQCTables(chartName);
+  }
+
+  doubleClickQCTest(tag: string, chartName: string) {
+    this.navigateToReportsPage('QC');
+    browser.actions().doubleClick(element(by.css(`${tag} .card-title`))).perform();
+    this.testQCTables(chartName);
+  }
+
 }

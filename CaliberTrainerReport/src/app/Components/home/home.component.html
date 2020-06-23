@@ -1,1 +1,14 @@
-<p>home works!</p>
+<div class="card-layout">
+    <div class="card-title">
+        <span>Caliber 2 JSON Import Menu</span>
+        <fa-icon class="faDatabase" [icon]="databaseIcon"></fa-icon>
+
+    </div>
+    <div class="card-body">
+        <app-progress></app-progress>
+        <app-upload></app-upload>
+        <div *ngIf="displayLoader | async" alt="loading" class="loadingio-spinner-bean-eater-tpo3nfialo"><div class="ldio-wgd555tlx8h">
+            <div><div></div><div></div><div></div></div><div><div></div><div></div><div></div></div>
+            </div></div>
+    </div>
+</div>

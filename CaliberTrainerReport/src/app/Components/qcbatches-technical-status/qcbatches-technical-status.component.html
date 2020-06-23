@@ -1,22 +1,22 @@
 <div class="card-layout">
-    <div class="card-title">
+    <div class="card-title" id="graph1Header" (dblclick)="doubleClickGraph1()">
         <span>QC Overall Batch Technical Scores</span>
         <fa-icon class="barGraphIcon" [icon]="barGraphIcon"></fa-icon>
     </div>
     <div class="card-body">
-        <div id="divChart">
+        <div id="divChart1" class="divChart">
             <canvas id="firstChart"></canvas>
         </div>
         <div *ngIf="selectedValue == 'status'" class="extraDataTable">
             <hr class="breakPoint">
             <h4 class="tableTitle">
                 <fa-icon class="barGraphIcon" [icon]="tableGraphIcon"></fa-icon>
-                Raw Techical Scores         
+                Raw Technical Scores         
                 <fa-icon class="" [icon]="tableGraphIcon"></fa-icon>
             </h4>
             <table>
-                <th></th>
-                <th *ngFor="let batch of batchNames; let i = index">{{batch}}</th>
+                <th scope="col"></th>
+                <th scope="col" *ngFor="let batch of batchNames; let i = index">{{batch}}</th>
                 <tr><td class="description superstar-text">Superstar</td>  <td class="leftColumnStyle" *ngFor="let super of superstarRawData">{{super}}</td></tr>
                 <tr><td class="description good-text">Good</td> <td class="leftColumnStyle" *ngFor="let good of goodRawData">{{good}}</td></tr>
                 <tr><td class="description average-text">Average</td> <td class="leftColumnStyle" *ngFor="let average of averageRawData">{{average}}</td></tr>

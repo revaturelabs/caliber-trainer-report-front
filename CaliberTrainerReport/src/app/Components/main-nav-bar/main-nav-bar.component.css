@@ -13,6 +13,10 @@
     font-size: 16pt;
     white-space: nowrap;
 }
+.mainTitle a {
+    text-decoration: none;
+    color: #4a4f57;
+}
 
 .mainNavBG {
     background-color: rgb(185, 185, 185);
@@ -93,7 +97,6 @@
     display: none;
     position: absolute;
     right: 0;
-    display: grid;
     margin-right: 18px;
     text-align: end;
     margin-top: 40px;
