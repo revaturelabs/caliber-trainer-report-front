@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 import { GetTrainerService } from './get-trainer.service';
-import { Trainer } from './class/trainer';
 
 @Injectable({
   providedIn: 'root'
