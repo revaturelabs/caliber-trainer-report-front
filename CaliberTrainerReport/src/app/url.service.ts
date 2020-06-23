@@ -9,6 +9,6 @@ export class UrlService {
   constructor(private http: HttpClient) { }
 
   getUrl(): string{
-    return 'http://localhost:8080/excaliber/';
+    return 'http://localhost:8080/excaliber/1/';
   }
 }
