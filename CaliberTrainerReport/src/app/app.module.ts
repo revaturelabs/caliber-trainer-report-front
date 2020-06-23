@@ -24,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UploadComponent } from './Components/jsonuploader/upload.component';
 import { ProgressPage } from './Components/progresspage/progress.component';
+import { TrainerSelectorComponent } from './Components/trainer-selector/trainer-selector.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ProgressPage } from './Components/progresspage/progress.component';
     AssessmentComponent,
     HomeComponent,
     UploadComponent,
-    ProgressPage
+    ProgressPage,
+    TrainerSelectorComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   imports: [

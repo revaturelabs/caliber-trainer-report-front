@@ -21,7 +21,7 @@ export class FifthChartService {
   }
 
   getScorePerCategory(): Observable<any>{
-    return this.http.get(this.urlService.getUrl() + 'AssessmentByCategory/').pipe(
+    return this.http.get(this.urlService.getUrlWithId() + 'AssessmentByCategory/').pipe(
       map(resp => resp)
     );
   }

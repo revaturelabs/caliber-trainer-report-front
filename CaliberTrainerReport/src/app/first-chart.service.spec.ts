@@ -17,6 +17,6 @@ describe('FirstChartService', () => {
   it(`should return value from observable`, (done) => {
     service.getTechnicalStatusPerBatch().subscribe(value => {
         expect(value).toHaveBeenCalled();
-    })
+    });
   });
 });

@@ -30,3 +30,11 @@ html {
     justify-self: center;
     margin-bottom: 10px;
 }
+
+.option-select-menu {
+    text-align: center;
+}
+
+select {
+    margin: 5px;
+}

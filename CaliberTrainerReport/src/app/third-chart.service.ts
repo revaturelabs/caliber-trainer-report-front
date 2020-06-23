@@ -11,7 +11,7 @@ export class ThirdChartService {
   constructor(private http: HttpClient, private urlService: UrlService) { }
 
   getTechnicalStatusByWeek(): Observable<any>{
-    return this.http.get(this.urlService.getUrl() + 'TechnicalStatusByWeek').pipe(
+    return this.http.get(this.urlService.getUrlWithId() + 'TechnicalStatusByWeek').pipe(
       map(resp => resp)
     );
   }

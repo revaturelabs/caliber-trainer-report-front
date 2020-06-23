@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FileUploadService } from '../../file-upload.service';
-
-
+import { GetTrainerService } from 'src/app/get-trainer.service';
 
 @Component({
   selector: 'app-upload',
@@ -37,6 +36,7 @@ export class UploadComponent {
   }
 
   public onSubmit(): void {
+    // this stores some trainer information in local storage for any get requests.
     this.fileUploadService.upload(this.fileName, this.formGroup.get('file').value);
-  } 
+  }
 }
