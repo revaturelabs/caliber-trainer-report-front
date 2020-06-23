@@ -14,6 +14,10 @@ export class DisplayGraphService {
         // FOR MOBILE PHONE
         isBig = false;
         element.style.width = '80vw';
+        // FOR ULTRA WIDE
+      } else if (width > 1940) {
+        isBig = true;
+        element.style.width = '30vw';
       } else {
         isBig = true;
         element.style.width = '45vw';

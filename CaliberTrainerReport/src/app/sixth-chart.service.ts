@@ -24,21 +24,6 @@ export class SixthChartService {
     return this.xlabels;
   }
 
-  getAverageCategoryScores(category: string): any[]{
-    this.yAvglabels = [];
-    if (category === 'SQL'){
-      // our subscribe method eventually
-        this.yAvglabels.push(100);
-        this.yAvglabels.push(25);
-        this.yAvglabels.push(65);
-        this.yAvglabels.push(73);
-      }else if (category === 'Java'){
-        this.yAvglabels.push(24);
-        this.yAvglabels.push(85);
-        this.yAvglabels.push(32);
-        this.yAvglabels.push(18);
-      }
-    return this.yAvglabels;
-  }
+
 
 }
