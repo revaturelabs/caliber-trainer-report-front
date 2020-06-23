@@ -11,4 +11,7 @@ export class UrlService {
   getUrl(): string{
     return 'http://localhost:8080/excaliber/1/';
   }
+  getUrl2(): string{
+    return 'http://localhost:8080/excaliber/';
+  }
 }
