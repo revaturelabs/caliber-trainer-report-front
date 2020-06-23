@@ -10,7 +10,7 @@ import { finalize } from 'rxjs/operators';
 })
 export class FileUploadService {
 
-  private fileList: string[] = new Array<string>();
+  fileList: string[] = new Array<string>();
   private fileList$: Subject<string[]> = new Subject<string[]>();
   private displayLoader$: Subject<boolean> = new BehaviorSubject<boolean>(false);
   private regHeaders = new HttpHeaders({'Content-Type': 'application/json'});

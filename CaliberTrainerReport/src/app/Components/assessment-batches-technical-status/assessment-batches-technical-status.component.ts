@@ -34,8 +34,6 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
   ngOnInit(): void {
     this.selectedValue = this.assessmentTS.selectedValue;
     this.graphAdjust();
-
-    this.selectedValue = this.assessmentTS.selectedValue;
     this.pickedBatch = 0;
     this.batchNames = [];
     this.batchesObj = [];

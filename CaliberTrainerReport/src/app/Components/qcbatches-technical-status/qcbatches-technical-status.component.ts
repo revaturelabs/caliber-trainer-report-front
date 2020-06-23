@@ -143,6 +143,10 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
     superstarDisplayData: any[],
     nullDisplayData: any[]
   ) {
+    if(batchNames.length === 0) {
+      this.myGraph.destroy();
+    }
+
     if (this.myGraph) {
       this.myGraph.destroy();
     }

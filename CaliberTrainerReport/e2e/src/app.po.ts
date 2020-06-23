@@ -1,4 +1,5 @@
 import { browser, by, element } from 'protractor';
+import { protractor } from 'protractor/built/ptor';
 
 export class AppPage {
   navigateTo() {
@@ -31,6 +32,8 @@ export class AppPage {
 
     element(by.css('input[type="file"]')).sendKeys(absolutePath);
     element(by.css('input[type="submit"]')).click();
+    let ec = protractor.ExpectedConditions;
+    browser.wait(ec.alertIsPresent(), 5000, "Alert is not present")
   }
 
   navigateToReportsPage(reportPage: string){

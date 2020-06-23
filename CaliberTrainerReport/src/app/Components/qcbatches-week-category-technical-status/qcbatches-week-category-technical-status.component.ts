@@ -71,6 +71,10 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit, On
   displayGraph() {
     const elmnt = document.getElementById('thirdChart');
     const y = elmnt.scrollTop;
+    if(this.getXData(this.pickedBatch).length === 0) {
+      this.myGraph.destroy();
+    }
+
     if (this.myGraph) {
       this.myGraph.destroy();
     }
