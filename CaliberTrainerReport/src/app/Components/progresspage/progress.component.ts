@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FileUploadService } from '../../file-upload.service';
-import { Observable } from 'rxjs';
 
 // 
 @Component({
