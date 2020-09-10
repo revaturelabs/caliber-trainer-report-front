@@ -6,7 +6,6 @@ import { AssessmentComponent } from 'src/app/Components/assessment/assessment.co
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/display-graph.service';
 
-
 @Component({
   selector: 'app-assessment-batches-trend-category-technical-status',
   templateUrl:
@@ -25,7 +24,6 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
   myLineChart: any;
   batchNames: string[];
   selectedValue: string;
-
 
   categoriesObj: any[];
   yValues: any[];
@@ -49,9 +47,16 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
     this.batchNames = [];
     this.yValues = [];
 
-
     this.pickedCategory = 0;
 
+    let gA6=JSON.parse(sessionStorage.getItem("graphArray6"));
+    if(gA6 != null){
+      this.displayGraph(gA6[0], gA6[1]);
+
+
+    } else {
+
+    
     this.sixthChartServiceSubscription = this.sixthChartService
       .getSixthGraphData()
       .subscribe((resp) => {
@@ -64,14 +69,20 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
           for (const indivScore of stuff.assessments) {
             total += indivScore;
           }
-          this.yValues.push(Math.round((total / stuff.assessments.length) * 100) / 100);
+          this.yValues.push(
+            Math.round((total / stuff.assessments.length) * 100) / 100
+          );
         }
         for (const score of resp.categories[0].batchAssessments) {
           this.batchNames.push(score.batchName);
         }
 
+        let graphArray = [this.batchNames, this.yValues];
+        sessionStorage.setItem("graphArray6", JSON.stringify(graphArray));
         this.displayGraph(this.batchNames, this.yValues);
       });
+
+    }
   }
 
   updateGraph() {
@@ -85,7 +96,9 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
       if (isNaN(total / stuff.assessments.length)) {
         this.yValues.push(0);
       } else {
-        this.yValues.push(Math.round((total / stuff.assessments.length) * 100) / 100);
+        this.yValues.push(
+          Math.round((total / stuff.assessments.length) * 100) / 100
+        );
       }
     }
 
@@ -146,7 +159,11 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
 
   graphAdjust() {
     const chartElem = document.getElementById('divChart6');
-    this.isBig = this.displayGraphService.graphAdjust(chartElem, this.assessmentTS.selectedValue, this.isBig);
+    this.isBig = this.displayGraphService.graphAdjust(
+      chartElem,
+      this.assessmentTS.selectedValue,
+      this.isBig
+    );
   }
 
   @HostListener('window:resize', ['$event'])
@@ -167,6 +184,8 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
   }
 
   ngOnDestroy() {
-    this.sixthChartServiceSubscription.unsubscribe();
+    if (this.sixthChartServiceSubscription != undefined) {
+      this.sixthChartServiceSubscription.unsubscribe();
+    }
   }
 }
