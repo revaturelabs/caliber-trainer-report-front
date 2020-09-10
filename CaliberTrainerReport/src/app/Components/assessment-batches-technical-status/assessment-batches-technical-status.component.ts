@@ -37,8 +37,23 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
     this.pickedBatch = 0;
     this.batchNames = [];
     this.batchesObj = [];
-    this.allBatches = [];
     this.scoreNames = ['Exam', 'Verbal', 'Presentation', 'Project', 'Other'];
+    this.allBatches = [];
+    let ssallBatches: any = JSON.parse(sessionStorage.getItem("allBatches"));
+    let ssBatchNames: any = JSON.parse(sessionStorage.getItem("batchNames"));
+
+    if(ssallBatches != null && ssBatchNames != null){
+      console.log("ACCESSING SESSION STORAGE");
+      this.allBatches = JSON.parse(sessionStorage.getItem("allBatches"));
+      this.batchNames = JSON.parse(sessionStorage.getItem("batchNames"));
+      console.log(this.batchNames);
+      this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
+      this.displayGraph(this.batchesObj);
+
+    } else {
+      console.log("ACESSING DB");
+
+    
     this.fourthChartServiceSubscription = this.fourthChartService.getAssessmentByBatch().subscribe((resp) => {
       this.allBatches = resp;
       for (const i of this.allBatches.keys()) {
@@ -54,8 +69,12 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
 
       this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
 
+      sessionStorage.setItem("allBatches", JSON.stringify(this.allBatches));
+      sessionStorage.setItem("batchNames", JSON.stringify((this.batchNames)));
+
       this.displayGraph(this.batchesObj);
     });
+  }
   }
 
   updateGraph() {
@@ -146,6 +165,9 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
   }
 
   ngOnDestroy() {
-    this.fourthChartServiceSubscription.unsubscribe();
+    if(this.fourthChartServiceSubscription != undefined){
+      this.fourthChartServiceSubscription.unsubscribe();
+
+    }
   }
 }
