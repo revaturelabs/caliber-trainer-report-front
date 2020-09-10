@@ -25,6 +25,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UploadComponent } from './Components/jsonuploader/upload.component';
 import { ProgressPage } from './Components/progresspage/progress.component';
 import { TrainerSelectorComponent } from './Components/trainer-selector/trainer-selector.component';
+import { CalendarComponent } from './Components/calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { TrainerSelectorComponent } from './Components/trainer-selector/trainer-
     HomeComponent,
     UploadComponent,
     ProgressPage,
-    TrainerSelectorComponent
+    TrainerSelectorComponent,
+    CalendarComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   imports: [
