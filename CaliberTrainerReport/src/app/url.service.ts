@@ -7,7 +7,7 @@ import { GetTrainerService } from './get-trainer.service';
 })
 export class UrlService {
 
-  constructor(private http: HttpClient, private trainerServ: GetTrainerService) { }
+  constructor(private http: HttpClient) { }
 
   getUrl(): string {
     return 'http://localhost:8080/excaliber/';
@@ -16,5 +16,9 @@ export class UrlService {
   // ie: ~/2/AssessmentByCategory/
   getUrlWithId() {
     return this.getUrl() + sessionStorage.getItem('selectedId') + '/';
+  }
+ 
+  getCaliberUrl(){
+    return 'http://34.82.182.44/mock/';
   }
 }
