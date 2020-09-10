@@ -41,14 +41,14 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
     this.allBatches = [];
     let ssallBatches: any = JSON.parse(sessionStorage.getItem("allBatches"));
     let ssBatchNames: any = JSON.parse(sessionStorage.getItem("batchNames"));
-    let gArray4 = JSON.parse(sessionStorage.getItem("allBatches"))
+    let gArray4 = JSON.parse(sessionStorage.getItem("graphArray4"));
 
     // Performance workaround to prevent constantly loading from DB.
     if(gArray4 != null){
       console.log("ACCESSING SESSION STORAGE");
       
-      this.allBatches = JSON.parse(sessionStorage.getItem("allBatches"));
-      this.batchNames = JSON.parse(sessionStorage.getItem("batchNames"));
+      this.allBatches = JSON.parse(JSON.stringify(gArray4))[1];
+      this.batchNames = JSON.parse(JSON.stringify(gArray4))[2];
       console.log(this.batchNames);
       this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
       this.displayGraph(this.batchesObj);
