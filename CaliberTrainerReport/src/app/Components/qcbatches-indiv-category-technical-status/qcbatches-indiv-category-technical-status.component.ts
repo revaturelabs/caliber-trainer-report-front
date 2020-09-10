@@ -60,7 +60,12 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
           this.categoriesName.push(obj.categoryName);
           this.categoriesObj.push(obj.batches);
         }
+        this.categoriesName.unshift("ALL");
+        this.categoriesObj.unshift(resp.batchByCategory[0].batches);
+        console.log(resp.batchByCategory[0].batches);
+        // this.categoriesObj.unshift("COOL");
         this.setScoreValues();
+        console.log();
         for (const score of resp.batchByCategory[0].batches) {
           this.batchNames.push(score.batchName);
         }
@@ -81,6 +86,54 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
   }
 
   setScoreValues() {
+    if(this.pickedCategory == 0){
+      console.log("hello");
+      let a:number = 0;
+      this.categoriesObj.forEach(c => {
+        // Each object c is an individual category on the graph. We want to display ALL simultaneously.
+        
+        console.log(this.categoriesName[a++]);
+
+        
+        for (const stuff of c) {
+
+
+        const score = stuff.score;
+        let totalValue = 0;
+        let quantity = 0;
+  
+        this.poorRawScore.push(score.poor);
+        this.averageRawScore.push(score.average);
+        this.goodRawScore.push(score.good);
+        this.superstarRawScore.push(score.superstar);
+  
+        totalValue =
+          score.poor * 1 +
+          score.average * 2 +
+          score.good * 3 +
+          score.superstar * 4;
+        quantity =
+          score.poor +
+          score.average +
+          score.good +
+          score.superstar;
+  
+        if (isNaN(totalValue / quantity)) {
+          this.yValues.push(0);
+        } else {
+          this.yValues.push(
+            Math.round((totalValue / quantity) * 100) / 100
+          );
+        }
+          
+      };
+        
+      
+    
+    
+    
+    });
+  } else {
     for (const stuff of this.categoriesObj[this.pickedCategory]) {
       const score = stuff.score;
       let totalValue = 0;
@@ -111,11 +164,14 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
       }
     }
   }
+  }
 
   displayGraph(batchDisplayNames: string[], yDisplayValues: any[]) {
     if (this.myLineChart) {
       this.myLineChart.destroy();
     }
+
+
 
     const yLabels = {
       0: 'No Data',
