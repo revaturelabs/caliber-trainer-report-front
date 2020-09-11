@@ -23,6 +23,8 @@ import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/st
 import { parse } from 'path';
 
 
+import { GetBatchesService } from 'src/app/get-batches.service';
+
 
 @Component({
   selector: 'app-calendar',
@@ -120,11 +122,12 @@ export class CalendarComponent implements OnInit {
   activeDayIsOpen: boolean = true;
 
 
+
+
+
   constructor(private modal: NgbModal, private batchServ: GetBatchesService) { }
   batches: Array<any>;
   ngOnInit(): void {
-    console.log(new Date());
-    
     this.batchServ.getBatches().subscribe(
       (response) => {
         this.batches = response;
@@ -151,6 +154,7 @@ export class CalendarComponent implements OnInit {
       this.bEndDate = new Date(this.bEndDateString);
       this.addEventtest();
     }
+
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -189,6 +193,7 @@ export class CalendarComponent implements OnInit {
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
   }
+
 
   getRandomColor() {
     var color = Math.floor(0x1000000 * Math.random()).toString(16);
