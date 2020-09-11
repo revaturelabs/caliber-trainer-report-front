@@ -18,6 +18,7 @@ import {
   CalendarEventTimesChangedEvent,
   CalendarView,
 } from 'angular-calendar';
+
 import { GetBatchesService } from 'src/app/get-batches.service';
 
 const colors: any = {
@@ -120,6 +121,7 @@ export class CalendarComponent implements OnInit {
   activeDayIsOpen: boolean = true;
 
 
+
   constructor(private modal: NgbModal, private batchServ: GetBatchesService) { }
   batches: Array<any>;
   ngOnInit(): void {
@@ -129,6 +131,7 @@ export class CalendarComponent implements OnInit {
         console.log(response);
       }
     )
+
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -167,6 +170,7 @@ export class CalendarComponent implements OnInit {
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
   }
+
 
   addEventtest(): void {
     this.events = [
