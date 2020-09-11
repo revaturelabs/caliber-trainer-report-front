@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
+import { Trainer } from 'src/app/class/trainer'
 import {
   startOfDay,
   endOfDay,
@@ -44,6 +45,8 @@ export class CalendarComponent implements OnInit {
   view: CalendarView = CalendarView.Month;
 
   CalendarView = CalendarView;
+
+  trainer: Trainer;
 
   viewDate: Date = new Date();
 
@@ -156,6 +159,10 @@ export class CalendarComponent implements OnInit {
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
+  }
+
+  getTrainer() {
+    console.log(this.trainer);
   }
 
   addEvent(): void {
