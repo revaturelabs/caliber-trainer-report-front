@@ -11,18 +11,17 @@ export class TrainerSessionService {
 
   setTrainerList(trainerList): string{
     this.getTrainerServ.getTrainerList().then((resp) => {
-      for (const iter of JSON.parse(
-        sessionStorage.getItem('currentTrainers')
-      )) {
+      const ct = JSON.parse(sessionStorage.getItem('currentTrainers'));
+      for (const iter of ct) {
         trainerList.push(iter);
       }
       if (
-        sessionStorage.getItem('currentTrainers') &&
+        ct.length != 0 &&
         !sessionStorage.getItem('selectedId')
       ) {
-        const ct = JSON.parse(sessionStorage.getItem('currentTrainers'));
         sessionStorage.setItem('selectedId', ct[0].id);
         this.selectedValue = ct[0].id;
+        
       }
     });
     return this.selectedValue;
