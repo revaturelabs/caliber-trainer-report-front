@@ -2,7 +2,9 @@
 <div class="qc-title">
     <h2>Batch Calendar</h2>
     <div class="option-select-menu" style="margin-bottom: 10px;">
-      <app-trainer-selector [(ngModel)]="trainer" name="selectedtrainer"></app-trainer-selector>
+
+      <app-trainer-selector [(ngModel)]="trainer" name="selectedtrainer" ></app-trainer-selector>
+    
     </div>
   </div>
 
@@ -49,7 +51,7 @@ color: white;">
 </div>
 <br />
 <div [ngSwitch]="view">
-    <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+    <mwl-calendar-month-view  *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
         [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
         (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-month-view>
