@@ -124,6 +124,7 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
         ];
         
         sessionStorage.setItem("graphArray5", JSON.stringify(graphArray));
+        
         this.displayGraph(
           this.categories,
           this.examScores,
