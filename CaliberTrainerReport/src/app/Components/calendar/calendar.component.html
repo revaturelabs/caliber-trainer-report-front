@@ -1,5 +1,18 @@
-<p>calendar works!</p>
-<div class="row text-center">
+
+<div class="qc-title">
+    <h2>Batch Calendar</h2>
+    <div class="option-select-menu" style="margin-bottom: 10px;">
+      <app-trainer-selector [(ngModel)]="trainer" name="selectedtrainer" ></app-trainer-selector>
+    </div>
+  </div>
+
+<div class="div">
+<div class="row text-center" style="background-color: #ea753e;
+padding: 10px;
+margin: 0;
+border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+color: white;">
     <div class="col-md-4">
         <div class="btn-group">
             <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
@@ -36,7 +49,7 @@
 </div>
 <br />
 <div [ngSwitch]="view">
-    <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+    <mwl-calendar-month-view  *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
         [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
         (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-month-view>
@@ -48,5 +61,6 @@
         (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-day-view>
 </div>
+</div>
 
-<!-- Everything you see below is just for the demo, you don't need to include it in your app -->
+
