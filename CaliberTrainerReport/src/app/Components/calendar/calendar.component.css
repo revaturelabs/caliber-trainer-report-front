@@ -1,0 +1,69 @@
+h3 {
+  margin: 0 0 10px;
+}
+
+pre {
+  background-color: #f5f5f5;
+  padding: 15px;
+}
+
+
+.div {
+  border: 2px solid #ea753e;
+  width: 95%;
+  height: fit-content;
+  font-family: sans-serif;
+  color: black;  
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  text-align: center;
+  margin-top: 30px;
+  margin-right: auto;
+  margin-bottom: 2.5%;
+  margin-left: auto;
+
+}
+
+.qc-body{
+  margin: 0 auto;
+  width: 95%;
+  margin-bottom: 100px;
+}
+
+.qc-graph-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+
+  grid-gap: 15px;
+}
+
+.qc-title{
+  width: 95%;
+  margin-right: auto;
+  margin-left: auto;
+  display: grid;
+  border: 2px solid #ea753e;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.qc-title h2{
+  justify-self: center;
+}
+
+.qc-title select{
+  justify-self: center;
+  margin-bottom: 10px;
+}
+
+.legend {
+  font-size: 12px;
+  color: grey;
+}
+
+.option-select-menu {
+  text-align: center;
+}
+
+select {
+  margin: 5px;
+}

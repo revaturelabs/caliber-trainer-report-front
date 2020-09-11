@@ -25,7 +25,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UploadComponent } from './Components/jsonuploader/upload.component';
 import { ProgressPage } from './Components/progresspage/progress.component';
 import { TrainerSelectorComponent } from './Components/trainer-selector/trainer-selector.component';
+
+import { CalendarComponent } from './Components/calendar/calendar.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { ApiAllTrainersComponent } from './Components/api-all-trainers/api-all-trainers.component';
+
 
 @NgModule({
   declarations: [
@@ -43,6 +50,7 @@ import { ApiAllTrainersComponent } from './Components/api-all-trainers/api-all-t
     UploadComponent,
     ProgressPage,
     TrainerSelectorComponent,
+    CalendarComponent
     ApiAllTrainersComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
@@ -52,7 +60,9 @@ import { ApiAllTrainersComponent } from './Components/api-all-trainers/api-all-t
     FontAwesomeModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    NgbModule
   ],
   providers: [FirstChartService, SecondChartService, FourthChartService, FifthChartService, UrlService, FileUploadService],
   bootstrap: [AppComponent]
