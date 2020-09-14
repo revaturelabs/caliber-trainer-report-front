@@ -24,6 +24,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
   myLineChart: any;
   batchNames: string[];
   selectedValue: string;
+  cumulativeyValues : any[];
 
   categoriesObj: any[];
   yValues: any[];
@@ -48,6 +49,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
     this.batchNames = [];
     this.yValues = [];
     this.multiGraphYValues = [];
+    this.cumulativeyValues = [];
 
     this.pickedCategory = 0;
     
@@ -89,10 +91,11 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
               }
 
             }
+
+            this.cumulativeyValues.push(this.yValues);
             this.multiGraphYValues.push(JSON.parse(JSON.stringify(this.yValues)));
             this.yValues=[];
           });
-          // console.log(this.multiGraphYValues);
           
 
           
@@ -214,7 +217,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
     } else {
 
     
-
+    let lineColor:string = colorArray[this.pickedCategory-1];
 
     this.myLineChart = new Chart('sixthChart', {
       type: 'line',
@@ -225,7 +228,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
             label: 'Overall Average', // Name the series
             data: yDisplayValues, // Specify the data values array
             fill: false,
-            borderColor: '#2196f3', // Add custom color border (Line)
+            borderColor: lineColor, // Add custom color border (Line)
             backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
             borderWidth: 1, // Specify bar border width
           },

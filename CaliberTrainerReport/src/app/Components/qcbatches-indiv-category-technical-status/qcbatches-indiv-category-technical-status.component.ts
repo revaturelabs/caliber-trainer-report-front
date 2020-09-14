@@ -27,6 +27,11 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
   goodRawScore: any[];
   superstarRawScore: any[];
 
+  cumulativePoor: any[];
+  cumulativeAverage: any[];
+  cumulativeGood: any[];
+  cumulativeSuper: any[];
+
   multiGraphYValues: any[];
 
   batchNames: string[];
@@ -55,6 +60,10 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
     this.averageRawScore = [];
     this.goodRawScore = [];
     this.superstarRawScore = [];
+    this.cumulativeSuper = [];
+    this.cumulativeAverage = [];
+    this.cumulativeGood = [];
+    this.cumulativePoor = [];
 
     this.secondChartServiceSubscription = this.secondChartService
       .getAvgCategoryScoresObservables()
@@ -84,6 +93,10 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
     this.averageRawScore = [];
     this.goodRawScore = [];
     this.superstarRawScore = [];
+    this.cumulativeSuper = [];
+    this.cumulativeAverage = [];
+    this.cumulativeGood = [];
+    this.cumulativePoor = [];
 
     this.setScoreValues();
     this.displayGraph(this.batchNames, this.yValues);
@@ -96,8 +109,6 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
       this.categoriesObj.forEach(c => {
         // Each object c is an individual category on the graph. We want to display ALL simultaneously.
         
-        console.log(this.categoriesName[a++]);
-
         // JAVA
         for (const stuff of c) {
 
@@ -128,18 +139,21 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
           this.yValues.push(
             Math.round((totalValue / quantity) * 100) / 100
           );
-        }
-        
-        
-        
-          
+        } 
       };
+      this.cumulativePoor.push(this.poorRawScore);
+      this.poorRawScore = [];
+      this.cumulativeGood.push(this.goodRawScore);
+      this.goodRawScore = [];
+      this.cumulativeAverage.push(this.averageRawScore);
+      this.averageRawScore = [];
+      this.cumulativeSuper.push(this.superstarRawScore);
+      this.superstarRawScore = [];
+
+      console.log(this.cumulativeGood);
       this.multiGraphYValues.push(this.yValues);
       
       this.yValues = [];
-        
-      
-    
     
     
     });
