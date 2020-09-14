@@ -172,14 +172,12 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
       this.cumulativeSuper.push(this.superstarRawScore);
       this.superstarRawScore = [];
 
-      console.log(this.cumulativeGood);
       this.multiGraphYValues.push(this.yValues);
       
       this.yValues = [];
     
     
     });
-    this.multiGraphYValues.forEach(y => {console.log(y)});
   } else {
     // For all the data we want to to view concerning a single week (category) chosen by user.
     for (const stuff of this.categoriesObj[this.pickedCategory]) {
@@ -233,7 +231,6 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
       // Removes the first (redundant) element
       this.multiGraphYValues.shift();
       for(let i = 1; i < this.categoriesName.length; i++){
-        console.log("GRAPHING: " + this.categoriesName[i]);
         let lineColor:string;
         
 
@@ -383,6 +380,9 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
   }
 
   ngOnDestroy() {
-    this.secondChartServiceSubscription.unsubscribe();
+    if(this.secondChartServiceSubscription != undefined){
+
+      this.secondChartServiceSubscription.unsubscribe();
+    }
   }
 }

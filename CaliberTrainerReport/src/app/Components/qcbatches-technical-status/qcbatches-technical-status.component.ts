@@ -57,6 +57,20 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
       this.superstarData = gA1[4];
       this.nullData = gA1[5];
 
+      this.batchNames = gA1[6];
+      this.technicalStatus = gA1[7];
+
+      let rawDataArray: any[] = JSON.parse(JSON.stringify(gA1[8]));
+
+
+      this.poorRawData = rawDataArray[0];
+      this.averageRawData = rawDataArray[1];
+      this.goodRawData = rawDataArray[2];
+      this.superstarRawData = rawDataArray[3];
+      this.nullRawData = rawDataArray[4];
+
+
+
 
       this.displayGraphAll(
         this.batchNames,
@@ -94,6 +108,7 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
         this.nullRawData = [];
         this.batchNames = [];
         this.technicalStatus = [];
+        let rawDataArray: any[] = [];
 
         // Store batch names
         for (const batch of this.firstGraphObj) {
@@ -114,6 +129,8 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
           this.goodRawData.push(batches[2]);
           this.superstarRawData.push(batches[3]);
           this.nullRawData.push(batches[4]);
+          rawDataArray = [this.poorRawData, this.averageRawData, this.goodRawData, 
+                                      this.superstarRawData, this.nullRawData]
 
           // Seperates data into each technical score type (good, bad, avg) and performs math
           // to get the weighted value out of 100%
@@ -155,7 +172,10 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
           }
         }
 
-        let graphArray: any[] = [this.batchNames, this.poorData, this.averageData, this.goodData, this.superstarData,this.nullData];
+        
+        let graphArray: any[] = [this.batchNames, this.poorData, this.averageData, this.goodData, 
+                                  this.superstarData, this.nullData, this.batchNames, this.technicalStatus, 
+                                  rawDataArray];
         let trainerId = sessionStorage.getItem("selectedId");
         sessionStorage.setItem("gA1"+trainerId, JSON.stringify(graphArray));
         // This actually passes the data to display the graph after receiving the data from the observables
