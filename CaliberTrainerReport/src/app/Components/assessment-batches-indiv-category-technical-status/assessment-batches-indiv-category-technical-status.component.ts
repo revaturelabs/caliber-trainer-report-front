@@ -60,7 +60,8 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
     this.projectRawScores = [];
     this.presentationRawScores = [];
     this.otherRawScores = [];
-    let gArray = JSON.parse(sessionStorage.getItem("graphArray5"));
+    let trainerId: string = sessionStorage.getItem("selectedId");
+    let gArray = JSON.parse(sessionStorage.getItem("graphArray5" + trainerId));
 
     if(gArray != null){
       this.displayGraph(gArray[0], gArray[1], gArray[2], gArray[3], 
@@ -123,7 +124,8 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
 
         ];
         
-        sessionStorage.setItem("graphArray5", JSON.stringify(graphArray));
+        let trainerId: string = sessionStorage.getItem("selectedId");
+        sessionStorage.setItem("graphArray5" + trainerId, JSON.stringify(graphArray));
         
         this.displayGraph(
           this.categories,

@@ -44,7 +44,38 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.selectedValue = this.qcTS.selectedValue;
     this.graphAdjust();
+
+    let trainerId = sessionStorage.getItem("selectedId");
+    let gA1:any[] = JSON.parse(sessionStorage.getItem("gA1"+trainerId));
+
+    if(gA1 != null && !gA1.includes(null)){
+
+      this.batchNames = gA1[0];
+      this.poorData = gA1[1];
+      this.averageData = gA1[2];
+      this.goodData = gA1[3];
+      this.superstarData = gA1[4];
+      this.nullData = gA1[5];
+
+
+      this.displayGraphAll(
+        this.batchNames,
+        this.poorData,
+        this.averageData,
+        this.goodData,
+        this.superstarData,
+        this.nullData
+      );
+
+
+
+    } else {
+
+    
+
+
     // This method receives the JSON object from the URL GET request
+    
     this.firstChartServiceSubscription = this.firstChartService
       .getTechnicalStatusPerBatch()
       .subscribe((resp) => {
@@ -123,6 +154,10 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
             );
           }
         }
+
+        let graphArray: any[] = [this.batchNames, this.poorData, this.averageData, this.goodData, this.superstarData,this.nullData];
+        let trainerId = sessionStorage.getItem("selectedId");
+        sessionStorage.setItem("gA1"+trainerId, JSON.stringify(graphArray));
         // This actually passes the data to display the graph after receiving the data from the observables
         this.displayGraphAll(
           this.batchNames,
@@ -133,6 +168,7 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
           this.nullData
         );
       });
+    }
   }
 
   displayGraphAll(
@@ -255,6 +291,9 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.firstChartServiceSubscription.unsubscribe();
+    if(this.firstChartServiceSubscription != null){
+      this.firstChartServiceSubscription.unsubscribe();
+
+    }
   }
 }

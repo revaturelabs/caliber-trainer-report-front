@@ -48,13 +48,34 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit, On
     this.selectedValue = this.qcTS.selectedValue;
     this.graphAdjust();
     // This method receives the JSON object from the URL GET request
+
+    let trainerId = sessionStorage.getItem("selectedId");
+    let gA3: any[] = JSON.parse(sessionStorage.getItem("graphArray3" + trainerId));
+
+    if(gA3 != null && !gA3.includes(null)){
+      this.batches = this.getBatches();
+      this.thirdGraphObj = gA3[0];
+      this.pickedBatch = gA3[1];
+
+      this.displayGraph();
+
+    } else {
+
+    
     this.thirdChartServiceSubscription = this.thirdChartService.getTechnicalStatusByWeek().subscribe((resp) => {
       this.thirdGraphObj = resp;
-
       this.batches = this.getBatches();
       this.pickedBatch = this.batches[0];
+
+      let graphArray = [this.thirdGraphObj, this.batches[0]]
+      let trainerId = sessionStorage.getItem("selectedId");
+      sessionStorage.setItem("graphArray3" + trainerId, JSON.stringify(graphArray));
+
       this.displayGraph();
+      
     });
+  }
+  
   }
 
   // returns array of the batch ids (need for populating batch drop-down list)
@@ -169,7 +190,8 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit, On
 
   getXData(batch: string): string[] {
     this.xlabels = [];
-    for (const batchCategory of this.thirdGraphObj) {
+    console.log(this.thirdGraphObj);
+    for (let batchCategory of this.thirdGraphObj) {
       this.xlabels.push(batchCategory.category);
     }
     return this.xlabels;
