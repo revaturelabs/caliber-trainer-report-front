@@ -27,6 +27,11 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
   goodRawScore: any[];
   superstarRawScore: any[];
 
+  cumulativePoor: any[];
+  cumulativeAverage: any[];
+  cumulativeGood: any[];
+  cumulativeSuper: any[];
+
   multiGraphYValues: any[];
 
   batchNames: string[];
@@ -55,6 +60,10 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
     this.averageRawScore = [];
     this.goodRawScore = [];
     this.superstarRawScore = [];
+    this.cumulativeSuper = [];
+    this.cumulativeAverage = [];
+    this.cumulativeGood = [];
+    this.cumulativePoor = [];
 
 
     let trainerId = sessionStorage.getItem("selectedId");
@@ -106,6 +115,10 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
     this.averageRawScore = [];
     this.goodRawScore = [];
     this.superstarRawScore = [];
+    this.cumulativeSuper = [];
+    this.cumulativeAverage = [];
+    this.cumulativeGood = [];
+    this.cumulativePoor = [];
 
     this.setScoreValues();
     this.displayGraph(this.batchNames, this.yValues);
@@ -115,8 +128,9 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
     if(this.pickedCategory == 0){
       let a:number = 0;
       this.categoriesObj.forEach(c => {
-        // Each object c is an individual category on the graph. We want to display ALL simultaneously
 
+        // Each object c is an individual category on the graph. We want to display ALL simultaneously.
+        
         // JAVA
         for (const stuff of c) {
 
@@ -147,18 +161,21 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
           this.yValues.push(
             Math.round((totalValue / quantity) * 100) / 100
           );
-        }
-        
-        
-        
-          
+        } 
       };
+      this.cumulativePoor.push(this.poorRawScore);
+      this.poorRawScore = [];
+      this.cumulativeGood.push(this.goodRawScore);
+      this.goodRawScore = [];
+      this.cumulativeAverage.push(this.averageRawScore);
+      this.averageRawScore = [];
+      this.cumulativeSuper.push(this.superstarRawScore);
+      this.superstarRawScore = [];
+
+      console.log(this.cumulativeGood);
       this.multiGraphYValues.push(this.yValues);
       
       this.yValues = [];
-        
-      
-    
     
     
     });
