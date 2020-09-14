@@ -22,8 +22,22 @@
                 Raw technical scores by category across batches      
                 <fa-icon class="" [icon]="tableGraphIcon"></fa-icon>
             </h4>
+            <div *ngIf="pickedCategory == 0">
+                <div *ngFor="let category of categoriesName.slice(1); let i = index">
+                <h1>{{category}}</h1>
+                <table>
+                <caption></caption>
+                <th scope="col"></th>
+                <th scope="col" *ngFor="let batch of batchNames; let j = index">{{batch}}</th>
+                <tr><td class="description superstar-text">Superstar</td>  <td class="leftColumnStyle" *ngFor="let super of cumulativeSuper[i+1]">{{super}}</td></tr>
+                <tr><td class="description good-text">Good</td> <td class="leftColumnStyle" *ngFor="let good of cumulativeGood[i+1]">{{good}}</td></tr>
+                <tr><td class="description average-text">Average</td> <td class="leftColumnStyle" *ngFor="let average of cumulativeAverage[i+1]">{{average}}</td></tr>
+                <tr><td class="description poor-text">Poor</td> <td class="leftColumnStyle" *ngFor="let poor of cumulativePoor[i+1]">{{poor}}</td></tr>
+            </table>
+        </div>
+        </div>
         
-            <table>
+            <table *ngIf="pickedCategory != 0">
                 <caption></caption>
                 <th scope="col"></th>
                 <th scope="col" *ngFor="let batch of batchNames; let i = index">{{batch}}</th>
