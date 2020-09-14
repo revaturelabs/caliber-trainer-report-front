@@ -56,6 +56,20 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
     this.goodRawScore = [];
     this.superstarRawScore = [];
 
+
+    let trainerId = sessionStorage.getItem("selectedId");
+    let gA2: any[] = JSON.parse(sessionStorage.getItem("graphingArray2" + trainerId));
+    if(gA2 != null && !gA2.includes(null)){
+      this.categoriesName = gA2[2];
+      this.categoriesObj = gA2[3];
+
+      this.setScoreValues();
+      this.displayGraph(gA2[0], gA2[1]);
+
+    } else {
+
+    
+
     this.secondChartServiceSubscription = this.secondChartService
       .getAvgCategoryScoresObservables()
       .subscribe((resp) => {
@@ -65,16 +79,24 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
         }
         this.categoriesName.unshift("Overview");
         this.categoriesObj.unshift(resp.batchByCategory[0].batches);
-        console.log(resp.batchByCategory[0].batches);
         // this.categoriesObj.unshift("COOL");
         this.setScoreValues();
-        console.log();
+        
         for (const score of resp.batchByCategory[0].batches) {
           this.batchNames.push(score.batchName);
         }
+
+
+
+        let graphArray = [this.batchNames, this.yValues, this.categoriesName, this.categoriesObj];
+        let trainerId = sessionStorage.getItem("selectedId");
+        sessionStorage.setItem("graphingArray2" + trainerId, JSON.stringify(graphArray));
+
         // These arguments might need to change.
         this.displayGraph(this.batchNames, this.yValues);
       });
+
+    }
   }
 
   updateGraph() {
@@ -91,12 +113,9 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
 
   setScoreValues() {
     if(this.pickedCategory == 0){
-      console.log("SETTING MULTIPLE SCORES FOR GRAPH");
       let a:number = 0;
       this.categoriesObj.forEach(c => {
-        // Each object c is an individual category on the graph. We want to display ALL simultaneously.
-        
-        console.log(this.categoriesName[a++]);
+        // Each object c is an individual category on the graph. We want to display ALL simultaneously
 
         // JAVA
         for (const stuff of c) {

@@ -41,7 +41,8 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
     this.allBatches = [];
     let ssallBatches: any = JSON.parse(sessionStorage.getItem("allBatches"));
     let ssBatchNames: any = JSON.parse(sessionStorage.getItem("batchNames"));
-    let gArray4 = JSON.parse(sessionStorage.getItem("graphArray4"));
+    let trainerId: string = sessionStorage.getItem("selectedId");
+    let gArray4 = JSON.parse(sessionStorage.getItem("graphArray4" + trainerId));
 
     // Performance workaround to prevent constantly loading from DB.
     if(gArray4 != null){
@@ -73,8 +74,8 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
       this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
 
       let graphArray4 = [this.batchesObj, this.allBatches, this.batchNames];
-     
-      sessionStorage.setItem("graphArray4", JSON.stringify(graphArray4));
+      let trainerId: string = sessionStorage.getItem("selectedId");
+      sessionStorage.setItem("graphArray4" + trainerId, JSON.stringify(graphArray4));
 
       this.displayGraph(this.batchesObj);
     });
