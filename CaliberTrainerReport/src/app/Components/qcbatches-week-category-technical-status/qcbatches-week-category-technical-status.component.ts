@@ -190,7 +190,6 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit, On
 
   getXData(batch: string): string[] {
     this.xlabels = [];
-    console.log(this.thirdGraphObj);
     for (let batchCategory of this.thirdGraphObj) {
       this.xlabels.push(batchCategory.category);
     }
