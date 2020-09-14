@@ -25,8 +25,10 @@
     "@fortawesome/angular-fontawesome": "^0.6.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
+    "angular-calendar": "^0.28.16",
     "bootstrap": "^4.5.0",
     "chart.js": "^2.9.3",
+    "date-fns": "^2.16.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
