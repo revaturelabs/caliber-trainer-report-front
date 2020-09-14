@@ -24,6 +24,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
   myLineChart: any;
   batchNames: string[];
   selectedValue: string;
+  cumulativeyValues : any[];
 
   categoriesObj: any[];
   yValues: any[];
@@ -48,6 +49,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
     this.batchNames = [];
     this.yValues = [];
     this.multiGraphYValues = [];
+    this.cumulativeyValues = [];
 
     this.pickedCategory = 0;
     
@@ -89,10 +91,11 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
               }
 
             }
+
+            this.cumulativeyValues.push(this.yValues);
             this.multiGraphYValues.push(JSON.parse(JSON.stringify(this.yValues)));
             this.yValues=[];
           });
-          // console.log(this.multiGraphYValues);
           
 
           
