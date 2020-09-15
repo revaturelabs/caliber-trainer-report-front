@@ -1,12 +1,49 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
 import { Trainer } from 'src/app/class/trainer'
-import {startOfDay,endOfDay,subDays,addDays,endOfMonth,isSameDay,isSameMonth,addHours, } from 'date-fns';
+import {
+  startOfDay,
+  endOfDay,
+  subDays,
+  addDays,
+  endOfMonth,
+  isSameDay,
+  isSameMonth,
+  addHours,
+} from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CalendarEvent,CalendarEventAction,CalendarEventTimesChangedEvent,CalendarView, } from 'angular-calendar';
+import {
+  CalendarEvent,
+  CalendarEventAction,
+  CalendarEventTimesChangedEvent,
+  CalendarView,
+} from 'angular-calendar';
 import { GetBatchesService } from 'src/app/get-batches.service';
 import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/style-transforms';
-import { parse } from 'path';
+
+const colors: Array<any> = [
+  {
+    primary: '#FF0000',
+    secondary: '#FF0000'
+},
+  {
+    primary: '#00FF00',
+    secondary: '#00FF00'
+  },
+  {
+    primary: '#FFFF00',
+    secondary: '#FFFF00'
+  },
+  {
+    primary: '#FFA500',
+    secondary: '#FFA500'
+  },
+  {
+    primary: '#0000FF',
+    secondary: '#0000FF'
+  }
+]
+
 
 @Component({
   selector: 'app-calendar',
@@ -15,13 +52,7 @@ import { parse } from 'path';
 })
 export class CalendarComponent implements OnInit {
 
-  colors: any = {
-    color: {
-      primary: this.getRandomColor(),
-      secondary: this.getRandomColor(),
-    },
-   
-  };
+  colorCount: number = 0;
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
   view: CalendarView = CalendarView.Month;
@@ -61,55 +92,17 @@ export class CalendarComponent implements OnInit {
   
 
   [
-    // {
-    //   start: subDays(startOfDay(new Date()), 1),
-    //   end: addDays(new Date(), 1),
-    //   title: 'A 3 day event',
-    //   color: colors.red,
-    //   actions: this.actions,
-    //   allDay: true,
-    //   resizable: {
-    //     beforeStart: true,
-    //     afterEnd: true,
-    //   },
-    //   draggable: true,
-    // },
-    // {
-    //   start: startOfDay(new Date()),
-    //   title: 'An event with no end date',
-    //   color: colors.yellow,
-    //   actions: this.actions,
-    // },
-    // {
-    //   start: subDays(endOfMonth(new Date()), 3),
-    //   end: addDays(endOfMonth(new Date()), 3),
-    //   title: 'A long event that spans 2 months',
-    //   color: colors.blue,
-    //   allDay: true,
-    // },
-    // {
-    //   start: addHours(startOfDay(new Date()), 2),
-    //   end: addHours(new Date(), 2),
-    //   title: 'A draggable and resizable event',
-    //   color: this.colors.yellow,
-    //   actions: this.actions,
-    //   resizable: {
-    //     beforeStart: true,
-    //     afterEnd: true,
-    //   },
-    //   draggable: true,
-    // },
+   
   ];
 
   activeDayIsOpen: boolean = true;
 
 
-
-
-
   constructor(private modal: NgbModal, private batchServ: GetBatchesService) { }
   batches: Array<any>;
   ngOnInit(): void {
+    console.log(new Date());
+    
     this.batchServ.getBatches().subscribe(
       (response) => {
         this.batches = response;
@@ -127,16 +120,20 @@ export class CalendarComponent implements OnInit {
   bEndDateString: string;
 
   batchList() {
+    let j = 0;
     console.log(this.batches.length);
     for (let i = 0; i < this.batches.length; i++) {
-      this.bTitle = this.batches[i].batchName;
+      this.bTitle = this.batches[i].batchName + " " + this.batches[i].skill;
       this.bStartDateString = this.batches[i].startDate;
       this.bStartDate = new Date(this.bStartDateString);
       this.bEndDateString = this.batches[i].endDate;
       this.bEndDate = new Date(this.bEndDateString);
-      this.addEventtest();
+      this.addEventtest(colors[j]);
+      j++;
+      if (j == colors.length) {
+        j = 0;
+      };
     }
-
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -176,43 +173,28 @@ export class CalendarComponent implements OnInit {
     this.modal.open(this.modalContent, { size: 'lg' });
   }
 
+  getColor(): any{
+    for (this.colorCount; this.colorCount < colors.length; this.colorCount++) {
+      if (this.colorCount == 4 ) {
+        this.colorCount = 0;
+      }
+      console.log(colors[this.colorCount]);
 
-  getRandomColor() {
-    var color = Math.floor(0x1000000 * Math.random()).toString(16);
-    return '#' + ('000000' + color).slice(-6);
+      return colors[this.colorCount];
+    }
   }
 
-  addEventtest(): void {
+  addEventtest(colors:any): void {
     this.events = [
       ...this.events,
       {
         title: this.bTitle,
         start: this.bStartDate,
         end: this.bEndDate,
-        color: <any> this.getRandomColor()
-    
+        color: colors
       },
     ];
   }
-
-  
-
-  // addEvent(): void {
-  //   this.events = [
-  //     ...this.events,
-  //     {
-  //       title: 'New event',
-  //       start: startOfDay(new Date()),
-  //       end: endOfDay(new Date()),
-  //       color: colors.red,
-  //       draggable: true,
-  //       resizable: {
-  //         beforeStart: true,
-  //         afterEnd: true,
-  //       },
-  //     },
-  //   ];
-  // }
 
   deleteEvent(eventToDelete: CalendarEvent) {
     this.events = this.events.filter((event) => event !== eventToDelete);
@@ -227,3 +209,4 @@ export class CalendarComponent implements OnInit {
   }
 
 }
+
