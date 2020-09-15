@@ -1,4 +1,4 @@
-<div class="qc-body">
+<div class="qc-body" id="qc-body">
   <div class="qc-title">
     <h2>QC Technical Status</h2>
     <div class="option-select-menu">
@@ -10,17 +10,23 @@
         <option value="week">Category by Week</option>
       </select>
     </div>
+    <div class="col-md-4 text-right">
+      <button class="btn btn-danger btn-block" style="background-color: #ea753e;" (click)="downloadPDF()">Download PDF</button>
+   </div>
   </div>
+
   <div class="qc-graph-grid" *ngIf="selectedValue == 'all'">
 
     <app-qcbatches-technical-status></app-qcbatches-technical-status>
+    <div class="html2pdf__page-break"></div>
     <app-qcbatches-indiv-category-technical-status></app-qcbatches-indiv-category-technical-status>
+    <div class="html2pdf__page-break"></div>
     <app-qcbatches-week-category-technical-status></app-qcbatches-week-category-technical-status>
 
   </div>
   <div class="qc-graph-full" *ngIf="selectedValue == 'status'">
     <app-qcbatches-technical-status></app-qcbatches-technical-status>
-
+  
   </div><div class="qc-graph-full" *ngIf="selectedValue == 'individual'">
     <app-qcbatches-indiv-category-technical-status></app-qcbatches-indiv-category-technical-status>
 
