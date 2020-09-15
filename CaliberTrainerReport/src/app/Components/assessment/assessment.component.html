@@ -1,4 +1,4 @@
-<div class="assessment-body" >
+<div class="assessment-body" id="assessment-body">
     <div class="assessment-title">
         <h2>Assessment Technical Status</h2>
         <div class="option-select-menu">
@@ -10,12 +10,17 @@
                 <option value="trend">Trend by Category</option>
             </select>
         </div>
+        <div class="col-md-4 text-right">
+            <button class="btn btn-danger btn-block" style="background-color: #ea753e;" (click)="downloadPDF()">Download PDF</button>
+         </div>
     </div>
 
     <div class="assessment-graph-grid" *ngIf="selectedValue == 'all'">
         <app-assessment-batches-technical-status></app-assessment-batches-technical-status>
+        <div class="html2pdf__page-break"></div>
         <app-assessment-batches-indiv-category-technical-status>
         </app-assessment-batches-indiv-category-technical-status>
+        <div class="html2pdf__page-break"></div>
         <app-assessment-batches-trend-category-technical-status>
         </app-assessment-batches-trend-category-technical-status>
     </div>
