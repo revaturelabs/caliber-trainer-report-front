@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
-import { FifthChartService } from 'src/app/fifth-chart.service';
+import { FifthChartService } from 'src/app/services/AssessmentByCategory';
 import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/display-graph.service';
@@ -60,7 +60,17 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
     this.projectRawScores = [];
     this.presentationRawScores = [];
     this.otherRawScores = [];
+    let trainerId: string = sessionStorage.getItem("selectedId");
+    let gArray = JSON.parse(sessionStorage.getItem("graphArray5" + trainerId));
 
+    if(gArray != null){
+      this.displayGraph(gArray[0], gArray[1], gArray[2], gArray[3], 
+        gArray[4], gArray[5]);
+
+
+    } else {
+
+    
     this.fifthChartServiceSubscription = this.fifthChartService
       .getScorePerCategory()
       .subscribe((resp) => {
@@ -103,6 +113,20 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
             this.otherScores.push(Math.round(scores.average[4] * 100) / 100);
           }
         }
+
+        let graphArray = [
+          this.categories,
+          this.examScores,
+          this.verbalScores,
+          this.projectScores,
+          this.presentationScores,
+          this.otherScores
+
+        ];
+        
+        let trainerId: string = sessionStorage.getItem("selectedId");
+        sessionStorage.setItem("graphArray5" + trainerId, JSON.stringify(graphArray));
+        
         this.displayGraph(
           this.categories,
           this.examScores,
@@ -112,6 +136,7 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
           this.otherScores
         );
       });
+    }
   }
 
   displayGraph(
@@ -204,7 +229,10 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
   }
 
   ngOnDestroy(): void{
-    this.fifthChartServiceSubscription.unsubscribe();
+    if(this.fifthChartServiceSubscription != undefined){
+      this.fifthChartServiceSubscription.unsubscribe();
+
+    }
   }
 }
 
