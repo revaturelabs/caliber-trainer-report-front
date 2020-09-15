@@ -17,7 +17,7 @@ import { AssessmentComponent } from './Components/assessment/assessment.componen
 import { HomeComponent } from './Components/home/home.component';
 import { SecondChartService } from './second-chart.service';
 import { FourthChartService } from './fourth-chart.service';
-import { FifthChartService } from './fifth-chart.service';
+import { FifthChartService } from './services/AssessmentByCategory';
 import { FileUploadService } from './file-upload.service';
 import { UrlService } from './url.service';
 import { HttpClientModule } from '@angular/common/http';

@@ -6,7 +6,6 @@ import { AssessmentComponent } from 'src/app/Components/assessment/assessment.co
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/display-graph.service';
 
-
 @Component({
   selector: 'app-assessment-batches-trend-category-technical-status',
   templateUrl:
@@ -25,10 +24,11 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
   myLineChart: any;
   batchNames: string[];
   selectedValue: string;
-
+  cumulativeyValues : any[];
 
   categoriesObj: any[];
   yValues: any[];
+  multiGraphYValues: any[];
 
   // Dealing with Scalability
   width: number;
@@ -48,10 +48,56 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
     this.categoriesObj = [];
     this.batchNames = [];
     this.yValues = [];
-
+    this.multiGraphYValues = [];
+    this.cumulativeyValues = [];
 
     this.pickedCategory = 0;
+    let trainerId: string = sessionStorage.getItem("selectedId");
+    let gA6: any[]=JSON.parse(sessionStorage.getItem("graphArray6" + trainerId));
+ 
+    if(gA6 != null && gA6[0] != null &&  gA6[1] != null && gA6[2] != null && gA6[3] != null){
+      console.log("yvalues from session ");
+      this.categoriesName = gA6[2];
+      this.categoriesObj = gA6[3];
+      this.batchNames = gA6[0];
+      this.yValues = gA6[1];
+      if(this.pickedCategory == 0){
 
+        this.categoriesObj.forEach( c => {
+          
+          for (const stuff of c) {
+            let total = 0;
+            for (const indivScore of stuff.assessments) {
+              total += indivScore;
+            }
+            if (isNaN(total / stuff.assessments.length)) {
+              this.yValues.push(0);
+            } else {
+              this.yValues.push(
+                Math.round((total / stuff.assessments.length) * 100) / 100
+              );
+            }
+
+          }
+          this.multiGraphYValues.push(JSON.parse(JSON.stringify(this.yValues)));
+          this.yValues=[];
+        });
+        // console.log(this.multiGraphYValues);
+        
+
+        
+      }
+
+      
+
+      this.displayGraph(gA6[0], gA6[1]);
+
+
+
+
+    } else {
+
+    
     this.sixthChartServiceSubscription = this.sixthChartService
       .getSixthGraphData()
       .subscribe((resp) => {
@@ -59,23 +105,88 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
           this.categoriesName.push(score.category);
           this.categoriesObj.push(score.batchAssessments);
         }
-        for (const stuff of this.categoriesObj[this.pickedCategory]) {
-          let total = 0;
-          for (const indivScore of stuff.assessments) {
-            total += indivScore;
+
+        if(this.pickedCategory == 0){
+
+          this.categoriesObj.forEach( c => {
+            
+            for (const stuff of c) {
+              let total = 0;
+              for (const indivScore of stuff.assessments) {
+                total += indivScore;
+              }
+              if (isNaN(total / stuff.assessments.length)) {
+                this.yValues.push(0);
+              } else {
+                this.yValues.push(
+                  Math.round((total / stuff.assessments.length) * 100) / 100
+                );
+              }
+
+            }
+
+            this.cumulativeyValues.push(this.yValues);
+            this.multiGraphYValues.push(JSON.parse(JSON.stringify(this.yValues)));
+            this.yValues=[];
+          });
+          
+
+          
+        } else {
+          for (const stuff of this.categoriesObj[this.pickedCategory]) {
+            let total = 0;
+            for (const indivScore of stuff.assessments) {
+              total += indivScore;
+            }
+            this.yValues.push(
+              Math.round((total / stuff.assessments.length) * 100) / 100
+            );
           }
-          this.yValues.push(Math.round((total / stuff.assessments.length) * 100) / 100);
+
         }
+
+        
         for (const score of resp.categories[0].batchAssessments) {
           this.batchNames.push(score.batchName);
         }
+        this.categoriesName.unshift("Overview");
+        this.categoriesObj.unshift(resp.categories[0].batchAssessments);
 
+        let graphArray = [this.batchNames, this.yValues, this.categoriesName, this.categoriesObj];
+        let trainerId: string = sessionStorage.getItem("selectedId");
+        sessionStorage.setItem("graphArray6" + trainerId, JSON.stringify(graphArray));
         this.displayGraph(this.batchNames, this.yValues);
       });
+
+    }
   }
 
   updateGraph() {
     this.yValues = [];
+
+    if(this.pickedCategory == 0){
+
+      this.categoriesObj.forEach( c => {
+        
+        for (const stuff of c) {
+          let total = 0;
+          for (const indivScore of stuff.assessments) {
+            total += indivScore;
+          }
+          if (isNaN(total / stuff.assessments.length)) {
+            this.yValues.push(0);
+          } else {
+            this.yValues.push(
+              Math.round((total / stuff.assessments.length) * 100) / 100
+            );
+          }
+
+        }
+        this.multiGraphYValues.push(JSON.parse(JSON.stringify(this.yValues)));
+        this.yValues=[];
+      });
+    } else {  
+
     for (const stuff of this.categoriesObj[this.pickedCategory]) {
       let total = 0;
       for (const indivScore of stuff.assessments) {
@@ -85,9 +196,15 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
       if (isNaN(total / stuff.assessments.length)) {
         this.yValues.push(0);
       } else {
-        this.yValues.push(Math.round((total / stuff.assessments.length) * 100) / 100);
+        this.yValues.push(
+          Math.round((total / stuff.assessments.length) * 100) / 100
+        );
       }
     }
+
+  };
+    
+
 
     this.displayGraph(this.batchNames, this.yValues);
   }
@@ -96,6 +213,73 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
     if (this.myLineChart) {
       this.myLineChart.destroy();
     }
+
+    var colorArray = [ 
+      '#FF0000', '#FF8C00', 
+      '#FFD700',  '#228B22',
+      '#000080', '#4B0082',
+      '#FF00FF', '#800000',
+      '#00FF00', '#00CED1',
+      '#9370DB', '#000000',
+      '#6495ED', '#696969']
+
+    // An array of objects. Each object should contain a yDisplay array within.
+    let lineData: any[] = [];
+    if(this.pickedCategory == 0){
+
+      for(let i = 1; i < this.categoriesName.length; i++){
+        let lineColor:string;
+        
+
+        lineColor = colorArray[i-1];
+
+        let dataObj = {
+          label: ''+this.categoriesName[i], // Name the series
+          data: this.multiGraphYValues[i-1], // Specify the data values array
+          fill: false,
+          borderColor: lineColor, // Add custom color border (Line)
+          backgroundColor: lineColor, // Add custom color background (Points and Fill)
+          borderWidth: 1, // Specify bar border width
+        };
+
+        lineData.push(dataObj);
+
+      }
+  
+      this.myLineChart = new Chart('sixthChart', {
+        type: 'line',
+        data: {
+          labels: batchDisplayNames,
+          datasets: lineData,
+        },
+        options: {
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                  suggestedMax: 100,
+                  callback(value, index, values) {
+                    return value + '%';
+                  },
+                },
+              },
+            ],
+          },
+          title: {
+            display: true,
+            text: `QC Scores Overview`,
+          },
+          hover: {
+            mode: 'nearest',
+            intersect: true,
+          },
+        },
+      });
+    } else {
+
+    
+    let lineColor:string = colorArray[this.pickedCategory-1];
 
     this.myLineChart = new Chart('sixthChart', {
       type: 'line',
@@ -106,7 +290,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
             label: 'Overall Average', // Name the series
             data: yDisplayValues, // Specify the data values array
             fill: false,
-            borderColor: '#2196f3', // Add custom color border (Line)
+            borderColor: lineColor, // Add custom color border (Line)
             backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
             borderWidth: 1, // Specify bar border width
           },
@@ -139,6 +323,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
       },
     });
   }
+  }
 
   scroll(el: HTMLElement) {
     el.scrollIntoView();
@@ -146,7 +331,11 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
 
   graphAdjust() {
     const chartElem = document.getElementById('divChart6');
-    this.isBig = this.displayGraphService.graphAdjust(chartElem, this.assessmentTS.selectedValue, this.isBig);
+    this.isBig = this.displayGraphService.graphAdjust(
+      chartElem,
+      this.assessmentTS.selectedValue,
+      this.isBig
+    );
   }
 
   @HostListener('window:resize', ['$event'])
@@ -167,6 +356,8 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
   }
 
   ngOnDestroy() {
-    this.sixthChartServiceSubscription.unsubscribe();
+    if (this.sixthChartServiceSubscription != undefined) {
+      this.sixthChartServiceSubscription.unsubscribe();
+    }
   }
 }
