@@ -72,6 +72,11 @@
     transition: all 0.5s ease;
 }
 
+.thirdBtn {
+    margin-right: 35px;
+    transition: all 0.5s ease;
+}
+
 .hBSection {
     display: grid;
     justify-items: end;
