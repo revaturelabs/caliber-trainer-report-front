@@ -12,6 +12,7 @@ describe('Testing Navigation and Top Navbar', () => {
   // 1
   it('should display the title of the application on the navbar on wide screen', () => {
     page.navigateTo();
+    browser.sleep(500);
     expect(page.getNavBarTitle(1920, 1080)).toEqual('EXCALIBER');
   });
 

@@ -10,6 +10,7 @@ import { AssessmentBatchesTechnicalStatusComponent } from './Components/assessme
 import { AssessmentBatchesIndivCategoryTechnicalStatusComponent } from './Components/assessment-batches-indiv-category-technical-status/assessment-batches-indiv-category-technical-status.component';
 import { AssessmentBatchesTrendCategoryTechnicalStatusComponent } from './Components/assessment-batches-trend-category-technical-status/assessment-batches-trend-category-technical-status.component';
 import { UploadComponent } from './Components/jsonuploader/upload.component';
+import { CalendarComponent } from './Components/calendar/calendar.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'assessmentindivtechnicalstatus', component: AssessmentBatchesIndivCategoryTechnicalStatusComponent},
   { path: 'assessmenttrendtechnicalstatus', component: AssessmentBatchesTrendCategoryTechnicalStatusComponent},
   { path: 'uploader', component: UploadComponent },
+  { path: 'calendar', component: CalendarComponent },
   {path: '**', redirectTo: ''}
 ];
 
