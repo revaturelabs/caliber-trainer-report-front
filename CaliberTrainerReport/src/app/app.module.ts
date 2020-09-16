@@ -32,6 +32,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ApiAllTrainersComponent } from './Components/api-all-trainers/api-all-trainers.component';
 
 
+import { CalendarComponent } from './Components/calendar/calendar.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { ApiAllTrainersComponent } from './Components/api-all-trainers/api-all-trainers.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
