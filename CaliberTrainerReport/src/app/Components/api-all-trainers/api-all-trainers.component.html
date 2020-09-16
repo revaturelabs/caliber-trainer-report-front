@@ -1,0 +1,6 @@
+<p>api-all-trainers works!</p>
+<select id="trainer-select" [(ngModel)]="selectedValue">
+    <option *ngFor="let t of trainers">{{t.firstName}} {{t.lastName}}</option>
+</select>
+<button (click)="getDataByTrainer(selectedValue)">Pull Trainer Batch Data</button>
+

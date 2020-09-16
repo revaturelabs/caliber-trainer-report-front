@@ -12,11 +12,12 @@ body{
 }
 
 .card-title {
-    background-color: #ea753e;
+    
     align-items: center;
     display: flex;
     padding-left: 3vw;
     font-size: 15pt;
+    background-color: #ea753e;
     color: white;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
