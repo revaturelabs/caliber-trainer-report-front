@@ -4,7 +4,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FirstChartService } from './first-chart.service';
+import { TechnicalStatusPerBatchService } from './services/TechnicalStatusPerBatch.service';
 import { MainNavBarComponent } from './Components/main-nav-bar/main-nav-bar.component';
 import { QCBatchesTechnicalStatusComponent } from './Components/qcbatches-technical-status/qcbatches-technical-status.component';
 import { QCBatchesIndivCategoryTechnicalStatusComponent } from './Components/qcbatches-indiv-category-technical-status/qcbatches-indiv-category-technical-status.component';
@@ -15,11 +15,11 @@ import { AssessmentBatchesTrendCategoryTechnicalStatusComponent } from './Compon
 import { QCComponent } from './Components/qc/qc.component';
 import { AssessmentComponent } from './Components/assessment/assessment.component';
 import { HomeComponent } from './Components/home/home.component';
-import { SecondChartService } from './second-chart.service';
-import { FourthChartService } from './fourth-chart.service';
-import { FifthChartService } from './services/AssessmentByCategory';
-import { FileUploadService } from './file-upload.service';
-import { UrlService } from './url.service';
+import { BatchTechnicalStatusBySkillCategoryService } from './services/BatchTechnicalStatusBySkillCategory.service';
+import { AssessmentByBatchService } from './services/AssessmentByBatch.service';
+import { AssessmentByCategoryService } from './services/AssessmentByCategory.service';
+import { FileUploadService } from './services/file-upload.service';
+import { UrlService } from './services/url.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UploadComponent } from './Components/jsonuploader/upload.component';
@@ -67,7 +67,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
     NgbModule,
     BrowserAnimationsModule
   ],
-  providers: [FirstChartService, SecondChartService, FourthChartService, FifthChartService, UrlService, FileUploadService],
+  providers: [TechnicalStatusPerBatchService, BatchTechnicalStatusBySkillCategoryService, AssessmentByBatchService, 
+                AssessmentByCategoryService, UrlService, FileUploadService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

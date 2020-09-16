@@ -1,10 +1,10 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { faChartArea } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
-import { FourthChartService } from 'src/app/fourth-chart.service';
+import { AssessmentByBatchService } from 'src/app/services/AssessmentByBatch.service';
 import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
 import { Subscription } from 'rxjs';
-import { DisplayGraphService } from 'src/app/display-graph.service';
+import { DisplayGraphService } from 'src/app/services/display-graph.service';
 
 @Component({
   selector: 'app-assessment-batches-technical-status',
@@ -12,7 +12,7 @@ import { DisplayGraphService } from 'src/app/display-graph.service';
   styleUrls: ['./assessment-batches-technical-status.component.css'],
 })
 export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
-  private fourthChartServiceSubscription: Subscription;
+  private AssessmentByBatchServiceSubscription: Subscription;
   radarChartIcon = faChartArea;
   pickedBatch: any;
   myRadarGraph: any;
@@ -26,7 +26,7 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
   scoreNames: string[];
 
   constructor(
-    private fourthChartService: FourthChartService,
+    private AssessmentByBatchService: AssessmentByBatchService,
     private assessmentTS: AssessmentComponent,
     private displayGraphService: DisplayGraphService
   ) {}
@@ -58,7 +58,7 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
       console.log("ACESSING DB");
 
     
-    this.fourthChartServiceSubscription = this.fourthChartService.getAssessmentByBatch().subscribe((resp) => {
+    this.AssessmentByBatchServiceSubscription = this.AssessmentByBatchService.getAssessmentByBatch().subscribe((resp) => {
       this.allBatches = resp;
       for (const i of this.allBatches.keys()) {
         for (const [j, value] of this.allBatches[i].assessmentScores.entries()) {
@@ -170,8 +170,8 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
   }
 
   ngOnDestroy() {
-    if(this.fourthChartServiceSubscription != undefined){
-      this.fourthChartServiceSubscription.unsubscribe();
+    if(this.AssessmentByBatchServiceSubscription != undefined){
+      this.AssessmentByBatchServiceSubscription.unsubscribe();
 
     }
   }

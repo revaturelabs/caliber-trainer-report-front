@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FifthChartService } from './AssessmentByCategory';
+import { AssessmentByCategoryService } from './AssessmentByCategory.service';
 
-describe('FifthChartService', () => {
-  let service: FifthChartService;
+describe('AssessmentByCategoryService', () => {
+  let service: AssessmentByCategoryService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(FifthChartService);
+    service = TestBed.inject(AssessmentByCategoryService);
   });
 
   it('should be created', () => {

@@ -1,8 +1,8 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
 import { Trainer } from '../../class/trainer';
 import { Router } from '@angular/router';
-import { GetTrainerService } from 'src/app/get-trainer.service';
-import { TrainerSessionService } from 'src/app/trainer-session.service';
+import { GetTrainerService } from 'src/app/services/get-trainer.service';
+import { TrainerSessionService } from 'src/app/services/trainer-session.service';
 
 @Component({
   selector: 'app-trainer-selector',

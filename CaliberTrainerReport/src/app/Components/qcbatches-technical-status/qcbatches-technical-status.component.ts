@@ -1,10 +1,10 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
-import { FirstChartService } from 'src/app/first-chart.service';
+import { TechnicalStatusPerBatchService } from 'src/app/services/TechnicalStatusPerBatch.service';
 import { Chart } from 'node_modules/chart.js';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
-import { DisplayGraphService } from 'src/app/display-graph.service';
+import { DisplayGraphService } from 'src/app/services/display-graph.service';
 
 @Component({
   selector: 'app-qcbatches-technical-status',
@@ -12,7 +12,7 @@ import { DisplayGraphService } from 'src/app/display-graph.service';
   styleUrls: ['./qcbatches-technical-status.component.css'],
 })
 export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
-  private firstChartServiceSubscription: Subscription;
+  private TechnicalStatusPerBatchServiceSubscription: Subscription;
   barGraphIcon = faChartBar;
   tableGraphIcon = faTable;
   width: number;
@@ -36,7 +36,7 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
   myGraph: any;
 
   constructor(
-    private firstChartService: FirstChartService,
+    private TechnicalStatusPerBatchService: TechnicalStatusPerBatchService,
     private qcTS: QCComponent,
     private displayGraphService: DisplayGraphService
   ) {}
@@ -90,7 +90,7 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
 
     // This method receives the JSON object from the URL GET request
     
-    this.firstChartServiceSubscription = this.firstChartService
+    this.TechnicalStatusPerBatchServiceSubscription = this.TechnicalStatusPerBatchService
       .getTechnicalStatusPerBatch()
       .subscribe((resp) => {
         this.firstGraphObj = resp;
@@ -312,8 +312,8 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.firstChartServiceSubscription != null){
-      this.firstChartServiceSubscription.unsubscribe();
+    if(this.TechnicalStatusPerBatchServiceSubscription != null){
+      this.TechnicalStatusPerBatchServiceSubscription.unsubscribe();
 
     }
   }

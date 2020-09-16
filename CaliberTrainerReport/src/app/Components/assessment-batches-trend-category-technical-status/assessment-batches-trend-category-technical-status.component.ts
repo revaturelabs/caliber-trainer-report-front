@@ -1,10 +1,10 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { Chart } from 'node_modules/chart.js';
 import { faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
-import { SixthChartService } from 'src/app/sixth-chart.service';
+import { AssessScoresByCategoryAllBatchesService } from 'src/app/services/AssessScoresByCategoryAllBatches.service';
 import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
 import { Subscription } from 'rxjs';
-import { DisplayGraphService } from 'src/app/display-graph.service';
+import { DisplayGraphService } from 'src/app/services/display-graph.service';
 
 @Component({
   selector: 'app-assessment-batches-trend-category-technical-status',
@@ -16,7 +16,7 @@ import { DisplayGraphService } from 'src/app/display-graph.service';
 })
 export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
   implements OnInit, OnDestroy {
-  private sixthChartServiceSubscription: Subscription;
+  private AssessScoresByCategoryAllBatchesServiceSubscription: Subscription;
   lineGraphIcon = faChartLine;
   tableGraphIcon = faTable;
   pickedCategory: any;
@@ -35,7 +35,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
   isBig: boolean;
 
   constructor(
-    private sixthChartService: SixthChartService,
+    private assessScoresByCategoryAllBatchesService: AssessScoresByCategoryAllBatchesService,
     private assessmentTS: AssessmentComponent,
     private displayGraphService: DisplayGraphService
   ) {}
@@ -98,7 +98,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
     } else {
 
     
-    this.sixthChartServiceSubscription = this.sixthChartService
+    this.AssessScoresByCategoryAllBatchesServiceSubscription = this.assessScoresByCategoryAllBatchesService
       .getSixthGraphData()
       .subscribe((resp) => {
         for (const score of resp.categories) {
@@ -356,8 +356,8 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
   }
 
   ngOnDestroy() {
-    if (this.sixthChartServiceSubscription != undefined) {
-      this.sixthChartServiceSubscription.unsubscribe();
+    if (this.AssessScoresByCategoryAllBatchesServiceSubscription != undefined) {
+      this.AssessScoresByCategoryAllBatchesServiceSubscription.unsubscribe();
     }
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GetTrainerService } from 'src/app/get-trainer.service';
+import { GetTrainerService } from 'src/app/services/get-trainer.service';
 import { Trainer } from 'src/app/class/trainer';
 import { MockDataReturnService } from 'src/app/services/mock-data-return.service';
 import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/style-transforms';
