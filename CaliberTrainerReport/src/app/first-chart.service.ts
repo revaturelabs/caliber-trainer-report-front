@@ -18,6 +18,7 @@ export class FirstChartService {
 
   getTechnicalStatusPerBatch(): Observable<any> {
     // this.http.get(this.urlService.getUrl() + 'JSONController/');
+  
     return this.http.get(this.urlService.getUrlWithId() + 'TechnicalStatusPerBatch/').pipe(
       map( resp => resp )
     );

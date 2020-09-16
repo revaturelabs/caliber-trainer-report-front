@@ -19,6 +19,6 @@ export class UrlService {
   }
  
   getCaliberUrl(){
-    return 'http://34.82.182.44/mock/';
+    return 'https://caliber2-mock.revaturelabs.com/mock/';
   }
 }
