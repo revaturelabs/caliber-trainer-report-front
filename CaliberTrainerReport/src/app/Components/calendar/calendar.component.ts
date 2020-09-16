@@ -18,21 +18,33 @@ import {
   CalendarEventTimesChangedEvent,
   CalendarView,
 } from 'angular-calendar';
+import { GetBatchesService } from 'src/app/get-batches.service';
+import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/style-transforms';
 
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3',
+const colors: Array<any> = [
+  {
+    primary: '#FF0000',
+    secondary: '#FF0000'
+},
+  {
+    primary: '#00FF00',
+    secondary: '#00FF00'
   },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF',
+  {
+    primary: '#FFFF00',
+    secondary: '#FFFF00'
   },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
+  {
+    primary: '#FFA500',
+    secondary: '#FFA500'
   },
-};
+  {
+    primary: '#0000FF',
+    secondary: '#0000FF'
+  }
+]
+
+
 
 @Component({
   selector: 'app-calendar',
@@ -40,6 +52,8 @@ const colors: any = {
   styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
+
+  colorCount: number = 0;
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
   view: CalendarView = CalendarView.Month;
@@ -75,53 +89,52 @@ export class CalendarComponent implements OnInit {
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: colors.red,
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: colors.yellow,
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue,
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
+  events: CalendarEvent[] = 
+  
+
+  [
+   
   ];
 
   activeDayIsOpen: boolean = true;
 
 
-  constructor(private modal: NgbModal) { }
-
+  constructor(private modal: NgbModal, private batchServ: GetBatchesService) { }
+  batches: Array<any>;
   ngOnInit(): void {
+    console.log(new Date());
+    
+    this.batchServ.getBatches().subscribe(
+      (response) => {
+        this.batches = response;
+        console.log(response);
+        this.batchList();
+
+      }
+    )
+  }
+
+  bTitle: string;
+  bStartDate: Date = null;
+  bEndDate: Date;
+  bStartDateString: string;
+  bEndDateString: string;
+
+  batchList() {
+    let j = 0;
+    console.log(this.batches.length);
+    for (let i = 0; i < this.batches.length; i++) {
+      this.bTitle = this.batches[i].batchName + " " + this.batches[i].skill;
+      this.bStartDateString = this.batches[i].startDate;
+      this.bStartDate = new Date(this.bStartDateString);
+      this.bEndDateString = this.batches[i].endDate;
+      this.bEndDate = new Date(this.bEndDateString);
+      this.addEventtest(colors[j]);
+      j++;
+      if (j == colors.length) {
+        j = 0;
+      };
+    }
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -161,23 +174,25 @@ export class CalendarComponent implements OnInit {
     this.modal.open(this.modalContent, { size: 'lg' });
   }
 
-  getTrainer() {
-    console.log(this.trainer);
+  getColor(): any{
+    for (this.colorCount; this.colorCount < colors.length; this.colorCount++) {
+      if (this.colorCount == 4 ) {
+        this.colorCount = 0;
+      }
+      console.log(colors[this.colorCount]);
+
+      return colors[this.colorCount];
+    }
   }
 
-  addEvent(): void {
+  addEventtest(colors:any): void {
     this.events = [
       ...this.events,
       {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
+        title: this.bTitle,
+        start: this.bStartDate,
+        end: this.bEndDate,
+        color: colors
       },
     ];
   }

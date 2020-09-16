@@ -112,6 +112,7 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
 
         // Store batch names
         for (const batch of this.firstGraphObj) {
+          console.log(batch);
           this.batchNames.push(batch.batchName);
           this.technicalStatus.push(batch.technicalStatus);
         }
