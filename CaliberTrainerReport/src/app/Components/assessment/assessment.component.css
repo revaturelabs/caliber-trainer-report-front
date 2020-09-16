@@ -38,3 +38,7 @@ html {
 select {
     margin: 5px;
 }
+
+.btn btn-danger btn-block{
+    background-color: #ea753e;
+}
