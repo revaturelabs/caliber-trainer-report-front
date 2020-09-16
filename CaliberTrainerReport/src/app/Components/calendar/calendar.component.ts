@@ -21,6 +21,7 @@ import {
 import { GetBatchesService } from 'src/app/get-batches.service';
 import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/style-transforms';
 
+
 const colors: Array<any> = [
   {
     primary: '#FF0000',
@@ -47,6 +48,9 @@ const colors: Array<any> = [
 
 @Component({
   selector: 'app-calendar',
+
+  changeDetection: ChangeDetectionStrategy.OnPush,
+
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
@@ -88,11 +92,8 @@ export class CalendarComponent implements OnInit {
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = 
-  
-
-  [
-   
+  events: CalendarEvent[] = [
+    
   ];
 
   activeDayIsOpen: boolean = true;

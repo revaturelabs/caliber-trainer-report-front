@@ -72,6 +72,8 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
       this.categoriesName = gA2[2];
       this.categoriesObj = gA2[3];
 
+      this.batchNames = gA2[0];
+
       this.setScoreValues();
       this.displayGraph(gA2[0], gA2[1]);
 
@@ -120,8 +122,15 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
     this.cumulativeGood = [];
     this.cumulativePoor = [];
 
+    let trainerId = sessionStorage.getItem("selectedId");
+    let gA2: any[] = JSON.parse(sessionStorage.getItem("graphingArray2" + trainerId));
+
     this.setScoreValues();
-    this.displayGraph(this.batchNames, this.yValues);
+    if(this.selectedValue ==0 ){
+      this.displayGraph(gA2[0], gA2[1]);
+    } else {
+      this.displayGraph(this.batchNames, this.yValues);
+    }
   }
 
   setScoreValues() {
