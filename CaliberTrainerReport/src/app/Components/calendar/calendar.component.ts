@@ -45,7 +45,6 @@ const colors: Array<any> = [
 ]
 
 
-
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -210,3 +209,4 @@ export class CalendarComponent implements OnInit {
   }
 
 }
+
