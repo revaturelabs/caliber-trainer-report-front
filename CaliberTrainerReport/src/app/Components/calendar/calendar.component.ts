@@ -19,7 +19,7 @@ import {
   CalendarView,
 } from 'angular-calendar';
 import { GetBatchesService } from 'src/app/get-batches.service';
-import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/style-transforms';
+
 
 const colors: Array<any> = [
   {
@@ -47,6 +47,7 @@ const colors: Array<any> = [
 
 @Component({
   selector: 'app-calendar',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
@@ -88,12 +89,10 @@ export class CalendarComponent implements OnInit {
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = 
-  
-
-  [
-   
+  events: CalendarEvent[] = [
+    
   ];
+
 
   activeDayIsOpen: boolean = true;
 
@@ -207,6 +206,5 @@ export class CalendarComponent implements OnInit {
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
-
 }
 
