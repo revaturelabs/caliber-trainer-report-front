@@ -30,6 +30,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ApiAllTrainersComponent } from './Components/api-all-trainers/api-all-trainers.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { ApiAllTrainersComponent } from './Components/api-all-trainers/api-all-t
     HttpClientModule,
     ReactiveFormsModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
-    NgbModule
+    NgbModule,
+    BrowserAnimationsModule
   ],
   providers: [FirstChartService, SecondChartService, FourthChartService, FifthChartService, UrlService, FileUploadService],
   bootstrap: [AppComponent]
