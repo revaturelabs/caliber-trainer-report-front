@@ -71,6 +71,7 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
     if(gA2 != null && !gA2.includes(null)){
       this.categoriesName = gA2[2];
       this.categoriesObj = gA2[3];
+
       this.batchNames = gA2[0];
 
       this.setScoreValues();

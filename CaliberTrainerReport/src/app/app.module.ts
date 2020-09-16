@@ -33,6 +33,7 @@ import { ApiAllTrainersComponent } from './Components/api-all-trainers/api-all-t
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,6 +63,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
     HttpClientModule,
     ReactiveFormsModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+
     NgbModule,
     BrowserAnimationsModule
   ],
