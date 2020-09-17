@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { FileUploadService } from '../../file-upload.service';
+import { FileUploadService } from '../../services/file-upload.service';
 
 @Component({
   selector: 'app-upload',

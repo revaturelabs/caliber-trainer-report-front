@@ -1,10 +1,10 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
-import { SecondChartService } from 'src/app/second-chart.service';
+import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/BatchTechnicalStatusBySkillCategory.service';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
-import { DisplayGraphService } from 'src/app/display-graph.service';
+import { DisplayGraphService } from 'src/app/services/display-graph.service';
 
 
 @Component({
@@ -14,7 +14,7 @@ import { DisplayGraphService } from 'src/app/display-graph.service';
 })
 export class QCBatchesIndivCategoryTechnicalStatusComponent
   implements OnInit, OnDestroy {
-  private secondChartServiceSubscription: Subscription;
+  private BatchTechnicalStatusBySkillCategoryServiceSubscription: Subscription;
   lineGraphIcon = faChartLine;
   tableGraphIcon = faTable;
   pickedCategory: any;
@@ -42,7 +42,7 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
   isBig: boolean;
 
   constructor(
-    private secondChartService: SecondChartService,
+    private BatchTechnicalStatusBySkillCategoryService: BatchTechnicalStatusBySkillCategoryService,
     private qcTS: QCComponent,
     private displayGraphService: DisplayGraphService
   ) {}
@@ -81,7 +81,7 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
 
     
 
-    this.secondChartServiceSubscription = this.secondChartService
+    this.BatchTechnicalStatusBySkillCategoryServiceSubscription = this.BatchTechnicalStatusBySkillCategoryService
       .getAvgCategoryScoresObservables()
       .subscribe((resp) => {
         for (const obj of resp.batchByCategory) {
@@ -389,9 +389,9 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
   }
 
   ngOnDestroy() {
-    if(this.secondChartServiceSubscription != undefined){
+    if(this.BatchTechnicalStatusBySkillCategoryServiceSubscription != undefined){
 
-      this.secondChartServiceSubscription.unsubscribe();
+      this.BatchTechnicalStatusBySkillCategoryServiceSubscription.unsubscribe();
     }
   }
 }

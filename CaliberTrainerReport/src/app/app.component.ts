@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { UrlService } from 'src/app/url.service';
-import { GetTrainerService } from './get-trainer.service';
-import { TrainerSessionService } from './trainer-session.service';
+import { UrlService } from 'src/app/services/url.service';
+import { GetTrainerService } from './services/get-trainer.service';
+import { TrainerSessionService } from './services/trainer-session.service';
 import { Trainer } from './class/trainer';
 
 

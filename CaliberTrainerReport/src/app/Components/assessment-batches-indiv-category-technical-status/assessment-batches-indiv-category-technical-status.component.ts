@@ -1,10 +1,10 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
-import { FifthChartService } from 'src/app/services/AssessmentByCategory';
+import { AssessmentByCategoryService } from 'src/app/services/AssessmentByCategory.service';
 import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
 import { Subscription } from 'rxjs';
-import { DisplayGraphService } from 'src/app/display-graph.service';
+import { DisplayGraphService } from 'src/app/services/display-graph.service';
 
 
 @Component({
@@ -17,7 +17,7 @@ import { DisplayGraphService } from 'src/app/display-graph.service';
 })
 export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
   implements OnInit, OnDestroy {
-  private fifthChartServiceSubscription: Subscription;
+  private AssessmentByCategoryServiceSubscription: Subscription;
 
   barGraphIcon = faChartBar;
   tableGraphIcon = faTable;
@@ -40,7 +40,7 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
   selectedValue: any;
 
   constructor(
-    private fifthChartService: FifthChartService,
+    private AssessmentByCategoryService: AssessmentByCategoryService,
     private assessmentTS: AssessmentComponent,
     private displayGraphService: DisplayGraphService
   ) {}
@@ -71,7 +71,7 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
     } else {
 
     
-    this.fifthChartServiceSubscription = this.fifthChartService
+    this.AssessmentByCategoryServiceSubscription = this.AssessmentByCategoryService
       .getScorePerCategory()
       .subscribe((resp) => {
         for (const cat of resp) {
@@ -229,8 +229,8 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
   }
 
   ngOnDestroy(): void{
-    if(this.fifthChartServiceSubscription != undefined){
-      this.fifthChartServiceSubscription.unsubscribe();
+    if(this.AssessmentByCategoryServiceSubscription != undefined){
+      this.AssessmentByCategoryServiceSubscription.unsubscribe();
 
     }
   }

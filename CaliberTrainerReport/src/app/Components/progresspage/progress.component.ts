@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FileUploadService } from '../../file-upload.service';
+import { FileUploadService } from '../../services/file-upload.service';
 
 // 
 @Component({
