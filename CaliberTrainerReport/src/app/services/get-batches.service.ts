@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UrlService } from 'src/app/url.service';
+import { UrlService } from 'src/app/services/url.service';
 
 
 @Injectable({
