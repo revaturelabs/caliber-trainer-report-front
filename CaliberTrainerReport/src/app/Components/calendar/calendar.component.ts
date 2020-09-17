@@ -18,7 +18,7 @@ import {
   CalendarEventTimesChangedEvent,
   CalendarView,
 } from 'angular-calendar';
-import { GetBatchesService } from 'src/app/get-batches.service';
+import { GetBatchesService } from 'src/app/services/get-batches.service';
 import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/style-transforms';
 
 

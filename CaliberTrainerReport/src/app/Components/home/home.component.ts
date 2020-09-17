@@ -1,6 +1,6 @@
 import { Component} from '@angular/core';
 import { faDatabase } from '@fortawesome/free-solid-svg-icons';
-import { FileUploadService } from '../../file-upload.service';
+import { FileUploadService } from '../../services/file-upload.service';
 import { Observable } from 'rxjs';
 
 @Component({
