@@ -5,16 +5,16 @@ html {
 
 .qc-body{
   margin: 0 auto;
-  width: 95%;
+  width: 75%;
   margin-bottom: 100px;
 }
 
-.qc-graph-grid{
+/* .qc-graph-grid{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
 
   grid-gap: 15px;
-}
+} */
 
 .qc-title{
   margin: 0 auto;
