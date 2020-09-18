@@ -11,6 +11,7 @@ import { AssessmentBatchesIndivCategoryTechnicalStatusComponent } from './Compon
 import { AssessmentBatchesTrendCategoryTechnicalStatusComponent } from './Components/assessment-batches-trend-category-technical-status/assessment-batches-trend-category-technical-status.component';
 import { UploadComponent } from './Components/jsonuploader/upload.component';
 import { CalendarComponent } from './Components/calendar/calendar.component';
+import { CalendarViewComponent } from './Components/calendar-view/calendar-view.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -24,6 +25,8 @@ const routes: Routes = [
   { path: 'assessmenttrendtechnicalstatus', component: AssessmentBatchesTrendCategoryTechnicalStatusComponent},
   { path: 'uploader', component: UploadComponent },
   { path: 'calendar', component: CalendarComponent },
+  { path: 'calendarview', component: CalendarViewComponent },
+
   {path: '**', redirectTo: ''}
 ];
 

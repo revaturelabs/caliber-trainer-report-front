@@ -30,7 +30,15 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ApiAllTrainersComponent } from './Components/api-all-trainers/api-all-trainers.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CalendarViewComponent } from './Components/calendar-view/calendar-view.component'
+import { FullCalendarModule } from '@fullcalendar/angular'; 
+import dayGridPlugin from '@fullcalendar/daygrid'; 
+import interactionPlugin from '@fullcalendar/interaction'; 
+FullCalendarModule.registerPlugins([ 
+  dayGridPlugin,
+  interactionPlugin
+]);
 
 
 
@@ -51,7 +59,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
     ProgressPage,
     TrainerSelectorComponent,
     CalendarComponent,
-    ApiAllTrainersComponent
+    ApiAllTrainersComponent,
+    CalendarViewComponent
 
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
@@ -63,7 +72,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
     HttpClientModule,
     ReactiveFormsModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
-
+    FullCalendarModule,
     NgbModule,
     BrowserAnimationsModule
   ],
