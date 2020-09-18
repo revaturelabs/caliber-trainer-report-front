@@ -5,6 +5,9 @@ import { MockDataReturnService } from 'src/app/services/mock-data-return.service
 import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/style-transforms';
 import { GetBatchService } from 'src/app/services/get-batch.service';
 import { Batch } from 'src/app/class/Batch';
+import { GetQcNoteService } from 'src/app/services/get-qc-note.service';
+import { QCNote } from 'src/app/class/QCNote';
+import { Category } from 'src/app/class/category';
 
 @Component({
   selector: 'app-api-all-trainers',
@@ -16,22 +19,10 @@ export class ApiAllTrainersComponent implements OnInit {
   trainers: any[];
   selectedValue: any;
 
-  constructor(private trainerService: GetTrainerService, private batchService: GetBatchService, private mock: MockDataReturnService) { }
+  constructor(private trainerService: GetTrainerService, private batchService: GetBatchService, private qcs: GetQcNoteService) { }
 
   ngOnInit(): void {
     this.getAllTrainers();
-    // this.trainers = [{
-    //   "id": 1,
-    //   "firstName": "Mock 1223",
-    //   "lastName": "Associate 1223",
-    //   "email": "mock1223.employee906bb611-b2a8-4dce-b70f-94f5fd97da44@mock.com"
-    // },
-    // {
-    //   "id": 2,
-    //   "firstName": "Mock 1091",
-    //   "lastName": "Associate 1091",
-    //   "email": "mock1091.employee2fbe714a-d582-4c30-bbc1-298f226445ac@mock.com"
-    // }];
   }
 
   getAllTrainers() {
@@ -44,33 +35,93 @@ export class ApiAllTrainersComponent implements OnInit {
         console.log("Request failed");
       }
     )
-    // this.trainers = this.mock.getAllMockTrainers();
+
   }
 
   getDataByTrainer(selected) {
     let tempTrainer: Trainer = this.trainers[selected];
     let allData = {
-      "employee": {
-      },
+      "employee": {},
       "batches": []
     };
 
     allData.employee = {
-      "email":tempTrainer.email,
-      "firstName":tempTrainer.firstName,
-      "lastName":tempTrainer.lastName
+      "email": tempTrainer.email,
+      "firstName": tempTrainer.firstName,
+      "lastName": tempTrainer.lastName
     };
 
     let batchIds: string[];
     let batches: Batch[] = [];
     this.batchService.getBatchesByTrainerEmail(tempTrainer.email).subscribe(
+      //Get the batch ids
       (response) => {
+
         batchIds = response;
         let success: boolean = true;
-        for (let id of batchIds) {
+
+        for (let id of batchIds) { //Get each batch by id
+
           this.batchService.getBatchById(id).subscribe(
+
             (response) => {
-              allData.batches.push(response);
+              let temp = {
+                "id": response.id,
+                "batchId": response.batchId,
+                "name": response.name,
+                "startDate": response.startDate,
+                "endDate": response.endDate,
+                "skill": response.skill,
+                "location": response.location,
+                "type": response.type,
+                "qcNotes": [],
+                "assessments": []
+              }
+
+              this.qcs.getQCNotesByBatchId(id).subscribe(
+                (response) => {
+                  let tempNotes: QCNote[] = response;
+                  let tempNote;
+                  let cat;
+                  for (let note of tempNotes) {
+                    this.qcs.getCategoryByBatchIdAndWeek(id, note.week).subscribe(
+                      (response) => {
+                        tempNote = {
+                          "noteId": note.noteId,
+                          "content": note.content,
+                          "week": note.week,
+                          "batchId": note.batchId,
+                          "associateId": note.associateId,
+                          "employeeId": note.employeeId,
+                          "type": note.type,
+                          "technicalStatus": note.technicalStatus,
+                          "createdOn": note.createdOn,
+                          "lastUpdated": note.lastUpdated,
+                          "categories": []
+                        };
+                        cat = response;
+                        if (cat != null) {
+                          for(let c of cat) {
+                            if (c != null && !tempNote.categories.includes(c.skillCategory)) {
+                              tempNote.categories.push(c.skillCategory);
+                            }
+                          }
+                          temp.qcNotes.push(tempNote);
+                        }
+                        console.log("Current JSON: " + JSON.stringify(temp));
+                      },
+                      (response) => {
+                        console.log("Category request failed");
+                      }
+                    );
+                  }
+                },
+                (response) => {
+                  console.log("QCNote request failed");
+                }
+              );
+
+              // allData.batches.push(response);
             },
             (response) => {
               success = false;
