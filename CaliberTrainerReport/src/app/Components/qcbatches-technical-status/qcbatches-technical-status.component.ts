@@ -46,9 +46,10 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
     this.graphAdjust();
 
     let trainerId = sessionStorage.getItem("selectedId");
+    
     let gA1:any[] = JSON.parse(sessionStorage.getItem("gA1"+trainerId));
 
-    if(gA1 != null && !gA1.includes(null)){
+    if(gA1 != null && !gA1.includes(null) && false){
 
       this.batchNames = gA1[0];
       this.poorData = gA1[1];
@@ -63,11 +64,14 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
       let rawDataArray: any[] = JSON.parse(JSON.stringify(gA1[8]));
 
 
+
       this.poorRawData = rawDataArray[0];
       this.averageRawData = rawDataArray[1];
       this.goodRawData = rawDataArray[2];
       this.superstarRawData = rawDataArray[3];
       this.nullRawData = rawDataArray[4];
+
+      
 
 
 
@@ -84,9 +88,6 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
 
 
     } else {
-
-    
-
 
     // This method receives the JSON object from the URL GET request
     
@@ -112,7 +113,6 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
 
         // Store batch names
         for (const batch of this.firstGraphObj) {
-          console.log(batch);
           this.batchNames.push(batch.batchName);
           this.technicalStatus.push(batch.technicalStatus);
         }

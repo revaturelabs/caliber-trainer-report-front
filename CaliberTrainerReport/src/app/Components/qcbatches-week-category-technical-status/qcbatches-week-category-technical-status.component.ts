@@ -52,7 +52,7 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit, On
     let trainerId = sessionStorage.getItem("selectedId");
     let gA3: any[] = JSON.parse(sessionStorage.getItem("graphArray3" + trainerId));
 
-    if(gA3 != null && !gA3.includes(null)){
+    if(gA3 != null && !gA3.includes(null) && false){
       this.batches = this.getBatches();
       this.thirdGraphObj = gA3[0];
       this.pickedBatch = gA3[1];
