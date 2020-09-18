@@ -49,7 +49,7 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
     
     let gA1:any[] = JSON.parse(sessionStorage.getItem("gA1"+trainerId));
 
-    if(gA1 != null && !gA1.includes(null) ){
+    if(gA1 != null && !gA1.includes(null) && false){
 
       this.batchNames = gA1[0];
       this.poorData = gA1[1];
