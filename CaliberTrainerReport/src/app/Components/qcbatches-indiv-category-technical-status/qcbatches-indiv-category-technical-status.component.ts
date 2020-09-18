@@ -40,6 +40,7 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
   // Dealing with Scalability
   width: number;
   isBig: boolean;
+  fullView: boolean = false;
 
   constructor(
     private BatchTechnicalStatusBySkillCategoryService: BatchTechnicalStatusBySkillCategoryService,
@@ -49,7 +50,7 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
 
   ngOnInit(): void {
     this.selectedValue = this.qcTS.selectedValue;
-    this.graphAdjust();
+    // this.graphAdjust();
     this.categoriesObj = [];
     this.categoriesName = [];
     this.yValues = [];
@@ -378,6 +379,7 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
 
   // This method selects the large view of the graph when double clicking the graph title.
   doubleClickGraph2(): void {
+    this.fullView=true;
     const graphSelector = document.getElementById(
       'qc-graph-selector'
     ) as HTMLSelectElement;

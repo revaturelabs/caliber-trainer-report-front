@@ -45,45 +45,45 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
     this.selectedValue = this.qcTS.selectedValue;
     this.graphAdjust();
 
-    let trainerId = sessionStorage.getItem("selectedId");
-    let gA1:any[] = JSON.parse(sessionStorage.getItem("gA1"+trainerId));
+    // let trainerId = sessionStorage.getItem("selectedId");
+    // let gA1:any[] = JSON.parse(sessionStorage.getItem("gA1"+trainerId));
 
-    if(gA1 != null && !gA1.includes(null)){
+    // if(gA1 != null && !gA1.includes(null)){
 
-      this.batchNames = gA1[0];
-      this.poorData = gA1[1];
-      this.averageData = gA1[2];
-      this.goodData = gA1[3];
-      this.superstarData = gA1[4];
-      this.nullData = gA1[5];
+    //   this.batchNames = gA1[0];
+    //   this.poorData = gA1[1];
+    //   this.averageData = gA1[2];
+    //   this.goodData = gA1[3];
+    //   this.superstarData = gA1[4];
+    //   this.nullData = gA1[5];
 
-      this.batchNames = gA1[6];
-      this.technicalStatus = gA1[7];
+    //   this.batchNames = gA1[6];
+    //   this.technicalStatus = gA1[7];
 
-      let rawDataArray: any[] = JSON.parse(JSON.stringify(gA1[8]));
-
-
-      this.poorRawData = rawDataArray[0];
-      this.averageRawData = rawDataArray[1];
-      this.goodRawData = rawDataArray[2];
-      this.superstarRawData = rawDataArray[3];
-      this.nullRawData = rawDataArray[4];
+    //   let rawDataArray: any[] = JSON.parse(JSON.stringify(gA1[8]));
 
 
-
-
-      this.displayGraphAll(
-        this.batchNames,
-        this.poorData,
-        this.averageData,
-        this.goodData,
-        this.superstarData,
-        this.nullData
-      );
+    //   this.poorRawData = rawDataArray[0];
+    //   this.averageRawData = rawDataArray[1];
+    //   this.goodRawData = rawDataArray[2];
+    //   this.superstarRawData = rawDataArray[3];
+    //   this.nullRawData = rawDataArray[4];
 
 
 
-    } else {
+
+    //   this.displayGraphAll(
+    //     this.batchNames,
+    //     this.poorData,
+    //     this.averageData,
+    //     this.goodData,
+    //     this.superstarData,
+    //     this.nullData
+    //   );
+
+
+
+    // } else {
 
     
 
@@ -190,7 +190,7 @@ export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
         );
       });
     }
-  }
+  // }
 
   displayGraphAll(
     batchNames: string[],

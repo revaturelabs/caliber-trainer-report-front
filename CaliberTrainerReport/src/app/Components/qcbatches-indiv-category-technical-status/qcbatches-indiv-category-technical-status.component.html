@@ -9,12 +9,14 @@
             </select>
         </div>
     </div>
-    <div class="card-body">
-        <div id="divChart2" class="divChart">
-            <canvas id="secondChart"> 
-                
+    <div>
+    <div style="visibility: visible;" id="divChart2" class="card-body">
+        <div  class="divChart">
+            <div>
+            <canvas style="visibility: visible;" id="secondChart"> 
             </canvas>
         </div>
+    </div>
         <div *ngIf="selectedValue == 'individual'" class="extraDataTable">
             <hr class="breakPoint">
             <h4 class="tableTitle">

@@ -18,8 +18,7 @@ import {
   CalendarEventTimesChangedEvent,
   CalendarView,
 } from 'angular-calendar';
-import { GetBatchService } from 'src/app/services/get-batch.service';
-
+import { GetBatchesService } from 'src/app/services/get-batches.service';
 import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/style-transforms';
 
 
@@ -100,7 +99,7 @@ export class CalendarComponent implements OnInit {
   activeDayIsOpen: boolean = true;
 
 
-  constructor(private modal: NgbModal, private batchServ: GetBatchService) { }
+  constructor(private modal: NgbModal, private batchServ: GetBatchesService) { }
   batches: Array<any>;
   ngOnInit(): void {
     console.log(new Date());

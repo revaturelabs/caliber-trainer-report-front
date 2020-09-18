@@ -112,7 +112,9 @@ describe('(NEGATIVE)Testing graph display', () => {
 
 describe('(POSITIVE)Testing file upload and graph display', () => {
   let page: AppPage;
-
+beforeAll(()=>{
+browser.manage().timeouts().implicitlyWait(30000);
+})
   beforeEach(() => {
     page = new AppPage();
   });
@@ -122,10 +124,11 @@ describe('(POSITIVE)Testing file upload and graph display', () => {
     page.navigateTo();
     page.uploadTestJSONFile();
     browser.switchTo().alert().accept();
-    browser.sleep(1000);
+
     const sessionStorageArray: string = await browser.executeScript<string>('return window.sessionStorage.getItem("currentTrainers");');
     expect(JSON.parse(sessionStorageArray).length > 0).toBe(true);
   });
+
 
   // 12
   it('should display qc batches technical status chart after json file upload', () => {

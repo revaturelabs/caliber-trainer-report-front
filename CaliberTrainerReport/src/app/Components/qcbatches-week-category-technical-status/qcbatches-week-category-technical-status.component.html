@@ -3,10 +3,12 @@
         <span>QC Overall Week Technical Scores</span>
         <fa-icon class="barGraphIcon" [icon]="barGraphIcon"></fa-icon>
     </div>
+    <div>
     <div #targetLocation class="card-body">
         <div id="divChart3" class="divChart">
             <canvas id="thirdChart"></canvas>
         </div>
+    </div>
         <div *ngIf="selectedValue == 'week'" class="extraDataTable">
             <hr class="breakPoint">
             <h4 class="tableTitle">

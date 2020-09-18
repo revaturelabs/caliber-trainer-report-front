@@ -3,8 +3,6 @@ import { GetTrainerService } from 'src/app/services/get-trainer.service';
 import { Trainer } from 'src/app/class/trainer';
 import { MockDataReturnService } from 'src/app/services/mock-data-return.service';
 import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/style-transforms';
-import { GetBatchService } from 'src/app/services/get-batch.service';
-import { Batch } from 'src/app/class/Batch';
 
 @Component({
   selector: 'app-api-all-trainers',
@@ -16,7 +14,7 @@ export class ApiAllTrainersComponent implements OnInit {
   trainers: any[];
   selectedValue: any;
 
-  constructor(private trainerService: GetTrainerService, private batchService: GetBatchService, private mock: MockDataReturnService) { }
+  constructor(private trainerService: GetTrainerService, private mock: MockDataReturnService) { }
 
   ngOnInit(): void {
     this.getAllTrainers();
@@ -48,45 +46,17 @@ export class ApiAllTrainersComponent implements OnInit {
   }
 
   getDataByTrainer(selected) {
-    let tempTrainer: Trainer = this.trainers[selected];
-    let allData = {
+    let allData;
+    let temp = this.trainers[selected];
+    allData = {
       "employee": {
-      },
-      "batches": []
-    };
-
-    allData.employee = {
-      "email":tempTrainer.email,
-      "firstName":tempTrainer.firstName,
-      "lastName":tempTrainer.lastName
-    };
-
-    let batchIds: string[];
-    let batches: Batch[] = [];
-    this.batchService.getBatchesByTrainerEmail(tempTrainer.email).subscribe(
-      (response) => {
-        batchIds = response;
-        let success: boolean = true;
-        for (let id of batchIds) {
-          this.batchService.getBatchById(id).subscribe(
-            (response) => {
-              allData.batches.push(response);
-            },
-            (response) => {
-              success = false;
-              console.log("Batch request failed")
-            }
-          );
-          if (!success) {
-            break;
-          }
-        }
-      },
-      (response) => {
-        console.log("IDs request failed");
+        "email": temp.email,
+        "firstName":temp.firstName,
+        "lastName":temp.lastName
       }
-    );
+    };
 
+    console.log("Current data json: \n" + JSON.stringify(allData));
   }
 
 }
