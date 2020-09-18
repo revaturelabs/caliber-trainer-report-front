@@ -15,7 +15,7 @@ export class GetAssessmentService {
     return this.http.get<Assessment[]>(this.us.getUrl() + "Assessment/assessments/" + batchId + "/" + week);
   }
 
-  getAverageGradeByAssessment(assessmentId : number, batchId : string, week : number) : Observable<number>{
-    return this.http.get<number>(this.us.getUrl() + "Assessment/assessment/grade/" + assessmentId + "/" + batchId + "/" + week);
+  getAverageGradeByAssessment(assessmentId : number) : Observable<number>{
+    return this.http.get<number>(this.us.getUrl() + "Assessment/assessment/grade/" + assessmentId);
   }
 }
