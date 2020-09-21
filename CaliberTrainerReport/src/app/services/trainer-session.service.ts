@@ -12,6 +12,8 @@ export class TrainerSessionService {
   setTrainerList(trainerList): string{
     this.getTrainerServ.getTrainerList().then((resp) => {
       const ct = JSON.parse(sessionStorage.getItem('currentTrainers'));
+      console.log("CT:");
+      console.log(ct);
       for (const iter of ct) {
         trainerList.push(iter);
       }
