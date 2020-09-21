@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/angular';
-import { GetBatchesService } from 'src/app/services/get-batches.service';
+import { GetBatchService } from 'src/app/services/get-batch.service';
 import { Calendar } from '@fullcalendar/core';
 import { Trainer } from 'src/app/class/trainer';
 
@@ -23,7 +23,7 @@ export class CalendarViewComponent implements OnInit {
   evColor: string;
   trainer: Trainer;
 
-  constructor(private batchServ: GetBatchesService) { }
+  constructor(private batchServ: GetBatchService) { }
 
  
 
