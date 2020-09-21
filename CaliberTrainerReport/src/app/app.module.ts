@@ -25,9 +25,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UploadComponent } from './Components/jsonuploader/upload.component';
 import { ProgressPage } from './Components/progresspage/progress.component';
 import { TrainerSelectorComponent } from './Components/trainer-selector/trainer-selector.component';
-import { CalendarComponent } from './Components/calendar/calendar.component';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ApiAllTrainersComponent } from './Components/api-all-trainers/api-all-trainers.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -35,6 +32,7 @@ import { CalendarViewComponent } from './Components/calendar-view/calendar-view.
 import { FullCalendarModule } from '@fullcalendar/angular'; 
 import dayGridPlugin from '@fullcalendar/daygrid'; 
 import interactionPlugin from '@fullcalendar/interaction'; 
+import { GetBatchService } from './services/get-batch.service';
 FullCalendarModule.registerPlugins([ 
   dayGridPlugin,
   interactionPlugin
@@ -58,7 +56,6 @@ FullCalendarModule.registerPlugins([
     UploadComponent,
     ProgressPage,
     TrainerSelectorComponent,
-    CalendarComponent,
     ApiAllTrainersComponent,
     CalendarViewComponent
 
@@ -71,13 +68,12 @@ FullCalendarModule.registerPlugins([
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
     FullCalendarModule,
     NgbModule,
     BrowserAnimationsModule
   ],
   providers: [TechnicalStatusPerBatchService, BatchTechnicalStatusBySkillCategoryService, AssessmentByBatchService, 
-                AssessmentByCategoryService, UrlService, FileUploadService],
+                AssessmentByCategoryService, UrlService, FileUploadService, GetBatchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
