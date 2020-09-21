@@ -27,6 +27,20 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
   categories: string[];
   myBarGraph: any;
 
+  // Utility 
+  categories0: string[];
+  categories15: string[];
+  examRawScores0: number[];
+  examRawScores15: number[];
+  verbalRawScores0: number[];
+  verbalRawScores15: number[];
+  presentationRawScores0: number[];
+  presentationRawScores15: number[];
+  projectRawScores0: number[];
+  projectRawScores15: number[];
+  otherRawScores0: number[];
+  otherRawScores15: number[];
+
   examScores: number[];
   verbalScores: number[];
   projectScores: number[];
@@ -134,6 +148,24 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
         let trainerId: string = sessionStorage.getItem("selectedId");
         sessionStorage.setItem("graphArray5" + trainerId, JSON.stringify(graphArray));
         
+        this.categories0 = this.categories.slice(0, 14);
+        this.categories15 = this.categories.slice(14);
+
+        this.examRawScores0 = this.examRawScores.slice(0, 14);
+        this.examRawScores15 = this.examRawScores.slice(14);
+
+        this.verbalRawScores0 = this.verbalRawScores.slice(0, 14);
+        this.verbalRawScores15 = this.verbalRawScores.slice(14);
+
+        this.presentationRawScores0 = this.presentationRawScores.slice(0, 14);
+        this.presentationRawScores15 = this.presentationRawScores.slice(14);
+
+        this.projectRawScores0 = this.projectRawScores.slice(0, 14);
+        this.projectRawScores15 = this.projectRawScores.slice(14);
+
+        this.otherRawScores0 = this.otherRawScores.slice(0, 14);
+        this.otherRawScores15 = this.otherRawScores.slice(14);
+
         this.displayGraph(
           this.categories,
           this.examScores,

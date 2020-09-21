@@ -3,7 +3,5 @@
  <input type="file" accept=".json" (change)="onFileChange($event)" />
  <input type="submit" [disabled]="formGroup.invalid" value="upload" />
 
- <div class="alert alert-danger" role="alert" *ngIf = "jsonUpload == 'fail' " >
-    Error: Failed to load data.
-</div>
+
 </form>
