@@ -12,5 +12,5 @@ export class Batch {
     type : string;
     qcNotes : QCNote[];
     assessments : Assessment[];
-
+    currentWeek : number;
 }

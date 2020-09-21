@@ -25,4 +25,8 @@ export class GetBatchService {
     return this.http.get<Batch>(this.url.getUrl() + "/Batch/batch/"+batchId);
   }
 
+  getPromiseBatchById(batchId : string) : Promise<Batch>{
+    return this.http.get<Batch>(this.url.getUrl() + "/Batch/batch/"+batchId).toPromise();
+  }
+
 }
