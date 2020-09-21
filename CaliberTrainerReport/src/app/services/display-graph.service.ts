@@ -8,7 +8,7 @@ export class DisplayGraphService {
   constructor() { }
 
   graphAdjust(element, selectVal, isBig) {
-    if (selectVal === 'all') {
+    if (selectVal === 'all') { // components
       const width = window.innerWidth;
       if (width < 1281) {
         // FOR MOBILE PHONE
@@ -23,8 +23,8 @@ export class DisplayGraphService {
         element.style.width = '45vw';
       }
       return isBig;
-    } else {
-      element.style.width = '90vw';
+    } else { // indiv components
+      element.style.width = '60vw';
     }
     return isBig;
     }

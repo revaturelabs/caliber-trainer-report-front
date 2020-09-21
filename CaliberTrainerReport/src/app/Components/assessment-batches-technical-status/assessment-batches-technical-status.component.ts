@@ -167,6 +167,7 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
     } else {
       graphSelector.value = 'status';
     }
+    this.graphAdjust();
   }
 
   ngOnDestroy() {
