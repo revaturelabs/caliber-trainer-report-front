@@ -14,4 +14,7 @@ export class GetCategoryService {
   getCategoryById(id : number) : Observable<Category>{
     return this.http.get<Category>(this.us.getUrl() + "Category/category/" + id);
   }
+  getPromiseCategoryById(id : number) : Promise<Category>{
+    return this.http.get<Category>(this.us.getUrl() + "Category/category/" + id).toPromise();
+  }
 }

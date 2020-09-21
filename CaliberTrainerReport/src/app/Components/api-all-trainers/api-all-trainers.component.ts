@@ -11,6 +11,7 @@ import { Category } from 'src/app/class/category';
 import { GetAssessmentService } from 'src/app/services/get-assessment.service';
 import { Assessment } from 'src/app/class/assessment';
 import { GetCategoryService } from 'src/app/services/get-category.service';
+import { SendJSONAsStringService } from 'src/app/services/send-json-as-string.service';
 
 @Component({
   selector: 'app-api-all-trainers',
@@ -26,7 +27,7 @@ export class ApiAllTrainersComponent implements OnInit {
     "batches": []
   };
 
-  constructor(private trainerService: GetTrainerService, private batchService: GetBatchService, private qcs: GetQcNoteService, private as: GetAssessmentService, private cs: GetCategoryService) { }
+  constructor(private trainerService: GetTrainerService, private batchService: GetBatchService, private qcs: GetQcNoteService, private as: GetAssessmentService, private cs: GetCategoryService, private sendJsonService : SendJSONAsStringService) { }
 
   ngOnInit(): void {
     this.getAllTrainers();
@@ -35,7 +36,6 @@ export class ApiAllTrainersComponent implements OnInit {
   getAllTrainers() {
     this.trainerService.getAllTrainers().subscribe(
       (response) => {
-        console.log(response);
         this.trainers = response;
       },
       (response) => {
@@ -45,7 +45,8 @@ export class ApiAllTrainersComponent implements OnInit {
 
   }
 
-  getDataByTrainer(selected) {
+
+  async getDataByTrainer(selected) {
     let tempTrainer: Trainer = this.trainers[selected];
 
 
@@ -57,18 +58,18 @@ export class ApiAllTrainersComponent implements OnInit {
 
     let batchIds: string[];
     let batches: Batch[] = [];
-    this.batchService.getBatchesByTrainerEmail(tempTrainer.email).subscribe(
+    await this.batchService.getBatchesByTrainerEmail(tempTrainer.email).toPromise().then(
       //Get the batch ids
-      (response) => {
-
+      async (response) => {
+        console.log("Response with all batch ids: ");
+        console.log(response);
         batchIds = response;
         let temp;
         let success: boolean = true;
         for (let id of batchIds) { //Get each batch by id
-          console.log("id: " + id);
-          this.batchService.getBatchById(id).subscribe(
+          await this.batchService.getPromiseBatchById(id).then(
 
-            (response) => {
+            async (response) => {
               let batch = response;
               temp = {
                 "id": batch.id,
@@ -83,14 +84,14 @@ export class ApiAllTrainersComponent implements OnInit {
                 "assessments": []
               }
 
-              this.qcs.getQCNotesByBatchId(id).subscribe(
-                (response) => { //Get all notes for this batch
+              await this.qcs.getPromiseQCNotesByBatchId(id).then(
+                async (response) => { //Get all notes for this batch
                   let tempNotes: QCNote[] = response;
                   let tempNote;
                   let cat;
                   for (let note of tempNotes) {
-                    this.qcs.getCategoryByBatchIdAndWeek(id, note.week).subscribe(
-                      (response) => { //Get categories by week
+                    await this.qcs.getCategoryByBatchIdAndWeek(id, note.week).toPromise().then(
+                      async (response) => { 
 
                         tempNote = note;
                         tempNote.categories = [];
@@ -103,7 +104,7 @@ export class ApiAllTrainersComponent implements OnInit {
                             }
                           }
                         }
-                        temp.qcNotes.push(tempNote);
+                        await temp.qcNotes.push(tempNote);
                         // console.log("Current JSON: " + JSON.stringify(temp));
                       },
                       (response) => {
@@ -113,30 +114,44 @@ export class ApiAllTrainersComponent implements OnInit {
                   }
                   let tempBatches: Batch[] = [];
                   for (let i = 0; i < batch.currentWeek; i++) {
-                    this.as.getAssessmentsByWeekAndBatchId(id, i + 1).subscribe(
-                      (response) => {
+                    await this.as.getPromiseAssessmentsByWeekAndBatchId(id, i + 1).then(
+                      // Works
+                      async (response) => {
+                        
                         let assessments: Assessment[] = response;
 
                         for (let i = 0; i < assessments.length; i++) {
-                          this.cs.getCategoryById(assessments[i].assessmentCategory).subscribe(
-                            (response) => {
+                           await this.cs.getPromiseCategoryById(assessments[i].assessmentCategory).then(
+                            // Works
+                            async (response) => {
+                              console.log("skill category");
                               assessments[i].skillCategory = response.skillCategory;
+                              console.log(assessments[i].skillCategory);
+
+                              await this.as.getAverageGradeByAssessment(assessments[i].assessmentId).toPromise().then(
+                                // Does NOT work, needs more path variables?
+                                async (response) => {
+                                  
+                                  assessments[i].average = response;
+                                },
+                                async (response) => {
+                                  assessments[i].average = 0;
+                                  console.log("Grade average request failed");
+                                }
+                              );
                             },
                             (response) => {
                               console.log("Category request failed");
                             }
                           );
-                          this.as.getAverageGradeByAssessment(assessments[i].assessmentId).subscribe(
-                            (response) => {
-                              assessments[i].average = response;
-                            },
-                            (response) => {
-                              console.log("Grade average request failed");
-                            }
-                          );
-                          console.log("assessments: " + JSON.stringify(assessments));
+                          
                         }
-                        temp.assessments = assessments;
+                        console.log("ASSESSMENTS: ")
+                        console.log(assessments);
+                        for(let a of assessments){
+                          temp.assessments.push(a);
+                        }
+                      
                       },
                       (response) => {
                         console.log("Assessment request failed");
@@ -149,8 +164,9 @@ export class ApiAllTrainersComponent implements OnInit {
                   console.log("QCNote request failed");
                 }
               );
-
-
+              console.log("Temp obj");
+              console.log(temp);
+              this.allData.batches.push(temp);
             },
             (response) => {
               success = false;
@@ -169,117 +185,15 @@ export class ApiAllTrainersComponent implements OnInit {
       }
     );
     console.log(this.allData);
-    /*  this.batchService.getBatchesByTrainerEmail(tempTrainer.email).subscribe(
-        //Get the batch ids
-        (response) => {
-  
-          batchIds = response;
-          let temp;
-          let success: boolean = true;
-  
-          for (let id of batchIds) { //Get each batch by id
-  
-            this.batchService.getBatchById(id).subscribe(
-  
-              (response) => {
-                let batch = response;
-                temp = {
-                  "id": batch.id,
-                  "batchId": batch.batchId,
-                  "name": batch.name,
-                  "startDate": batch.startDate,
-                  "endDate": batch.endDate,
-                  "skill": batch.skill,
-                  "location": batch.location,
-                  "type": batch.type,
-                  "qcNotes": [],
-                  "assessments": []
-                }
-  
-                this.qcs.getQCNotesByBatchId(id).subscribe(
-                  (response) => { //Get all notes for this batch
-                    let tempNotes: QCNote[] = response;
-                    let tempNote;
-                    let cat;
-                    for (let note of tempNotes) {
-                      this.qcs.getCategoryByBatchIdAndWeek(id, note.week).subscribe(
-                        (response) => { //Get categories by week
-  
-                          tempNote = note;
-                          tempNote.categories = [];
-                          cat = response;
-                          if (cat != null) {
-                            for (let c of cat) { //For each category, add the category to the array found in the batch
-                              if (c != null && !tempNote.categories.includes(c.skillCategory)) {
-                                tempNote.categories.push(c.skillCategory);
-                              }
-                            }
-                          }
-                          temp.qcNotes.push(tempNote);
-                          // console.log("Current JSON: " + JSON.stringify(temp));
-                        },
-                        (response) => {
-                          console.log("Category request failed");
-                        }
-                      );
-                    }
-                    for(let i=0; i<batch.currentWeek; i++) {
-                      this.as.getAssessmentsByWeekAndBatchId(id, i+1).subscribe(
-                        (response) => {
-                          let assessments : Assessment[] = response;
-                          
-                          for(let i = 0; i < assessments.length; i++) {
-                            this.cs.getCategoryById(assessments[i].assessmentCategory).subscribe(
-                              (response) => {
-                                assessments[i].skillCategory = response.skillCategory;
-                              },
-                              (response) => {
-                                console.log("Category request failed");
-                              }
-                            );
-                            this.as.getAverageGradeByAssessment(assessments[i].assessmentId).subscribe(
-                              (response) => {
-                                assessments[i].average = response;
-                              },
-                              (response) => {
-                                console.log("Grade average request failed");
-                              }
-                            );
-                          }
-                          temp.assessments = assessments;
-                        },
-                        (response) => {
-                          console.log("Assessment request failed");
-                        }
-                      );
-                    }
-                    this.allData.batches.push(temp);
-                  },
-                  (response) => {
-                    console.log("QCNote request failed");
-                  }
-                );
-  
-                
-              },
-              (response) => {
-                success = false;
-                console.log("Batch request failed")
-              }
-            );
-  
-            if (!success) {
-              break;
-            }
-            this.allData.batches.push(temp);
-          }
-        },
-        (response) => {
-          console.log("IDs request failed");
-        }
-      );
-  
-      */
+    this.sendJsonService.sendJSON(JSON.stringify(this.allData)).subscribe(
+      (response) => {
+        console.log(response);
+      }, 
+      (response) => {
+        console.log(response);
+      }
+    );
+    
   }
 
 }

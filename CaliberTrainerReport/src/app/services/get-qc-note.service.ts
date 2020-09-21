@@ -15,6 +15,10 @@ export class GetQcNoteService {
   getQCNotesByBatchId(id : string) : Observable<QCNote[]> {
     return this.http.get<QCNote[]>(this.us.getUrl()+"QCNote/qcNotes/"+id);
   }
+  
+  getPromiseQCNotesByBatchId(id : string) : Promise<QCNote[]> {
+    return this.http.get<QCNote[]>(this.us.getUrl()+"QCNote/qcNotes/"+id).toPromise();
+  }
 
   getCategoryByBatchIdAndWeek(batchId : string, week : number) : Observable<Category>{
     return this.http.get<Category>(this.us.getUrl()+"QCNote/qcNote/" + batchId + "/category/" + week);
