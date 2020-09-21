@@ -16,16 +16,29 @@
                 Raw Assessment Scores By Category        
                 <fa-icon class="" [icon]="tableGraphIcon"></fa-icon>
             </h4>
-            <table>
+
+            <div class = "container">
+            <table class = "table table-sm">
                 <caption></caption>
                 <th scope="col"></th>
-                <th scope="col" *ngFor="let category of categories; let i = index">{{category}}</th>
-                <tr><td class="description exam-text">Exam</td>  <td class="leftColumnStyle" *ngFor="let exam of examRawScores">{{exam}}</td></tr>
-                <tr><td class="description verbal-text">Verbal</td> <td class="leftColumnStyle" *ngFor="let verbal of verbalRawScores">{{verbal}}</td></tr>
-                <tr><td class="description presentation-text">Presentation</td> <td class="leftColumnStyle" *ngFor="let presentation of presentationRawScores">{{presentation}}</td></tr>
-                <tr><td class="description project-text">Project</td> <td class="leftColumnStyle" *ngFor="let project of projectRawScores">{{project}}</td></tr>
-                <tr><td class="description other-text">Other</td> <td class="leftColumnStyle" *ngFor="let other of otherRawScores">{{other}}</td></tr>
+                <th scope="col" *ngFor="let category of categories0; let i = index">{{category}}</th>
+                <tr><td class="description exam-text">Exam</td>  <td class="leftColumnStyle" *ngFor="let exam of examRawScores0">{{exam}}</td></tr>
+                <tr><td class="description verbal-text">Verbal</td> <td class="leftColumnStyle" *ngFor="let verbal of verbalRawScores0">{{verbal}}</td></tr>
+                <tr><td class="description presentation-text">Presentation</td> <td class="leftColumnStyle" *ngFor="let presentation of presentationRawScores0">{{presentation}}</td></tr>
+                <tr><td class="description project-text">Project</td> <td class="leftColumnStyle" *ngFor="let project of projectRawScores0">{{project}}</td></tr>
+                <tr><td class="description other-text">Other</td> <td class="leftColumnStyle" *ngFor="let other of otherRawScores0">{{other}}</td></tr>
             </table>
+            <table class = "table table-sm">
+                <caption></caption>
+                <th scope="col"></th>
+                <th scope="col" *ngFor="let category of categories15; let i = index">{{category}}</th>
+                <tr><td class="description exam-text">Exam</td>  <td class="leftColumnStyle" *ngFor="let exam of examRawScores15">{{exam}}</td></tr>
+                <tr><td class="description verbal-text">Verbal</td> <td class="leftColumnStyle" *ngFor="let verbal of verbalRawScores15">{{verbal}}</td></tr>
+                <tr><td class="description presentation-text">Presentation</td> <td class="leftColumnStyle" *ngFor="let presentation of presentationRawScores15">{{presentation}}</td></tr>
+                <tr><td class="description project-text">Project</td> <td class="leftColumnStyle" *ngFor="let project of projectRawScores15">{{project}}</td></tr>
+                <tr><td class="description other-text">Other</td> <td class="leftColumnStyle" *ngFor="let other of otherRawScores15">{{other}}</td></tr>
+            </table>
+        </div>
         </div>
     </div>
 </div>
