@@ -233,6 +233,7 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
     } else {
       graphSelector.value = 'category';
     }
+    this.graphAdjust();
   }
 
   ngOnDestroy(): void{

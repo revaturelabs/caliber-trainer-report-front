@@ -353,6 +353,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
     } else {
       graphSelector.value = 'trend';
     }
+    this.graphAdjust();
   }
 
   ngOnDestroy() {
