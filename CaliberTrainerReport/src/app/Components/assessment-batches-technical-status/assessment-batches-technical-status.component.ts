@@ -42,10 +42,10 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
     let ssallBatches: any = JSON.parse(sessionStorage.getItem("allBatches"));
     let ssBatchNames: any = JSON.parse(sessionStorage.getItem("batchNames"));
     let trainerId: string = sessionStorage.getItem("selectedId");
-    let gArray4 = JSON.parse(sessionStorage.getItem("graphArray4" + trainerId));
+    let gArray4: any[]= JSON.parse(sessionStorage.getItem("graphArray4" + trainerId));
 
     // Performance workaround to prevent constantly loading from DB.
-    if(gArray4 != null){
+    if(gArray4 != null && !gArray4.includes(null) && false){
       console.log("ACCESSING SESSION STORAGE");
       
       this.allBatches = JSON.parse(JSON.stringify(gArray4))[1];
@@ -55,8 +55,6 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
       this.displayGraph(this.batchesObj);
 
     } else {
-      console.log("ACESSING DB");
-
     
     this.AssessmentByBatchServiceSubscription = this.AssessmentByBatchService.getAssessmentByBatch().subscribe((resp) => {
       this.allBatches = resp;
@@ -167,6 +165,7 @@ export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDest
     } else {
       graphSelector.value = 'status';
     }
+    this.graphAdjust();
   }
 
   ngOnDestroy() {

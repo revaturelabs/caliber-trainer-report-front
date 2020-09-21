@@ -102,12 +102,10 @@ export class CalendarComponent implements OnInit {
   constructor(private modal: NgbModal, private batchServ: GetBatchService) { }
   batches: Array<any>;
   ngOnInit(): void {
-    console.log(new Date());
     
     this.batchServ.getBatches().subscribe(
       (response) => {
         this.batches = response;
-        console.log(response);
         this.batchList();
 
       }
@@ -122,7 +120,6 @@ export class CalendarComponent implements OnInit {
 
   batchList() {
     let j = 0;
-    console.log(this.batches.length);
     for (let i = 0; i < this.batches.length; i++) {
       this.bTitle = this.batches[i].batchName + " " + this.batches[i].skill;
       this.bStartDateString = this.batches[i].startDate;
@@ -179,7 +176,6 @@ export class CalendarComponent implements OnInit {
       if (this.colorCount == 4 ) {
         this.colorCount = 0;
       }
-      console.log(colors[this.colorCount]);
 
       return colors[this.colorCount];
     }

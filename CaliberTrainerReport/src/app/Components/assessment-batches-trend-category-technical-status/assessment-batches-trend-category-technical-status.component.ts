@@ -55,7 +55,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
     let trainerId: string = sessionStorage.getItem("selectedId");
     let gA6: any[]=JSON.parse(sessionStorage.getItem("graphArray6" + trainerId));
  
-    if(gA6 != null && gA6[0] != null &&  gA6[1] != null && gA6[2] != null && gA6[3] != null){
+    if(gA6 != null && !gA6.includes(null) && false){
       console.log("yvalues from session ");
       this.categoriesName = gA6[2];
       this.categoriesObj = gA6[3];
@@ -353,6 +353,7 @@ export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
     } else {
       graphSelector.value = 'trend';
     }
+    this.graphAdjust();
   }
 
   ngOnDestroy() {

@@ -68,7 +68,7 @@ export class QCBatchesIndivCategoryTechnicalStatusComponent
 
     let trainerId = sessionStorage.getItem("selectedId");
     let gA2: any[] = JSON.parse(sessionStorage.getItem("graphingArray2" + trainerId));
-    if(gA2 != null && !gA2.includes(null)){
+    if(gA2 != null && !gA2.includes(null) && false){
       this.categoriesName = gA2[2];
       this.categoriesObj = gA2[3];
 

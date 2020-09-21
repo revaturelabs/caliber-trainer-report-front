@@ -61,9 +61,16 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
     this.presentationRawScores = [];
     this.otherRawScores = [];
     let trainerId: string = sessionStorage.getItem("selectedId");
-    let gArray = JSON.parse(sessionStorage.getItem("graphArray5" + trainerId));
+    let gArray: any[] = JSON.parse(sessionStorage.getItem("graphArray5" + trainerId));
 
-    if(gArray != null){
+    if(gArray != null && !gArray.includes(null) && false){
+
+      this.categories = gArray[0];
+      this.examScores =gArray[1];
+      this.verbalScores = gArray[2];
+      this.projectScores = gArray[3];
+      this.presentationScores = gArray[4];
+      this.otherScores = gArray[5];
       this.displayGraph(gArray[0], gArray[1], gArray[2], gArray[3], 
         gArray[4], gArray[5]);
 
@@ -226,6 +233,7 @@ export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
     } else {
       graphSelector.value = 'category';
     }
+    this.graphAdjust();
   }
 
   ngOnDestroy(): void{

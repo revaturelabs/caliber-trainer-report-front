@@ -10,13 +10,14 @@
         <option value="week">Category by Week</option>
       </select>
     </div>
-    <div class="col-md-4 text-right">
-      <button class="btn btn-danger btn-block" style="background-color: #ea753e;" (click)="downloadPDF()">Download PDF</button>
+    <div class="container" style="width: fit-content;">
+      <button class="btn btn-danger btn-block" style="background-color: #ea753e; margin-bottom: 15px; width: 20vw;" (click)="downloadPDF()">Download PDF</button>
    </div>
   </div>
 
   <div class="qc-graph-grid" *ngIf="selectedValue == 'all'">
 
+    
     <app-qcbatches-technical-status></app-qcbatches-technical-status>
     <div class="html2pdf__page-break"></div>
     <app-qcbatches-indiv-category-technical-status></app-qcbatches-indiv-category-technical-status>

@@ -39,7 +39,7 @@ export class ApiAllTrainersComponent implements OnInit {
         this.trainers = response;
       },
       (response) => {
-        console.log("Request failed");
+        alert("Failed to pull external trainer list");
       }
     )
 
@@ -61,8 +61,6 @@ export class ApiAllTrainersComponent implements OnInit {
     await this.batchService.getBatchesByTrainerEmail(tempTrainer.email).toPromise().then(
       //Get the batch ids
       async (response) => {
-        console.log("Response with all batch ids: ");
-        console.log(response);
         batchIds = response;
         let temp;
         let success: boolean = true;
@@ -100,12 +98,10 @@ export class ApiAllTrainersComponent implements OnInit {
                           for (let c of cat) { //For each category, add the category to the array found in the batch
                             if (c != null && !tempNote.categories.includes(c.skillCategory)) {
                               tempNote.categories.push(c.skillCategory);
-                              console.log("temp note: " + JSON.stringify(tempNote));
                             }
                           }
                         }
                         await temp.qcNotes.push(tempNote);
-                        // console.log("Current JSON: " + JSON.stringify(temp));
                       },
                       (response) => {
                         console.log("Category request failed");
@@ -115,28 +111,22 @@ export class ApiAllTrainersComponent implements OnInit {
                   let tempBatches: Batch[] = [];
                   for (let i = 0; i < batch.currentWeek; i++) {
                     await this.as.getPromiseAssessmentsByWeekAndBatchId(id, i + 1).then(
-                      // Works
                       async (response) => {
                         
                         let assessments: Assessment[] = response;
 
                         for (let i = 0; i < assessments.length; i++) {
                            await this.cs.getPromiseCategoryById(assessments[i].assessmentCategory).then(
-                            // Works
                             async (response) => {
-                              console.log("skill category");
                               assessments[i].skillCategory = response.skillCategory;
-                              console.log(assessments[i].skillCategory);
 
                               await this.as.getAverageGradeByAssessment(assessments[i].assessmentId).toPromise().then(
-                                // Does NOT work, needs more path variables?
                                 async (response) => {
                                   
                                   assessments[i].average = response;
                                 },
                                 async (response) => {
                                   assessments[i].average = 0;
-                                  console.log("Grade average request failed");
                                 }
                               );
                             },
@@ -146,8 +136,6 @@ export class ApiAllTrainersComponent implements OnInit {
                           );
                           
                         }
-                        console.log("ASSESSMENTS: ")
-                        console.log(assessments);
                         for(let a of assessments){
                           temp.assessments.push(a);
                         }
@@ -164,8 +152,6 @@ export class ApiAllTrainersComponent implements OnInit {
                   console.log("QCNote request failed");
                 }
               );
-              console.log("Temp obj");
-              console.log(temp);
               this.allData.batches.push(temp);
             },
             (response) => {
@@ -177,19 +163,18 @@ export class ApiAllTrainersComponent implements OnInit {
           if (!success) {
             break;
           }
-
         }
       },
       (response) => {
-        console.log("IDs request failed");
+        console.log("Batch IDs request failed");
       }
     );
-    console.log(this.allData);
     this.sendJsonService.sendJSON(JSON.stringify(this.allData)).subscribe(
       (response) => {
-        console.log(response);
+        alert("Data retrieved, you may now navigate to the graph or calendar pages");
       }, 
       (response) => {
+        alert("Something went wrong, please try again");
         console.log(response);
       }
     );

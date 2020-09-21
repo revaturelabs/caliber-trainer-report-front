@@ -1,1 +1,7 @@
 /* CSS is located in main style.css */
+
+.qc-body{
+    margin: 0 auto;
+    width: 75%;
+    margin-bottom: 100px;
+  }
