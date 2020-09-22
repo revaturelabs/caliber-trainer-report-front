@@ -1,18 +1,18 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { faChartBar } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
-import { ThirdChartService } from 'src/app/services/TechnicalStatusByWeek.service';
+import { TechnicalStatusByWeekService } from 'src/app/services/TechnicalStatusByWeek.service';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 
 @Component({
-  selector: 'app-qcbatches-week-category-technical-status',
-  templateUrl: './qcbatches-week-category-technical-status.component.html',
-  styleUrls: ['./qcbatches-week-category-technical-status.component.css'],
+  selector: 'app-qc-overall-week-technical-scores',
+  templateUrl: './qc-overall-week-technical-scores.component.html',
+  styleUrls: ['./qc-overall-week-technical-scores.component.css'],
 })
-export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit, OnDestroy {
-  private thirdChartServiceSubscription: Subscription;
+export class QcOverallWeekTechnicalScoresComponent implements OnInit, OnDestroy {
+  private statusByWeekServiceSubscription: Subscription;
   barGraphIcon = faChartBar;
   width: number;
   isBig: boolean;
@@ -39,7 +39,7 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit, On
   myGraph: any;
 
   constructor(
-    private thirdChartService: ThirdChartService,
+    private statusByWeekService: TechnicalStatusByWeekService,
     private qcTS: QCComponent,
     private displayGraphService: DisplayGraphService
   ) {}
@@ -62,7 +62,7 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit, On
     } else {
 
     
-    this.thirdChartServiceSubscription = this.thirdChartService.getTechnicalStatusByWeek().subscribe((resp) => {
+    this.statusByWeekServiceSubscription = this.statusByWeekService.getTechnicalStatusByWeek().subscribe((resp) => {
       this.thirdGraphObj = resp;
       this.batches = this.getBatches();
       this.pickedBatch = this.batches[0];
@@ -277,6 +277,6 @@ export class QCBatchesWeekCategoryTechnicalStatusComponent implements OnInit, On
   }
 
   ngOnDestroy() {
-    this.thirdChartServiceSubscription.unsubscribe();
+    this.statusByWeekServiceSubscription.unsubscribe();
   }
 }

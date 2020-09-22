@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AssessmentBatchesTechnicalStatusComponent } from './assessment-batches-technical-status.component';
+import { AssessmentBatchesTechnicalStatusComponent } from './assessment-scores-according-to-batch.component';
 
 describe('AssessmentBatchesTechnicalStatusComponent', () => {
   let component: AssessmentBatchesTechnicalStatusComponent;

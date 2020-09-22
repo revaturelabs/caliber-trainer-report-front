@@ -7,14 +7,14 @@ import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 
 @Component({
-  selector: 'app-assessment-batches-trend-category-technical-status',
+  selector: 'app-assessment-scores-for-category',
   templateUrl:
-    './assessment-batches-trend-category-technical-status.component.html',
+    './assessment-scores-for-category.component.html',
   styleUrls: [
-    './assessment-batches-trend-category-technical-status.component.css',
+    './assessment-scores-for-category.component.css',
   ],
 })
-export class AssessmentBatchesTrendCategoryTechnicalStatusComponent
+export class AssessmentScoresForCategoryComponent
   implements OnInit, OnDestroy {
   private AssessScoresByCategoryAllBatchesServiceSubscription: Subscription;
   lineGraphIcon = faChartLine;

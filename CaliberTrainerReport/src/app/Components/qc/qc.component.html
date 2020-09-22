@@ -18,21 +18,21 @@
   <div class="qc-graph-grid" *ngIf="selectedValue == 'all'">
 
     
-    <app-qcbatches-technical-status></app-qcbatches-technical-status>
+    <app-qc-overall-batch-technical-scores></app-qc-overall-batch-technical-scores>
     <div class="html2pdf__page-break"></div>
-    <app-qcbatches-indiv-category-technical-status></app-qcbatches-indiv-category-technical-status>
+    <app-qc-technical-scores-by-category-across-batches></app-qc-technical-scores-by-category-across-batches>
     <div class="html2pdf__page-break"></div>
-    <app-qcbatches-week-category-technical-status></app-qcbatches-week-category-technical-status>
+    <app-qc-overall-week-technical-scores></app-qc-overall-week-technical-scores>
 
   </div>
   <div class="qc-graph-full" *ngIf="selectedValue == 'status'">
-    <app-qcbatches-technical-status></app-qcbatches-technical-status>
+    <app-qc-overall-batch-technical-scores></app-qc-overall-batch-technical-scores>
   
   </div><div class="qc-graph-full" *ngIf="selectedValue == 'individual'">
-    <app-qcbatches-indiv-category-technical-status></app-qcbatches-indiv-category-technical-status>
+    <app-qc-technical-scores-by-category-across-batches></app-qc-technical-scores-by-category-across-batches>
 
   </div><div class="qc-graph-full" *ngIf="selectedValue == 'week'">
-    <app-qcbatches-week-category-technical-status></app-qcbatches-week-category-technical-status>
+    <app-qc-overall-week-technical-scores></app-qc-overall-week-technical-scores>
 
   </div>
 </div>
