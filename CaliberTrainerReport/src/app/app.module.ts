@@ -6,12 +6,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TechnicalStatusPerBatchService } from './services/TechnicalStatusPerBatch.service';
 import { MainNavBarComponent } from './Components/main-nav-bar/main-nav-bar.component';
-import { QCBatchesTechnicalStatusComponent } from './Components/qcbatches-technical-status/qcbatches-technical-status.component';
-import { QCBatchesIndivCategoryTechnicalStatusComponent } from './Components/qcbatches-indiv-category-technical-status/qcbatches-indiv-category-technical-status.component';
-import { QCBatchesWeekCategoryTechnicalStatusComponent } from './Components/qcbatches-week-category-technical-status/qcbatches-week-category-technical-status.component';
-import { AssessmentBatchesTechnicalStatusComponent } from './Components/assessment-batches-technical-status/assessment-batches-technical-status.component';
-import { AssessmentBatchesIndivCategoryTechnicalStatusComponent } from './Components/assessment-batches-indiv-category-technical-status/assessment-batches-indiv-category-technical-status.component';
-import { AssessmentBatchesTrendCategoryTechnicalStatusComponent } from './Components/assessment-batches-trend-category-technical-status/assessment-batches-trend-category-technical-status.component';
+import { QcOverallBatchTechnicalScoresComponent } from './Components/qc-overall-batch-technical-scores/qc-overall-batch-technical-scores.component';
+import { QcOverallWeekTechnicalScoresComponent } from './Components/qc-overall-week-technical-scores/qc-overall-week-technical-scores.component';
+import { AssessmentScoresAccordingToBatchComponent } from './Components/assessment-scores-according-to-batch/assessment-scores-according-to-batch.component';
+import { AssessmentScoresForCategoryComponent } from './Components/assessment-scores-for-category/assessment-scores-for-category.component';
 import { QCComponent } from './Components/qc/qc.component';
 import { AssessmentComponent } from './Components/assessment/assessment.component';
 import { HomeComponent } from './Components/home/home.component';
@@ -33,6 +31,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid'; 
 import interactionPlugin from '@fullcalendar/interaction'; 
 import { GetBatchService } from './services/get-batch.service';
+import { AssessmentScoresAccordingToCategoryComponent } from './Components/assessment-scores-according-to-category/assessment-scores-according-to-category.component';
+import { QcTechnicalScoresByCategoryAcrossBatchesComponent } from './Components/qc-technical-scores-by-category-across-batches/qc-technical-scores-by-category-across-batches.component';
 FullCalendarModule.registerPlugins([ 
   dayGridPlugin,
   interactionPlugin
@@ -44,12 +44,12 @@ FullCalendarModule.registerPlugins([
   declarations: [
     AppComponent,
     MainNavBarComponent,
-    QCBatchesTechnicalStatusComponent,
-    QCBatchesIndivCategoryTechnicalStatusComponent,
-    QCBatchesWeekCategoryTechnicalStatusComponent,
-    AssessmentBatchesTechnicalStatusComponent,
-    AssessmentBatchesIndivCategoryTechnicalStatusComponent,
-    AssessmentBatchesTrendCategoryTechnicalStatusComponent,
+    QcOverallBatchTechnicalScoresComponent,
+    QcTechnicalScoresByCategoryAcrossBatchesComponent,
+    QcOverallWeekTechnicalScoresComponent,
+    AssessmentScoresAccordingToBatchComponent,
+    AssessmentScoresAccordingToCategoryComponent,
+    AssessmentScoresForCategoryComponent,
     QCComponent,
     AssessmentComponent,
     HomeComponent,

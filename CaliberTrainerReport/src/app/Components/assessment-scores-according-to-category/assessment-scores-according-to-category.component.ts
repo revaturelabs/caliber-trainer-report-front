@@ -8,14 +8,14 @@ import { DisplayGraphService } from 'src/app/services/display-graph.service';
 
 
 @Component({
-  selector: 'app-assessment-batches-indiv-category-technical-status',
+  selector: 'app-assessment-scores-according-to-category',
   templateUrl:
-    './assessment-batches-indiv-category-technical-status.component.html',
+    './assessment-scores-according-to-category.component.html',
   styleUrls: [
-    './assessment-batches-indiv-category-technical-status.component.css',
+    './assessment-scores-according-to-category.component.css',
   ],
 })
-export class AssessmentBatchesIndivCategoryTechnicalStatusComponent
+export class AssessmentScoresAccordingToCategoryComponent
   implements OnInit, OnDestroy {
   private AssessmentByCategoryServiceSubscription: Subscription;
 

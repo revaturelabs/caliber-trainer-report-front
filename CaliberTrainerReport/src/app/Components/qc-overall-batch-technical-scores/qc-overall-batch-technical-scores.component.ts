@@ -7,11 +7,11 @@ import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 
 @Component({
-  selector: 'app-qcbatches-technical-status',
-  templateUrl: './qcbatches-technical-status.component.html',
-  styleUrls: ['./qcbatches-technical-status.component.css'],
+  selector: 'app-qc-overall-batch-technical-scores',
+  templateUrl: './qc-overall-batch-technical-scores.component.html',
+  styleUrls: ['./qc-overall-batch-technical-scores.component.css'],
 })
-export class QCBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
+export class QcOverallBatchTechnicalScoresComponent implements OnInit, OnDestroy {
   private TechnicalStatusPerBatchServiceSubscription: Subscription;
   barGraphIcon = faChartBar;
   tableGraphIcon = faTable;

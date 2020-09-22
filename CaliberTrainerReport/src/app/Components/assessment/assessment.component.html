@@ -16,24 +16,24 @@
     </div>
 
     <div class="assessment-graph-grid" *ngIf="selectedValue == 'all'">
-        <app-assessment-batches-technical-status></app-assessment-batches-technical-status>
+        <app-assessment-scores-according-to-batch></app-assessment-scores-according-to-batch>
         <div class="html2pdf__page-break"></div>
-        <app-assessment-batches-indiv-category-technical-status>
-        </app-assessment-batches-indiv-category-technical-status>
+        <app-assessment-scores-according-to-category>
+        </app-assessment-scores-according-to-category>
         <div class="html2pdf__page-break"></div>
-        <app-assessment-batches-trend-category-technical-status>
-        </app-assessment-batches-trend-category-technical-status>
+        <app-assessment-scores-for-category>
+        </app-assessment-scores-for-category>
     </div>
     <div class="assessment-graph-full" *ngIf="selectedValue == 'status'">
-        <app-assessment-batches-technical-status>
-        </app-assessment-batches-technical-status>
+        <app-assessment-scores-according-to-batch>
+        </app-assessment-scores-according-to-batch>
     </div>
     <div class="assessment-graph-full" *ngIf="selectedValue == 'category'">
-        <app-assessment-batches-indiv-category-technical-status>
-        </app-assessment-batches-indiv-category-technical-status>
+        <app-assessment-scores-according-to-category>
+        </app-assessment-scores-according-to-category>
     </div>
     <div class="assessment-graph-full" *ngIf="selectedValue == 'trend'">
-        <app-assessment-batches-trend-category-technical-status>
-        </app-assessment-batches-trend-category-technical-status>
+        <app-assessment-scores-for-category>
+        </app-assessment-scores-for-category>
     </div>
 </div>

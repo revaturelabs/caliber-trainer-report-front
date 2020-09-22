@@ -7,11 +7,11 @@ import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 
 @Component({
-  selector: 'app-assessment-batches-technical-status',
-  templateUrl: './assessment-batches-technical-status.component.html',
-  styleUrls: ['./assessment-batches-technical-status.component.css'],
+  selector: 'app-assessment-scores-according-to-batch',
+  templateUrl: './assessment-scores-according-to-batch.component.html',
+  styleUrls: ['./assessment-scores-according-to-batch.component.css'],
 })
-export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
+export class AssessmentScoresAccordingToBatchComponent implements OnInit, OnDestroy {
   private AssessmentByBatchServiceSubscription: Subscription;
   radarChartIcon = faChartArea;
   pickedBatch: any;

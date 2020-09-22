@@ -8,11 +8,11 @@ import { DisplayGraphService } from 'src/app/services/display-graph.service';
 
 
 @Component({
-  selector: 'app-qcbatches-indiv-category-technical-status',
-  templateUrl: './qcbatches-indiv-category-technical-status.component.html',
-  styleUrls: ['./qcbatches-indiv-category-technical-status.component.css'],
+  selector: 'app-qc-technical-scores-by-category-across-batches',
+  templateUrl: './qc-technical-scores-by-category-across-batches.component.html',
+  styleUrls: ['./qc-technical-scores-by-category-across-batches.component.css'],
 })
-export class QCBatchesIndivCategoryTechnicalStatusComponent
+export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   implements OnInit, OnDestroy {
   private BatchTechnicalStatusBySkillCategoryServiceSubscription: Subscription;
   lineGraphIcon = faChartLine;

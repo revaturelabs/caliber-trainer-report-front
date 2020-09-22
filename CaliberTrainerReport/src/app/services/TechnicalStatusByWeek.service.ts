@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class ThirdChartService {
+export class TechnicalStatusByWeekService {
   constructor(private http: HttpClient, private urlService: UrlService) { }
 
   getTechnicalStatusByWeek(): Observable<any>{
