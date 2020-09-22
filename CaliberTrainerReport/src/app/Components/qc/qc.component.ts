@@ -28,7 +28,7 @@ export class QCComponent implements OnInit, DoCheck {
 
   public downloadPDF() {
    const options = {
-     filename: 'testFile.pdf',
+     filename: 'Report.pdf',
      image: {type: 'jpeg', quality: 1},
      html2canvas: {scale: 1},
      jsPDF: {orientation: 'landscape'}
