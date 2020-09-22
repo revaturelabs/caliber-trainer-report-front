@@ -8,7 +8,7 @@ import { TechnicalStatusPerBatchService } from './services/TechnicalStatusPerBat
 import { MainNavBarComponent } from './Components/main-nav-bar/main-nav-bar.component';
 import { QcOverallBatchTechnicalScoresComponent } from './Components/qc-overall-batch-technical-scores/qc-overall-batch-technical-scores.component';
 import { QcOverallWeekTechnicalScoresComponent } from './Components/qc-overall-week-technical-scores/qc-overall-week-technical-scores.component';
-import { AssessmentBatchesTechnicalStatusComponent } from './Components/assessment-scores-according-to-batch/assessment-scores-according-to-batch.component';
+import { AssessmentScoresAccordingToBatchComponent } from './Components/assessment-scores-according-to-batch/assessment-scores-according-to-batch.component';
 import { AssessmentScoresForCategoryComponent } from './Components/assessment-scores-for-category/assessment-scores-for-category.component';
 import { QCComponent } from './Components/qc/qc.component';
 import { AssessmentComponent } from './Components/assessment/assessment.component';
@@ -47,7 +47,7 @@ FullCalendarModule.registerPlugins([
     QcOverallBatchTechnicalScoresComponent,
     QcTechnicalScoresByCategoryAcrossBatchesComponent,
     QcOverallWeekTechnicalScoresComponent,
-    AssessmentBatchesTechnicalStatusComponent,
+    AssessmentScoresAccordingToBatchComponent,
     AssessmentScoresAccordingToCategoryComponent,
     AssessmentScoresForCategoryComponent,
     QCComponent,

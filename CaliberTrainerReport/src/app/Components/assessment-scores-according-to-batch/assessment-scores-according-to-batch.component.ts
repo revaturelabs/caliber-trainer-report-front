@@ -11,7 +11,7 @@ import { DisplayGraphService } from 'src/app/services/display-graph.service';
   templateUrl: './assessment-scores-according-to-batch.component.html',
   styleUrls: ['./assessment-scores-according-to-batch.component.css'],
 })
-export class AssessmentBatchesTechnicalStatusComponent implements OnInit, OnDestroy {
+export class AssessmentScoresAccordingToBatchComponent implements OnInit, OnDestroy {
   private AssessmentByBatchServiceSubscription: Subscription;
   radarChartIcon = faChartArea;
   pickedBatch: any;

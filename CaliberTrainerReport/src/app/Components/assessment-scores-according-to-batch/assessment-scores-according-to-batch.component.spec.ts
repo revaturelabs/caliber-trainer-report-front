@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AssessmentBatchesTechnicalStatusComponent } from './assessment-scores-according-to-batch.component';
+import { AssessmentScoresAccordingToBatchComponent } from './assessment-scores-according-to-batch.component';
 
-describe('AssessmentBatchesTechnicalStatusComponent', () => {
-  let component: AssessmentBatchesTechnicalStatusComponent;
-  let fixture: ComponentFixture<AssessmentBatchesTechnicalStatusComponent>;
+describe('AssessmentScoresAccordingToBatchComponent', () => {
+  let component: AssessmentScoresAccordingToBatchComponent;
+  let fixture: ComponentFixture<AssessmentScoresAccordingToBatchComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AssessmentBatchesTechnicalStatusComponent ]
+      declarations: [ AssessmentScoresAccordingToBatchComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AssessmentBatchesTechnicalStatusComponent);
+    fixture = TestBed.createComponent(AssessmentScoresAccordingToBatchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
