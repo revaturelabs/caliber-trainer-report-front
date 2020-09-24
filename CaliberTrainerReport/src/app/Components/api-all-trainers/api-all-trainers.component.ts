@@ -4,7 +4,7 @@ import { Trainer } from 'src/app/class/trainer';
 import { MockDataReturnService } from 'src/app/services/mock-data-return.service';
 import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/style-transforms';
 import { GetBatchService } from 'src/app/services/get-batch.service';
-import { Batch } from 'src/app/class/Batch';
+import { Batch } from 'src/app/class/batch';
 import { GetQcNoteService } from 'src/app/services/get-qc-note.service';
 import { QCNote } from 'src/app/class/QCNote';
 import { Category } from 'src/app/class/category';
