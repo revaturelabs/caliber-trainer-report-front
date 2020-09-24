@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UrlService } from 'src/app/services/url.service';
-import { Batch } from '../class/Batch';
+import { Batch } from '../class/batch';
 
 
 @Injectable({

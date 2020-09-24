@@ -221,7 +221,23 @@ export class AssessmentScoresForCategoryComponent
       '#FF00FF', '#800000',
       '#00FF00', '#00CED1',
       '#9370DB', '#000000',
-      '#6495ED', '#696969']
+      '#6495ED', '#696969',
+      // Colors Repeat again here
+      '#FF0000', '#FF8C00', 
+      '#FFD700',  '#228B22',
+      '#000080', '#4B0082',
+      '#FF00FF', '#800000',
+      '#00FF00', '#00CED1',
+      '#9370DB', '#000000',
+      '#6495ED', '#696969',
+      // Colors Repeat again here
+      '#FF0000', '#FF8C00', 
+      '#FFD700',  '#228B22',
+      '#000080', '#4B0082',
+      '#FF00FF', '#800000',
+      '#00FF00', '#00CED1',
+      '#9370DB', '#000000',
+      '#6495ED', '#696969',]
 
     // An array of objects. Each object should contain a yDisplay array within.
     let lineData: any[] = [];
