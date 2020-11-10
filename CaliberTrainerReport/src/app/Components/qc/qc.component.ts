@@ -1,4 +1,6 @@
-import { Component, OnInit, DoCheck } from '@angular/core';
+import { Component, OnInit, DoCheck, ViewChild, ElementRef } from '@angular/core';
+import jsPDF from 'jspdf';
+import * as html2PDF from 'html2pdf.js';
 
 @Component({
   selector: 'app-qc',
@@ -7,6 +9,8 @@ import { Component, OnInit, DoCheck } from '@angular/core';
 })
 export class QCComponent implements OnInit, DoCheck {
   selectedValue: string;
+
+  @ViewChild('qcbody') qcBody:ElementRef;
   constructor() { }
 
   ngOnInit(): void {
@@ -19,6 +23,23 @@ export class QCComponent implements OnInit, DoCheck {
       graphSelector.value = 'all';
     }
     this.selectedValue = graphSelector.value;
+  }
+
+
+  public downloadPDF() {
+   const options = {
+     filename: 'Report.pdf',
+     image: {type: 'jpeg', quality: 1},
+     html2canvas: {scale: 1},
+     jsPDF: {orientation: 'landscape'}
+   };
+
+   const content: Element = document.getElementById('qc-body');
+
+   html2PDF()
+   .from(content)
+   .set(options)
+   .save();
   }
 
 }

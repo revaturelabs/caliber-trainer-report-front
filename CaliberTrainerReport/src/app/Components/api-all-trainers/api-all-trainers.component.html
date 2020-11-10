@@ -1,0 +1,26 @@
+
+<select id="trainer-select" [(ngModel)]="selectedValue">
+    <option *ngFor="let t of trainers; index as i" value='{{i}}'>{{t.firstName}} {{t.lastName}}</option>
+</select>
+<button (click)="getDataByTrainer(selectedValue)">Pull Trainer Batch Data</button>
+
+
+
+<div class = "container" style = "margin: 5px;">
+    <div class="alert alert-warning" role="alert" *ngIf = "mockData == 'loading'" >
+        Loading data, please wait...
+    </div>
+    
+    <div class="alert alert-success" role="alert" *ngIf = "mockData == 'done' " >
+        Data successully loaded!
+    </div>
+
+    <div class="alert alert-danger" role="alert" *ngIf = "mockData == 'fail' " >
+        Error: Failed to load data.
+    </div>
+
+
+</div>
+    
+
+

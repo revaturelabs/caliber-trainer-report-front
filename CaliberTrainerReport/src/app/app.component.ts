@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { UrlService } from 'src/app/url.service';
-import { GetTrainerService } from './get-trainer.service';
-import { TrainerSessionService } from './trainer-session.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { UrlService } from 'src/app/services/url.service';
+import { GetTrainerService } from './services/get-trainer.service';
+import { TrainerSessionService } from './services/trainer-session.service';
 import { Trainer } from './class/trainer';
+
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,7 @@ import { Trainer } from './class/trainer';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+
   constructor(private urlService: UrlService, private getTrainerServ: GetTrainerService, private setTrainerServ: TrainerSessionService) { }
 
   dataIsDoneLoading: any;
@@ -22,4 +24,5 @@ export class AppComponent implements OnInit {
     this.trainerList = [];
     this.selectedValue = this.setTrainerServ.setTrainerList(this.trainerList);
   }
+
 }
