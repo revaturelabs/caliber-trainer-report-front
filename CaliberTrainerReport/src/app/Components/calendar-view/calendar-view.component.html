@@ -1,0 +1,11 @@
+<div class="qc-title">
+    <h2>All Batches by Trainer</h2>
+    <div class="option-select-menu" style="margin-bottom: 10px;">
+      <app-trainer-selector [(ngModel)]="trainer" name="selectedtrainer" ></app-trainer-selector>
+    </div>
+  </div>
+<div id="calendar-container">
+<div id="full-calendar">
+<full-calendar [options]="calendarOptions"></full-calendar>
+</div>
+</div>
