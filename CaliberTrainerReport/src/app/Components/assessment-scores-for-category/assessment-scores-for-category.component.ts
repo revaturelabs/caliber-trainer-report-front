@@ -209,6 +209,11 @@ export class AssessmentScoresForCategoryComponent
     this.displayGraph(this.batchNames, this.yValues);
   }
 
+  /**
+   * Displays a graph based on the given data.
+   * @param batchDisplayNames 
+   * @param yDisplayValues 
+   */
   displayGraph(batchDisplayNames: string[], yDisplayValues: any[]) {
     if (this.myLineChart) {
       this.myLineChart.destroy();
