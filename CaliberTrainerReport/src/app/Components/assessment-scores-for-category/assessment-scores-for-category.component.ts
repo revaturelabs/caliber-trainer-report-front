@@ -101,6 +101,7 @@ export class AssessmentScoresForCategoryComponent
     this.AssessScoresByCategoryAllBatchesServiceSubscription = this.assessScoresByCategoryAllBatchesService
       .getSixthGraphData()
       .subscribe((resp) => {
+        console.dir(resp);
         for (const score of resp.categories) {
           this.categoriesName.push(score.category);
           this.categoriesObj.push(score.batchAssessments);
@@ -156,6 +157,9 @@ export class AssessmentScoresForCategoryComponent
         let trainerId: string = sessionStorage.getItem("selectedId");
         sessionStorage.setItem("graphArray6" + trainerId, JSON.stringify(graphArray));
         this.displayGraph(this.batchNames, this.yValues);
+      },
+      (error) => {
+        console.log("oops.");
       });
 
     }
