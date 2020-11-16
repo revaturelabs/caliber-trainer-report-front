@@ -33,6 +33,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { GetBatchService } from './services/get-batch.service';
 import { AssessmentScoresAccordingToCategoryComponent } from './Components/assessment-scores-according-to-category/assessment-scores-according-to-category.component';
 import { QcTechnicalScoresByCategoryAcrossBatchesComponent } from './Components/qc-technical-scores-by-category-across-batches/qc-technical-scores-by-category-across-batches.component';
+import { ReviewPageComponent } from './Components/review-page/review-page.component';
 FullCalendarModule.registerPlugins([ 
   dayGridPlugin,
   interactionPlugin
@@ -57,7 +58,8 @@ FullCalendarModule.registerPlugins([
     ProgressPage,
     TrainerSelectorComponent,
     ApiAllTrainersComponent,
-    CalendarViewComponent
+    CalendarViewComponent,
+    ReviewPageComponent
 
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
