@@ -34,6 +34,7 @@ import { GetBatchService } from './services/get-batch.service';
 import { AssessmentScoresAccordingToCategoryComponent } from './Components/assessment-scores-according-to-category/assessment-scores-according-to-category.component';
 import { QcTechnicalScoresByCategoryAcrossBatchesComponent } from './Components/qc-technical-scores-by-category-across-batches/qc-technical-scores-by-category-across-batches.component';
 import { ReviewPageComponent } from './Components/review-page/review-page.component';
+import { ReviewPageBestWorstCategoriesComponent } from './Components/review-page-best-worst-categories/review-page-best-worst-categories.component';
 FullCalendarModule.registerPlugins([ 
   dayGridPlugin,
   interactionPlugin
@@ -59,7 +60,8 @@ FullCalendarModule.registerPlugins([
     TrainerSelectorComponent,
     ApiAllTrainersComponent,
     CalendarViewComponent,
-    ReviewPageComponent
+    ReviewPageComponent,
+    ReviewPageBestWorstCategoriesComponent
 
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
