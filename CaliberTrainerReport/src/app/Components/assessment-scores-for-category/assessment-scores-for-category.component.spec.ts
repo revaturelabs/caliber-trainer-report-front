@@ -82,11 +82,11 @@ fdescribe('AssessmentScoresForCategoryComponent', () => {
 
   beforeEach(async(() => {
     let mockASBCABS = jasmine.createSpyObj("AssessScoresByCategoryAllBatchesService", ["getSixthGraphData"]);
-    mockASBCABS.getSixthGraphData.and.returnValue(mockResponse);
+    mockASBCABS.getSixthGraphData.and.returnValue(of(mockResponse));
     TestBed.configureTestingModule({
       declarations: [ AssessmentScoresForCategoryComponent ],
       providers: [
-        { provider: AssessScoresByCategoryAllBatchesService, 
+        { provide: AssessScoresByCategoryAllBatchesService, 
           useValue: mockASBCABS
         },
       AssessmentComponent, DisplayGraphService, HttpClient, UrlService, HttpHandler]
@@ -100,15 +100,46 @@ fdescribe('AssessmentScoresForCategoryComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should create', () => {
+  it('should create', () => {
+    console.dir(component.categoriesName);
     expect(component).toBeTruthy();
   });
 
-  fit('test1', () => {
-    expect(component).toBeTruthy();
+  /* ----- ONINIT() TESTS ----- */
+
+  it('should populate category names correctly on init', () => {
+    let titles: string[] = mockResponse.categories.map(value => value.category);
+    titles.unshift("Overview");
+
+    expect(component.categoriesName).toEqual(titles);
   });
 
-  fit('test2', () => {
-    expect(component).toBeTruthy();
+  fit('should populate batch assessments correctly on init', () => {
+    let assessments: BatchAssessment[][] = mockResponse.categories.map(value => value.batchAssessments);
+    // TODO: Check if this is necessary.
+    assessments.unshift(mockResponse.categories[0].batchAssessments);
+
+    expect(component.categoriesObj).toEqual(assessments);
   });
+
+  it('should populate batch names correctly on init', () => {
+    let batchNames: string[] = ["12/34/56 - Java EE", "78/90/AB - Dev Ops"];
+
+    expect(component.batchNames).toEqual(batchNames);
+  });
+
+  fit('should populate cumulative y-values correctly on init', () => {
+    let cumulativeYValues: number[][] = [];
+    for(const category of mockResponse.categories) {
+      let yValueSet: number[] = [];
+      for(const assessments of category.batchAssessments) {
+        yValueSet.push(assessments.assessments.reduce((acc, curr) => acc + curr) / assessments.assessments.length);
+      }
+      cumulativeYValues.push(yValueSet);
+    }
+
+    expect(component.cumulativeyValues).toEqual(cumulativeYValues);
+  });
+
+  /* ----- TESTS ----- */
 });

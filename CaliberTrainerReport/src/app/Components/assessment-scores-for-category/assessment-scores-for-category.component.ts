@@ -96,8 +96,6 @@ export class AssessmentScoresForCategoryComponent
 
 
     } else {
-
-    
     this.AssessScoresByCategoryAllBatchesServiceSubscription = this.assessScoresByCategoryAllBatchesService
       .getSixthGraphData()
       .subscribe((resp) => {
@@ -112,6 +110,7 @@ export class AssessmentScoresForCategoryComponent
           this.categoriesObj.forEach( c => {
             
             for (const stuff of c) {
+              console.dir(c);
               let total = 0;
               for (const indivScore of stuff.assessments) {
                 total += indivScore;
@@ -146,12 +145,15 @@ export class AssessmentScoresForCategoryComponent
 
         }
 
+        console.dir(this.cumulativeyValues);
         
         for (const score of resp.categories[0].batchAssessments) {
           this.batchNames.push(score.batchName);
         }
         this.categoriesName.unshift("Overview");
         this.categoriesObj.unshift(resp.categories[0].batchAssessments);
+
+        console.dir(this.yValues);
 
         let graphArray = [this.batchNames, this.yValues, this.categoriesName, this.categoriesObj];
         let trainerId: string = sessionStorage.getItem("selectedId");
