@@ -394,4 +394,9 @@ export class AssessmentScoresForCategoryComponent
     this.batchFlags[index] = !this.batchFlags[index];
     this.updateGraph(); 
   }
+
+  batch_dropdown_flag: boolean = true;
+  toggleBatchDropdown(): void{
+    this.batch_dropdown_flag = !this.batch_dropdown_flag;
+  }
 }

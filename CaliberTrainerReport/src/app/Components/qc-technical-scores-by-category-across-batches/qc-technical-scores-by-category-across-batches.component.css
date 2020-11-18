@@ -1,7 +1,21 @@
 /* CSS is located in main style.css */
 
-.qc-body{
-    margin: 0 auto;
-    width: 75%;
-    margin-bottom: 100px;
-  }
+.qc-body {
+  margin: 0 auto;
+  width: 75%;
+  margin-bottom: 100px;
+}
+
+#batch-dropdown {
+  width: 175px;
+}
+
+#batch-list {
+  position: absolute;
+  color: black;
+  z-index: 1;
+  width: 150px;
+  overflow: auto;
+  background-color: bisque;
+  white-space: nowrap;
+}

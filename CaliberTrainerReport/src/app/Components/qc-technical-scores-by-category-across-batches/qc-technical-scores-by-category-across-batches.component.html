@@ -8,6 +8,18 @@
                 <option *ngFor="let category of categoriesName, let i = index" [value]="i" >{{category}}</option>
             </select>
         </div>
+
+        <div id="batch-dropdown">
+            <button id="batches" (click)="toggleBatchDropdown()">Batches</button>
+            <div id="batch-list" [hidden]="batch_dropdown_flag">
+                <ng-container *ngFor="let name of batchNames; let i = index">
+                    <input type="checkbox" [id]="name" [value]="i" (change)="toggle(i)" checked>
+                    <label [for]="name">{{name}}</label>
+                    <br>
+                </ng-container>
+            </div>
+        </div>
+        
     </div>
     <div class="card-body">
         <div id="divChart2" class="divChart">
