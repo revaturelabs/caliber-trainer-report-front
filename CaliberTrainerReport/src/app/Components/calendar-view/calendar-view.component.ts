@@ -26,8 +26,6 @@ export class CalendarViewComponent implements OnInit {
 
   constructor(private batchServ: GetBatchService) { }
 
- 
-
   ngOnInit(){
     setTimeout(() => {
 
@@ -36,19 +34,20 @@ export class CalendarViewComponent implements OnInit {
         this.batches = response;
         this.createEvents();
       });
-  },2000);
-  setTimeout(() => {
-  this.calendarOptions = {
-    contentHeight:"auto",
-    handleWindowResize:true,
-    initialView: 'dayGridMonth',
-    dateClick: this.handleDateClick.bind(this), // bind is important!
-    events: this.eventList,
+    },2000);
 
-   
-  };
-},3000);
+    setTimeout(() => {
+      this.calendarOptions = {
+        contentHeight:"auto",
+        handleWindowResize:true,
+        initialView: 'dayGridMonth',
+        dateClick: this.handleDateClick.bind(this), // bind is important!
+        events: this.eventList,
+      };
+    },3000);
   }
+
+
   handleDateClick(arg) {
     alert(arg.dateStr)
   }
@@ -73,5 +72,5 @@ export class CalendarViewComponent implements OnInit {
       this.eventList.push(this.ev);
      
     };
-    }
+  }
 }
