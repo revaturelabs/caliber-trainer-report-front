@@ -77,7 +77,7 @@ let mockResponse: {categories: Category[]} = {
   ]
 };
 
-describe('AssessmentScoresForCategoryComponent', () => {
+fdescribe('AssessmentScoresForCategoryComponent', () => {
   let component: AssessmentScoresForCategoryComponent;
   let fixture: ComponentFixture<AssessmentScoresForCategoryComponent>;
 
@@ -107,9 +107,14 @@ describe('AssessmentScoresForCategoryComponent', () => {
   });
 
   /* ----- ONINIT() TESTS ----- */
+  /* Note: All pop() calls are done to remove the empty category for testing; this
+    operates under the strict assumption that the empty category is last in the
+    mock data set.
+  */
 
   it('should populate category names correctly on init', () => {
     let titles: string[] = mockResponse.categories.map(value => value.category);
+    titles.pop();
     titles.unshift("Overview");
 
     expect(component.categoriesName).toEqual(titles);
@@ -117,6 +122,7 @@ describe('AssessmentScoresForCategoryComponent', () => {
 
   it('should populate batch assessments correctly on init', () => {
     let assessments: BatchAssessment[][] = mockResponse.categories.map(value => value.batchAssessments);
+    assessments.pop();
     assessments.unshift(mockResponse.categories[0].batchAssessments);
 
     expect(component.categoriesObj).toEqual(assessments);
@@ -145,6 +151,7 @@ describe('AssessmentScoresForCategoryComponent', () => {
     for(const category of mockResponse.categories) {
       cumulativeYValues.push(getAveragesOfAssessments(category.batchAssessments));
     }
+    cumulativeYValues.pop();
 
     expect(component.cumulativeyValues).toEqual(cumulativeYValues);
   });

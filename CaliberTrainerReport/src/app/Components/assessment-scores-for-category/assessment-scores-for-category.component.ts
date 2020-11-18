@@ -100,8 +100,11 @@ export class AssessmentScoresForCategoryComponent
       .getSixthGraphData()
       .subscribe((resp) => {
         for (const score of resp.categories) {
-          this.categoriesName.push(score.category);
-          this.categoriesObj.push(score.batchAssessments);
+          console.dir(score);
+          if(!this.isCategoryEmpty(score.batchAssessments)) {
+            this.categoriesName.push(score.category);
+            this.categoriesObj.push(score.batchAssessments);
+          } 
         }
 
         if(this.pickedCategory == 0){
@@ -317,6 +320,16 @@ export class AssessmentScoresForCategoryComponent
       graphSelector.value = 'trend';
     }
     this.graphAdjust();
+  }
+
+  private isCategoryEmpty(batchAssessments:{assessments:number[]}[]): boolean {
+    for(const assessments of batchAssessments) {
+      if(assessments.assessments.length != 0) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   private populateYValuesSet() {
