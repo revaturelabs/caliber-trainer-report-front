@@ -44,7 +44,7 @@ let mockResponse: {categories: Category[]} = {
       },
       {
        batchName: "78/90/AB - Dev Ops",
-       assessments: [0, 0]
+       assessments: []
       }
     ]
    },
@@ -53,7 +53,7 @@ let mockResponse: {categories: Category[]} = {
     batchAssessments: [
       {
         batchName: "12/34/56 - Java EE",
-        assessments: [0, 0]
+        assessments: []
       },
       {
        batchName: "78/90/AB - Dev Ops",
@@ -66,18 +66,18 @@ let mockResponse: {categories: Category[]} = {
     batchAssessments: [
       {
         batchName: "12/34/56 - Java EE",
-        assessments: [0, 0]
+        assessments: []
       },
       {
        batchName: "78/90/AB - Dev Ops",
-       assessments: [0, 0]
+       assessments: []
       }
     ]
    }
   ]
 };
 
-fdescribe('AssessmentScoresForCategoryComponent', () => {
+describe('AssessmentScoresForCategoryComponent', () => {
   let component: AssessmentScoresForCategoryComponent;
   let fixture: ComponentFixture<AssessmentScoresForCategoryComponent>;
 
@@ -102,27 +102,27 @@ fdescribe('AssessmentScoresForCategoryComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   /* ----- ONINIT() TESTS ----- */
 
-  fit('should populate category names correctly on init', () => {
+  it('should populate category names correctly on init', () => {
     let titles: string[] = mockResponse.categories.map(value => value.category);
     titles.unshift("Overview");
 
     expect(component.categoriesName).toEqual(titles);
   });
 
-  fit('should populate batch assessments correctly on init', () => {
+  it('should populate batch assessments correctly on init', () => {
     let assessments: BatchAssessment[][] = mockResponse.categories.map(value => value.batchAssessments);
     assessments.unshift(mockResponse.categories[0].batchAssessments);
 
     expect(component.categoriesObj).toEqual(assessments);
   });
 
-  fit('should populate batch names correctly on init', () => {
+  it('should populate batch names correctly on init', () => {
     let batchNames: string[] = ["12/34/56 - Java EE", "78/90/AB - Dev Ops"];
 
     expect(component.batchNames).toEqual(batchNames);
@@ -131,12 +131,16 @@ fdescribe('AssessmentScoresForCategoryComponent', () => {
   function getAveragesOfAssessments(batchAssessments: BatchAssessment[]): number[] {
     let yValueSet: number[] = [];
       for(const assessments of batchAssessments) {
-        yValueSet.push(assessments.assessments.reduce((acc, curr) => acc + curr) / assessments.assessments.length);
+        if(!assessments.assessments || assessments.assessments.length == 0) {
+          yValueSet.push(0);
+        } else {
+          yValueSet.push(assessments.assessments.reduce((acc, curr) => acc + curr) / assessments.assessments.length);
+        }
       }
     return yValueSet;
   }
 
-  fit('should populate cumulative y-values correctly on init', () => {
+  it('should populate cumulative y-values correctly on init', () => {
     let cumulativeYValues: number[][] = [];
     for(const category of mockResponse.categories) {
       cumulativeYValues.push(getAveragesOfAssessments(category.batchAssessments));
@@ -154,7 +158,7 @@ fdescribe('AssessmentScoresForCategoryComponent', () => {
     fixture.detectChanges();
   }
 
-  fit('should change the selected value when a category is clicked', () => {
+  it('should change the selected value when a category is clicked', () => {
     component.pickedCategory = 0;
     let yValues: number[] = [];
 
