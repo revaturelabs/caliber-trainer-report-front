@@ -1,1 +1,15 @@
 /* CSS is located in main style.css */
+#batch-dropdown {
+    width: 175px;
+}
+
+#batch-list {
+    position: absolute;
+    color: black;
+    z-index: 1;
+    width: 150px;
+    overflow: auto;
+    background-color: bisque;
+    white-space: nowrap;
+}
+
