@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/angular';
 import { GetBatchService } from 'src/app/services/get-batch.service';
 import { Calendar } from '@fullcalendar/core';
+import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import { Trainer } from 'src/app/class/trainer';
 
 
