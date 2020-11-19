@@ -140,25 +140,13 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit{
         sessionStorage.setItem("gA1"+trainerId, JSON.stringify(graphArray));
         // This actually passes the data to display the graph after receiving the data from the observables
         this.displayGraphAll(
-          this.batchNames,
-          this.poorData,
-          this.averageData,
-          this.goodData,
-          this.superstarData,
-          this.nullData
+         
         );
       });
   }
 
-  displayGraphAll(
-    batchNames: string[],
-    poorDisplayData: any[],
-    avgDisplayData: any[],
-    goodDisplayData: any[],
-    superstarDisplayData: any[],
-    nullDisplayData: any[]
-  ) {
-    if(batchNames.length === 0) {
+  displayGraphAll() {
+    if(this.batchNames.length === 0) {
       this.myGraph.destroy();
     }
 
@@ -169,11 +157,11 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit{
     this.myGraph = new Chart('firstChart', {
       type: 'bar',
       data: {
-        labels: batchNames,
+        labels: this.batchNames,
         datasets: [
           {
             label: 'Good',
-            data: goodDisplayData,
+            data: this.goodData,
             backgroundColor: '#3fe86c',
             backgroundHoverColor: '#3fe86c',
             borderWidth: 1,
@@ -181,14 +169,14 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit{
           },
           {
             label: 'Average',
-            data: avgDisplayData,
+            data: this.averageData,
             backgroundColor: '#ebc634',
             backgroundHoverColor: '#ebc634',
             borderWidth: 1,
           },
           {
             label: 'Poor',
-            data: poorDisplayData,
+            data: this.poorData,
             backgroundColor: '#e33936',
             backgroundHoverColor: '#e33936',
             borderWidth: 1,
@@ -199,21 +187,21 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit{
     });
 
     let superstarTotal = 0;
-    for (const num of superstarDisplayData) {
+    for (const num of this.superstarData) {
       superstarTotal += num;
     }
 
     if (superstarTotal > 0) {
-      this.appendSuperstarDataset(superstarDisplayData);
+      this.appendSuperstarDataset(this.superstarData);
     }
 
     let nullTotal = 0;
-    for (const num of nullDisplayData) {
+    for (const num of this.nullData) {
       nullTotal += num;
     }
 
     if (nullTotal > 0) {
-      this.appendNullDataset(nullDisplayData);
+      this.appendNullDataset(this.nullData);
     }
   }
 
