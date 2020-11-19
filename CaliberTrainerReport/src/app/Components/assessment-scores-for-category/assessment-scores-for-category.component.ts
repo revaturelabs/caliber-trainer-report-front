@@ -5,6 +5,7 @@ import { AssessScoresByCategoryAllBatchesService } from 'src/app/services/Assess
 import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
+import { FilterBatch } from '../../utility/FilterBatch';
 
 @Component({
   selector: 'app-assessment-scores-for-category',
@@ -30,6 +31,13 @@ export class AssessmentScoresForCategoryComponent
   yValues: any[];
   multiGraphYValues: any[];
 
+  // this array tracks which batches to show on the graph
+  // index of batchFlags corresponds to index of batchNames:string[]
+  batchFlags: boolean[];
+  // FilterBatch is a helper class located in utility folder under src > app
+  // it contains a method called filterBatch(any[], boolean[]) that takes in any[] and returns a new any[] with true indices from boolean[]
+  batchFilter: FilterBatch;
+
   // Dealing with Scalability
   width: number;
   isBig: boolean;
@@ -50,6 +58,9 @@ export class AssessmentScoresForCategoryComponent
     this.yValues = [];
     this.multiGraphYValues = [];
     this.cumulativeyValues = [];
+
+    this.batchFlags = [];
+    this.batchFilter = new FilterBatch();
 
     this.pickedCategory = 0;
     let trainerId: string = sessionStorage.getItem("selectedId");
@@ -121,6 +132,7 @@ export class AssessmentScoresForCategoryComponent
         
         for (const score of resp.categories[0].batchAssessments) {
           this.batchNames.push(score.batchName);
+          this.batchFlags.push(true);
         }
 
         this.categoriesName.unshift("Overview");
@@ -129,10 +141,7 @@ export class AssessmentScoresForCategoryComponent
         let graphArray = [this.batchNames, this.yValues, this.categoriesName, this.categoriesObj];
         let trainerId: string = sessionStorage.getItem("selectedId");
         sessionStorage.setItem("graphArray6" + trainerId, JSON.stringify(graphArray));
-        this.displayGraph(this.batchNames, this.yValues);
-      },
-      (error) => {
-        console.log("oops.");
+        this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.yValues,this.batchFlags));
       });
 
     }
@@ -151,7 +160,7 @@ export class AssessmentScoresForCategoryComponent
       this.yValues = this.getBatchAverages(this.categoriesObj[this.pickedCategory]);
     };
 
-    this.displayGraph(this.batchNames, this.yValues);
+    this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.yValues,this.batchFlags));
   }
 
   /**
@@ -201,7 +210,7 @@ export class AssessmentScoresForCategoryComponent
 
         let dataObj = {
           label: ''+this.categoriesName[i], // Name the series
-          data: this.multiGraphYValues[i-1], // Specify the data values array
+          data: this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags), // Specify the data values array
           fill: false,
           borderColor: lineColor, // Add custom color border (Line)
           backgroundColor: lineColor, // Add custom color background (Points and Fill)
@@ -352,5 +361,15 @@ export class AssessmentScoresForCategoryComponent
     if (this.AssessScoresByCategoryAllBatchesServiceSubscription != undefined) {
       this.AssessScoresByCategoryAllBatchesServiceSubscription.unsubscribe();
     }
+  }
+
+  toggle(index: number): void{
+    this.batchFlags[index] = !this.batchFlags[index];
+    this.updateGraph(); 
+  }
+
+  batch_dropdown_flag: boolean = true;
+  toggleBatchDropdown(): void{
+    this.batch_dropdown_flag = !this.batch_dropdown_flag;
   }
 }
