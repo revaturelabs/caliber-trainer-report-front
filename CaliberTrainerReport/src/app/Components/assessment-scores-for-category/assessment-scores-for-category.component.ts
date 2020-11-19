@@ -5,6 +5,7 @@ import { AssessScoresByCategoryAllBatchesService } from 'src/app/services/Assess
 import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
+import { FilterBatch } from '../../utility/FilterBatch';
 
 @Component({
   selector: 'app-assessment-scores-for-category',
@@ -34,6 +35,13 @@ export class AssessmentScoresForCategoryComponent
   // A 2D-array consisting of the scores of all batches across all categories.
   multiGraphYValues: number[][];
 
+  // this array tracks which batches to show on the graph
+  // index of batchFlags corresponds to index of batchNames:string[]
+  batchFlags: boolean[];
+  // FilterBatch is a helper class located in utility folder under src > app
+  // it contains a method called filterBatch(any[], boolean[]) that takes in any[] and returns a new any[] with true indices from boolean[]
+  batchFilter: FilterBatch;
+
   // Dealing with Scalability
   width: number;
   isBig: boolean;
@@ -51,6 +59,10 @@ export class AssessmentScoresForCategoryComponent
     this.categoriesName = [];
     this.batchNames = [];
     this.multiGraphYValues = [];
+
+    this.batchFlags = [];
+    this.batchFilter = new FilterBatch();
+
     this.pickedCategory = 0;
     
     this.AssessScoresByCategoryAllBatchesServiceSubscription = this.assessScoresByCategoryAllBatchesService
@@ -64,21 +76,21 @@ export class AssessmentScoresForCategoryComponent
         
       for (const score of resp.categories[0].batchAssessments) {
         this.batchNames.push(score.batchName);
+        this.batchFlags.push(true);
       }
 
       this.categoriesName.unshift("Overview");
-      this.displayGraph();
+      this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.multiGraphYValues,this.batchFlags));
     },
     () => {
       console.log("An error has occurred building the assessment-scores-for-category.");
     });
-
   }
 
   /**
    * Displays a graph based on the given data.
    */
-  displayGraph() {
+  displayGraph(batchNames: string[], yValues: number[]) {
     if (this.myLineChart) {
       this.myLineChart.destroy();
     }
@@ -100,7 +112,7 @@ export class AssessmentScoresForCategoryComponent
 
         let dataObj = {
           label: ''+this.categoriesName[i], // Name the series
-          data: this.multiGraphYValues[i-1], // Specify the data values array
+          data: this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags), // Specify the data values array
           fill: false,
           borderColor: lineColor, // Add custom color border (Line)
           backgroundColor: lineColor, // Add custom color background (Points and Fill)
@@ -113,7 +125,7 @@ export class AssessmentScoresForCategoryComponent
       this.myLineChart = new Chart('sixthChart', {
         type: 'line',
         data: {
-          labels: this.batchNames,
+          labels: batchNames,
           datasets: lineData,
         },
         options: {
@@ -148,11 +160,11 @@ export class AssessmentScoresForCategoryComponent
     this.myLineChart = new Chart('sixthChart', {
       type: 'line',
       data: {
-        labels: this.batchNames,
+        labels: batchNames,
         datasets: [
           {
             label: 'Overall Average', // Name the series
-            data: this.multiGraphYValues[this.pickedCategory - 1], // Specify the data values array
+            data: yValues, // Specify the data values array
             fill: false,
             borderColor: lineColor, // Add custom color border (Line)
             backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
@@ -246,5 +258,23 @@ export class AssessmentScoresForCategoryComponent
     if (this.AssessScoresByCategoryAllBatchesServiceSubscription != undefined) {
       this.AssessScoresByCategoryAllBatchesServiceSubscription.unsubscribe();
     }
+  }
+
+  updateGraph() {
+    if(this.pickedCategory == 0) {
+      this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.multiGraphYValues, this.batchFlags));
+    } else {
+      this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.multiGraphYValues[this.pickedCategory - 1], this.batchFlags));
+    }
+  }
+
+  toggle(index: number): void{
+    this.batchFlags[index] = !this.batchFlags[index];
+    this.updateGraph();
+  }
+
+  batch_dropdown_flag: boolean = true;
+  toggleBatchDropdown(): void{
+    this.batch_dropdown_flag = !this.batch_dropdown_flag;
   }
 }

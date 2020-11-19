@@ -5,6 +5,7 @@ import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/Bat
 import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
+import { FilterBatch } from 'src/app/utility/FilterBatch';
 
 
 @Component({
@@ -36,6 +37,13 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
 
   batchNames: string[];
   yValues: any[];
+  
+  // this array tracks which batches to show on the graph
+  // index of batchFlags corresponds to index of batchNames:string[]
+  batchFlags: boolean[];
+  // FilterBatch is a helper class located in utility folder under src > app
+  // it contains a method called filterBatch(any[], boolean[]) that takes in any[] and returns a new any[] with true indices from boolean[]
+  batchFilter: FilterBatch;
 
   // Dealing with Scalability
   width: number;
@@ -65,6 +73,8 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.cumulativeGood = [];
     this.cumulativePoor = [];
 
+    this.batchFlags = [];
+    this.batchFilter = new FilterBatch();
 
     let trainerId = sessionStorage.getItem("selectedId");
     let gA2: any[] = JSON.parse(sessionStorage.getItem("graphingArray2" + trainerId));
@@ -95,6 +105,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
         
         for (const score of resp.batchByCategory[0].batches) {
           this.batchNames.push(score.batchName);
+          this.batchFlags.push(true);
         }
 
 
@@ -104,7 +115,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
         sessionStorage.setItem("graphingArray2" + trainerId, JSON.stringify(graphArray));
 
         // These arguments might need to change.
-        this.displayGraph(this.batchNames, this.yValues);
+        this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.yValues,this.batchFlags));
       });
 
     }
@@ -127,9 +138,10 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
 
     this.setScoreValues();
     if(this.selectedValue ==0 ){
-      this.displayGraph(gA2[0], gA2[1]);
+      //this.displayGraph(gA2[0], gA2[1]);
+      this.displayGraph(this.batchFilter.filterBatch(gA2[0],this.batchFlags), this.batchFilter.filterBatch(gA2[1],this.batchFlags));
     } else {
-      this.displayGraph(this.batchNames, this.yValues);
+      this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.yValues,this.batchFlags));
     }
   }
 
@@ -264,7 +276,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
 
         let dataObj = {
           label: ''+this.categoriesName[i], // Name the series
-          data: this.multiGraphYValues[i-1], // Specify the data values array
+          data: this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags), // Specify the data values array
           fill: false,
           borderColor: lineColor, // Add custom color border (Line)
           backgroundColor: '#000000', // Add custom color background (Points and Fill)
@@ -410,5 +422,15 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
 
       this.BatchTechnicalStatusBySkillCategoryServiceSubscription.unsubscribe();
     }
+  }
+
+  toggle(index: number): void{
+    this.batchFlags[index] = !this.batchFlags[index];
+    this.updateGraph(); 
+  }
+
+  batch_dropdown_flag: boolean = true;
+  toggleBatchDropdown(): void{
+    this.batch_dropdown_flag = !this.batch_dropdown_flag;
   }
 }
