@@ -10,7 +10,7 @@
         </div>
 
         <div id="batch-dropdown">
-            <button id="batches" (click)="toggleBatchDropdown()">Batches</button>
+            <div id="batches" (click)="toggleBatchDropdown()"><p>Batches</p></div>
             <div id="batch-list" [hidden]="batch_dropdown_flag">
                 <ng-container *ngFor="let name of batchNames; let i = index">
                     <input type="checkbox" [id]="name" [value]="i" (change)="toggle(i)" checked>
