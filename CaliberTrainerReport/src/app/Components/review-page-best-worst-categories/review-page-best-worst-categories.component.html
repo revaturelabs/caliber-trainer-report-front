@@ -17,13 +17,14 @@
                     <fa-icon class="titleicon" [icon]="goodIcon"></fa-icon>
 
                 </div>
-                <div *ngFor="let v of best3">
-                    <h4>{{v.category}}</h4>
-                    <h5>{{v.score}}%</h5>
+                <div *ngFor="let v of best3" class="cat-score">
+                    <h4>{{v.category}}:
+                        <span class="score">{{v.score}}%</span>
+                    </h4>
+
                 </div>
 
             </div>
-
 
             <div class="category">
 
@@ -39,13 +40,12 @@
 
                 </div>
 
+                <div *ngFor="let v of worst3" class="cat-score">
+                    <h4>{{v.category}}:
+                        <span class="score">{{v.score}}%</span>
+                    </h4>
 
-
-                <div *ngFor="let v of worst3">
-                    <h4>{{v.category}}</h4>
-                    <h5>{{v.score}}%</h5>
                 </div>
-
             </div>
         </div>
     </div>

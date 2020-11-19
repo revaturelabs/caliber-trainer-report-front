@@ -19,6 +19,10 @@
     flex: 3;
 }
 
+.cat-score {
+    margin: 10px;
+}
+
 .titleicon {
     flex: 1;
 }
