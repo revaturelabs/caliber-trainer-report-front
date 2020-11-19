@@ -1,0 +1,22 @@
+<div class="card-layout">
+    <div class="card-title">
+        <span>Best and Worst Categories by QC</span>
+        <fa-icon class="barGraphIcon" [icon]="scaleIcon"></fa-icon>
+    </div>
+    <div class="card-body">
+        <div class="row best-worst">
+            <div class="best col-6">
+                <h3>Best Categories</h3>
+                <ul>
+                    <li *ngFor="let cat of bestCategories">{{cat}}</li>
+                </ul>
+            </div>
+            <div class="worst col-6">
+                <h3>Worst Categories</h3>
+                <ul>
+                    <li *ngFor="let cat of worstCategories">{{cat}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
