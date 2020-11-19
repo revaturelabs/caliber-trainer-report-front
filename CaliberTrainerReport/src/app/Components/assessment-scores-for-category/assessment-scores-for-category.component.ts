@@ -96,59 +96,33 @@ export class AssessmentScoresForCategoryComponent
 
 
     } else {
-
-    
     this.AssessScoresByCategoryAllBatchesServiceSubscription = this.assessScoresByCategoryAllBatchesService
       .getSixthGraphData()
       .subscribe((resp) => {
         for (const score of resp.categories) {
-          this.categoriesName.push(score.category);
-          this.categoriesObj.push(score.batchAssessments);
+          console.dir(score);
+          if(!this.isCategoryEmpty(score.batchAssessments)) {
+            this.categoriesName.push(score.category);
+            this.categoriesObj.push(score.batchAssessments);
+          } 
         }
 
         if(this.pickedCategory == 0){
-
           this.categoriesObj.forEach( c => {
-            
-            for (const stuff of c) {
-              let total = 0;
-              for (const indivScore of stuff.assessments) {
-                total += indivScore;
-              }
-              if (isNaN(total / stuff.assessments.length)) {
-                this.yValues.push(0);
-              } else {
-                this.yValues.push(
-                  Math.round((total / stuff.assessments.length) * 100) / 100
-                );
-              }
-
-            }
-
+            console.dir(c);
+            this.yValues = this.getBatchAverages(c);
             this.cumulativeyValues.push(this.yValues);
             this.multiGraphYValues.push(JSON.parse(JSON.stringify(this.yValues)));
             this.yValues=[];
           });
-          
-
-          
         } else {
-          for (const stuff of this.categoriesObj[this.pickedCategory]) {
-            let total = 0;
-            for (const indivScore of stuff.assessments) {
-              total += indivScore;
-            }
-            this.yValues.push(
-              Math.round((total / stuff.assessments.length) * 100) / 100
-            );
-          }
-
+          this.yValues = this.getBatchAverages(this.categoriesObj[this.pickedCategory]);
         }
-
         
         for (const score of resp.categories[0].batchAssessments) {
           this.batchNames.push(score.batchName);
         }
+
         this.categoriesName.unshift("Overview");
         this.categoriesObj.unshift(resp.categories[0].batchAssessments);
 
@@ -156,6 +130,9 @@ export class AssessmentScoresForCategoryComponent
         let trainerId: string = sessionStorage.getItem("selectedId");
         sessionStorage.setItem("graphArray6" + trainerId, JSON.stringify(graphArray));
         this.displayGraph(this.batchNames, this.yValues);
+      },
+      (error) => {
+        console.log("oops.");
       });
 
     }
@@ -165,50 +142,23 @@ export class AssessmentScoresForCategoryComponent
     this.yValues = [];
 
     if(this.pickedCategory == 0){
-
       this.categoriesObj.forEach( c => {
-        
-        for (const stuff of c) {
-          let total = 0;
-          for (const indivScore of stuff.assessments) {
-            total += indivScore;
-          }
-          if (isNaN(total / stuff.assessments.length)) {
-            this.yValues.push(0);
-          } else {
-            this.yValues.push(
-              Math.round((total / stuff.assessments.length) * 100) / 100
-            );
-          }
-
-        }
+        this.yValues = this.getBatchAverages(c);
         this.multiGraphYValues.push(JSON.parse(JSON.stringify(this.yValues)));
         this.yValues=[];
       });
     } else {  
-
-    for (const stuff of this.categoriesObj[this.pickedCategory]) {
-      let total = 0;
-      for (const indivScore of stuff.assessments) {
-        total += indivScore;
-      }
-
-      if (isNaN(total / stuff.assessments.length)) {
-        this.yValues.push(0);
-      } else {
-        this.yValues.push(
-          Math.round((total / stuff.assessments.length) * 100) / 100
-        );
-      }
-    }
-
-  };
-    
-
+      this.yValues = this.getBatchAverages(this.categoriesObj[this.pickedCategory]);
+    };
 
     this.displayGraph(this.batchNames, this.yValues);
   }
 
+  /**
+   * Displays a graph based on the given data.
+   * @param batchDisplayNames 
+   * @param yDisplayValues 
+   */
   displayGraph(batchDisplayNames: string[], yDisplayValues: any[]) {
     if (this.myLineChart) {
       this.myLineChart.destroy();
@@ -370,6 +320,32 @@ export class AssessmentScoresForCategoryComponent
       graphSelector.value = 'trend';
     }
     this.graphAdjust();
+  }
+
+  private isCategoryEmpty(batchAssessments:{assessments:number[]}[]): boolean {
+    for(const assessments of batchAssessments) {
+      if(assessments.assessments.length != 0) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  private populateYValuesSet() {
+
+  }
+
+  private getBatchAverages(batchAssessments: {assessments:number[]}[]): number[] {
+    let yValueSet: number[] = [];
+      for(const assessments of batchAssessments) {
+        if(!assessments.assessments || assessments.assessments.length == 0) {
+          yValueSet.push(0);
+        } else {
+          yValueSet.push(assessments.assessments.reduce((acc, curr) => acc + curr) / assessments.assessments.length);
+        }
+      }
+    return yValueSet;
   }
 
   ngOnDestroy() {
