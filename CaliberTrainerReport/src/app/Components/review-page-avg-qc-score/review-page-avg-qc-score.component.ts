@@ -6,29 +6,25 @@ import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 @Component({
-  selector: 'app-review-page-avg-qc-score',
+  selector: 'review-page-avg-qc-score',
   templateUrl: './review-page-avg-qc-score.component.html',
   styleUrls: ['./review-page-avg-qc-score.component.css']
 })
 export class ReviewPageAvgQcScoreComponent implements OnInit {
 
-  private TechnicalStatusPerBatchServiceSubscription: Subscription;
   barGraphIcon = faChartBar;
   lineGraphIcon = faChartLine;
   avgQCGraph: any;
-  batchNames: string[];
-  technicalStatus: any[];
+  batchNames: string[] = [];
+  technicalStatus: any[] = [];
 
-  constructor( private TechnicalStatusPerBatchService: TechnicalStatusPerBatchService,
-    private qcTS: QCComponent,
+  constructor( private technicalStatusPerBatchService: TechnicalStatusPerBatchService,
     private displayGraphService: DisplayGraphService) { 
    
   }
 
   ngOnInit(): void {
-
-    this.TechnicalStatusPerBatchServiceSubscription = this.TechnicalStatusPerBatchService
-    .getTechnicalStatusPerBatch().subscribe((resp) => {
+    this.technicalStatusPerBatchService.getTechnicalStatusPerBatch().subscribe((resp) => {
       this.avgQCGraph = resp;
       
       // Get batch names 

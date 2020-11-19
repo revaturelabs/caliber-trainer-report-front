@@ -11,8 +11,7 @@ import { DisplayGraphService } from 'src/app/services/display-graph.service';
   templateUrl: './qc-overall-batch-technical-scores.component.html',
   styleUrls: ['./qc-overall-batch-technical-scores.component.css'],
 })
-export class QcOverallBatchTechnicalScoresComponent implements OnInit, OnDestroy {
-  private TechnicalStatusPerBatchServiceSubscription: Subscription;
+export class QcOverallBatchTechnicalScoresComponent implements OnInit{
   barGraphIcon = faChartBar;
   tableGraphIcon = faTable;
   width: number;
@@ -36,7 +35,7 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit, OnDestroy
   myGraph: any;
 
   constructor(
-    private TechnicalStatusPerBatchService: TechnicalStatusPerBatchService,
+    private technicalStatusPerBatchService: TechnicalStatusPerBatchService,
     private qcTS: QCComponent,
     private displayGraphService: DisplayGraphService
   ) {}
@@ -49,49 +48,9 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit, OnDestroy
     
     let gA1:any[] = JSON.parse(sessionStorage.getItem("gA1"+trainerId));
 
-    if(gA1 != null && !gA1.includes(null) && false){
-
-      this.batchNames = gA1[0];
-      this.poorData = gA1[1];
-      this.averageData = gA1[2];
-      this.goodData = gA1[3];
-      this.superstarData = gA1[4];
-      this.nullData = gA1[5];
-
-      this.batchNames = gA1[6];
-      this.technicalStatus = gA1[7];
-
-      let rawDataArray: any[] = JSON.parse(JSON.stringify(gA1[8]));
-
-
-
-      this.poorRawData = rawDataArray[0];
-      this.averageRawData = rawDataArray[1];
-      this.goodRawData = rawDataArray[2];
-      this.superstarRawData = rawDataArray[3];
-      this.nullRawData = rawDataArray[4];
-
-      
-
-
-
-
-      this.displayGraphAll(
-        this.batchNames,
-        this.poorData,
-        this.averageData,
-        this.goodData,
-        this.superstarData,
-        this.nullData
-      );
-
-
-
-    } else {
-
     // This method receives the JSON object from the URL GET request
     
-    this.TechnicalStatusPerBatchServiceSubscription = this.TechnicalStatusPerBatchService
+   this.technicalStatusPerBatchService
       .getTechnicalStatusPerBatch()
       .subscribe((resp) => {
         this.firstGraphObj = resp;
@@ -189,7 +148,6 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit, OnDestroy
           this.nullData
         );
       });
-    }
   }
 
   displayGraphAll(
@@ -308,13 +266,6 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit, OnDestroy
       graphSelector.value = 'all';
     } else {
       graphSelector.value = 'status';
-    }
-  }
-
-  ngOnDestroy() {
-    if(this.TechnicalStatusPerBatchServiceSubscription != null){
-      this.TechnicalStatusPerBatchServiceSubscription.unsubscribe();
-
     }
   }
 }
