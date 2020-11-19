@@ -41,7 +41,7 @@ export class CalendarViewComponent implements OnInit {
     contentHeight:"auto",
     handleWindowResize:true,
     initialView: 'dayGridMonth',
-    dateClick: this.handleDateClick.bind(this), // bind is important!
+    //dateClick: this.handleDateClick.bind(this), // bind is important!
     events: this.eventList,
 
    
