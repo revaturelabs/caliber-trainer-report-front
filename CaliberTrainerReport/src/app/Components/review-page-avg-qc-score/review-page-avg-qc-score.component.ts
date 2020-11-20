@@ -1,9 +1,7 @@
-import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
-import { faChartBar,faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
+import { Component, OnInit } from '@angular/core';
+import { faChartBar,faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { TechnicalStatusPerBatchService } from 'src/app/services/TechnicalStatusPerBatch.service';
 import { Chart } from 'node_modules/chart.js';
-import { QCComponent } from 'src/app/Components/qc/qc.component';
-import { Subscription } from 'rxjs';
 import { DisplayQcAverageGraphService } from 'src/app/services/display-qc-average-graph.service';
 
 @Component({
@@ -19,7 +17,7 @@ export class ReviewPageAvgQcScoreComponent implements OnInit {
   batchNames: string[] = [];
   technicalStatus: any[] = [];
   avgScores: any[] = [];
-  batchLabel: String[] =[];
+  batchLabel: string[] =[];
   avgQCGraph: any;
   bgColor:any[] = [];
 
