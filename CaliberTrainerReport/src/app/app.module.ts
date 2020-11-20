@@ -40,6 +40,8 @@ import { ReviewPageTotalAvgAssessmentComponent } from './Components/review-page-
 import { ReviewPageBestWorstCategoriesComponent } from './Components/review-page-best-worst-categories/review-page-best-worst-categories.component';
 import { ReviewQcBestWorstComponent } from './Components/review-qc-best-worst/review-qc-best-worst.component';
 
+import { ReviewPageAvgQcScoreComponent } from './Components/review-page-avg-qc-score/review-page-avg-qc-score.component';
+
 FullCalendarModule.registerPlugins([ 
   dayGridPlugin,
   interactionPlugin
@@ -68,7 +70,8 @@ FullCalendarModule.registerPlugins([
     ReviewPageComponent,
     ReviewPageTotalAvgAssessmentComponent,
     ReviewPageBestWorstCategoriesComponent,
-    ReviewQcBestWorstComponent
+    ReviewQcBestWorstComponent,
+    ReviewPageAvgQcScoreComponent
 
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
