@@ -69,10 +69,11 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
             let batch_total = 0;
             let batch_avg = 0;
             for (let j=0; j<this.allBatches[i].assessmentScores.length; j++){
-              //console.log("allBatches Info: " + this.allBatches[i].assessmentScores[j])
+              console.log("allBatches[" + i + "] = " + this.allBatches[i].assessmentScores[j])
               batch_total = batch_total + this.allBatches[i].assessmentScores[j];
               batch_avg = batch_total/(j+1);
             }
+            batch_avg = Math.round(batch_avg * 100) / 100;
             this.batchAverages[i] = batch_avg;
             console.log("Batch " + i + ": avg: " + batch_avg)
         }
@@ -95,25 +96,55 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
       '#FFD700',  '#228B22',
       '#000080', '#4B0082',
       '#FF00FF', '#800000',
-      '#00FF00', '#00CED1',
-      '#9370DB', '#000000',
-      '#6495ED', '#696969',
-      // Colors Repeat again here
-      '#FF0000', '#FF8C00', 
-      '#FFD700',  '#228B22',
-      '#000080', '#4B0082',
-      '#FF00FF', '#800000',
-      '#00FF00', '#00CED1',
-      '#9370DB', '#000000',
-      '#6495ED', '#696969',
-      // Colors Repeat again here
-      '#FF0000', '#FF8C00', 
-      '#FFD700',  '#228B22',
-      '#000080', '#4B0082',
-      '#FF00FF', '#800000',
-      '#00FF00', '#00CED1',
-      '#9370DB', '#000000',
-      '#6495ED', '#696969',]
+      '#00FF00', '#00CED1',]
+
+      const graphText = 'QC Average Batch Score';
+      this.myLineChart = new Chart('totalAvgAssessmentChart', {
+        type: 'bar',
+        data: {
+          labels: batchDisplayNames,
+          datasets: [
+            {
+              label: 'Average Score',
+              data: batchAverages,
+              backgroundColor: colorArray,
+              backgroundHoverColor: colorArray,
+              borderWidth: 1,
+              fill: false,
+            }
+          ]
+        },
+        options: {
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                  suggestedMax: 100,
+                  callback(value, index, values) {
+                    return value + '%';
+                  },
+                },
+              },
+            ],
+          },
+          title: {
+            display: true,
+            text: `Total Average Assessment Scores`,
+          },
+          legend: {
+            display: false
+          },
+          hover: {
+            mode: 'nearest',
+            intersect: true,
+          },
+        },
+      });
+
+/*
+
+
 
     // An array of objects. Each object should contain a yDisplay array within.
     let lineData: any[] = [];
@@ -137,7 +168,7 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
       }
   
       this.myLineChart = new Chart('totalAvgAssessmentChart', {
-        type: 'line',
+        type: 'bar',
         data: {
           labels: batchDisplayNames,
           datasets: lineData,
@@ -166,7 +197,7 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
           },
         },
       });
-
+*/
   }
 
   graphAdjust() {
