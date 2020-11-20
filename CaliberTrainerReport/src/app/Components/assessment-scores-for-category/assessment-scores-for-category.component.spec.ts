@@ -120,14 +120,6 @@ fdescribe('AssessmentScoresForCategoryComponent', () => {
     expect(component.categoriesName).toEqual(titles);
   });
 
-  it('should populate batch assessments correctly on init', () => {
-    let assessments: BatchAssessment[][] = mockResponse.categories.map(value => value.batchAssessments);
-    assessments.pop();
-    assessments.unshift(mockResponse.categories[0].batchAssessments);
-
-    expect(component.categoriesObj).toEqual(assessments);
-  });
-
   it('should populate batch names correctly on init', () => {
     let batchNames: string[] = ["12/34/56 - Java EE", "78/90/AB - Dev Ops"];
 
@@ -153,7 +145,7 @@ fdescribe('AssessmentScoresForCategoryComponent', () => {
     }
     cumulativeYValues.pop();
 
-    expect(component.cumulativeyValues).toEqual(cumulativeYValues);
+    expect(component.multiGraphYValues).toEqual(cumulativeYValues);
   });
 
   /* ----- UPDATEGRAPH() TESTS ----- */
@@ -171,15 +163,15 @@ fdescribe('AssessmentScoresForCategoryComponent', () => {
 
     chooseOptionFromDropdown(1);
     yValues = getAveragesOfAssessments(mockResponse.categories[0].batchAssessments);
-    expect(component.pickedCategory).toEqual("1");
-    expect(component.yValues).toEqual(yValues);
+    expect(component.pickedCategory).toEqual(1);
+    expect(component.multiGraphYValues[0]).toEqual(yValues);
 
     chooseOptionFromDropdown(2);
     yValues = getAveragesOfAssessments(mockResponse.categories[1].batchAssessments);
-    expect(component.pickedCategory).toEqual("2");
-    expect(component.yValues).toEqual(yValues);
+    expect(component.pickedCategory).toEqual(2);
+    expect(component.multiGraphYValues[1]).toEqual(yValues);
 
     chooseOptionFromDropdown(0);
-    expect(component.pickedCategory).toEqual("0");
+    expect(component.pickedCategory).toEqual(0);
   });
 });

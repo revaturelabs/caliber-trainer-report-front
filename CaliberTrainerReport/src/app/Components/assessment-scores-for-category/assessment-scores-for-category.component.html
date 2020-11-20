@@ -40,7 +40,7 @@
                 <th scope="col" *ngFor="let batch of batchNames">{{batch}}</th>
                 <tr *ngFor="let category of categoriesName.slice(1); let i = index">
                     <td class="description">{{category}}</td>
-                    <td *ngFor="let score of cumulativeyValues[i]">{{score}}%</td>
+                    <td *ngFor="let score of multiGraphYValues[i]">{{score}}%</td>
                 </tr>
             </table>
             <table *ngIf="pickedCategory != 0">
@@ -49,7 +49,7 @@
                 <th scope="col" *ngFor="let batch of batchNames; let i = index">{{batch}}</th>
                 <tr>
                     <td class="description">{{categoriesName[pickedCategory]}}</td>
-                    <td *ngFor="let score of yValues; let i = index">{{score}}%</td>
+                    <td *ngFor="let score of multiGraphYValues[pickedCategory - 1]">{{score}}%</td>
                 </tr>
             </table>
         </div>
