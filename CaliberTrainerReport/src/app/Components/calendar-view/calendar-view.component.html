@@ -12,24 +12,24 @@
     [dataSource]="dataSource"
     [rotated]="true"
     [barGroupPadding]="0.2">
-    <dxo-argument-axis [categories]="['Royal Houses']">
+    <dxo-argument-axis [categories]="['Batch Ids']">
         <dxo-tick [visible]="false"></dxo-tick>
     </dxo-argument-axis>
-    <dxo-title text="The British Monarchy"
-        subtitle="An Abbreviated Timeline"
+    <dxo-title text="Batch Overview"
+        subtitle="A timeline of batches"
     ></dxo-title>
     <dxo-animation [enabled]="false"></dxo-animation>
     <dxo-legend verticalAlignment="bottom"
         horizontalAlignment="center">
-        <dxo-title text="Royal Houses"></dxo-title>
+        <dxo-title text="Trainers"></dxo-title>
     </dxo-legend>
-    <dxo-series-template nameField="house"></dxo-series-template>
+    <dxo-series-template nameField="trainer"></dxo-series-template>
     <dxo-common-series-settings
-        argumentField="monarch"
+        argumentField="batchId"
         type="rangeBar"
         rangeValue1Field="start"
         rangeValue2Field="end"
-        barOverlapGroup="monarchs">
+        barOverlapGroup="trainers">
     </dxo-common-series-settings>
 </dx-chart>
 <!-- </div> -->

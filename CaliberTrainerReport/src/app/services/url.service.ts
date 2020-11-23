@@ -10,8 +10,8 @@ export class UrlService {
   constructor(private http: HttpClient) { }
 
   getUrl(): string {
-    //return 'http://3.236.244.228:8081/excaliber/';
-    return 'http://localhost:8081';
+    return 'http://3.236.244.228:8081/excaliber/';
+   // return 'http://localhost:8081';
   }
 
   // ie: ~/2/AssessmentByCategory/

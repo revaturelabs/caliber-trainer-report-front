@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CalendarOptions } from '@fullcalendar/angular';
+// import { CalendarOptions } from '@fullcalendar/angular';
 import { GetBatchService } from 'src/app/services/get-batch.service';
-import { Calendar } from '@fullcalendar/core';
+// import { Calendar } from '@fullcalendar/core';
 import { Trainer } from 'src/app/class/trainer';
 import { Batch } from 'src/app/class/batch';
 
@@ -15,7 +15,7 @@ export class CalendarViewComponent implements OnInit {
 
   // eventList= [];
   // calendarOptions: CalendarOptions={ handleWindowResize:true, contentHeight:"auto"};
-   batches:Array<any>;
+   batches:Batch[] =[];
   // title: string;
   // startDate: Date;
   // endDate: Date;
@@ -23,7 +23,7 @@ export class CalendarViewComponent implements OnInit {
   // colors =['#3584f2','#4bc984','#fcc54e','#20c9be','#f56c42',];
   // evColor: string;
   // trainer: Trainer;
-  dataSource: Data[];
+  dataSource: Data[] = [];
 
   constructor(private batchServ: GetBatchService) { }
 
@@ -90,8 +90,16 @@ export class CalendarViewComponent implements OnInit {
   this.batchServ.getBatches().subscribe(
     (response) => {
       this.batches = response;
-      for(let batch in this.batches) {
-        let d = new Data();
+      for(let batch of this.batches) {
+        let sd = batch.startDate.split("-");
+        let ed = batch.endDate.split("-");
+        let d = {
+          batchId: batch.batchId,
+          trainer: batch.name,
+          start: new Date(parseInt(sd[0]), parseInt(sd[1]), parseInt(sd[2])),
+          end: new Date(parseInt(ed[0]), parseInt(ed[1]), parseInt(ed[2]))
+        };
+        this.dataSource.push(d);
       }
     }
   )
@@ -212,7 +220,7 @@ export class CalendarViewComponent implements OnInit {
 //   end: Date;
 // }
 class Data {
-  batch: string;
+  batchId: string;
   trainer: string;
   start: Date;
   end: Date;
