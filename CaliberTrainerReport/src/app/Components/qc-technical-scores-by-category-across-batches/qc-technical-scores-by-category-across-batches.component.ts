@@ -94,6 +94,18 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.BatchTechnicalStatusBySkillCategoryServiceSubscription = this.BatchTechnicalStatusBySkillCategoryService
       .getAvgCategoryScoresObservables()
       .subscribe((resp) => {
+        // Remove entries with no scores.
+        for(let i = resp.batchByCategory.length - 1; i >= 0; i--) {
+          let batchSum: number = 0;
+          for(const batch of resp.batchByCategory[i].batches) {
+            let scores = batch.score;
+            batchSum += scores.average + scores.good + scores.poor + scores.superstar;
+          }
+          if(batchSum == 0) {
+            resp.batchByCategory.splice(i, 1);
+          }
+        }
+
         for (const obj of resp.batchByCategory) {
           this.categoriesName.push(obj.categoryName);
           this.categoriesObj.push(obj.batches);
