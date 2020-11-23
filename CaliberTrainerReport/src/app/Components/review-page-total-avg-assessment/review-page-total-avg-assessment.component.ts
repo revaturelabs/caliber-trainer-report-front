@@ -141,63 +141,6 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
           },
         },
       });
-
-/*
-
-
-
-    // An array of objects. Each object should contain a yDisplay array within.
-    let lineData: any[] = [];
-
-      for(let i = 0; i < batchDisplayNames.length; i++){
-        let lineColor:string;
-
-        lineColor = colorArray[i];
-
-        let dataObj = {
-          label: ''+batchDisplayNames[i], // Name the series
-          data: batchAverages[i], // Specify the data values array
-          fill: false,
-          borderColor: lineColor, // Add custom color border (Line)
-          backgroundColor: lineColor, // Add custom color background (Points and Fill)
-          borderWidth: 1, // Specify bar border width
-        };
-
-        lineData.push(dataObj);
-
-      }
-  
-      this.myLineChart = new Chart('totalAvgAssessmentChart', {
-        type: 'bar',
-        data: {
-          labels: batchDisplayNames,
-          datasets: lineData,
-        },
-        options: {
-          scales: {
-            yAxes: [
-              {
-                ticks: {
-                  beginAtZero: true,
-                  suggestedMax: 100,
-                  callback(value, index, values) {
-                    return value + '%';
-                  },
-                },
-              },
-            ],
-          },
-          title: {
-            display: true,
-            text: `Total Average Assessment Scores`,
-          },
-          hover: {
-            mode: 'nearest',
-            intersect: true,
-          },
-        },
-      });
-*/
   }
 
   graphAdjust() {
