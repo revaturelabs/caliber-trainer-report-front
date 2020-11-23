@@ -94,6 +94,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.BatchTechnicalStatusBySkillCategoryServiceSubscription = this.BatchTechnicalStatusBySkillCategoryService
       .getAvgCategoryScoresObservables()
       .subscribe((resp) => {
+        console.log(resp)
         for (const obj of resp.batchByCategory) {
           this.categoriesName.push(obj.categoryName);
           this.categoriesObj.push(obj.batches);
