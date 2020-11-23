@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faBalanceScaleRight } from '@fortawesome/free-solid-svg-icons';
+import { faBalanceScale, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { AssessmentByCategoryService } from 'src/app/services/AssessmentByCategory.service';
 import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/BatchTechnicalStatusBySkillCategory.service';
 
@@ -12,6 +12,10 @@ export class ReviewQcBestWorstComponent implements OnInit {
 
  public scaleIcon;
 
+ public goodIcon;
+  
+  public badIcon;
+
  public categories:Object = {};
  public bestCategories:string[] = []
  public worstCategories:string[] = []
@@ -19,8 +23,9 @@ export class ReviewQcBestWorstComponent implements OnInit {
 
 
   constructor(private QCscores:BatchTechnicalStatusBySkillCategoryService) { 
-    this.scaleIcon = faBalanceScaleRight;
-
+    this.scaleIcon = faBalanceScale;
+    this.goodIcon = faCheckCircle;
+    this.badIcon = faTimesCircle;
   }
 
   ngOnInit(): void {
