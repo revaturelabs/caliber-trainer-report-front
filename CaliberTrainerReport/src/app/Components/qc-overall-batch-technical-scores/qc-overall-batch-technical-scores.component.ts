@@ -11,8 +11,7 @@ import { DisplayGraphService } from 'src/app/services/display-graph.service';
   templateUrl: './qc-overall-batch-technical-scores.component.html',
   styleUrls: ['./qc-overall-batch-technical-scores.component.css'],
 })
-export class QcOverallBatchTechnicalScoresComponent implements OnInit, OnDestroy {
-  private TechnicalStatusPerBatchServiceSubscription: Subscription;
+export class QcOverallBatchTechnicalScoresComponent implements OnInit{
   barGraphIcon = faChartBar;
   tableGraphIcon = faTable;
   width: number;
@@ -36,7 +35,7 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit, OnDestroy
   myGraph: any;
 
   constructor(
-    private TechnicalStatusPerBatchService: TechnicalStatusPerBatchService,
+    private technicalStatusPerBatchService: TechnicalStatusPerBatchService,
     private qcTS: QCComponent,
     private displayGraphService: DisplayGraphService
   ) {}
@@ -49,49 +48,9 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit, OnDestroy
     
     let gA1:any[] = JSON.parse(sessionStorage.getItem("gA1"+trainerId));
 
-    if(gA1 != null && !gA1.includes(null) && false){
-
-      this.batchNames = gA1[0];
-      this.poorData = gA1[1];
-      this.averageData = gA1[2];
-      this.goodData = gA1[3];
-      this.superstarData = gA1[4];
-      this.nullData = gA1[5];
-
-      this.batchNames = gA1[6];
-      this.technicalStatus = gA1[7];
-
-      let rawDataArray: any[] = JSON.parse(JSON.stringify(gA1[8]));
-
-
-
-      this.poorRawData = rawDataArray[0];
-      this.averageRawData = rawDataArray[1];
-      this.goodRawData = rawDataArray[2];
-      this.superstarRawData = rawDataArray[3];
-      this.nullRawData = rawDataArray[4];
-
-      
-
-
-
-
-      this.displayGraphAll(
-        this.batchNames,
-        this.poorData,
-        this.averageData,
-        this.goodData,
-        this.superstarData,
-        this.nullData
-      );
-
-
-
-    } else {
-
     // This method receives the JSON object from the URL GET request
     
-    this.TechnicalStatusPerBatchServiceSubscription = this.TechnicalStatusPerBatchService
+   this.technicalStatusPerBatchService
       .getTechnicalStatusPerBatch()
       .subscribe((resp) => {
         this.firstGraphObj = resp;
@@ -181,26 +140,13 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit, OnDestroy
         sessionStorage.setItem("gA1"+trainerId, JSON.stringify(graphArray));
         // This actually passes the data to display the graph after receiving the data from the observables
         this.displayGraphAll(
-          this.batchNames,
-          this.poorData,
-          this.averageData,
-          this.goodData,
-          this.superstarData,
-          this.nullData
+         
         );
       });
-    }
   }
 
-  displayGraphAll(
-    batchNames: string[],
-    poorDisplayData: any[],
-    avgDisplayData: any[],
-    goodDisplayData: any[],
-    superstarDisplayData: any[],
-    nullDisplayData: any[]
-  ) {
-    if(batchNames.length === 0) {
+  displayGraphAll() {
+    if(this.batchNames.length === 0) {
       this.myGraph.destroy();
     }
 
@@ -211,11 +157,11 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit, OnDestroy
     this.myGraph = new Chart('firstChart', {
       type: 'bar',
       data: {
-        labels: batchNames,
+        labels: this.batchNames,
         datasets: [
           {
             label: 'Good',
-            data: goodDisplayData,
+            data: this.goodData,
             backgroundColor: '#3fe86c',
             backgroundHoverColor: '#3fe86c',
             borderWidth: 1,
@@ -223,14 +169,14 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit, OnDestroy
           },
           {
             label: 'Average',
-            data: avgDisplayData,
+            data: this.averageData,
             backgroundColor: '#ebc634',
             backgroundHoverColor: '#ebc634',
             borderWidth: 1,
           },
           {
             label: 'Poor',
-            data: poorDisplayData,
+            data: this.poorData,
             backgroundColor: '#e33936',
             backgroundHoverColor: '#e33936',
             borderWidth: 1,
@@ -241,21 +187,21 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit, OnDestroy
     });
 
     let superstarTotal = 0;
-    for (const num of superstarDisplayData) {
+    for (const num of this.superstarData) {
       superstarTotal += num;
     }
 
     if (superstarTotal > 0) {
-      this.appendSuperstarDataset(superstarDisplayData);
+      this.appendSuperstarDataset(this.superstarData);
     }
 
     let nullTotal = 0;
-    for (const num of nullDisplayData) {
+    for (const num of this.nullData) {
       nullTotal += num;
     }
 
     if (nullTotal > 0) {
-      this.appendNullDataset(nullDisplayData);
+      this.appendNullDataset(this.nullData);
     }
   }
 
@@ -308,13 +254,6 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit, OnDestroy
       graphSelector.value = 'all';
     } else {
       graphSelector.value = 'status';
-    }
-  }
-
-  ngOnDestroy() {
-    if(this.TechnicalStatusPerBatchServiceSubscription != null){
-      this.TechnicalStatusPerBatchServiceSubscription.unsubscribe();
-
     }
   }
 }
