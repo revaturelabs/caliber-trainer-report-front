@@ -222,7 +222,7 @@ export class CalendarViewComponent implements OnInit {
 // }
 class Data {
   batchId: string;
-  trainer: string;
+   trainer: string;
   start: Date;
   end: Date;
 }
