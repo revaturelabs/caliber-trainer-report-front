@@ -12,7 +12,7 @@ export class UrlService {
 
   getUrl(): string {
     return environment.backEndUrl;
-    
+
     //'http://3.236.244.228:8081/excaliber/';
   }
 
@@ -20,7 +20,7 @@ export class UrlService {
   getUrlWithId() {
     return this.getUrl() + sessionStorage.getItem('selectedId') + '/';
   }
- 
+
   getCaliberUrl(){
     return 'https://caliber2-mock.revaturelabs.com/mock/';
   }

@@ -2,14 +2,11 @@
 #calendar-container{
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-    margin:30px 120px;
-    padding: 2px;
-    background-color: #ea753e;
+  margin:30px 120px;
+  padding: 2px;
+  background-color: #ea753e;
 }
 #full-calendar{
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-    background-color: #f5f5f5;
     padding:5px;
 }
 
@@ -51,3 +48,14 @@ h3 {
   select {
     margin: 5px;
   }
+
+  #chart{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-width: 1px;
+    border-style:solid;
+    border-color: #f5f5f5;
+    background-color: white;
+    padding:20px;
+  }
+  
