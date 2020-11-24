@@ -1,0 +1,30 @@
+<div class="review-page-body" id="review-page-body">
+    <div class="review-page-title">
+        <h2>Review Page Status</h2>
+        <div class="option-select-menu">
+          <app-trainer-selector></app-trainer-selector>
+          <select id="qc-graph-selector"  [(ngModel)]="selectedValue">
+              <option value="all">Show all graphs</option>
+              <option value="status">Overall Batches</option>
+              <option value="individual">Category by Topic</option>
+              <option value="week">Category by Week</option>
+            </select>
+          </div>
+          <div class="container" style="width: fit-content;">
+            <button class="btn btn-danger btn-block" style="background-color: #ea753e; margin-bottom: 15px; width: 20vw;" (click)="downloadPDF()">Download PDF</button>
+          </div>
+    </div>
+
+    <review-page-best-worst-categories></review-page-best-worst-categories>
+    <review-qc-best-worst></review-qc-best-worst>
+
+    <app-review-page-total-avg-assessment></app-review-page-total-avg-assessment> 
+  
+
+
+    <review-page-avg-qc-score></review-page-avg-qc-score>
+    <review-page-significant-changes></review-page-significant-changes>
+   
+  </div>
+
+    

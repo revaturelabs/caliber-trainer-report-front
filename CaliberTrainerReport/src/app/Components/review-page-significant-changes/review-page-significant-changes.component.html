@@ -1,0 +1,12 @@
+<div class="card-layout">
+    <div class="card-title">
+        <span>Significant Changes in Assessment Scores Across Batches</span>
+        <fa-icon class="lineGraphIcon" [icon]="lineGraphIcon"></fa-icon>
+    </div>
+    <div class="card-body">
+        <ul>
+            <li *ngFor="let c of changes">Batch {{c.batchName}}'s score for {{c.category}}
+                went <span [innerHTML]="c.increase"></span> by {{c.difference}} from the previous batch.</li>
+        </ul>
+    </div>
+</div>
