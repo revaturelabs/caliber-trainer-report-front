@@ -15,7 +15,7 @@ export class CalendarViewComponent implements OnInit {
 
   // eventList= [];
   // calendarOptions: CalendarOptions={ handleWindowResize:true, contentHeight:"auto"};
-   batches:Batch[] =[];
+   batches:any[] =[];
   // title: string;
   // startDate: Date;
   // endDate: Date;
@@ -91,10 +91,12 @@ export class CalendarViewComponent implements OnInit {
     (response) => {
       this.batches = response;
       for(let batch of this.batches) {
+        console.log(batch)
+        
         let sd = batch.startDate.split("-");
         let ed = batch.endDate.split("-");
         let d = {
-          batchId: batch.batchId,
+          batchName: batch.batchName,
           trainer: batch.name,
           start: new Date(parseInt(sd[0]), parseInt(sd[1]), parseInt(sd[2])),
           end: new Date(parseInt(ed[0]), parseInt(ed[1]), parseInt(ed[2]))
@@ -220,7 +222,8 @@ export class CalendarViewComponent implements OnInit {
 //   end: Date;
 // }
 class Data {
-  batchId: string;
+  //batchId: string;
+  batchName: string;
   trainer: string;
   start: Date;
   end: Date;
