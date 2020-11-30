@@ -97,7 +97,6 @@ export class AssessmentScoresAccordingToCategoryComponent
       .subscribe((resp) => {
         // Removes all entries with no scores.
         for(let i = resp.length - 1; i >= 0; i--) {
-          console.dir(resp[i].average.reduce((acc, curr) => {return acc + curr}));
           if(resp[i].average.reduce((acc, curr) => {return acc + curr}) == 0) {
             resp.splice(i, 1);
           }
