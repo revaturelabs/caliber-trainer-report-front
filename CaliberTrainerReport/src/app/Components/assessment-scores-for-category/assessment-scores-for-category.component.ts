@@ -5,6 +5,7 @@ import { AssessScoresByCategoryAllBatchesService } from 'src/app/services/Assess
 import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
+import { FilterBatch } from '../../utility/FilterBatch';
 
 @Component({
   selector: 'app-assessment-scores-for-category',
@@ -19,16 +20,27 @@ export class AssessmentScoresForCategoryComponent
   private AssessScoresByCategoryAllBatchesServiceSubscription: Subscription;
   lineGraphIcon = faChartLine;
   tableGraphIcon = faTable;
-  pickedCategory: any;
-  categoriesName: string[];
   myLineChart: any;
-  batchNames: string[];
   selectedValue: string;
-  cumulativeyValues : any[];
 
-  categoriesObj: any[];
-  yValues: any[];
-  multiGraphYValues: any[];
+  // The selected category, representing the index of the category data to display. If 0, displays all data ("Overview").
+  pickedCategory: number;
+
+  // An array of all category names.
+  categoriesName: string[];
+  
+  // An array of all batch names. 
+  batchNames: string[];
+
+  // A 2D-array consisting of the scores of all batches across all categories.
+  multiGraphYValues: number[][];
+
+  // this array tracks which batches to show on the graph
+  // index of batchFlags corresponds to index of batchNames:string[]
+  batchFlags: boolean[];
+  // FilterBatch is a helper class located in utility folder under src > app
+  // it contains a method called filterBatch(any[], boolean[]) that takes in any[] and returns a new any[] with true indices from boolean[]
+  batchFilter: FilterBatch;
 
   // Dealing with Scalability
   width: number;
@@ -43,173 +55,42 @@ export class AssessmentScoresForCategoryComponent
   ngOnInit(): void {
     this.selectedValue = this.assessmentTS.selectedValue;
     this.graphAdjust();
-
+    
     this.categoriesName = [];
-    this.categoriesObj = [];
     this.batchNames = [];
-    this.yValues = [];
     this.multiGraphYValues = [];
-    this.cumulativeyValues = [];
+
+    this.batchFlags = [];
+    this.batchFilter = new FilterBatch();
 
     this.pickedCategory = 0;
-    let trainerId: string = sessionStorage.getItem("selectedId");
-    let gA6: any[]=JSON.parse(sessionStorage.getItem("graphArray6" + trainerId));
- 
-    if(gA6 != null && !gA6.includes(null) && false){
-      console.log("yvalues from session ");
-      this.categoriesName = gA6[2];
-      this.categoriesObj = gA6[3];
-      this.batchNames = gA6[0];
-      this.yValues = gA6[1];
-      if(this.pickedCategory == 0){
-
-        this.categoriesObj.forEach( c => {
-          
-          for (const stuff of c) {
-            let total = 0;
-            for (const indivScore of stuff.assessments) {
-              total += indivScore;
-            }
-            if (isNaN(total / stuff.assessments.length)) {
-              this.yValues.push(0);
-            } else {
-              this.yValues.push(
-                Math.round((total / stuff.assessments.length) * 100) / 100
-              );
-            }
-
-          }
-          this.multiGraphYValues.push(JSON.parse(JSON.stringify(this.yValues)));
-          this.yValues=[];
-        });
-        // console.log(this.multiGraphYValues);
-        
-
-        
-      }
-
-      
-
-      this.displayGraph(gA6[0], gA6[1]);
-
-
-
-
-    } else {
-
     
     this.AssessScoresByCategoryAllBatchesServiceSubscription = this.assessScoresByCategoryAllBatchesService
-      .getSixthGraphData()
-      .subscribe((resp) => {
-        for (const score of resp.categories) {
+    .getSixthGraphData().subscribe((resp) => {
+      for (const score of resp.categories) {
+        if(!this.isCategoryEmpty(score.batchAssessments)) {
           this.categoriesName.push(score.category);
-          this.categoriesObj.push(score.batchAssessments);
-        }
-
-        if(this.pickedCategory == 0){
-
-          this.categoriesObj.forEach( c => {
-            
-            for (const stuff of c) {
-              let total = 0;
-              for (const indivScore of stuff.assessments) {
-                total += indivScore;
-              }
-              if (isNaN(total / stuff.assessments.length)) {
-                this.yValues.push(0);
-              } else {
-                this.yValues.push(
-                  Math.round((total / stuff.assessments.length) * 100) / 100
-                );
-              }
-
-            }
-
-            this.cumulativeyValues.push(this.yValues);
-            this.multiGraphYValues.push(JSON.parse(JSON.stringify(this.yValues)));
-            this.yValues=[];
-          });
-          
-
-          
-        } else {
-          for (const stuff of this.categoriesObj[this.pickedCategory]) {
-            let total = 0;
-            for (const indivScore of stuff.assessments) {
-              total += indivScore;
-            }
-            this.yValues.push(
-              Math.round((total / stuff.assessments.length) * 100) / 100
-            );
-          }
-
-        }
-
+          this.multiGraphYValues.push(JSON.parse(JSON.stringify(this.getBatchAverages(score.batchAssessments))));
+        } 
+      }
         
-        for (const score of resp.categories[0].batchAssessments) {
-          this.batchNames.push(score.batchName);
-        }
-        this.categoriesName.unshift("Overview");
-        this.categoriesObj.unshift(resp.categories[0].batchAssessments);
-
-        let graphArray = [this.batchNames, this.yValues, this.categoriesName, this.categoriesObj];
-        let trainerId: string = sessionStorage.getItem("selectedId");
-        sessionStorage.setItem("graphArray6" + trainerId, JSON.stringify(graphArray));
-        this.displayGraph(this.batchNames, this.yValues);
-      });
-
-    }
-  }
-
-  updateGraph() {
-    this.yValues = [];
-
-    if(this.pickedCategory == 0){
-
-      this.categoriesObj.forEach( c => {
-        
-        for (const stuff of c) {
-          let total = 0;
-          for (const indivScore of stuff.assessments) {
-            total += indivScore;
-          }
-          if (isNaN(total / stuff.assessments.length)) {
-            this.yValues.push(0);
-          } else {
-            this.yValues.push(
-              Math.round((total / stuff.assessments.length) * 100) / 100
-            );
-          }
-
-        }
-        this.multiGraphYValues.push(JSON.parse(JSON.stringify(this.yValues)));
-        this.yValues=[];
-      });
-    } else {  
-
-    for (const stuff of this.categoriesObj[this.pickedCategory]) {
-      let total = 0;
-      for (const indivScore of stuff.assessments) {
-        total += indivScore;
+      for (const score of resp.categories[0].batchAssessments) {
+        this.batchNames.push(score.batchName);
+        this.batchFlags.push(true);
       }
 
-      if (isNaN(total / stuff.assessments.length)) {
-        this.yValues.push(0);
-      } else {
-        this.yValues.push(
-          Math.round((total / stuff.assessments.length) * 100) / 100
-        );
-      }
-    }
-
-  };
-    
-
-
-    this.displayGraph(this.batchNames, this.yValues);
+      this.categoriesName.unshift("Overview");
+      this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.multiGraphYValues,this.batchFlags));
+    },
+    () => {
+      console.log("An error has occurred building the assessment-scores-for-category.");
+    });
   }
 
-  displayGraph(batchDisplayNames: string[], yDisplayValues: any[]) {
+  /**
+   * Displays a graph based on the given data.
+   */
+  displayGraph(batchNames: string[], yValues: number[]) {
     if (this.myLineChart) {
       this.myLineChart.destroy();
     }
@@ -221,37 +102,17 @@ export class AssessmentScoresForCategoryComponent
       '#FF00FF', '#800000',
       '#00FF00', '#00CED1',
       '#9370DB', '#000000',
-      '#6495ED', '#696969',
-      // Colors Repeat again here
-      '#FF0000', '#FF8C00', 
-      '#FFD700',  '#228B22',
-      '#000080', '#4B0082',
-      '#FF00FF', '#800000',
-      '#00FF00', '#00CED1',
-      '#9370DB', '#000000',
-      '#6495ED', '#696969',
-      // Colors Repeat again here
-      '#FF0000', '#FF8C00', 
-      '#FFD700',  '#228B22',
-      '#000080', '#4B0082',
-      '#FF00FF', '#800000',
-      '#00FF00', '#00CED1',
-      '#9370DB', '#000000',
-      '#6495ED', '#696969',]
+      '#6495ED', '#696969']
 
     // An array of objects. Each object should contain a yDisplay array within.
     let lineData: any[] = [];
     if(this.pickedCategory == 0){
-
       for(let i = 1; i < this.categoriesName.length; i++){
-        let lineColor:string;
-        
-
-        lineColor = colorArray[i-1];
+        let lineColor: string = colorArray[(i-1) % colorArray.length];
 
         let dataObj = {
           label: ''+this.categoriesName[i], // Name the series
-          data: this.multiGraphYValues[i-1], // Specify the data values array
+          data: this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags), // Specify the data values array
           fill: false,
           borderColor: lineColor, // Add custom color border (Line)
           backgroundColor: lineColor, // Add custom color background (Points and Fill)
@@ -259,13 +120,12 @@ export class AssessmentScoresForCategoryComponent
         };
 
         lineData.push(dataObj);
-
       }
   
       this.myLineChart = new Chart('sixthChart', {
         type: 'line',
         data: {
-          labels: batchDisplayNames,
+          labels: batchNames,
           datasets: lineData,
         },
         options: {
@@ -275,7 +135,7 @@ export class AssessmentScoresForCategoryComponent
                 ticks: {
                   beginAtZero: true,
                   suggestedMax: 100,
-                  callback(value, index, values) {
+                  callback(value) {
                     return value + '%';
                   },
                 },
@@ -300,11 +160,11 @@ export class AssessmentScoresForCategoryComponent
     this.myLineChart = new Chart('sixthChart', {
       type: 'line',
       data: {
-        labels: batchDisplayNames,
+        labels: batchNames,
         datasets: [
           {
             label: 'Overall Average', // Name the series
-            data: yDisplayValues, // Specify the data values array
+            data: yValues, // Specify the data values array
             fill: false,
             borderColor: lineColor, // Add custom color border (Line)
             backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
@@ -319,7 +179,7 @@ export class AssessmentScoresForCategoryComponent
               ticks: {
                 beginAtZero: true,
                 suggestedMax: 100,
-                callback(value, index, values) {
+                callback(value) {
                   return value + '%';
                 },
               },
@@ -372,9 +232,49 @@ export class AssessmentScoresForCategoryComponent
     this.graphAdjust();
   }
 
+  private isCategoryEmpty(batchAssessments:{assessments:number[]}[]): boolean {
+    for(const assessments of batchAssessments) {
+      if(assessments.assessments.length != 0) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  private getBatchAverages(batchAssessments: {assessments:number[]}[]): number[] {
+    let yValueSet: number[] = [];
+      for(const assessments of batchAssessments) {
+        if(!assessments.assessments || assessments.assessments.length == 0) {
+          yValueSet.push(0);
+        } else {
+          yValueSet.push(assessments.assessments.reduce((acc, curr) => acc + curr) / assessments.assessments.length);
+        }
+      }
+    return yValueSet;
+  }
+
   ngOnDestroy() {
     if (this.AssessScoresByCategoryAllBatchesServiceSubscription != undefined) {
       this.AssessScoresByCategoryAllBatchesServiceSubscription.unsubscribe();
     }
+  }
+
+  updateGraph() {
+    if(this.pickedCategory == 0) {
+      this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.multiGraphYValues, this.batchFlags));
+    } else {
+      this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.multiGraphYValues[this.pickedCategory - 1], this.batchFlags));
+    }
+  }
+
+  toggle(index: number): void{
+    this.batchFlags[index] = !this.batchFlags[index];
+    this.updateGraph();
+  }
+
+  batch_dropdown_flag: boolean = true;
+  toggleBatchDropdown(): void{
+    this.batch_dropdown_flag = !this.batch_dropdown_flag;
   }
 }
