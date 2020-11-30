@@ -76,25 +76,22 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.batchFlags = [];
     this.batchFilter = new FilterBatch();
 
-    let trainerId = sessionStorage.getItem("selectedId");
-    let gA2: any[] = JSON.parse(sessionStorage.getItem("graphingArray2" + trainerId));
-    if(gA2 != null && !gA2.includes(null) && false){
-      this.categoriesName = gA2[2];
-      this.categoriesObj = gA2[3];
-
-      this.batchNames = gA2[0];
-
-      this.setScoreValues();
-      this.displayGraph(gA2[0], gA2[1]);
-
-    } else {
-
-    
-
     this.BatchTechnicalStatusBySkillCategoryServiceSubscription = this.BatchTechnicalStatusBySkillCategoryService
       .getAvgCategoryScoresObservables()
       .subscribe((resp) => {
-        console.log(resp)
+        console.dir(resp);
+        // Remove entries with no scores.
+        /*for(let i = resp.batchByCategory.length - 1; i >= 0; i--) {
+          let batchSum: number = 0;
+          for(const batch of resp.batchByCategory[i].batches) {
+            let scores = batch.score;
+            batchSum += scores.average + scores.good + scores.poor + scores.superstar;
+          }
+          if(batchSum == 0) {
+            resp.batchByCategory.splice(i, 1);
+          }
+        }*/
+
         for (const obj of resp.batchByCategory) {
           this.categoriesName.push(obj.categoryName);
           this.categoriesObj.push(obj.batches);
@@ -109,17 +106,9 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
           this.batchFlags.push(true);
         }
 
-
-
-        let graphArray = [this.batchNames, this.yValues, this.categoriesName, this.categoriesObj];
-        let trainerId = sessionStorage.getItem("selectedId");
-        sessionStorage.setItem("graphingArray2" + trainerId, JSON.stringify(graphArray));
-
         // These arguments might need to change.
         this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.yValues,this.batchFlags));
       });
-
-    }
   }
 
   updateGraph() {
@@ -148,7 +137,6 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
 
   setScoreValues() {
     if(this.pickedCategory == 0){
-      let a:number = 0;
       this.categoriesObj.forEach(c => {
 
         // Each object c is an individual category on the graph. We want to display ALL simultaneously.
@@ -245,23 +233,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       '#FF00FF', '#800000',
       '#00FF00', '#00CED1',
       '#9370DB', '#000000',
-      '#6495ED', '#696969',
-    // Colors repeat
-      '#FF0000', '#FF8C00', 
-      '#FFD700',  '#228B22',
-      '#000080', '#4B0082',
-      '#FF00FF', '#800000',
-      '#00FF00', '#00CED1',
-      '#9370DB', '#000000',
-      '#6495ED', '#696969',
-      // Colors Repeat
-      '#FF0000', '#FF8C00', 
-      '#FFD700',  '#228B22',
-      '#000080', '#4B0082',
-      '#FF00FF', '#800000',
-      '#00FF00', '#00CED1',
-      '#9370DB', '#000000',
-      '#6495ED', '#696969',
+      '#6495ED', '#696969'
   ]
 
     // An array of objects. Each object should contain a yDisplay array within.
@@ -273,7 +245,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
         let lineColor:string;
         
 
-        lineColor = colorArray[i-1];
+        lineColor = colorArray[(i-1) % colorArray.length];
 
         let dataObj = {
           label: ''+this.categoriesName[i], // Name the series
@@ -335,7 +307,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
 
 
     } else {
-      let lineColor:string = colorArray[this.pickedCategory-1];
+      let lineColor:string = colorArray[(this.pickedCategory-1) % colorArray.length];
     
 
     const yLabels = {

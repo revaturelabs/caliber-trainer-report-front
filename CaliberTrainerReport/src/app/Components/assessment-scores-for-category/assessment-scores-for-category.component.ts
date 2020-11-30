@@ -155,7 +155,7 @@ export class AssessmentScoresForCategoryComponent
     } else {
 
     
-    let lineColor:string = colorArray[this.pickedCategory-1];
+    let lineColor:string = colorArray[(this.pickedCategory-1) % colorArray.length];
 
     this.myLineChart = new Chart('sixthChart', {
       type: 'line',
