@@ -12,7 +12,7 @@ export class ReviewPageSignificantChangesComponent implements OnInit {
 
   //threshold is the absolute difference in scores which can be considered a "significant" change
   public threshold: number = 15;
-  public categories: String[] = ["exam", "verbal", "presentation", "project", "other"];
+  public categories: string[] = ["exam", "verbal", "presentation", "project", "other"];
   public changes: Change[] = [];
   
   constructor(private retrieve: AssessmentByBatchService) { }
@@ -45,15 +45,15 @@ export class ReviewPageSignificantChangesComponent implements OnInit {
 }
 
 class Change {
-  public batchName: String;
-  public category: String;
+  public batchName: string;
+  public category: string;
   public oldScore: number;
   public newScore: number;
 
-  public increase: String;
-  public difference: String;
+  public increase: string;
+  public difference: string;
 
-  constructor(name: String, cat: String, oldScore: number, newScore: number){
+  constructor(name: string, cat: string, oldScore: number, newScore: number){
     this.batchName = name;
     this.category = cat;
     this.oldScore = oldScore;
