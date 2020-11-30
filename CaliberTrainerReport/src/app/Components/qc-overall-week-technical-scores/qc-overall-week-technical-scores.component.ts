@@ -68,7 +68,6 @@ export class QcOverallWeekTechnicalScoresComponent implements OnInit, OnDestroy 
       this.pickedBatch = this.batches[0];
 
       let graphArray = [this.thirdGraphObj, this.batches[0]]
-      let trainerId = sessionStorage.getItem("selectedId");
       sessionStorage.setItem("graphArray3" + trainerId, JSON.stringify(graphArray));
 
       this.displayGraph();
