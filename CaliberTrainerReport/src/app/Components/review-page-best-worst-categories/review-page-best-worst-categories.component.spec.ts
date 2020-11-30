@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientModule } from '@angular/common/http';
 import { ReviewPageBestWorstCategoriesComponent, CategoryScore } from './review-page-best-worst-categories.component';
 
 
@@ -12,7 +12,8 @@ fdescribe('BestWorstCategoriesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ReviewPageBestWorstCategoriesComponent ]
+      declarations: [ReviewPageBestWorstCategoriesComponent ],
+      imports: [HttpClientModule]
     })
     .compileComponents();
   }));

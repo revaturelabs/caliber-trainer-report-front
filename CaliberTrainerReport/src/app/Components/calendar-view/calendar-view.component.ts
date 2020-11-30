@@ -4,7 +4,6 @@ import { GetBatchService } from 'src/app/services/get-batch.service';
 import { Calendar } from '@fullcalendar/core';
 import { Trainer } from 'src/app/class/trainer';
 
-
 @Component({
   selector: 'app-calendar-view',
   templateUrl: './calendar-view.component.html',
@@ -25,8 +24,6 @@ export class CalendarViewComponent implements OnInit {
 
   constructor(private batchServ: GetBatchService) { }
 
- 
-
   ngOnInit(){
     setTimeout(() => {
 
@@ -43,8 +40,6 @@ export class CalendarViewComponent implements OnInit {
     initialView: 'dayGridMonth',
     dateClick: this.handleDateClick.bind(this), // bind is important!
     events: this.eventList,
-
-   
   };
 },3000);
   }
