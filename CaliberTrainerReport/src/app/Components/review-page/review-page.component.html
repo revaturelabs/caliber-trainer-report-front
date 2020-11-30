@@ -2,8 +2,8 @@
     <div class="review-page-title">
         <h2>Review Page Status</h2>
         <div class="option-select-menu">
-          
-            <select id="qc-graph-selector"  [(ngModel)]="selectedValue">
+          <app-trainer-selector></app-trainer-selector>
+          <select id="qc-graph-selector"  [(ngModel)]="selectedValue">
               <option value="all">Show all graphs</option>
               <option value="status">Overall Batches</option>
               <option value="individual">Category by Topic</option>
@@ -17,8 +17,14 @@
 
     <review-page-best-worst-categories></review-page-best-worst-categories>
     <review-qc-best-worst></review-qc-best-worst>
+
+    <app-review-page-total-avg-assessment></app-review-page-total-avg-assessment> 
+  
+
+
     <review-page-avg-qc-score></review-page-avg-qc-score>
     <review-page-significant-changes></review-page-significant-changes>
    
   </div>
+
     
