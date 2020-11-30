@@ -39,7 +39,24 @@ export class DisplayQcAverageGraphService {
                 stepSize: 1,
                 suggestedMax: 4,
                 callback(value) {
-                  return value;
+                  switch (value){
+                    case 1:
+                      return ( 
+                      'Poor' 
+                    );
+                    case 2: 
+                      return ( 
+                      'Average' 
+                    );
+                    case 3:
+                      return (
+                        'Good' 
+                      ); 
+                    case 4:
+                      return ( 
+                        'Superstar' 
+                      );
+                  }
                 },
               },
             },
