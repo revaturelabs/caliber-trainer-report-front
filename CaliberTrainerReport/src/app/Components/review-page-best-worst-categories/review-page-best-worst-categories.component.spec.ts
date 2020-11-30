@@ -6,7 +6,7 @@ import { ReviewPageBestWorstCategoriesComponent, CategoryScore } from './review-
 let testCategories:string[] = ["Jenkins", "Java", "AWS",  "Git", "DevOps", "Spring", "Junit"]
 let testScores:number[] =     [    25.02,  90.05, 88.88,  25.25,    12.12,    92.12,   70.75]
 
-fdescribe('BestWorstCategoriesComponent', () => {
+describe('BestWorstCategoriesComponent', () => {
   let component: ReviewPageBestWorstCategoriesComponent;
   let fixture: ComponentFixture<ReviewPageBestWorstCategoriesComponent>;
 

@@ -35,6 +35,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   multiGraphYValues: any[];
 
   batchNames: string[];
+  batchFlags: string[];
   yValues: any[];
 
   // Dealing with Scalability
