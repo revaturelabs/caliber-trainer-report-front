@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { faBalanceScale, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { AssessmentByCategoryService } from 'src/app/services/AssessmentByCategory.service';
 import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/BatchTechnicalStatusBySkillCategory.service';
 
 @Component({
@@ -48,7 +47,9 @@ export class ReviewQcBestWorstComponent implements OnInit {
     batch.score.superstar
     return result
   }
-  public findBestCategories(bestScore, categories){
+  public findBestCategories(categories){
+    let arrayOfScoresByCategory = Object.values(this.categories)
+    let bestScore = Math.max(...arrayOfScoresByCategory)
     let bestCategoriesArray = []
     for(let category in categories){
       if(this.categories[category] === bestScore){
@@ -57,7 +58,9 @@ export class ReviewQcBestWorstComponent implements OnInit {
     }
     return bestCategoriesArray
   }
-  public findWorstCategories(worstScore, categories){
+  public findWorstCategories(categories){
+    let arrayOfScoresByCategory = Object.values(this.categories)
+    let worstScore = Math.min(...arrayOfScoresByCategory)
     let worstCategoriesArray = []
     for(let category in categories){
       if(this.categories[category] === worstScore){
@@ -69,7 +72,6 @@ export class ReviewQcBestWorstComponent implements OnInit {
 
   ngOnInit(): void {
     this.QCscores.getAvgCategoryScoresObservables().subscribe(data =>{
-      //
       for(let category in data.batchByCategory){
         let totalScores = 0;
         let totalQuantity = 0;
@@ -85,11 +87,8 @@ export class ReviewQcBestWorstComponent implements OnInit {
           this.categories[categoryName] = catAverage;
         }
       }
-      let arrayOfScoresByCategory = Object.values(this.categories)
-      let bestValue = Math.max(...arrayOfScoresByCategory)
-      let worstValue = Math.min(...arrayOfScoresByCategory)
-      this.bestCategories = this.findBestCategories(bestValue, this.categories)
-      this.worstCategories = this.findWorstCategories(worstValue, this.categories)
+      this.bestCategories = this.findBestCategories(this.categories)
+      this.worstCategories = this.findWorstCategories(this.categories)
     })
   }
 }
