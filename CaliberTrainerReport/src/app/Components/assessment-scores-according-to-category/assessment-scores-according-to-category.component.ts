@@ -54,7 +54,7 @@ export class AssessmentScoresAccordingToCategoryComponent
   selectedValue: any;
 
   constructor(
-    private AssessmentByCategoryService: AssessmentByCategoryService,
+    private assessmentByCategoryService: AssessmentByCategoryService,
     private assessmentTS: AssessmentComponent,
     private displayGraphService: DisplayGraphService
   ) {}
@@ -76,7 +76,7 @@ export class AssessmentScoresAccordingToCategoryComponent
     this.otherRawScores = [];
     let trainerId: string = sessionStorage.getItem("selectedId");
 
-    this.AssessmentByCategoryServiceSubscription = this.AssessmentByCategoryService
+    this.AssessmentByCategoryServiceSubscription = this.assessmentByCategoryService
       .getScorePerCategory()
       .subscribe((resp) => {
         for (const cat of resp) {

@@ -26,7 +26,7 @@ export class AssessmentScoresAccordingToBatchComponent implements OnInit, OnDest
   scoreNames: string[];
 
   constructor(
-    private AssessmentByBatchService: AssessmentByBatchService,
+    private assessmentByBatchService: AssessmentByBatchService,
     private assessmentTS: AssessmentComponent,
     private displayGraphService: DisplayGraphService
   ) {}
@@ -44,7 +44,7 @@ export class AssessmentScoresAccordingToBatchComponent implements OnInit, OnDest
     console.log("ACESSING DB");
 
     
-    this.AssessmentByBatchServiceSubscription = this.AssessmentByBatchService.getAssessmentByBatch().subscribe((resp) => {
+    this.AssessmentByBatchServiceSubscription = this.assessmentByBatchService.getAssessmentByBatch().subscribe((resp) => {
       this.allBatches = resp;
       for (const i of this.allBatches.keys()) {
         for (const [j, value] of this.allBatches[i].assessmentScores.entries()) {

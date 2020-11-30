@@ -43,7 +43,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   isBig: boolean;
 
   constructor(
-    private BatchTechnicalStatusBySkillCategoryService: BatchTechnicalStatusBySkillCategoryService,
+    private batchTechnicalStatusBySkillCategoryService: BatchTechnicalStatusBySkillCategoryService,
     private qcTS: QCComponent,
     private displayGraphService: DisplayGraphService
   ) {}
@@ -67,7 +67,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.cumulativePoor = [];
 
 
-    this.BatchTechnicalStatusBySkillCategoryServiceSubscription = this.BatchTechnicalStatusBySkillCategoryService
+    this.BatchTechnicalStatusBySkillCategoryServiceSubscription = this.batchTechnicalStatusBySkillCategoryService
       .getAvgCategoryScoresObservables()
       .subscribe((resp) => {
         console.dir(resp);
