@@ -17,11 +17,6 @@ export class GetBatchService {
     return this.http.get(this.url.getUrl() + "/Trainer/batches/" + id);
   }
 
-  getBatchesBetter():Observable<Batch[]> {
-    let id: string = sessionStorage.getItem('selectedId');
-    return this.http.get(this.url.getUrl() + "/Trainer/batches/" + id) as Observable<Batch[]>;
-  }
-
   getBatchesByTrainerEmail(email : string) : Observable<string[]> {
     return this.http.post<string[]>(this.url.getUrl() + "/Batch/batches", email);
   }
