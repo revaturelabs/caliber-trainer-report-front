@@ -60,7 +60,6 @@ export class AssessmentScoresAccordingToBatchComponent implements OnInit, OnDest
       this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
 
       let graphArray4 = [this.batchesObj, this.allBatches, this.batchNames];
-      let trainerId: string = sessionStorage.getItem("selectedId");
       sessionStorage.setItem("graphArray4" + trainerId, JSON.stringify(graphArray4));
 
       this.displayGraph(this.batchesObj);
