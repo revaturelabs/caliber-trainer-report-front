@@ -95,6 +95,15 @@ export class AssessmentScoresAccordingToCategoryComponent
     this.AssessmentByCategoryServiceSubscription = this.AssessmentByCategoryService
       .getScorePerCategory()
       .subscribe((resp) => {
+        // Removes all entries with no scores.
+        for(let i = resp.length - 1; i >= 0; i--) {
+          console.dir(resp[i].average.reduce((acc, curr) => {return acc + curr}));
+          if(resp[i].average.reduce((acc, curr) => {return acc + curr}) == 0) {
+            resp.splice(i, 1);
+          }
+        }
+
+
         for (const cat of resp) {
           this.categories.push(cat.category);
         }
@@ -186,19 +195,6 @@ export class AssessmentScoresAccordingToCategoryComponent
     presentationDisplayScores: number[],
     otherDisplayScores: number[]
   ) {
-
-    for(let i = categoriesDisplayData.length - 1; i >= 0; i--) {
-      // TODO refactor. This is a stopgap.
-      if(examDisplayScores[i] + verbalDisplayScores[i] + projectDisplayScores[i] + presentationDisplayScores[i] + otherDisplayScores[i] == 2.5) {
-        categoriesDisplayData.splice(i, 1);
-        examDisplayScores.splice(i, 1);
-        verbalDisplayScores.splice(i, 1);
-        projectDisplayScores.splice(i, 1);
-        presentationDisplayScores.splice(i, 1);
-        otherDisplayScores.splice(i, 1);
-      }
-    }
-
     if (categoriesDisplayData.length === 0) {
       this.myBarGraph.destroy();
     }
