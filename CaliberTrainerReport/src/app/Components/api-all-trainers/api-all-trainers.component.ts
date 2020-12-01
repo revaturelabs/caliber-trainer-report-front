@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GetTrainerService } from 'src/app/services/get-trainer.service';
 import { Trainer } from 'src/app/class/trainer';
-
 import { GetBatchService } from 'src/app/services/get-batch.service';
 import { Batch } from 'src/app/class/batch';
 import { GetQcNoteService } from 'src/app/services/get-qc-note.service';
@@ -37,8 +36,11 @@ export class ApiAllTrainersComponent implements OnInit {
   getAllTrainers() {
     this.trainerService.getAllTrainers().subscribe(
       (response) => {
-        console.log(response);
         this.trainers = response;
+        this.trainers.push({email:"none",firstName:"Mock 2000",lastName:"Employee 2000",tier:"ROLE_LEAD_TRAINER",trainingBatches:[]})
+        console.log("All trainers:");
+        console.log(this.trainers);
+        if (this.trainers.length == 0) {this.mockData = 'fail-no-trainers';console.log("No trainer data");}        
       },
       (response) => {
         this.mockData = 'fail-caliber-unreached';
@@ -69,170 +71,168 @@ export class ApiAllTrainersComponent implements OnInit {
     var request; 
     if(window.XMLHttpRequest) 
       request = new XMLHttpRequest(); 
-    request.open('GET', this.urls.getUrl, false);
+    request.open('GET', 'http://localhost:4200', false);
     request.send();
-    if (request.status < 500 && request.status > 399 ) { alert("400 Level Error / Client Side Error: The page you are trying to reach is not available."); }
-    else if (request.status < 600 && request.status > 499 ) { alert("500 Level Error / Server Side Error: The page you are trying to reach is not available."); }
+    if (request.status < 500 && request.status > 399 ) { this.mockData = 'fail-400'; }
+    else if (request.status < 600 && request.status > 499 ) { this.mockData = 'fail-500'; }
     
     try{
 
     
-    await this.batchService.getBatchesByTrainerEmail(tempTrainer.email).toPromise().then(
-      //Get the batch ids
-      async (response) => {
-        console.log("Response with all batch ids: ");
-        console.log(response);
-        batchIds = response;
-        let temp;
-        let success: boolean = true;
-        
-        for (let id of batchIds) { //Get each batch by id
-          await this.batchService.getPromiseBatchById(id).then(
+      await this.batchService.getBatchesByTrainerEmail(tempTrainer.email).toPromise().then(
+        //Get the batch ids
+        async (response) => {
+          console.log("Response with all batch ids: ");
+          console.log(response);
+          batchIds = response;
 
-            async (response2) => {
-              let batch = response2;
-              temp = {
-                "id": batch.id,
-                "batchId": batch.batchId,
-                "name": batch.name,
-                "startDate": batch.startDate,
-                "endDate": batch.endDate,
-                "skill": batch.skill,
-                "location": batch.location,
-                "type": batch.type,
-                "qcNotes": [],
-                "assessments": []
-              }
+          if (batchIds.length == 0 && this.mockData == 'loading') {this.mockData = 'fail-no-batches';console.log("Trainer has no batches.");}        
 
-              await this.qcs.getPromiseQCNotesByBatchId(id).then(
-                async (response3) => { //Get all notes for this batch
-                  let tempNotes: QCNote[] = response3;
-                  let tempNote;
-                  let cat;
-                 
-                    for (let note of tempNotes) {
-                      await this.qcs.getCategoryByBatchIdAndWeek(id, note.week).toPromise().then(
-                        async (response4) => { 
-  
-                          tempNote = note;
-                          tempNote.categories = [];
-                          cat = response4;
-                          if (cat != null) {
-                            for (let c of cat) { //For each category, add the category to the array found in the batch
-                              if (c != null && !tempNote.categories.includes(c.skillCategory)) {
-                                tempNote.categories.push(c.skillCategory);
-                                console.log("temp note: " + JSON.stringify(tempNote));
+          let temp;
+          let success: boolean = true;
+          
+          for (let id of batchIds) { //Get each batch by id
+            await this.batchService.getPromiseBatchById(id).then(
+
+              async (response2) => {
+                let batch = response2;
+                temp = {
+                  "id": batch.id,
+                  "batchId": batch.batchId,
+                  "name": batch.name,
+                  "startDate": batch.startDate,
+                  "endDate": batch.endDate,
+                  "skill": batch.skill,
+                  "location": batch.location,
+                  "type": batch.type,
+                  "qcNotes": [],
+                  "assessments": []
+                }
+
+                await this.qcs.getPromiseQCNotesByBatchId(id).then(
+                  async (response3) => { //Get all notes for this batch
+                    let tempNotes: QCNote[] = response3;
+                    let tempNote;
+                    let cat;
+                  
+                      for (let note of tempNotes) {
+                        await this.qcs.getCategoryByBatchIdAndWeek(id, note.week).toPromise().then(
+                          async (response4) => { 
+    
+                            tempNote = note;
+                            tempNote.categories = [];
+                            cat = response4;
+                            if (cat != null) {
+                              for (let c of cat) { //For each category, add the category to the array found in the batch
+                                if (c != null && !tempNote.categories.includes(c.skillCategory)) {
+                                  tempNote.categories.push(c.skillCategory);
+                                  console.log("temp note: " + JSON.stringify(tempNote));
+                                }
                               }
                             }
+                            await temp.qcNotes.push(tempNote);
+                            // console.log("Current JSON: " + JSON.stringify(temp));
+                          },
+                          (response4) => {
+                            console.log("Category request failed");
+                            this.mockData = 'fail-Category request';
                           }
-                          await temp.qcNotes.push(tempNote);
-                          // console.log("Current JSON: " + JSON.stringify(temp));
+                        );
+                      }
+                    
+
+                    
+                    let tempBatches: Batch[] = [];
+                    for (let i = 0; i < batch.currentWeek; i++) {
+                      await this.as.getPromiseAssessmentsByWeekAndBatchId(id, i + 1).then(
+                        // Works
+                        async (response5) => {
+                          
+                          let assessments: Assessment[] = response5;
+
+                          for (let j = 0; j < assessments.length; j++) {
+                            await this.cs.getPromiseCategoryById(assessments[j].assessmentCategory).then(
+                              // Works
+                              async (response6) => {
+                                //console.log("skill category");
+                                assessments[j].skillCategory = response6.skillCategory;
+                                //console.log(assessments[i].skillCategory);
+
+                                await this.as.getAverageGradeByAssessment(assessments[j].assessmentId).toPromise().then(
+                                  // Does NOT work, needs more path variables?
+                                  async (response7) => {
+                                    
+                                    assessments[j].average = response7;
+                                  },
+                                  async (response7) => {
+                                    assessments[j].average = 0;
+                                    console.log("Grade average request failed");
+                                    this.mockData = 'fail-Grade average';
+                                  }
+                                );
+                              },
+                              (response6) => {
+                                console.log("Category request failed");
+                                this.mockData = 'fail-Category request';
+                              }
+                            );
+                            
+                          }
+                          //console.log("ASSESSMENTS: ")
+                          //console.log(assessments);
+                          for(let a of assessments){
+                            temp.assessments.push(a);
+                          }
+                        
                         },
-                        (response5) => {
-                          alert("Category request failed");
-                          console.log("Category request failed");
-                          this.mockData = 'fail';
+                        (response5) => { 
+                          console.log("Assessment request failed");
+                          this.mockData = 'fail-Assessment request';
                         }
                       );
                     }
-                  
-
-                  
-                  let tempBatches: Batch[] = [];
-                  for (let i = 0; i < batch.currentWeek; i++) {
-                    await this.as.getPromiseAssessmentsByWeekAndBatchId(id, i + 1).then(
-                      // Works
-                      async (response6) => {
-                        
-                        let assessments: Assessment[] = response6;
-
-                        for (let j = 0; j < assessments.length; j++) {
-                           await this.cs.getPromiseCategoryById(assessments[j].assessmentCategory).then(
-                            // Works
-                            async (response7) => {
-                              console.log("skill category");
-                              assessments[j].skillCategory = response7.skillCategory;
-                              console.log(assessments[j].skillCategory);
-
-                              await this.as.getAverageGradeByAssessment(assessments[j].assessmentId).toPromise().then(
-                                // Does NOT work, needs more path variables?
-                                async (response8) => {
-                                  
-                                  assessments[j].average = response8;
-                                },
-                                async (response9) => {
-                                  assessments[j].average = 0;
-                                  alert("Grade average request failed");
-                                  console.log("Grade average request failed");
-                                  this.mockData = 'fail';
-                                }
-                              );
-                            },
-                            (response10) => {
-                              alert("Category request failed");
-                              console.log("Category request failed");
-                              this.mockData = 'fail';
-                            }
-                          );
-                          
-                        }
-                        console.log("ASSESSMENTS: ")
-                        console.log(assessments);
-                        for(let a of assessments){
-                          temp.assessments.push(a);
-                        }
-                      
-                      },
-                      (response11) => {
-                        alert("Assessment request failed");
-                        console.log("Assessment request failed");
-                        this.mockData = 'fail';
-                      }
-                    );
+                    this.allData.batches = tempBatches;
+                  },
+                  (response3) => {
+                    console.log("QCNote request failed");
+                    this.mockData = 'fail-QCNote';
                   }
-                  this.allData.batches = tempBatches;
-                },
-                (response12) => {
-                  alert("QCNote request failed");
-                  console.log("QCNote request failed");
-                  this.mockData = 'fail';
-                }
-              );
-              console.log("Temp obj");
-              console.log(temp);
-              this.allData.batches.push(temp);
-            },
-            (response13) => {
-              success = false;
-              alert("Batch request failed");
-              console.log("Batch request failed");
-              this.mockData = 'fail';
+                );
+                //console.log("Temp obj");
+                console.log(temp);
+                this.allData.batches.push(temp);
+              },
+              (response2) => {
+                success = false;
+                console.log("Batch request failed");
+                this.mockData = 'fail-Batch request';
+              }
+            );
+
+            if (!success) {
+              break;
             }
-          );
 
-          if (!success) {
-            break;
           }
-
+        },
+        (response) => {
+          console.log("IDs request failed");
+          this.mockData = 'fail-IDs';
         }
-      },
-      (response) => {
-        alert("IDs request failed");
-        console.log("IDs request failed");
-        this.mockData = 'fail';
+      );
+      if (this.mockData == 'loading') {
+        console.log(this.allData);
+        this.sendJsonService.sendJSON(JSON.stringify(this.allData)).subscribe(
+          (response) => {
+            console.log(response);
+            this.mockData = 'done';
+          }, 
+          (response) => {
+            console.log(response);
+            this.mockData = 'fail';
+          }
+        ); 
       }
-    );
-    console.log(this.allData);
-    this.sendJsonService.sendJSON(JSON.stringify(this.allData)).subscribe(
-      (response) => {
-        console.log(response);
-        this.mockData = 'done';
-      }, 
-      (response) => {
-        console.log(response);
-        this.mockData = 'fail';
-      }
-    );
     } catch (miscFailure){
       this.mockData = 'fail';
     }
