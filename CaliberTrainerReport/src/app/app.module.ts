@@ -42,6 +42,7 @@ import { ReviewQcBestWorstComponent } from './Components/review-qc-best-worst/re
 
 import { ReviewPageAvgQcScoreComponent } from './Components/review-page-avg-qc-score/review-page-avg-qc-score.component';
 import { ReviewPageSignificantChangesComponent } from './Components/review-page-significant-changes/review-page-significant-changes.component';
+import { DxChartModule } from 'devextreme-angular';
 
 FullCalendarModule.registerPlugins([ 
   dayGridPlugin,
@@ -75,7 +76,6 @@ FullCalendarModule.registerPlugins([
     ReviewQcBestWorstComponent,
     ReviewPageAvgQcScoreComponent,
     ReviewPageSignificantChangesComponent
-
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   imports: [
@@ -87,7 +87,8 @@ FullCalendarModule.registerPlugins([
     ReactiveFormsModule,
     FullCalendarModule,
     NgbModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    DxChartModule
   ],
   providers: [TechnicalStatusPerBatchService, BatchTechnicalStatusBySkillCategoryService, AssessmentByBatchService, 
                 AssessmentByCategoryService, UrlService, FileUploadService, GetBatchService],
