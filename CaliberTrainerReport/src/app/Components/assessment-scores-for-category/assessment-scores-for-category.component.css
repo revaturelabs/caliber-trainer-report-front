@@ -1,6 +1,6 @@
 /* CSS is located in main style.css */
 #batch-dropdown {
-  width: 175px;
+  width: 325px;
   margin-right: 2vw;
 }
 
@@ -8,7 +8,7 @@
   position: absolute;
   color: black;
   z-index: 1;
-  width: 175px;
+  width: 325px;
   max-height: 250px;
   overflow: auto;
   background-color:#f7f7f7;
