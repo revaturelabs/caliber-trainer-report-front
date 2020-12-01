@@ -1,3 +1,5 @@
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReviewQcBestWorstComponent } from './review-qc-best-worst.component';
@@ -8,7 +10,8 @@ describe('ReviewQcBestWorstComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReviewQcBestWorstComponent ]
+      declarations: [ ReviewQcBestWorstComponent],
+      imports:[HttpClientTestingModule]
     })
     .compileComponents();
   }));

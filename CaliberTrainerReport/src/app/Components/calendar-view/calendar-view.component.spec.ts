@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CalendarViewComponent } from './calendar-view.component';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('CalendarViewComponent', () => {
   let component: CalendarViewComponent;
@@ -8,7 +10,8 @@ describe('CalendarViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CalendarViewComponent ]
+      declarations: [ CalendarViewComponent ],
+      imports:[HttpClientTestingModule]
     })
     .compileComponents();
   }));
@@ -22,4 +25,11 @@ describe('CalendarViewComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should render', () => {
+    fixture = TestBed.createComponent(CalendarViewComponent);
+    component = fixture.componentInstance;
+    const compiled = fixture.nativeElement;
+    expect(compiled).toBeTruthy();
+  })
 });
