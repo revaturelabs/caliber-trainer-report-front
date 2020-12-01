@@ -50,6 +50,7 @@ FullCalendarModule.registerPlugins([
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,

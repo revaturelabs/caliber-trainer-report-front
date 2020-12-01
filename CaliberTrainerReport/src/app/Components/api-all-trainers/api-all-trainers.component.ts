@@ -28,7 +28,7 @@ export class ApiAllTrainersComponent implements OnInit {
 
   mockData: string;
 
-  constructor(private trainerService: GetTrainerService, private batchService: GetBatchService, private qcs: GetQcNoteService, private as: GetAssessmentService, private cs: GetCategoryService, private sendJsonService : SendJSONAsStringService) { }
+  constructor(private trainerService: GetTrainerService, private batchService: GetBatchService, private qcs: GetQcNoteService, private as: GetAssessmentService, private cs: GetCategoryService, private sendJsonService : SendJSONAsStringService, private urls : UrlService) { }
 
   ngOnInit(): void {
     this.getAllTrainers();
@@ -63,11 +63,13 @@ export class ApiAllTrainersComponent implements OnInit {
     let batchIds: string[];
     let batches: Batch[] = [];
 
+    // Error Message if there is a server or client side error
+    // Creates an XMLHttpRequest and attempts a get request, then reads the request status
+
     var request; 
     if(window.XMLHttpRequest) 
       request = new XMLHttpRequest(); 
-      
-    request.open('GET', 'http://3.236.244.228:8081/excaliber/', false);
+    request.open('GET', this.urls.getUrl, false);
     request.send();
     if (request.status < 500 && request.status > 399 ) { alert("400 Level Error / Client Side Error: The page you are trying to reach is not available."); }
     else if (request.status < 600 && request.status > 499 ) { alert("500 Level Error / Server Side Error: The page you are trying to reach is not available."); }
@@ -127,6 +129,7 @@ export class ApiAllTrainersComponent implements OnInit {
                           // console.log("Current JSON: " + JSON.stringify(temp));
                         },
                         (response5) => {
+                          alert("Category request failed");
                           console.log("Category request failed");
                           this.mockData = 'fail';
                         }
@@ -159,12 +162,14 @@ export class ApiAllTrainersComponent implements OnInit {
                                 },
                                 async (response9) => {
                                   assessments[j].average = 0;
+                                  alert("Grade average request failed");
                                   console.log("Grade average request failed");
                                   this.mockData = 'fail';
                                 }
                               );
                             },
                             (response10) => {
+                              alert("Category request failed");
                               console.log("Category request failed");
                               this.mockData = 'fail';
                             }
@@ -179,6 +184,7 @@ export class ApiAllTrainersComponent implements OnInit {
                       
                       },
                       (response11) => {
+                        alert("Assessment request failed");
                         console.log("Assessment request failed");
                         this.mockData = 'fail';
                       }
@@ -187,6 +193,7 @@ export class ApiAllTrainersComponent implements OnInit {
                   this.allData.batches = tempBatches;
                 },
                 (response12) => {
+                  alert("QCNote request failed");
                   console.log("QCNote request failed");
                   this.mockData = 'fail';
                 }
@@ -197,6 +204,7 @@ export class ApiAllTrainersComponent implements OnInit {
             },
             (response13) => {
               success = false;
+              alert("Batch request failed");
               console.log("Batch request failed");
               this.mockData = 'fail';
             }
@@ -209,6 +217,7 @@ export class ApiAllTrainersComponent implements OnInit {
         }
       },
       (response) => {
+        alert("IDs request failed");
         console.log("IDs request failed");
         this.mockData = 'fail';
       }
