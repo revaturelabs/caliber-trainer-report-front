@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { GetTrainerService } from 'src/app/services/get-trainer.service';
 import { Trainer } from 'src/app/class/trainer';
-
+import { MockDataReturnService } from 'src/app/services/mock-data-return.service';
+import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/style-transforms';
 import { GetBatchService } from 'src/app/services/get-batch.service';
 import { Batch } from 'src/app/class/batch';
 import { GetQcNoteService } from 'src/app/services/get-qc-note.service';
 import { QCNote } from 'src/app/class/QCNote';
+import { Category } from 'src/app/class/category';
 import { GetAssessmentService } from 'src/app/services/get-assessment.service';
 import { Assessment } from 'src/app/class/assessment';
 import { GetCategoryService } from 'src/app/services/get-category.service';
@@ -37,8 +39,11 @@ export class ApiAllTrainersComponent implements OnInit {
   getAllTrainers() {
     this.trainerService.getAllTrainers().subscribe(
       (response) => {
-        console.log(response);
         this.trainers = response;
+        this.trainers.push({email:"none",firstName:"Mock 2000",lastName:"Employee 2000",tier:"ROLE_LEAD_TRAINER",trainingBatches:[]})
+        console.log("All trainers:");
+        console.log(this.trainers);
+        if (this.trainers.length == 0) {this.mockData = 'fail-no-trainers';console.log("No trainer data");}        
       },
       (response) => {
         this.mockData = 'fail-caliber-unreached';
@@ -69,10 +74,10 @@ export class ApiAllTrainersComponent implements OnInit {
     var request; 
     if(window.XMLHttpRequest) 
       request = new XMLHttpRequest(); 
-    request.open('GET', this.urls.getUrl, false);
+    request.open('GET', 'http://localhost:4200', false);
     request.send();
-    if (request.status < 500 && request.status > 399 ) { alert("400 Level Error / Client Side Error: The page you are trying to reach is not available."); }
-    else if (request.status < 600 && request.status > 499 ) { alert("500 Level Error / Server Side Error: The page you are trying to reach is not available."); }
+    if (request.status < 500 && request.status > 399 ) { this.mockData = 'fail-400'; }
+    else if (request.status < 600 && request.status > 499 ) { this.mockData = 'fail-500'; }
     
     try{
 
@@ -83,14 +88,17 @@ export class ApiAllTrainersComponent implements OnInit {
         console.log("Response with all batch ids: ");
         console.log(response);
         batchIds = response;
+
+        if (batchIds.length == 0) {this.mockData = 'fail-no-batches';console.log("Trainer has no batches.");}        
+
         let temp;
         let success: boolean = true;
         
         for (let id of batchIds) { //Get each batch by id
           await this.batchService.getPromiseBatchById(id).then(
 
-            async (response2) => {
-              let batch = response2;
+            async (response) => {
+              let batch = response;
               temp = {
                 "id": batch.id,
                 "batchId": batch.batchId,
@@ -105,18 +113,18 @@ export class ApiAllTrainersComponent implements OnInit {
               }
 
               await this.qcs.getPromiseQCNotesByBatchId(id).then(
-                async (response3) => { //Get all notes for this batch
-                  let tempNotes: QCNote[] = response3;
+                async (response) => { //Get all notes for this batch
+                  let tempNotes: QCNote[] = response;
                   let tempNote;
                   let cat;
                  
                     for (let note of tempNotes) {
                       await this.qcs.getCategoryByBatchIdAndWeek(id, note.week).toPromise().then(
-                        async (response4) => { 
+                        async (response) => { 
   
                           tempNote = note;
                           tempNote.categories = [];
-                          cat = response4;
+                          cat = response;
                           if (cat != null) {
                             for (let c of cat) { //For each category, add the category to the array found in the batch
                               if (c != null && !tempNote.categories.includes(c.skillCategory)) {
@@ -128,8 +136,7 @@ export class ApiAllTrainersComponent implements OnInit {
                           await temp.qcNotes.push(tempNote);
                           // console.log("Current JSON: " + JSON.stringify(temp));
                         },
-                        (response5) => {
-                          alert("Category request failed");
+                        (response) => {
                           console.log("Category request failed");
                           this.mockData = 'fail';
                         }
@@ -142,49 +149,46 @@ export class ApiAllTrainersComponent implements OnInit {
                   for (let i = 0; i < batch.currentWeek; i++) {
                     await this.as.getPromiseAssessmentsByWeekAndBatchId(id, i + 1).then(
                       // Works
-                      async (response6) => {
+                      async (response) => {
                         
-                        let assessments: Assessment[] = response6;
+                        let assessments: Assessment[] = response;
 
-                        for (let j = 0; j < assessments.length; j++) {
-                           await this.cs.getPromiseCategoryById(assessments[j].assessmentCategory).then(
+                        for (let i = 0; i < assessments.length; i++) {
+                           await this.cs.getPromiseCategoryById(assessments[i].assessmentCategory).then(
                             // Works
-                            async (response7) => {
-                              console.log("skill category");
-                              assessments[j].skillCategory = response7.skillCategory;
-                              console.log(assessments[j].skillCategory);
+                            async (response) => {
+                              //console.log("skill category");
+                              assessments[i].skillCategory = response.skillCategory;
+                              //console.log(assessments[i].skillCategory);
 
-                              await this.as.getAverageGradeByAssessment(assessments[j].assessmentId).toPromise().then(
+                              await this.as.getAverageGradeByAssessment(assessments[i].assessmentId).toPromise().then(
                                 // Does NOT work, needs more path variables?
-                                async (response8) => {
+                                async (response) => {
                                   
-                                  assessments[j].average = response8;
+                                  assessments[i].average = response;
                                 },
-                                async (response9) => {
-                                  assessments[j].average = 0;
-                                  alert("Grade average request failed");
+                                async (response) => {
+                                  assessments[i].average = 0;
                                   console.log("Grade average request failed");
                                   this.mockData = 'fail';
                                 }
                               );
                             },
-                            (response10) => {
-                              alert("Category request failed");
+                            (response) => {
                               console.log("Category request failed");
                               this.mockData = 'fail';
                             }
                           );
                           
                         }
-                        console.log("ASSESSMENTS: ")
-                        console.log(assessments);
+                        //console.log("ASSESSMENTS: ")
+                        //console.log(assessments);
                         for(let a of assessments){
                           temp.assessments.push(a);
                         }
                       
                       },
-                      (response11) => {
-                        alert("Assessment request failed");
+                      (response) => { 
                         console.log("Assessment request failed");
                         this.mockData = 'fail';
                       }
@@ -192,19 +196,17 @@ export class ApiAllTrainersComponent implements OnInit {
                   }
                   this.allData.batches = tempBatches;
                 },
-                (response12) => {
-                  alert("QCNote request failed");
+                (response) => {
                   console.log("QCNote request failed");
                   this.mockData = 'fail';
                 }
               );
-              console.log("Temp obj");
+              //console.log("Temp obj");
               console.log(temp);
               this.allData.batches.push(temp);
             },
-            (response13) => {
+            (response) => {
               success = false;
-              alert("Batch request failed");
               console.log("Batch request failed");
               this.mockData = 'fail';
             }
@@ -217,11 +219,11 @@ export class ApiAllTrainersComponent implements OnInit {
         }
       },
       (response) => {
-        alert("IDs request failed");
         console.log("IDs request failed");
         this.mockData = 'fail';
       }
     );
+    if (this.mockData == 'loading') {
     console.log(this.allData);
     this.sendJsonService.sendJSON(JSON.stringify(this.allData)).subscribe(
       (response) => {
@@ -232,7 +234,7 @@ export class ApiAllTrainersComponent implements OnInit {
         console.log(response);
         this.mockData = 'fail';
       }
-    );
+    ); }
     } catch (miscFailure){
       this.mockData = 'fail';
     }
