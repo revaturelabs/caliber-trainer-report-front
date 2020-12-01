@@ -9,7 +9,7 @@ import { QcTechnicalScoresByCategoryAcrossBatchesComponent } from './qc-technica
 
 let mockResponse; 
 
-fdescribe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
+describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
   let component: QcTechnicalScoresByCategoryAcrossBatchesComponent;
   let fixture: ComponentFixture<QcTechnicalScoresByCategoryAcrossBatchesComponent>;
 

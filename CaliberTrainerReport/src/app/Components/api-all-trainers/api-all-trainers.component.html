@@ -19,6 +19,14 @@
         Error: Failed to load data.
     </div>
 
+    <div class="alert alert-danger" role="alert" *ngIf = "mockData == 'fail-caliber-unreached' " >
+        Error: Failed to load data: Could not reach Caliber.
+    </div>
+
+    <div class="alert alert-danger" role="alert" *ngIf = "mockData == 'fail-data-unavailable' " >
+        Error: Failed to load data: No data available.
+    </div>
+
 
 </div>
     

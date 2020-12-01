@@ -6,26 +6,25 @@ import { Injectable } from '@angular/core';
 export class DisplayQcAverageGraphService {
 
   constructor() { }
-  graphAdjust(element, selectVal, isBig) {
-    if (selectVal === 'all') { // components
+  graphAdjust(windowSize, selected, largeWindow) {
+    if (selected === 'all') { // components
       const width = window.innerWidth;
       if (width < 1281) {
-        // FOR MOBILE PHONE
-        isBig = false;
-        element.style.width = '80vw';
-        // FOR ULTRA WIDE
+        // FOR MOBILE PHONE window
+        largeWindow = false;
+        windowSize.style.width = '80vw';
       } else if (width > 1940) {
-        isBig = true;
-        element.style.width = '30vw';
+        largeWindow = true;
+        windowSize.style.width = '30vw';
       } else {
-        isBig = true;
-        element.style.width = '45vw';
+        largeWindow = true;
+        windowSize.style.width = '45vw';
       }
-      return isBig;
+      return largeWindow;
     } else { // indiv components
-      element.style.width = '60vw';
+      windowSize.style.width = '60vw';
     }
-    return isBig;
+    return largeWindow;
     }
 
     graphOptions(titleText) {
@@ -39,7 +38,24 @@ export class DisplayQcAverageGraphService {
                 stepSize: 1,
                 suggestedMax: 4,
                 callback(value) {
-                  return value;
+                  switch (value){
+                    case 1:
+                      return ( 
+                      'Poor' 
+                    );
+                    case 2: 
+                      return ( 
+                      'Average' 
+                    );
+                    case 3:
+                      return (
+                        'Good' 
+                      ); 
+                    case 4:
+                      return ( 
+                        'Superstar' 
+                      );
+                  }
                 },
               },
             },

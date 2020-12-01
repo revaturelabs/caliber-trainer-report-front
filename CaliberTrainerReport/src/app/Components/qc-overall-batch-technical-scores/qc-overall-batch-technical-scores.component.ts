@@ -1,9 +1,8 @@
-import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
 import { TechnicalStatusPerBatchService } from 'src/app/services/TechnicalStatusPerBatch.service';
 import { Chart } from 'node_modules/chart.js';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
-import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 
 @Component({
@@ -46,7 +45,6 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit{
 
     let trainerId = sessionStorage.getItem("selectedId");
     
-    let gA1:any[] = JSON.parse(sessionStorage.getItem("gA1"+trainerId));
 
     // This method receives the JSON object from the URL GET request
     
@@ -136,7 +134,6 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit{
         let graphArray: any[] = [this.batchNames, this.poorData, this.averageData, this.goodData, 
                                   this.superstarData, this.nullData, this.batchNames, this.technicalStatus, 
                                   rawDataArray];
-        let trainerId = sessionStorage.getItem("selectedId");
         sessionStorage.setItem("gA1"+trainerId, JSON.stringify(graphArray));
         // This actually passes the data to display the graph after receiving the data from the observables
         this.displayGraphAll(
