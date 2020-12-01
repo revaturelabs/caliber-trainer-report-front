@@ -67,7 +67,6 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
             this.batchAverages[i] = batch_avg;
             console.log("Batch " + i + ": avg: " + batch_avg)
         }
-        let trainerId: string = sessionStorage.getItem("selectedId");
         sessionStorage.setItem("reviewPageAvgTotal" + trainerId, JSON.stringify(reviewPageAvgTotal));
 
         this.displayGraph(this.batchNames, this.batchAverages);
