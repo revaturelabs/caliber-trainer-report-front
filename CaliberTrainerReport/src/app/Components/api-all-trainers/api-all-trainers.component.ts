@@ -30,7 +30,7 @@ export class ApiAllTrainersComponent implements OnInit {
 
   mockData: string;
 
-  constructor(private trainerService: GetTrainerService, private batchService: GetBatchService, private qcs: GetQcNoteService, private as: GetAssessmentService, private cs: GetCategoryService, private sendJsonService : SendJSONAsStringService) { }
+  constructor(private trainerService: GetTrainerService, private batchService: GetBatchService, private qcs: GetQcNoteService, private as: GetAssessmentService, private cs: GetCategoryService, private sendJsonService : SendJSONAsStringService, private urls : UrlService) { }
 
   ngOnInit(): void {
     this.getAllTrainers();
@@ -68,8 +68,7 @@ export class ApiAllTrainersComponent implements OnInit {
     var request; 
     if(window.XMLHttpRequest) 
       request = new XMLHttpRequest(); 
-      
-    request.open('GET', 'http://3.236.244.228:8081/excaliber/', false);
+    request.open('GET', this.urls.getUrl, false);
     request.send();
     if (request.status < 500 && request.status > 399 ) { alert("400 Level Error / Client Side Error: The page you are trying to reach is not available."); }
     else if (request.status < 600 && request.status > 499 ) { alert("500 Level Error / Server Side Error: The page you are trying to reach is not available."); }
