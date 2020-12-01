@@ -25,4 +25,11 @@ describe('CalendarViewComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should render', () => {
+    fixture = TestBed.createComponent(CalendarViewComponent);
+    component = fixture.componentInstance;
+    const compiled = fixture.nativeElement;
+    expect(compiled).toBeTruthy();
+  })
 });
