@@ -1,7 +1,6 @@
-import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ApiAllTrainersComponent } from './api-all-trainers.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ApiAllTrainersComponent', () => {
   let component: ApiAllTrainersComponent;
@@ -9,8 +8,8 @@ describe('ApiAllTrainersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ApiAllTrainersComponent ],
-      imports: [HttpClientModule]
+      declarations: [ ApiAllTrainersComponent],
+      imports:[HttpClientTestingModule]
     })
     .compileComponents();
   }));

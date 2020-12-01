@@ -21,7 +21,7 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
   // Dealing with Scalability
   width: number;
   isBig: boolean;
-  constructor(private AssessmentByBatchService: AssessmentByBatchService,
+  constructor(private assessmentByBatchService: AssessmentByBatchService,
     private displayGraphService: DisplayGraphService
   ) { }
 
@@ -33,22 +33,13 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
     this.pickedBatch = 0;
     let trainerId: string = sessionStorage.getItem("selectedId");
 
-    let reviewPageAvgTotal: any[]= JSON.parse(sessionStorage.getItem("reviewPageAvgTotal" + trainerId));
+    //let reviewPageAvgTotal: any[]= JSON.parse(sessionStorage.getItem("reviewPageAvgTotal" + trainerId));
 
     // Performance workaround to prevent constantly loading from DB.
-    if(reviewPageAvgTotal != null && !reviewPageAvgTotal.includes(null) && false){
-      console.log("ACCESSING SESSION STORAGE");
-      
-      this.allBatches = JSON.parse(JSON.stringify(reviewPageAvgTotal))[1];
-      this.batchNames = JSON.parse(JSON.stringify(reviewPageAvgTotal))[2];
-      console.log(this.batchNames);
-      this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
-      //this.displayGraph(this.batchesObj);
-
-    } else {
-      console.log("ACESSING DB");
+   
+     
     
-      this.AssessmentByBatchServiceSubscription = this.AssessmentByBatchService.getAssessmentByBatch().subscribe((resp) => {
+      this.AssessmentByBatchServiceSubscription = this.assessmentByBatchService.getAssessmentByBatch().subscribe((resp) => {
         this.allBatches = resp;
         for (const i of this.allBatches.keys()) {
           for (const [j, value] of this.allBatches[i].assessmentScores.entries()) {
@@ -64,26 +55,23 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
         this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
 
         let reviewPageAvgTotal = [this.batchesObj, this.allBatches, this.batchNames];
-        console.log("batchNames Info: " + this.batchNames)
         for (const i of this.allBatches.keys()) {
             let batch_total = 0;
             let batch_avg = 0;
             for (let j=0; j<this.allBatches[i].assessmentScores.length; j++){
-              console.log("allBatches[" + i + "] = " + this.allBatches[i].assessmentScores[j])
+              
               batch_total = batch_total + this.allBatches[i].assessmentScores[j];
               batch_avg = batch_total/(j+1);
             }
             batch_avg = Math.round(batch_avg * 100) / 100;
             this.batchAverages[i] = batch_avg;
-            console.log("Batch " + i + ": avg: " + batch_avg)
+            
         }
-        let trainerId: string = sessionStorage.getItem("selectedId");
         sessionStorage.setItem("reviewPageAvgTotal" + trainerId, JSON.stringify(reviewPageAvgTotal));
 
         this.displayGraph(this.batchNames, this.batchAverages);
       });
 
-    }
   }
 
   displayGraph(batchDisplayNames: string[], batchAverages: any[]) {
@@ -98,7 +86,6 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
       '#FF00FF', '#800000',
       '#00FF00', '#00CED1',]
 
-      const graphText = 'QC Average Batch Score';
       this.myLineChart = new Chart('totalAvgAssessmentChart', {
         type: 'bar',
         data: {

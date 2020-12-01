@@ -28,7 +28,7 @@
                 <tr><td class="description project-text">Project</td> <td class="leftColumnStyle" *ngFor="let project of projectRawScores0">{{project}}</td></tr>
                 <tr><td class="description other-text">Other</td> <td class="leftColumnStyle" *ngFor="let other of otherRawScores0">{{other}}</td></tr>
             </table>
-            <table class = "table table-sm">
+            <table class = "table table-sm" *ngIf="categories15 && categories15.length > 0">
                 <caption></caption>
                 <th scope="col"></th>
                 <th scope="col" *ngFor="let category of categories15; let i = index">{{category}}</th>

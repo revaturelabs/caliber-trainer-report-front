@@ -1,14 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {DebugElement} from '@angular/core';
 import { ReviewPageAvgQcScoreComponent } from './review-page-avg-qc-score.component';
-
+import { HttpClientModule } from '@angular/common/http';
 describe('ReviewPageAvgQcScoreComponent', () => {
   let component: ReviewPageAvgQcScoreComponent;
   let fixture: ComponentFixture<ReviewPageAvgQcScoreComponent>;
-
+  let de: DebugElement;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReviewPageAvgQcScoreComponent ]
+      declarations: [ ReviewPageAvgQcScoreComponent ],
+      imports: [HttpClientModule]
     })
     .compileComponents();
   }));
@@ -21,5 +22,13 @@ describe('ReviewPageAvgQcScoreComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  
+  it('chart should be undefined at start', () =>{
+    expect(component.avgQCGraph).toBeUndefined();
+  });
+
+  it('graph should be displayed', () =>{
+    expect(component.displayGraph).toHaveBeenCalled;
   });
 });

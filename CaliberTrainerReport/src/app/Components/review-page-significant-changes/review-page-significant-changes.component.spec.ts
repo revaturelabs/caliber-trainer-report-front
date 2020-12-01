@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReviewPageSignificantChangesComponent } from './review-page-significant-changes.component';
@@ -8,7 +9,8 @@ describe('ReviewPageSignificantChangesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReviewPageSignificantChangesComponent ]
+      declarations: [ ReviewPageSignificantChangesComponent ],
+      imports:[HttpClientTestingModule]
     })
     .compileComponents();
   }));

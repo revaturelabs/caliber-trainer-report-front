@@ -1,4 +1,4 @@
-import { Batch } from './Batch';
+import { Batch } from './batch';
 
 describe('Batch', () => {
   it('should create an instance', () => {

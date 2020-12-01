@@ -1,5 +1,5 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ProgressPage } from './progress.component';
 
 describe('ProgressPage', () => {
@@ -8,7 +8,8 @@ describe('ProgressPage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProgressPage ]
+      declarations: [ ProgressPage ],
+      imports:[HttpClientTestingModule]
     })
     .compileComponents();
   }));
@@ -22,4 +23,6 @@ describe('ProgressPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+
 });
