@@ -1,6 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ProgressPage } from './progress.component';
 
 describe('ProgressPage', () => {
@@ -25,5 +24,5 @@ describe('ProgressPage', () => {
     expect(component).toBeTruthy();
   });
 
-  
+
 });
