@@ -33,9 +33,4 @@ describe('AppComponent', () => {
   it(`should have as title 'CaliberTrainerReport'`, () => {
     expect(component.title).toEqual('CaliberTrainerReport');
   });
-
-  it('should render title', () => {
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('CaliberTrainerReport app is running!');
-  });
 });
