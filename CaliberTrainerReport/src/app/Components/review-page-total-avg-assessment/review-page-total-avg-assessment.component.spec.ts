@@ -3,8 +3,7 @@ import {DebugElement} from '@angular/core';
 import { ReviewPageTotalAvgAssessmentComponent } from './review-page-total-avg-assessment.component';
 import { HttpClientModule } from '@angular/common/http';
 import {By} from '@angular/platform-browser';
-import { of } from 'rxjs';
-import { AssessmentByBatchService } from 'src/app/services/AssessmentByBatch.service';
+
 
 describe('ReviewPageTotalAvgAssessmentComponent', () => {
   let component: ReviewPageTotalAvgAssessmentComponent;
