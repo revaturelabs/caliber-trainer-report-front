@@ -65,6 +65,9 @@ export class ApiAllTrainersComponent implements OnInit {
     let batchIds: string[];
     let batches: Batch[] = [];
 
+    // Error Message if there is a server or client side error
+    // Creates an XMLHttpRequest and attempts a get request, then reads the request status
+
     var request; 
     if(window.XMLHttpRequest) 
       request = new XMLHttpRequest(); 
