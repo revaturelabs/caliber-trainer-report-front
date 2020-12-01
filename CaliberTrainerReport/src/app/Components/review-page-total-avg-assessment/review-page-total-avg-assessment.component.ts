@@ -33,11 +33,11 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
     this.pickedBatch = 0;
     let trainerId: string = sessionStorage.getItem("selectedId");
 
-    let reviewPageAvgTotal: any[]= JSON.parse(sessionStorage.getItem("reviewPageAvgTotal" + trainerId));
+    //let reviewPageAvgTotal: any[]= JSON.parse(sessionStorage.getItem("reviewPageAvgTotal" + trainerId));
 
     // Performance workaround to prevent constantly loading from DB.
    
-      console.log("ACESSING DB");
+     
     
       this.AssessmentByBatchServiceSubscription = this.assessmentByBatchService.getAssessmentByBatch().subscribe((resp) => {
         this.allBatches = resp;
@@ -59,13 +59,13 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
             let batch_total = 0;
             let batch_avg = 0;
             for (let j=0; j<this.allBatches[i].assessmentScores.length; j++){
-              console.log("allBatches[" + i + "] = " + this.allBatches[i].assessmentScores[j])
+              
               batch_total = batch_total + this.allBatches[i].assessmentScores[j];
               batch_avg = batch_total/(j+1);
             }
             batch_avg = Math.round(batch_avg * 100) / 100;
             this.batchAverages[i] = batch_avg;
-            console.log("Batch " + i + ": avg: " + batch_avg)
+            
         }
         sessionStorage.setItem("reviewPageAvgTotal" + trainerId, JSON.stringify(reviewPageAvgTotal));
 
