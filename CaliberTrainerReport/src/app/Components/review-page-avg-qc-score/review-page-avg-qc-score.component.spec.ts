@@ -5,14 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 describe('ReviewPageAvgQcScoreComponent', () => {
   let component: ReviewPageAvgQcScoreComponent;
   let fixture: ComponentFixture<ReviewPageAvgQcScoreComponent>;
-  let batch = {
-    score: {
-      poor: 4,
-      average: 10,
-      good: 7,
-      superstar: 2
-    }
-  }
   let de: DebugElement;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
