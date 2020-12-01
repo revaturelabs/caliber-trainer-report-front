@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { FilterBatch } from 'src/app/utility/FilterBatch';
 
-
 @Component({
   selector: 'app-qc-technical-scores-by-category-across-batches',
   templateUrl: './qc-technical-scores-by-category-across-batches.component.html',

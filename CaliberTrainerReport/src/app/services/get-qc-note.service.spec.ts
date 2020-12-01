@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
 import { GetQcNoteService } from './get-qc-note.service';
-import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('GetQcNoteService', () => {
