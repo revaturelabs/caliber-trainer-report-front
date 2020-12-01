@@ -1,0 +1,40 @@
+<div class="card-layout">
+    <div class="card-title">
+        <span>Best and Worst Categories by QC</span>
+        <fa-icon class="barGraphIcon" [icon]="scaleIcon"></fa-icon>
+    </div>
+    <div class="card-body">
+        <div class="row best-worst">
+            <div class="category">
+                <div class="category-title">
+
+                    <fa-icon class="titleicon" [icon]="goodIcon"></fa-icon>
+
+                    <div style="flex: 2;">
+                        <span>Best Categories</span>
+                    </div>
+                    <fa-icon class="titleicon" [icon]="goodIcon"></fa-icon>
+
+                </div>
+                <div class="cat-results best">
+                        <p *ngFor="let cat of bestCategories">{{cat}}</p>
+                </div>
+            </div>
+            <div class="category">
+                <div class="category-title">
+
+                    <fa-icon class="titleicon" [icon]="badIcon"></fa-icon>
+
+                    <div style="flex: 2;">
+                        <span>Worst Categories</span>
+                    </div>
+                    <fa-icon class="titleicon" [icon]="badIcon"></fa-icon>
+
+                </div>
+                <div class="cat-results worst">
+                        <p *ngFor="let cat of worstCategories">{{cat}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

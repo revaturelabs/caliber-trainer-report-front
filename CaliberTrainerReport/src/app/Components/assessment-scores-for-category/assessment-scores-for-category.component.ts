@@ -53,51 +53,7 @@ export class AssessmentScoresForCategoryComponent
 
     this.pickedCategory = 0;
     let trainerId: string = sessionStorage.getItem("selectedId");
-    let gA6: any[]=JSON.parse(sessionStorage.getItem("graphArray6" + trainerId));
- 
-    if(gA6 != null && !gA6.includes(null) && false){
-      console.log("yvalues from session ");
-      this.categoriesName = gA6[2];
-      this.categoriesObj = gA6[3];
-      this.batchNames = gA6[0];
-      this.yValues = gA6[1];
-      if(this.pickedCategory == 0){
 
-        this.categoriesObj.forEach( c => {
-          
-          for (const stuff of c) {
-            let total = 0;
-            for (const indivScore of stuff.assessments) {
-              total += indivScore;
-            }
-            if (isNaN(total / stuff.assessments.length)) {
-              this.yValues.push(0);
-            } else {
-              this.yValues.push(
-                Math.round((total / stuff.assessments.length) * 100) / 100
-              );
-            }
-
-          }
-          this.multiGraphYValues.push(JSON.parse(JSON.stringify(this.yValues)));
-          this.yValues=[];
-        });
-        // console.log(this.multiGraphYValues);
-        
-
-        
-      }
-
-      
-
-      this.displayGraph(gA6[0], gA6[1]);
-
-
-
-
-    } else {
-
-    
     this.AssessScoresByCategoryAllBatchesServiceSubscription = this.assessScoresByCategoryAllBatchesService
       .getSixthGraphData()
       .subscribe((resp) => {
@@ -153,12 +109,11 @@ export class AssessmentScoresForCategoryComponent
         this.categoriesObj.unshift(resp.categories[0].batchAssessments);
 
         let graphArray = [this.batchNames, this.yValues, this.categoriesName, this.categoriesObj];
-        let trainerId: string = sessionStorage.getItem("selectedId");
         sessionStorage.setItem("graphArray6" + trainerId, JSON.stringify(graphArray));
         this.displayGraph(this.batchNames, this.yValues);
       });
 
-    }
+    
   }
 
   updateGraph() {
@@ -202,7 +157,7 @@ export class AssessmentScoresForCategoryComponent
       }
     }
 
-  };
+  }
     
 
 
@@ -295,7 +250,7 @@ export class AssessmentScoresForCategoryComponent
     } else {
 
     
-    let lineColor:string = colorArray[this.pickedCategory-1];
+    let lineColor:string = colorArray[(this.pickedCategory-1) % colorArray.length];
 
     this.myLineChart = new Chart('sixthChart', {
       type: 'line',
