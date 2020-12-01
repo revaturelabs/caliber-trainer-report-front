@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Trainer } from '../class/trainer';
 
 @Injectable({
@@ -8511,7 +8510,7 @@ export class MockDataReturnService {
       "tier": "ROLE_LEAD_TRAINER"
     }];
 
-    getAllMockTrainers() : Observable<Trainer[]> {
+    getAllMockTrainers() : any[] {
       // sessionStorage.setItem("currentTrainers", JSON.stringify(this.trainers));
       return this.trainers;
     }
