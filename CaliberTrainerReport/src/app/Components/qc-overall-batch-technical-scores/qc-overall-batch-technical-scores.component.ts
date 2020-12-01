@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
 import { TechnicalStatusPerBatchService } from 'src/app/services/TechnicalStatusPerBatch.service';
 import { Chart } from 'node_modules/chart.js';

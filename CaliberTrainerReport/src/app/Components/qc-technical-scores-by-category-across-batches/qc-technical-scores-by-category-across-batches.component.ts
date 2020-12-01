@@ -161,7 +161,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
             Math.round((totalValue / quantity) * 100) / 100
           );
         } 
-      };
+      }
       this.cumulativePoor.push(this.poorRawScore);
       this.poorRawScore = [];
       this.cumulativeGood.push(this.goodRawScore);
