@@ -14,16 +14,6 @@ describe('ReviewQcBestWorstComponent', () => {
       superstar: 2
     }
   }
-  let categories = {
-    Java: 3.4,
-    Junit: 2.5,
-    AWS: 2.0,
-    Mockito: 2.3,
-    REST: 3.4,
-    Angular: 3.0,
-    DevOps: 3.4,
-    Cucumber: 2.0
-  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
