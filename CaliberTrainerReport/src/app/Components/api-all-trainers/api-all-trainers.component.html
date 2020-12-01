@@ -39,7 +39,29 @@
         Error: Selected trainer has no batches.
     </div>
 
+    <div class="alert alert-danger" role="alert" *ngIf = "mockData == 'fail-IDs' " >
+        Error: Could not get IDs.
+    </div>
 
+    <div class="alert alert-danger" role="alert" *ngIf = "mockData == 'fail-Batch request' " >
+        Error: Could not get Batches.
+    </div>
+
+    <div class="alert alert-danger" role="alert" *ngIf = "mockData == 'fail-QCNote' " >
+        Error: Could not get QC Notes.
+    </div>
+
+    <div class="alert alert-danger" role="alert" *ngIf = "mockData == 'fail-Assessment request' " >
+        Error: Could not get Assessments.
+    </div>
+
+    <div class="alert alert-danger" role="alert" *ngIf = "mockData == 'fail-Category request' " >
+        Error: Could not get Category.
+    </div>
+
+    <div class="alert alert-danger" role="alert" *ngIf = "mockData == 'fail-Grade average' " >
+        Error: Could not get grade average.
+    </div>
 </div>
     
 
