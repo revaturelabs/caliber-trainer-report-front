@@ -43,6 +43,7 @@ export class ApiAllTrainersComponent implements OnInit {
         this.trainers = response;
       },
       (response) => {
+        this.mockData = 'fail-caliber-unreached';
         console.log("Request failed");
       }
     )
@@ -225,7 +226,7 @@ export class ApiAllTrainersComponent implements OnInit {
         this.mockData = 'fail';
       }
     );
-    } catch (cool){
+    } catch (miscFailure){
       this.mockData = 'fail';
     }
     
