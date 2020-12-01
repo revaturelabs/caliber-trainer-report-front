@@ -10,6 +10,7 @@ import { GetAssessmentService } from 'src/app/services/get-assessment.service';
 import { Assessment } from 'src/app/class/assessment';
 import { GetCategoryService } from 'src/app/services/get-category.service';
 import { SendJSONAsStringService } from 'src/app/services/send-json-as-string.service';
+import { UrlService } from 'src/app/services/url.service';
 
 @Component({
   selector: 'app-api-all-trainers',
@@ -40,6 +41,7 @@ export class ApiAllTrainersComponent implements OnInit {
         this.trainers = response;
       },
       (response) => {
+        this.mockData = 'fail-caliber-unreached';
         console.log("Request failed");
       }
     )
@@ -61,6 +63,15 @@ export class ApiAllTrainersComponent implements OnInit {
     let batchIds: string[];
     let batches: Batch[] = [];
 
+    var request; 
+    if(window.XMLHttpRequest) 
+      request = new XMLHttpRequest(); 
+      
+    request.open('GET', 'http://3.236.244.228:8081/excaliber/', false);
+    request.send();
+    if (request.status < 500 && request.status > 399 ) { alert("400 Level Error / Client Side Error: The page you are trying to reach is not available."); }
+    else if (request.status < 600 && request.status > 499 ) { alert("500 Level Error / Server Side Error: The page you are trying to reach is not available."); }
+    
     try{
 
     
@@ -213,7 +224,7 @@ export class ApiAllTrainersComponent implements OnInit {
         this.mockData = 'fail';
       }
     );
-    } catch (cool){
+    } catch (miscFailure){
       this.mockData = 'fail';
     }
     
