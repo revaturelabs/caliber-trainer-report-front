@@ -134,7 +134,6 @@ export class ApiAllTrainersComponent implements OnInit {
                             // console.log("Current JSON: " + JSON.stringify(temp));
                           },
                           (response4) => {
-                            console.log("Category request failed");
                             this.mockData = 'fail-Category request';
                           }
                         );
@@ -166,27 +165,22 @@ export class ApiAllTrainersComponent implements OnInit {
                                   },
                                   async (response7) => {
                                     assessments[j].average = 0;
-                                    console.log("Grade average request failed");
                                     this.mockData = 'fail-Grade average';
                                   }
                                 );
                               },
                               (response6) => {
-                                console.log("Category request failed");
                                 this.mockData = 'fail-Category request';
                               }
                             );
                             
                           }
-                          //console.log("ASSESSMENTS: ")
-                          //console.log(assessments);
                           for(let a of assessments){
                             temp.assessments.push(a);
                           }
                         
                         },
                         (response5) => { 
-                          console.log("Assessment request failed");
                           this.mockData = 'fail-Assessment request';
                         }
                       );
@@ -194,7 +188,6 @@ export class ApiAllTrainersComponent implements OnInit {
                     this.allData.batches = tempBatches;
                   },
                   (response3) => {
-                    console.log("QCNote request failed");
                     this.mockData = 'fail-QCNote';
                   }
                 );
@@ -204,7 +197,6 @@ export class ApiAllTrainersComponent implements OnInit {
               },
               (response2) => {
                 success = false;
-                console.log("Batch request failed");
                 this.mockData = 'fail-Batch request';
               }
             );
@@ -216,7 +208,6 @@ export class ApiAllTrainersComponent implements OnInit {
           }
         },
         (response) => {
-          console.log("IDs request failed");
           this.mockData = 'fail-IDs';
         }
       );
