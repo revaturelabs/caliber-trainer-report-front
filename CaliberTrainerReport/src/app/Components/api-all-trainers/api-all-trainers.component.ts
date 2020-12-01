@@ -13,6 +13,7 @@ import { Assessment } from 'src/app/class/assessment';
 import { GetCategoryService } from 'src/app/services/get-category.service';
 import { SendJSONAsStringService } from 'src/app/services/send-json-as-string.service';
 import { UrlService } from 'src/app/services/url.service';
+import {MAT_SNACK_BAR_DATA} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-api-all-trainers',
@@ -131,6 +132,7 @@ export class ApiAllTrainersComponent implements OnInit {
                           // console.log("Current JSON: " + JSON.stringify(temp));
                         },
                         (response) => {
+                          let snackBarRef = snackBar.open('Category request failed');
                           console.log("Category request failed");
                           this.mockData = 'fail';
                         }
@@ -163,12 +165,14 @@ export class ApiAllTrainersComponent implements OnInit {
                                 },
                                 async (response) => {
                                   assessments[i].average = 0;
+                                  let snackBarRef = snackBar.open('Grade average request failed');
                                   console.log("Grade average request failed");
                                   this.mockData = 'fail';
                                 }
                               );
                             },
                             (response) => {
+                              let snackBarRef = snackBar.open('Category request failed');
                               console.log("Category request failed");
                               this.mockData = 'fail';
                             }
@@ -182,7 +186,8 @@ export class ApiAllTrainersComponent implements OnInit {
                         }
                       
                       },
-                      (response) => {
+                      (response) => { 
+                       let snackBarRef = snackBar.open('Assessment request failed');
                         console.log("Assessment request failed");
                         this.mockData = 'fail';
                       }
@@ -191,6 +196,7 @@ export class ApiAllTrainersComponent implements OnInit {
                   this.allData.batches = tempBatches;
                 },
                 (response) => {
+                  let snackBarRef = snackBar.open('QCNote request failed');
                   console.log("QCNote request failed");
                   this.mockData = 'fail';
                 }
@@ -201,6 +207,7 @@ export class ApiAllTrainersComponent implements OnInit {
             },
             (response) => {
               success = false;
+              let snackBarRef = snackBar.open('Batch request failed');
               console.log("Batch request failed");
               this.mockData = 'fail';
             }
@@ -213,6 +220,7 @@ export class ApiAllTrainersComponent implements OnInit {
         }
       },
       (response) => {
+        let snackBarRef = snackBar.open('IDs request failed');
         console.log("IDs request failed");
         this.mockData = 'fail';
       }
