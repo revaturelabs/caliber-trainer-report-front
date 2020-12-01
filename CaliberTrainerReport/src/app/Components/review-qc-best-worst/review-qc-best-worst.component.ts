@@ -10,15 +10,17 @@ import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/Bat
 })
 export class ReviewQcBestWorstComponent implements OnInit {
 
- public scaleIcon;
+  public scaleIcon;
 
- public goodIcon;
+  public goodIcon;
   
   public badIcon;
 
- public categories:Object = {};
- public bestCategories:string[] = []
- public worstCategories:string[] = []
+  public categoryScores:Object = {};
+
+  //Both Best Categories and Worst Categories are rendederd in the browser 
+  public bestCategories:string[] = []
+  public worstCategories:string[] = []
 
 
 
@@ -27,6 +29,46 @@ export class ReviewQcBestWorstComponent implements OnInit {
     this.goodIcon = faCheckCircle;
     this.badIcon = faTimesCircle;
   }
+
+  //Creates a point system which corresponds to the possible results of a QC.
+// (Poor 1, Average 2, Good 3, Superstar 4)
+
+public calculateTotalBatchScore(batch){
+  let result = batch.score.poor * 1 +
+  batch.score.average * 2 +
+  batch.score.good * 3 +
+  batch.score.superstar * 4
+  return result
+}
+public calculateTotalBatchQuantity(batch){
+  let result = batch.score.poor +
+  batch.score.average +
+  batch.score.good +
+  batch.score.superstar
+  return result
+}
+public findBestCategories(categories){
+  let arrayOfScoresByCategory = Object.values(this.categoryScores)
+  let bestScore = Math.max(...arrayOfScoresByCategory)
+  let bestCategoriesArray = []
+  for(let category in categories){
+    if(this.categoryScores[category] === bestScore){
+      bestCategoriesArray.push(category)
+    }
+  }
+  return bestCategoriesArray
+}
+public findWorstCategories(categories){
+  let arrayOfScoresByCategory = Object.values(this.categoryScores)
+  let worstScore = Math.min(...arrayOfScoresByCategory)
+  let worstCategoriesArray = []
+  for(let category in categories){
+    if(this.categoryScores[category] === worstScore){
+      worstCategoriesArray.push(category)
+    }
+  }
+  return worstCategoriesArray
+}
 
   ngOnInit(): void {
     this.QCscores.getAvgCategoryScoresObservables().subscribe(data =>{
@@ -37,34 +79,17 @@ export class ReviewQcBestWorstComponent implements OnInit {
         let catAverage = 0;
         for(let batch in data.batchByCategory[category].batches){
           let currentBatch = data.batchByCategory[category].batches[batch]
-          totalScores = 
-            totalScores + 
-            (currentBatch.score.poor * 1 +
-            currentBatch.score.average * 2 +
-            currentBatch.score.good * 3 +
-            currentBatch.score.superstar * 4)
-          totalQuantity =
-            totalQuantity + 
-            (currentBatch.score.poor +
-            currentBatch.score.average +
-            currentBatch.score.good +
-            currentBatch.score.superstar)
+          totalScores += this.calculateTotalBatchScore(currentBatch)
+          totalQuantity += this.calculateTotalBatchQuantity(currentBatch)
           catAverage = totalScores/totalQuantity
         }
         if(!isNaN(catAverage)){
-          this.categories[data.batchByCategory[category].categoryName] = catAverage;
+          let categoryName = data.batchByCategory[category].categoryName
+          this.categoryScores[categoryName] = catAverage 
         }
       }
-      let allValuesArray = Object.values(this.categories)
-      let bestValue = Math.max(...allValuesArray)
-      let worstValue = Math.min(...allValuesArray)
-      for(let category in this.categories){
-        if(this.categories[category] === bestValue){
-          this.bestCategories.push(category)
-        }else if(this.categories[category] === worstValue){
-          this.worstCategories.push(category)
-        }
-      }
+      this.bestCategories = this.findBestCategories(this.categoryScores)
+      this.worstCategories = this.findWorstCategories(this.categoryScores)
     })
   }
 }
