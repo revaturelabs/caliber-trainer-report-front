@@ -135,7 +135,7 @@ export class ApiAllTrainersComponent implements OnInit {
                           },
                           (response4) => {
                             console.log("Category request failed");
-                            this.mockData = 'fail';
+                            this.mockData = 'fail-Category request';
                           }
                         );
                       }
@@ -167,13 +167,13 @@ export class ApiAllTrainersComponent implements OnInit {
                                   async (response7) => {
                                     assessments[j].average = 0;
                                     console.log("Grade average request failed");
-                                    this.mockData = 'fail';
+                                    this.mockData = 'fail-Grade average';
                                   }
                                 );
                               },
                               (response6) => {
                                 console.log("Category request failed");
-                                this.mockData = 'fail';
+                                this.mockData = 'fail-Category request';
                               }
                             );
                             
@@ -187,7 +187,7 @@ export class ApiAllTrainersComponent implements OnInit {
                         },
                         (response5) => { 
                           console.log("Assessment request failed");
-                          this.mockData = 'fail';
+                          this.mockData = 'fail-Assessment request';
                         }
                       );
                     }
@@ -195,7 +195,7 @@ export class ApiAllTrainersComponent implements OnInit {
                   },
                   (response3) => {
                     console.log("QCNote request failed");
-                    this.mockData = 'fail';
+                    this.mockData = 'fail-QCNote';
                   }
                 );
                 //console.log("Temp obj");
@@ -205,7 +205,7 @@ export class ApiAllTrainersComponent implements OnInit {
               (response2) => {
                 success = false;
                 console.log("Batch request failed");
-                this.mockData = 'fail';
+                this.mockData = 'fail-Batch request';
               }
             );
 
@@ -217,7 +217,7 @@ export class ApiAllTrainersComponent implements OnInit {
         },
         (response) => {
           console.log("IDs request failed");
-          this.mockData = 'fail';
+          this.mockData = 'fail-IDs';
         }
       );
       if (this.mockData == 'loading') {
