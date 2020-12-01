@@ -21,7 +21,7 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
   // Dealing with Scalability
   width: number;
   isBig: boolean;
-  constructor(private AssessmentByBatchService: AssessmentByBatchService,
+  constructor(private assessmentByBatchService: AssessmentByBatchService,
     private displayGraphService: DisplayGraphService
   ) { }
 
@@ -36,19 +36,10 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
     let reviewPageAvgTotal: any[]= JSON.parse(sessionStorage.getItem("reviewPageAvgTotal" + trainerId));
 
     // Performance workaround to prevent constantly loading from DB.
-    if(reviewPageAvgTotal != null && !reviewPageAvgTotal.includes(null) && false){
-      console.log("ACCESSING SESSION STORAGE");
-      
-      this.allBatches = JSON.parse(JSON.stringify(reviewPageAvgTotal))[1];
-      this.batchNames = JSON.parse(JSON.stringify(reviewPageAvgTotal))[2];
-      console.log(this.batchNames);
-      this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
-      //this.displayGraph(this.batchesObj);
-
-    } else {
+   
       console.log("ACESSING DB");
     
-      this.AssessmentByBatchServiceSubscription = this.AssessmentByBatchService.getAssessmentByBatch().subscribe((resp) => {
+      this.AssessmentByBatchServiceSubscription = this.assessmentByBatchService.getAssessmentByBatch().subscribe((resp) => {
         this.allBatches = resp;
         for (const i of this.allBatches.keys()) {
           for (const [j, value] of this.allBatches[i].assessmentScores.entries()) {
@@ -64,7 +55,6 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
         this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
 
         let reviewPageAvgTotal = [this.batchesObj, this.allBatches, this.batchNames];
-        console.log("batchNames Info: " + this.batchNames)
         for (const i of this.allBatches.keys()) {
             let batch_total = 0;
             let batch_avg = 0;
@@ -83,7 +73,6 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
         this.displayGraph(this.batchNames, this.batchAverages);
       });
 
-    }
   }
 
   displayGraph(batchDisplayNames: string[], batchAverages: any[]) {
