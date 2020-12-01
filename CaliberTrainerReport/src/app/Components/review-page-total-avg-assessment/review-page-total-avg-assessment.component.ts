@@ -86,7 +86,6 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
       '#FF00FF', '#800000',
       '#00FF00', '#00CED1',]
 
-      const graphText = 'QC Average Batch Score';
       this.myLineChart = new Chart('totalAvgAssessmentChart', {
         type: 'bar',
         data: {

@@ -7,14 +7,7 @@ import {By} from '@angular/platform-browser';
 
 describe('ReviewPageTotalAvgAssessmentComponent', () => {
   let component: ReviewPageTotalAvgAssessmentComponent;
-  let batch = {
-    score: {
-      poor: 4,
-      average: 10,
-      good: 7,
-      superstar: 2
-    }
-  }
+  
   let fixture: ComponentFixture<ReviewPageTotalAvgAssessmentComponent>;
   let de: DebugElement;
   beforeEach(async(() => {
