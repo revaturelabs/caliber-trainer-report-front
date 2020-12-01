@@ -17,7 +17,7 @@ describe('TechnicalStatusPerBatchService', () => {
     expect(service).toBeTruthy();
   });
 
-  it(`should return value from observable`, (done) => {
+  it(`should return value from observable`, () => {
     service.getTechnicalStatusPerBatch().subscribe(value => {
         expect(value).toHaveBeenCalled();
     });
