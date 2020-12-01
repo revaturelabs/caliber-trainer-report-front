@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
-import { Category } from 'src/app/class/category';
 import { AssessmentByCategoryService } from 'src/app/services/AssessmentByCategory.service';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { AssessmentComponent } from '../assessment/assessment.component';
