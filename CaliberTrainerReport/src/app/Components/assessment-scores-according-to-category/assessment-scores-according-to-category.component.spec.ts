@@ -8,7 +8,7 @@ import { AssessmentComponent } from '../assessment/assessment.component';
 
 import { AssessmentScoresAccordingToCategoryComponent } from './assessment-scores-according-to-category.component';
 
-fdescribe('AssessmentScoresAccordingToCategoryComponent', () => {
+describe('AssessmentScoresAccordingToCategoryComponent', () => {
   let component: AssessmentScoresAccordingToCategoryComponent;
   let fixture: ComponentFixture<AssessmentScoresAccordingToCategoryComponent>;
 
