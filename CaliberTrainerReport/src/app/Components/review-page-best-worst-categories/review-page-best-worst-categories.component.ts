@@ -154,7 +154,7 @@ export class ReviewPageBestWorstCategoriesComponent implements OnInit {
 }
 
 // Object that combines category and score
-class CategoryScore {
+export class CategoryScore {
   category: string;
   score: number;
 

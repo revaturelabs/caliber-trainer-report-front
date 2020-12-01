@@ -26,7 +26,7 @@ export class AssessmentScoresAccordingToBatchComponent implements OnInit, OnDest
   scoreNames: string[];
 
   constructor(
-    private AssessmentByBatchService: AssessmentByBatchService,
+    private assessmentByBatchService: AssessmentByBatchService,
     private assessmentTS: AssessmentComponent,
     private displayGraphService: DisplayGraphService
   ) {}
@@ -39,26 +39,12 @@ export class AssessmentScoresAccordingToBatchComponent implements OnInit, OnDest
     this.batchesObj = [];
     this.scoreNames = ['Exam', 'Verbal', 'Presentation', 'Project', 'Other'];
     this.allBatches = [];
-    let ssallBatches: any = JSON.parse(sessionStorage.getItem("allBatches"));
-    let ssBatchNames: any = JSON.parse(sessionStorage.getItem("batchNames"));
+    
     let trainerId: string = sessionStorage.getItem("selectedId");
-    let gArray4: any[]= JSON.parse(sessionStorage.getItem("graphArray4" + trainerId));
-
-    // Performance workaround to prevent constantly loading from DB.
-    if(gArray4 != null && !gArray4.includes(null) && false){
-      console.log("ACCESSING SESSION STORAGE");
-      
-      this.allBatches = JSON.parse(JSON.stringify(gArray4))[1];
-      this.batchNames = JSON.parse(JSON.stringify(gArray4))[2];
-      console.log(this.batchNames);
-      this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
-      this.displayGraph(this.batchesObj);
-
-    } else {
-      console.log("ACESSING DB");
+    console.log("ACESSING DB");
 
     
-    this.AssessmentByBatchServiceSubscription = this.AssessmentByBatchService.getAssessmentByBatch().subscribe((resp) => {
+    this.AssessmentByBatchServiceSubscription = this.assessmentByBatchService.getAssessmentByBatch().subscribe((resp) => {
       this.allBatches = resp;
       for (const i of this.allBatches.keys()) {
         for (const [j, value] of this.allBatches[i].assessmentScores.entries()) {
@@ -74,12 +60,11 @@ export class AssessmentScoresAccordingToBatchComponent implements OnInit, OnDest
       this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
 
       let graphArray4 = [this.batchesObj, this.allBatches, this.batchNames];
-      let trainerId: string = sessionStorage.getItem("selectedId");
       sessionStorage.setItem("graphArray4" + trainerId, JSON.stringify(graphArray4));
 
       this.displayGraph(this.batchesObj);
     });
-  }
+  
   }
 
   updateGraph() {

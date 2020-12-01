@@ -1,5 +1,4 @@
 import { Component, OnInit, DoCheck, ViewChild, ElementRef } from '@angular/core';
-import jsPDF from 'jspdf';
 import * as html2PDF from 'html2pdf.js';
 
 @Component({

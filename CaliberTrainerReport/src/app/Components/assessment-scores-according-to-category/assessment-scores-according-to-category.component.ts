@@ -54,7 +54,7 @@ export class AssessmentScoresAccordingToCategoryComponent
   selectedValue: any;
 
   constructor(
-    private AssessmentByCategoryService: AssessmentByCategoryService,
+    private assessmentByCategoryService: AssessmentByCategoryService,
     private assessmentTS: AssessmentComponent,
     private displayGraphService: DisplayGraphService
   ) {}
@@ -75,26 +75,18 @@ export class AssessmentScoresAccordingToCategoryComponent
     this.presentationRawScores = [];
     this.otherRawScores = [];
     let trainerId: string = sessionStorage.getItem("selectedId");
-    let gArray: any[] = JSON.parse(sessionStorage.getItem("graphArray5" + trainerId));
 
-    if(gArray != null && !gArray.includes(null) && false){
-
-      this.categories = gArray[0];
-      this.examScores =gArray[1];
-      this.verbalScores = gArray[2];
-      this.projectScores = gArray[3];
-      this.presentationScores = gArray[4];
-      this.otherScores = gArray[5];
-      this.displayGraph(gArray[0], gArray[1], gArray[2], gArray[3], 
-        gArray[4], gArray[5]);
-
-
-    } else {
-
-    
-    this.AssessmentByCategoryServiceSubscription = this.AssessmentByCategoryService
+    this.AssessmentByCategoryServiceSubscription = this.assessmentByCategoryService
       .getScorePerCategory()
       .subscribe((resp) => {
+        // Removes all entries with no scores.
+        for(let i = resp.length - 1; i >= 0; i--) {
+          if(resp[i].average.reduce((acc, curr) => {return acc + curr}) == 0) {
+            resp.splice(i, 1);
+          }
+        }
+
+
         for (const cat of resp) {
           this.categories.push(cat.category);
         }
@@ -145,7 +137,6 @@ export class AssessmentScoresAccordingToCategoryComponent
 
         ];
         
-        let trainerId: string = sessionStorage.getItem("selectedId");
         sessionStorage.setItem("graphArray5" + trainerId, JSON.stringify(graphArray));
         
         this.categories0 = this.categories.slice(0, 14);
@@ -175,7 +166,7 @@ export class AssessmentScoresAccordingToCategoryComponent
           this.otherScores
         );
       });
-    }
+    
   }
 
   displayGraph(

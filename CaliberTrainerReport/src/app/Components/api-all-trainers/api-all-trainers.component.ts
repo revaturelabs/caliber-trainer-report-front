@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { GetTrainerService } from 'src/app/services/get-trainer.service';
 import { Trainer } from 'src/app/class/trainer';
-import { MockDataReturnService } from 'src/app/services/mock-data-return.service';
-import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/style-transforms';
+
 import { GetBatchService } from 'src/app/services/get-batch.service';
 import { Batch } from 'src/app/class/batch';
 import { GetQcNoteService } from 'src/app/services/get-qc-note.service';
 import { QCNote } from 'src/app/class/QCNote';
-import { Category } from 'src/app/class/category';
 import { GetAssessmentService } from 'src/app/services/get-assessment.service';
 import { Assessment } from 'src/app/class/assessment';
 import { GetCategoryService } from 'src/app/services/get-category.service';
 import { SendJSONAsStringService } from 'src/app/services/send-json-as-string.service';
+import { UrlService } from 'src/app/services/url.service';
 
 @Component({
   selector: 'app-api-all-trainers',
@@ -29,7 +28,7 @@ export class ApiAllTrainersComponent implements OnInit {
 
   mockData: string;
 
-  constructor(private trainerService: GetTrainerService, private batchService: GetBatchService, private qcs: GetQcNoteService, private as: GetAssessmentService, private cs: GetCategoryService, private sendJsonService : SendJSONAsStringService) { }
+  constructor(private trainerService: GetTrainerService, private batchService: GetBatchService, private qcs: GetQcNoteService, private as: GetAssessmentService, private cs: GetCategoryService, private sendJsonService : SendJSONAsStringService, private urls : UrlService) { }
 
   ngOnInit(): void {
     this.getAllTrainers();
@@ -42,6 +41,7 @@ export class ApiAllTrainersComponent implements OnInit {
         this.trainers = response;
       },
       (response) => {
+        this.mockData = 'fail-caliber-unreached';
         console.log("Request failed");
       }
     )
@@ -63,6 +63,17 @@ export class ApiAllTrainersComponent implements OnInit {
     let batchIds: string[];
     let batches: Batch[] = [];
 
+    // Error Message if there is a server or client side error
+    // Creates an XMLHttpRequest and attempts a get request, then reads the request status
+
+    var request; 
+    if(window.XMLHttpRequest) 
+      request = new XMLHttpRequest(); 
+    request.open('GET', this.urls.getUrl, false);
+    request.send();
+    if (request.status < 500 && request.status > 399 ) { alert("400 Level Error / Client Side Error: The page you are trying to reach is not available."); }
+    else if (request.status < 600 && request.status > 499 ) { alert("500 Level Error / Server Side Error: The page you are trying to reach is not available."); }
+    
     try{
 
     
@@ -78,8 +89,8 @@ export class ApiAllTrainersComponent implements OnInit {
         for (let id of batchIds) { //Get each batch by id
           await this.batchService.getPromiseBatchById(id).then(
 
-            async (response) => {
-              let batch = response;
+            async (response2) => {
+              let batch = response2;
               temp = {
                 "id": batch.id,
                 "batchId": batch.batchId,
@@ -94,18 +105,18 @@ export class ApiAllTrainersComponent implements OnInit {
               }
 
               await this.qcs.getPromiseQCNotesByBatchId(id).then(
-                async (response) => { //Get all notes for this batch
-                  let tempNotes: QCNote[] = response;
+                async (response3) => { //Get all notes for this batch
+                  let tempNotes: QCNote[] = response3;
                   let tempNote;
                   let cat;
                  
                     for (let note of tempNotes) {
                       await this.qcs.getCategoryByBatchIdAndWeek(id, note.week).toPromise().then(
-                        async (response) => { 
+                        async (response4) => { 
   
                           tempNote = note;
                           tempNote.categories = [];
-                          cat = response;
+                          cat = response4;
                           if (cat != null) {
                             for (let c of cat) { //For each category, add the category to the array found in the batch
                               if (c != null && !tempNote.categories.includes(c.skillCategory)) {
@@ -117,7 +128,8 @@ export class ApiAllTrainersComponent implements OnInit {
                           await temp.qcNotes.push(tempNote);
                           // console.log("Current JSON: " + JSON.stringify(temp));
                         },
-                        (response) => {
+                        (response5) => {
+                          alert("Category request failed");
                           console.log("Category request failed");
                           this.mockData = 'fail';
                         }
@@ -130,32 +142,34 @@ export class ApiAllTrainersComponent implements OnInit {
                   for (let i = 0; i < batch.currentWeek; i++) {
                     await this.as.getPromiseAssessmentsByWeekAndBatchId(id, i + 1).then(
                       // Works
-                      async (response) => {
+                      async (response6) => {
                         
-                        let assessments: Assessment[] = response;
+                        let assessments: Assessment[] = response6;
 
-                        for (let i = 0; i < assessments.length; i++) {
-                           await this.cs.getPromiseCategoryById(assessments[i].assessmentCategory).then(
+                        for (let j = 0; j < assessments.length; j++) {
+                           await this.cs.getPromiseCategoryById(assessments[j].assessmentCategory).then(
                             // Works
-                            async (response) => {
+                            async (response7) => {
                               console.log("skill category");
-                              assessments[i].skillCategory = response.skillCategory;
-                              console.log(assessments[i].skillCategory);
+                              assessments[j].skillCategory = response7.skillCategory;
+                              console.log(assessments[j].skillCategory);
 
-                              await this.as.getAverageGradeByAssessment(assessments[i].assessmentId).toPromise().then(
+                              await this.as.getAverageGradeByAssessment(assessments[j].assessmentId).toPromise().then(
                                 // Does NOT work, needs more path variables?
-                                async (response) => {
+                                async (response8) => {
                                   
-                                  assessments[i].average = response;
+                                  assessments[j].average = response8;
                                 },
-                                async (response) => {
-                                  assessments[i].average = 0;
+                                async (response9) => {
+                                  assessments[j].average = 0;
+                                  alert("Grade average request failed");
                                   console.log("Grade average request failed");
                                   this.mockData = 'fail';
                                 }
                               );
                             },
-                            (response) => {
+                            (response10) => {
+                              alert("Category request failed");
                               console.log("Category request failed");
                               this.mockData = 'fail';
                             }
@@ -169,7 +183,8 @@ export class ApiAllTrainersComponent implements OnInit {
                         }
                       
                       },
-                      (response) => {
+                      (response11) => {
+                        alert("Assessment request failed");
                         console.log("Assessment request failed");
                         this.mockData = 'fail';
                       }
@@ -177,7 +192,8 @@ export class ApiAllTrainersComponent implements OnInit {
                   }
                   this.allData.batches = tempBatches;
                 },
-                (response) => {
+                (response12) => {
+                  alert("QCNote request failed");
                   console.log("QCNote request failed");
                   this.mockData = 'fail';
                 }
@@ -186,8 +202,9 @@ export class ApiAllTrainersComponent implements OnInit {
               console.log(temp);
               this.allData.batches.push(temp);
             },
-            (response) => {
+            (response13) => {
               success = false;
+              alert("Batch request failed");
               console.log("Batch request failed");
               this.mockData = 'fail';
             }
@@ -200,6 +217,7 @@ export class ApiAllTrainersComponent implements OnInit {
         }
       },
       (response) => {
+        alert("IDs request failed");
         console.log("IDs request failed");
         this.mockData = 'fail';
       }
@@ -215,7 +233,7 @@ export class ApiAllTrainersComponent implements OnInit {
         this.mockData = 'fail';
       }
     );
-    } catch (cool){
+    } catch (miscFailure){
       this.mockData = 'fail';
     }
     

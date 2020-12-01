@@ -1,4 +1,3 @@
-
 #calendar-container{
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -13,12 +12,12 @@
 h3 {
     margin: 0 0 10px;
   }
-  
+
   pre {
     background-color: #f5f5f5;
     padding: 15px;
   }
-    
+
   .qc-title{
     margin:30px 120px;
     display: grid;
@@ -30,21 +29,21 @@ h3 {
     justify-self: center;
     margin:20px;
   }
-  
+
   .qc-title select{
     justify-self: center;
     margin-bottom: 10px;
   }
-  
+
   .legend {
     font-size: 12px;
     color: grey;
   }
-  
+
   .option-select-menu {
     text-align: center;
   }
-  
+
   select {
     margin: 5px;
   }
@@ -58,4 +57,3 @@ h3 {
     background-color: white;
     padding:20px;
   }
-  
