@@ -1,4 +1,6 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { QCComponent } from '../qc/qc.component';
 
 import { QcOverallWeekTechnicalScoresComponent } from './qc-overall-week-technical-scores.component';
 
@@ -8,7 +10,10 @@ describe('QcOverallWeekTechnicalScoresComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QcOverallWeekTechnicalScoresComponent ]
+      declarations: [ QcOverallWeekTechnicalScoresComponent ],
+      imports:[HttpClientTestingModule],
+      providers:[QCComponent]
+    
     })
     .compileComponents();
   }));

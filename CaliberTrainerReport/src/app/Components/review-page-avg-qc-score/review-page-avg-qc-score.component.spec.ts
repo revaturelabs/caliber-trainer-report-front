@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReviewPageAvgQcScoreComponent } from './review-page-avg-qc-score.component';
@@ -8,7 +9,8 @@ describe('ReviewPageAvgQcScoreComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReviewPageAvgQcScoreComponent ]
+      declarations: [ ReviewPageAvgQcScoreComponent ],
+      imports:[HttpClientTestingModule]
     })
     .compileComponents();
   }));
