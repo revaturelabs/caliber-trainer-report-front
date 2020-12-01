@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UrlService } from 'src/app/services/url.service';
 import { GetTrainerService } from './services/get-trainer.service';
 import { TrainerSessionService } from './services/trainer-session.service';
