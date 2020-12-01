@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GetBatchService } from 'src/app/services/get-batch.service';
-import { Trainer } from 'src/app/class/trainer';
-import { Batch } from 'src/app/class/batch';
+
 
 
 @Component({
