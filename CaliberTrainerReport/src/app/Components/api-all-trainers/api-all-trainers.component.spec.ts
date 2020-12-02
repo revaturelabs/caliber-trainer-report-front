@@ -24,10 +24,10 @@ describe('ApiAllTrainersComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should be loading when getting trainer', () => {
+  it('should not be loading after getting trainer', () => {
     component.trainers = [];
     component.trainers.push({email:"",firstName:"",lastName:"",trainingBatches:[]});
     component.getDataByTrainer(0);
-    expect(component.mockData).toEqual('loading');
+    expect(component.mockData).not.toEqual('loading');
   });
 });
