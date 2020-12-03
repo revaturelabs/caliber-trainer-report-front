@@ -227,6 +227,16 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     if (this.myLineChart) {
       this.myLineChart.destroy();
     }
+
+    // Remove categories if they are not present in the shown batches.
+    let batchRemoveEmptyReduce = (acc, curr, i) => {
+      if(this.batchFlags[i]) {
+        return acc += curr;
+      } else {
+        return acc;
+      }
+    }
+
     var colorArray = [ 
       '#FF0000', '#FF8C00', 
       '#FFD700',  '#228B22',
@@ -235,7 +245,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       '#00FF00', '#00CED1',
       '#9370DB', '#000000',
       '#6495ED', '#696969'
-  ]
+    ]
 
     // An array of objects. Each object should contain a yDisplay array within.
     let lineData: any[] = [];
@@ -243,26 +253,23 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       // Removes the first (redundant) element
       this.multiGraphYValues.shift();
       for(let i = 1; i < this.categoriesName.length; i++){
-        let lineColor:string;
+        if(this.multiGraphYValues[i-1].reduce(batchRemoveEmptyReduce) !== 0) {
+          let lineColor:string;
         
-
-        lineColor = colorArray[(i-1) % colorArray.length];
-
-        let dataObj = {
-          label: ''+this.categoriesName[i], // Name the series
-          data: this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags), // Specify the data values array
-          fill: false,
-          borderColor: lineColor, // Add custom color border (Line)
-          backgroundColor: '#000000', // Add custom color background (Points and Fill)
-          borderWidth: 1, // Specify bar border width
-        };
-
-        lineData.push(dataObj);
-
+          lineColor = colorArray[(i-1) % colorArray.length];
+  
+          let dataObj = {
+            label: ''+this.categoriesName[i], // Name the series
+            data: this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags), // Specify the data values array
+            fill: false,
+            borderColor: lineColor, // Add custom color border (Line)
+            backgroundColor: '#000000', // Add custom color background (Points and Fill)
+            borderWidth: 1, // Specify bar border width
+          };
+  
+          lineData.push(dataObj);
+        }
       }
-
-
-
 
       // Just copy and paste
 

@@ -1,248 +1,132 @@
-import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
-import { Chart } from 'node_modules/chart.js';
-import { faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { of } from 'rxjs';
 import { AssessScoresByCategoryAllBatchesService } from 'src/app/services/AssessScoresByCategoryAllBatches.service';
-import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
-import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
-import { FilterBatch } from '../../utility/FilterBatch';
+import { UrlService } from 'src/app/services/url.service';
+import { AssessmentComponent } from '../assessment/assessment.component';
 
-@Component({
-  selector: 'app-assessment-scores-for-category',
-  templateUrl:
-    './assessment-scores-for-category.component.html',
-  styleUrls: [
-    './assessment-scores-for-category.component.css',
-  ],
-})
-export class AssessmentScoresForCategoryComponent
-  implements OnInit, OnDestroy {
-  private AssessScoresByCategoryAllBatchesServiceSubscription: Subscription;
-  lineGraphIcon = faChartLine;
-  tableGraphIcon = faTable;
-  myLineChart: any;
-  selectedValue: string;
+import { AssessmentScoresForCategoryComponent } from './assessment-scores-for-category.component';
 
-  // The selected category, representing the index of the category data to display. If 0, displays all data ("Overview").
-  pickedCategory: number;
+interface BatchAssessment {
+  batchName: string;
+  assessments: number[];
+}
 
-  // An array of all category names.
-  categoriesName: string[];
-  
-  // An array of all batch names. 
-  batchNames: string[];
+interface Category {
+  category: string;
+  batchAssessments: BatchAssessment[]
+}
 
-  // A 2D-array consisting of the scores of all batches across all categories.
-  multiGraphYValues: number[][];
-
-  // this array tracks which batches to show on the graph
-  // index of batchFlags corresponds to index of batchNames:string[]
-  batchFlags: boolean[];
-  // FilterBatch is a helper class located in utility folder under src > app
-  // it contains a method called filterBatch(any[], boolean[]) that takes in any[] and returns a new any[] with true indices from boolean[]
-  batchFilter: FilterBatch;
-
-  // Dealing with Scalability
-  width: number;
-  isBig: boolean;
-
-  constructor(
-    private assessScoresByCategoryAllBatchesService: AssessScoresByCategoryAllBatchesService,
-    private assessmentTS: AssessmentComponent,
-    private displayGraphService: DisplayGraphService
-  ) {}
-
-  ngOnInit(): void {
-    this.selectedValue = this.assessmentTS.selectedValue;
-    this.graphAdjust();
-    
-    this.categoriesName = [];
-    this.batchNames = [];
-    this.multiGraphYValues = [];
-
-    this.batchFlags = [];
-    this.batchFilter = new FilterBatch();
-
-    this.pickedCategory = 0;
-    
-    this.AssessScoresByCategoryAllBatchesServiceSubscription = this.assessScoresByCategoryAllBatchesService
-    .getSixthGraphData().subscribe((resp) => {
-      for (const score of resp.categories) {
-        if(!this.isCategoryEmpty(score.batchAssessments)) {
-          this.categoriesName.push(score.category);
-          this.multiGraphYValues.push(JSON.parse(JSON.stringify(this.getBatchAverages(score.batchAssessments))));
-        } 
-      }
-        
-      for (const score of resp.categories[0].batchAssessments) {
-        this.batchNames.push(score.batchName);
-        this.batchFlags.push(true);
-      }
-
-      this.categoriesName.unshift("Overview");
-      this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.multiGraphYValues,this.batchFlags));
-    },
-    () => {
-      console.log("An error has occurred building the assessment-scores-for-category.");
-    });
-  }
-
-  /**
-   * Displays a graph based on the given data.
-   */
-  displayGraph(batchNames: string[], yValues: number[]) {
-    if (this.myLineChart) {
-      this.myLineChart.destroy();
-    }
-
-    var colorArray = [ 
-      '#FF0000', '#FF8C00', 
-      '#FFD700',  '#228B22',
-      '#000080', '#4B0082',
-      '#FF00FF', '#800000',
-      '#00FF00', '#00CED1',
-      '#9370DB', '#000000',
-      '#6495ED', '#696969']
-
-    // An array of objects. Each object should contain a yDisplay array within.
-    let lineData: any[] = [];
-    if(this.pickedCategory == 0){
-      for(let i = 1; i < this.categoriesName.length; i++){
-        let lineColor: string = colorArray[(i-1) % colorArray.length];
-
-        let dataObj = {
-          label: ''+this.categoriesName[i], // Name the series
-          data: this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags), // Specify the data values array
-          fill: false,
-          borderColor: lineColor, // Add custom color border (Line)
-          backgroundColor: lineColor, // Add custom color background (Points and Fill)
-          borderWidth: 1, // Specify bar border width
-        };
-
-        lineData.push(dataObj);
-      }
-  
-      this.myLineChart = new Chart('sixthChart', {
-        type: 'line',
-        data: {
-          labels: batchNames,
-          datasets: lineData,
-        },
-        options: {
-          scales: {
-            yAxes: [
-              {
-                ticks: {
-                  beginAtZero: true,
-                  suggestedMax: 100,
-                  callback(value) {
-                    return value + '%';
-                  },
-                },
-              },
-            ],
-          },
-          title: {
-            display: true,
-            text: `QC Scores Overview`,
-          },
-          hover: {
-            mode: 'nearest',
-            intersect: true,
-          },
-        },
-      });
-    } else {
-
-    
-    let lineColor:string = colorArray[(this.pickedCategory-1) % colorArray.length];
-
-    this.myLineChart = new Chart('sixthChart', {
-      type: 'line',
-      data: {
-        labels: batchNames,
-        datasets: [
-          {
-            label: 'Overall Average', // Name the series
-            data: yValues, // Specify the data values array
-            fill: false,
-            borderColor: lineColor, // Add custom color border (Line)
-            backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
-            borderWidth: 1, // Specify bar border width
-          },
-        ],
+let mockResponse: {categories: Category[]} = {
+  categories: [
+   {
+     category: "Java",
+     batchAssessments: [
+       {
+         batchName: "12/34/56 - Java EE",
+         assessments: [30, 60]
+       },
+       {
+        batchName: "78/90/AB - Dev Ops",
+        assessments: [45, 90]
+       }
+     ]
+   },
+   {
+    category: "Servlets",
+    batchAssessments: [
+      {
+        batchName: "12/34/56 - Java EE",
+        assessments: [2, 4]
       },
-      options: {
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-                suggestedMax: 100,
-                callback(value) {
-                  return value + '%';
-                },
-              },
-            },
-          ],
-        },
-        title: {
-          display: true,
-          text: `Assessment scores based on ${
-            this.categoriesName[this.pickedCategory]
-          }`,
-        },
-        hover: {
-          mode: 'nearest',
-          intersect: true,
-        },
-      },
-    });
-  }
-  }
-
-  scroll(el: HTMLElement) {
-    el.scrollIntoView();
-  }
-
-  graphAdjust() {
-    const chartElem = document.getElementById('divChart6');
-    this.isBig = this.displayGraphService.graphAdjust(
-      chartElem,
-      this.assessmentTS.selectedValue,
-      this.isBig
-    );
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.graphAdjust();
-  }
-
-  // This method selects the large view of the graph when double clicking the graph title.
-  doubleClickGraph6(): void {
-    const graphSelector = document.getElementById(
-      'assessment-graph-selector'
-    ) as HTMLSelectElement;
-    if (graphSelector.value === 'trend') {
-      graphSelector.value = 'all';
-    } else {
-      graphSelector.value = 'trend';
-    }
-    this.graphAdjust();
-  }
-
-  private isCategoryEmpty(batchAssessments:{assessments:number[]}[]): boolean {
-    for(const assessments of batchAssessments) {
-      if(assessments.assessments.length != 0) {
-        return false;
+      {
+       batchName: "78/90/AB - Dev Ops",
+       assessments: []
       }
-    }
+    ]
+   },
+   {
+    category: "Spring",
+    batchAssessments: [
+      {
+        batchName: "12/34/56 - Java EE",
+        assessments: []
+      },
+      {
+       batchName: "78/90/AB - Dev Ops",
+       assessments: [90, 100]
+      }
+    ]
+   },
+   {
+    category: "Nothing",
+    batchAssessments: [
+      {
+        batchName: "12/34/56 - Java EE",
+        assessments: []
+      },
+      {
+       batchName: "78/90/AB - Dev Ops",
+       assessments: []
+      }
+    ]
+   }
+  ]
+};
 
-    return true;
-  }
+fdescribe('AssessmentScoresForCategoryComponent', () => {
+  let component: AssessmentScoresForCategoryComponent;
+  let fixture: ComponentFixture<AssessmentScoresForCategoryComponent>;
 
-  private getBatchAverages(batchAssessments: {assessments:number[]}[]): number[] {
+  beforeEach(async(() => {
+    let mockASBCABS = jasmine.createSpyObj("AssessScoresByCategoryAllBatchesService", ["getSixthGraphData"]);
+    mockASBCABS.getSixthGraphData.and.returnValue(of(mockResponse));
+    TestBed.configureTestingModule({
+      declarations: [ AssessmentScoresForCategoryComponent ],
+      providers: [
+        { provide: AssessScoresByCategoryAllBatchesService, 
+          useValue: mockASBCABS
+        },
+      AssessmentComponent, DisplayGraphService, HttpClient, UrlService, HttpHandler],
+      imports: [ FormsModule ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AssessmentScoresForCategoryComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  /* ----- ONINIT() TESTS ----- */
+  /* Note: All pop() calls are done to remove the empty category for testing; this
+    operates under the strict assumption that the empty category is last in the
+    mock data set.
+  */
+
+  it('should populate category names correctly on init', () => {
+    let titles: string[] = mockResponse.categories.map(value => value.category);
+    titles.pop();
+    titles.unshift("Overview");
+
+    expect(component.categoriesName).toEqual(titles);
+  });
+
+  it('should populate batch names correctly on init', () => {
+    let batchNames: string[] = ["12/34/56 - Java EE", "78/90/AB - Dev Ops"];
+
+    expect(component.batchNames).toEqual(batchNames);
+  });
+
+  function getAveragesOfAssessments(batchAssessments: BatchAssessment[]): number[] {
     let yValueSet: number[] = [];
       for(const assessments of batchAssessments) {
         if(!assessments.assessments || assessments.assessments.length == 0) {
@@ -254,27 +138,40 @@ export class AssessmentScoresForCategoryComponent
     return yValueSet;
   }
 
-  ngOnDestroy() {
-    if (this.AssessScoresByCategoryAllBatchesServiceSubscription != undefined) {
-      this.AssessScoresByCategoryAllBatchesServiceSubscription.unsubscribe();
+  it('should populate cumulative y-values correctly on init', () => {
+    let cumulativeYValues: number[][] = [];
+    for(const category of mockResponse.categories) {
+      cumulativeYValues.push(getAveragesOfAssessments(category.batchAssessments));
     }
+    cumulativeYValues.pop();
+
+    expect(component.multiGraphYValues).toEqual(cumulativeYValues);
+  });
+
+  /* ----- UPDATEGRAPH() TESTS ----- */
+
+  function chooseOptionFromDropdown(option: number): void {
+    const categorySelector: HTMLSelectElement = fixture.debugElement.query(By.css("#assessment-graph6-selector")).nativeElement;
+    categorySelector.value = categorySelector.options[option].value;
+    categorySelector.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
   }
 
-  updateGraph() {
-    if(this.pickedCategory == 0) {
-      this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.multiGraphYValues, this.batchFlags));
-    } else {
-      this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.multiGraphYValues[this.pickedCategory - 1], this.batchFlags));
-    }
-  }
+  it('should change the selected value when a category is clicked', () => {
+    component.pickedCategory = 0;
+    let yValues: number[] = [];
 
-  toggle(index: number): void{
-    this.batchFlags[index] = !this.batchFlags[index];
-    this.updateGraph();
-  }
+    chooseOptionFromDropdown(1);
+    yValues = getAveragesOfAssessments(mockResponse.categories[0].batchAssessments);
+    expect(component.pickedCategory + "").toEqual("1");
+    expect(component.multiGraphYValues[0]).toEqual(yValues);
 
-  batch_dropdown_flag: boolean = true;
-  toggleBatchDropdown(): void{
-    this.batch_dropdown_flag = !this.batch_dropdown_flag;
-  }
-}
+    chooseOptionFromDropdown(2);
+    yValues = getAveragesOfAssessments(mockResponse.categories[1].batchAssessments);
+    expect(component.pickedCategory + "").toEqual("2");
+    expect(component.multiGraphYValues[1]).toEqual(yValues);
+
+    chooseOptionFromDropdown(0);
+    expect(component.pickedCategory + "").toEqual("0");
+  });
+});

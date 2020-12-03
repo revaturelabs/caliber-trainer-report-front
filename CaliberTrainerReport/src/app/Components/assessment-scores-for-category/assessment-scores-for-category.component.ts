@@ -95,6 +95,15 @@ export class AssessmentScoresForCategoryComponent
       this.myLineChart.destroy();
     }
 
+    // Remove categories if they are not present in the shown batches.
+    let batchRemoveEmptyReduce = (acc, curr, i) => {
+      if(this.batchFlags[i]) {
+        return acc += curr;
+      } else {
+        return acc;
+      }
+    }
+
     var colorArray = [ 
       '#FF0000', '#FF8C00', 
       '#FFD700',  '#228B22',
@@ -108,18 +117,20 @@ export class AssessmentScoresForCategoryComponent
     let lineData: any[] = [];
     if(this.pickedCategory == 0){
       for(let i = 1; i < this.categoriesName.length; i++){
-        let lineColor: string = colorArray[(i-1) % colorArray.length];
+        if(this.multiGraphYValues[i-1].reduce(batchRemoveEmptyReduce) != 0) {
+          let lineColor: string = colorArray[(i-1) % colorArray.length];
 
-        let dataObj = {
-          label: ''+this.categoriesName[i], // Name the series
-          data: this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags), // Specify the data values array
-          fill: false,
-          borderColor: lineColor, // Add custom color border (Line)
-          backgroundColor: lineColor, // Add custom color background (Points and Fill)
-          borderWidth: 1, // Specify bar border width
-        };
+          let dataObj = {
+            label: ''+this.categoriesName[i], // Name the series
+            data: this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags), // Specify the data values array
+            fill: false,
+            borderColor: lineColor, // Add custom color border (Line)
+            backgroundColor: lineColor, // Add custom color background (Points and Fill)
+            borderWidth: 1, // Specify bar border width
+          };
 
-        lineData.push(dataObj);
+          lineData.push(dataObj);
+        }
       }
   
       this.myLineChart = new Chart('sixthChart', {
