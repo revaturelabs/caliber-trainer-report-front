@@ -96,7 +96,6 @@ export class AssessmentScoresForCategoryComponent
     }
 
     // Remove categories if they are not present in the shown batches.
-    console.dir(this.batchFlags);
     let batchRemoveEmptyReduce = (acc, curr, i) => {
       if(this.batchFlags[i]) {
         return acc += curr;
