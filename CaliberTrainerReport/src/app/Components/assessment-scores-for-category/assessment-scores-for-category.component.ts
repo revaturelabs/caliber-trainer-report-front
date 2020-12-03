@@ -117,7 +117,7 @@ export class AssessmentScoresForCategoryComponent
     let lineData: any[] = [];
     if(this.pickedCategory == 0){
       for(let i = 1; i < this.categoriesName.length; i++){
-        if(this.multiGraphYValues[i-1].reduce(batchRemoveEmptyReduce) != 0) {
+        if(this.multiGraphYValues[i-1].reduce(batchRemoveEmptyReduce, 0) != 0) {
           let lineColor: string = colorArray[(i-1) % colorArray.length];
 
           let dataObj = {

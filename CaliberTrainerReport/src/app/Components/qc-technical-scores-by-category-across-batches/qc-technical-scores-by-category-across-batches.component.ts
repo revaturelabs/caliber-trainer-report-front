@@ -253,7 +253,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       // Removes the first (redundant) element
       this.multiGraphYValues.shift();
       for(let i = 1; i < this.categoriesName.length; i++){
-        if(this.multiGraphYValues[i-1].reduce(batchRemoveEmptyReduce) !== 0) {
+        if(this.multiGraphYValues[i-1].reduce(batchRemoveEmptyReduce, 0) !== 0) {
           let lineColor:string;
         
           lineColor = colorArray[(i-1) % colorArray.length];
