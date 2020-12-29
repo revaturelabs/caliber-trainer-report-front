@@ -22,7 +22,7 @@
     background-color: rgb(185, 185, 185);
     position: absolute;
     width: 100%;
-    height: 34px;
+    height: 45px;
     left: 0;
     top: 0;
     padding: 5px 0;
@@ -34,6 +34,7 @@
     justify-self: start;
     margin-left: 35px;
     transition: all 0.5s ease;
+    padding-bottom: 15px;
 }
 
 .mainLogoIMG {
@@ -62,18 +63,8 @@
     text-decoration: underline;
 }
 
-.firstBtn {
+.navButton {
     margin-right: 30px;
-    transition: all 0.5s ease;
-}
-
-.secondBtn {
-    margin-right: 35px;
-    transition: all 0.5s ease;
-}
-
-.thirdBtn {
-    margin-right: 35px;
     transition: all 0.5s ease;
 }
 

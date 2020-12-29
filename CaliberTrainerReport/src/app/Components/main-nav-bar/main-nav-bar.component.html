@@ -3,9 +3,10 @@
         <div class="mainLogo"> <a routerLink="#"> <img src="https://imgur.com/QMNMf4M.png" class="mainLogoIMG" alt="Revature Logo"></a> </div>
         <div class="mainTitle" *ngIf="isBig"><a routerLink="#">EXCALIBER</a></div>
         <div class="navButtonSection">
-            <div class="firstBtn" *ngIf="isBig"><a id="demo" routerLink="/qc">View QC Reports</a></div>
-            <div class="secondBtn" *ngIf="isBig"><a routerLink="/assessment">View Assessment Reports</a></div>
-            <div class="thirdBtn" *ngIf="isBig"><a routerLink="/calendarview">View Batch Calendar</a></div>
+            <div class="navButton" *ngIf="isBig"><a id="demo" routerLink="/qc">View QC Reports</a></div>
+            <div class="navButton" *ngIf="isBig"><a routerLink="/review-page">View Review Page</a></div>
+            <div class="navButton" *ngIf="isBig"><a routerLink="/assessment">View Assessment Reports</a></div>
+            <div class="navButton" *ngIf="isBig"><a routerLink="/calendarview">View Batch Calendar</a></div> 
         </div>
         <div class="hBSection" *ngIf="!isBig">
             <div class="hamburgerButton" *ngIf="!isBig">

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ApiAllTrainersComponent } from './api-all-trainers.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ApiAllTrainersComponent', () => {
   let component: ApiAllTrainersComponent;
@@ -8,7 +8,8 @@ describe('ApiAllTrainersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ApiAllTrainersComponent ]
+      declarations: [ ApiAllTrainersComponent],
+      imports:[HttpClientTestingModule]
     })
     .compileComponents();
   }));
@@ -21,5 +22,12 @@ describe('ApiAllTrainersComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should not be loading after getting trainer', () => {
+    component.trainers = [];
+    component.trainers.push({email:"",firstName:"",lastName:"",trainingBatches:[]});
+    component.getDataByTrainer(0);
+    expect(component.mockData).not.toEqual('loading');
   });
 });

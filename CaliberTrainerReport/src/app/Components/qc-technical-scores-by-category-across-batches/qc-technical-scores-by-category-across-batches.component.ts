@@ -5,7 +5,7 @@ import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/Bat
 import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
-
+import { FilterBatch } from 'src/app/utility/FilterBatch';
 
 @Component({
   selector: 'app-qc-technical-scores-by-category-across-batches',
@@ -35,6 +35,15 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   multiGraphYValues: any[];
 
   batchNames: string[];
+
+  
+  // this array tracks which batches to show on the graph
+  // index of batchFlags corresponds to index of batchNames:string[]
+  batchFlags: boolean[];
+  // FilterBatch is a helper class located in utility folder under src > app
+  // it contains a method called filterBatch(any[], boolean[]) that takes in any[] and returns a new any[] with true indices from boolean[]
+  batchFilter: FilterBatch;
+  
   yValues: any[];
 
   // Dealing with Scalability
@@ -42,7 +51,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   isBig: boolean;
 
   constructor(
-    private BatchTechnicalStatusBySkillCategoryService: BatchTechnicalStatusBySkillCategoryService,
+    private batchTechnicalStatusBySkillCategoryService: BatchTechnicalStatusBySkillCategoryService,
     private qcTS: QCComponent,
     private displayGraphService: DisplayGraphService
   ) {}
@@ -65,25 +74,25 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.cumulativeGood = [];
     this.cumulativePoor = [];
 
+    this.batchFlags = [];
+    this.batchFilter = new FilterBatch();
 
-    let trainerId = sessionStorage.getItem("selectedId");
-    let gA2: any[] = JSON.parse(sessionStorage.getItem("graphingArray2" + trainerId));
-    if(gA2 != null && !gA2.includes(null) && false){
-      this.categoriesName = gA2[2];
-      this.categoriesObj = gA2[3];
 
-      this.batchNames = gA2[0];
-
-      this.setScoreValues();
-      this.displayGraph(gA2[0], gA2[1]);
-
-    } else {
-
-    
-
-    this.BatchTechnicalStatusBySkillCategoryServiceSubscription = this.BatchTechnicalStatusBySkillCategoryService
+    this.BatchTechnicalStatusBySkillCategoryServiceSubscription = this.batchTechnicalStatusBySkillCategoryService
       .getAvgCategoryScoresObservables()
       .subscribe((resp) => {
+        // Remove entries with no scores.
+        for(let i = resp.batchByCategory.length - 1; i >= 0; i--) {
+          let batchSum: number = 0;
+          for(const batch of resp.batchByCategory[i].batches) {
+            let scores = batch.score;
+            batchSum += scores.average + scores.good + scores.poor + scores.superstar;
+          }
+          if(batchSum == 0) {
+            resp.batchByCategory.splice(i, 1);
+          }
+        }
+
         for (const obj of resp.batchByCategory) {
           this.categoriesName.push(obj.categoryName);
           this.categoriesObj.push(obj.batches);
@@ -95,19 +104,12 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
         
         for (const score of resp.batchByCategory[0].batches) {
           this.batchNames.push(score.batchName);
+          this.batchFlags.push(true);
         }
 
-
-
-        let graphArray = [this.batchNames, this.yValues, this.categoriesName, this.categoriesObj];
-        let trainerId = sessionStorage.getItem("selectedId");
-        sessionStorage.setItem("graphingArray2" + trainerId, JSON.stringify(graphArray));
-
         // These arguments might need to change.
-        this.displayGraph(this.batchNames, this.yValues);
+        this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.yValues,this.batchFlags));
       });
-
-    }
   }
 
   updateGraph() {
@@ -128,14 +130,14 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.setScoreValues();
     if(this.selectedValue ==0 ){
       this.displayGraph(gA2[0], gA2[1]);
+      this.displayGraph(this.batchFilter.filterBatch(gA2[0],this.batchFlags), this.batchFilter.filterBatch(gA2[1], this.batchFlags));
     } else {
-      this.displayGraph(this.batchNames, this.yValues);
+      this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.yValues, this.batchFlags));
     }
   }
 
   setScoreValues() {
     if(this.pickedCategory == 0){
-      let a:number = 0;
       this.categoriesObj.forEach(c => {
 
         // Each object c is an individual category on the graph. We want to display ALL simultaneously.
@@ -171,7 +173,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
             Math.round((totalValue / quantity) * 100) / 100
           );
         } 
-      };
+      }
       this.cumulativePoor.push(this.poorRawScore);
       this.poorRawScore = [];
       this.cumulativeGood.push(this.goodRawScore);
@@ -225,6 +227,16 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     if (this.myLineChart) {
       this.myLineChart.destroy();
     }
+
+    // Remove categories if they are not present in the shown batches.
+    let batchRemoveEmptyReduce = (acc, curr, i) => {
+      if(this.batchFlags[i]) {
+        return acc += curr;
+      } else {
+        return acc;
+      }
+    }
+
     var colorArray = [ 
       '#FF0000', '#FF8C00', 
       '#FFD700',  '#228B22',
@@ -232,24 +244,8 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       '#FF00FF', '#800000',
       '#00FF00', '#00CED1',
       '#9370DB', '#000000',
-      '#6495ED', '#696969',
-    // Colors repeat
-      '#FF0000', '#FF8C00', 
-      '#FFD700',  '#228B22',
-      '#000080', '#4B0082',
-      '#FF00FF', '#800000',
-      '#00FF00', '#00CED1',
-      '#9370DB', '#000000',
-      '#6495ED', '#696969',
-      // Colors Repeat
-      '#FF0000', '#FF8C00', 
-      '#FFD700',  '#228B22',
-      '#000080', '#4B0082',
-      '#FF00FF', '#800000',
-      '#00FF00', '#00CED1',
-      '#9370DB', '#000000',
-      '#6495ED', '#696969',
-  ]
+      '#6495ED', '#696969'
+    ]
 
     // An array of objects. Each object should contain a yDisplay array within.
     let lineData: any[] = [];
@@ -257,26 +253,23 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       // Removes the first (redundant) element
       this.multiGraphYValues.shift();
       for(let i = 1; i < this.categoriesName.length; i++){
-        let lineColor:string;
+        if(this.multiGraphYValues[i-1].reduce(batchRemoveEmptyReduce, 0) !== 0) {
+          let lineColor:string;
         
-
-        lineColor = colorArray[i-1];
-
-        let dataObj = {
-          label: ''+this.categoriesName[i], // Name the series
-          data: this.multiGraphYValues[i-1], // Specify the data values array
-          fill: false,
-          borderColor: lineColor, // Add custom color border (Line)
-          backgroundColor: '#000000', // Add custom color background (Points and Fill)
-          borderWidth: 1, // Specify bar border width
-        };
-
-        lineData.push(dataObj);
-
+          lineColor = colorArray[(i-1) % colorArray.length];
+  
+          let dataObj = {
+            label: ''+this.categoriesName[i], // Name the series
+            data: this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags), // Specify the data values array
+            fill: false,
+            borderColor: lineColor, // Add custom color border (Line)
+            backgroundColor: '#000000', // Add custom color background (Points and Fill)
+            borderWidth: 1, // Specify bar border width
+          };
+  
+          lineData.push(dataObj);
+        }
       }
-
-
-
 
       // Just copy and paste
 
@@ -322,7 +315,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
 
 
     } else {
-      let lineColor:string = colorArray[this.pickedCategory-1];
+      let lineColor:string = colorArray[(this.pickedCategory-1) % colorArray.length];
     
 
     const yLabels = {
@@ -410,5 +403,15 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
 
       this.BatchTechnicalStatusBySkillCategoryServiceSubscription.unsubscribe();
     }
+  }
+
+  toggle(index: number): void{
+    this.batchFlags[index] = !this.batchFlags[index];
+    this.updateGraph();
+  }
+
+  batch_dropdown_flag: boolean = true;
+  toggleBatchDropdown(): void{
+    this.batch_dropdown_flag = !this.batch_dropdown_flag;
   }
 }

@@ -9,6 +9,17 @@
                     (click)=scroll(targetLocation)>{{category}}</option>
             </select>
         </div>
+
+        <div id="batch-dropdown">
+            <div id="batches" (click)="toggleBatchDropdown()"><p>Batches</p></div>
+            <div id="batch-list" [hidden]="batch_dropdown_flag">
+                <ng-container *ngFor="let name of batchNames; let i = index">
+                    <input type="checkbox" [id]="name" [value]="i" (change)="toggle(i)" checked>
+                    <label [for]="name">{{name}}</label>
+                    <br>
+                </ng-container>
+            </div>
+        </div>
     </div>
     <div #targetLocation class="card-body">
         <div id="divChart6" class="divChart">
@@ -23,22 +34,22 @@
                 Raw Assessment Scores for Category
                 <fa-icon class="" [icon]="tableGraphIcon"></fa-icon>
             </h4>
-            <table *ngIf= "pickedCategory == 0">
+            <table *ngIf="pickedCategory == 0">
                 <caption></caption>
                 <th scope="col"></th>
                 <th scope="col" *ngFor="let batch of batchNames">{{batch}}</th>
-                <tr *ngFor= "let category of categoriesName.slice(1); let i = index">
+                <tr *ngFor="let category of categoriesName.slice(1); let i = index">
                     <td class="description">{{category}}</td>
-                    <td *ngFor="let score of cumulativeyValues[i]">{{score}}%</td>
+                    <td *ngFor="let score of multiGraphYValues[i]">{{score}}%</td>
                 </tr>
             </table>
-            <table *ngIf = "pickedCategory != 0">
+            <table *ngIf="pickedCategory != 0">
                 <caption></caption>
                 <th scope="col"></th>
                 <th scope="col" *ngFor="let batch of batchNames; let i = index">{{batch}}</th>
                 <tr>
                     <td class="description">{{categoriesName[pickedCategory]}}</td>
-                    <td *ngFor="let score of yValues; let i = index">{{score}}%</td>
+                    <td *ngFor="let score of multiGraphYValues[pickedCategory - 1]">{{score}}%</td>
                 </tr>
             </table>
         </div>
