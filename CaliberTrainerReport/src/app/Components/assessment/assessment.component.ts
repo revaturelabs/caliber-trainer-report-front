@@ -24,10 +24,10 @@ export class AssessmentComponent implements OnInit, DoCheck {
 
   public downloadPDF() {
     const options = {
-      filename: 'Report.pdf',
+      filename: 'test.pdf',
       image: {type: 'jpeg', quality: 1},
       html2canvas: {scale: 1},
-      jsPDF: {orientation: 'landscape'}
+      jsPDF: {orientation: 'portrait'}
     };
  
     const content: Element = document.getElementById('assessment-body');
@@ -36,6 +36,8 @@ export class AssessmentComponent implements OnInit, DoCheck {
     .from(content)
     .set(options)
     .save();
+
+    
    }
  
 }

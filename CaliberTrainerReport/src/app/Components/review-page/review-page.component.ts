@@ -16,10 +16,10 @@ export class ReviewPageComponent implements OnInit {
 
   public downloadPDF() {
     const options = {
-      filename: 'ReviewPageReport.pdf',
+      filename: 'Review Page Report.pdf',
       image: {type: 'jpeg', quality: 1},
       html2canvas: {scale: 1},
-      jsPDF: {orientation: 'landscape'}
+      jsPDF: {orientation: 'portrait'}
     };
   
   const content: Element = document.getElementById('review-page-body');
