@@ -23,14 +23,14 @@ export class AssessmentComponent implements OnInit, DoCheck {
   }
 
   public downloadPDF() {
+    const content: Element = document.getElementById('assessment-body');
+    
     const options = {
-      filename: 'test.pdf',
+      filename: 'Assessment Report.pdf',
       image: {type: 'jpeg', quality: 1},
-      html2canvas: {scale: 1},
+      html2canvas: {scale: 1, width: content.clientWidth},
       jsPDF: {orientation: 'portrait'}
     };
- 
-    const content: Element = document.getElementById('assessment-body');
  
     html2PDF()
     .from(content)

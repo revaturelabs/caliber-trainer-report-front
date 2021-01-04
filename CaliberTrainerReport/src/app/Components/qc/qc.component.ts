@@ -26,14 +26,16 @@ export class QCComponent implements OnInit, DoCheck {
 
 
   public downloadPDF() {
+   const content: Element = document.getElementById('qc-body');
+   
    const options = {
      filename: 'QC Report.pdf',
      image: {type: 'jpeg', quality: 1},
-     html2canvas: {scale: 1},
+     html2canvas: {scale: 1, width: content.clientWidth},
      jsPDF: {orientation: 'portrait'}
    };
 
-   const content: Element = document.getElementById('qc-body');
+   
 
    html2PDF()
    .from(content)
