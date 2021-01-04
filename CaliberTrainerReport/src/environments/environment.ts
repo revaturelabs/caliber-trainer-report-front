@@ -5,7 +5,11 @@
 export const environment = {
   production: false,
   backEndUrl: 'http://localhost:8081/excaliber/'
+<<<<<<< HEAD
   //backEndUrl: 'http://3.236.244.228:8081/excaliber/'
+=======
+ // backEndUrl: 'http://3.236.244.228:8081/excaliber/'
+>>>>>>> 1acf082f47aef451adaf23afbef65f0a5bf8e5c7
 };
 
 /*
