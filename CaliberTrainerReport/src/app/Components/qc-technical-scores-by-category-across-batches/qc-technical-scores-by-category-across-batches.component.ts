@@ -414,4 +414,9 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   toggleBatchDropdown(): void{
     this.batch_dropdown_flag = !this.batch_dropdown_flag;
   }
+
+  cat_dropdown_flag: boolean = true;
+  toggleCatDropdown(): void{
+    this.cat_dropdown_flag = !this.cat_dropdown_flag;
+  }
 }
