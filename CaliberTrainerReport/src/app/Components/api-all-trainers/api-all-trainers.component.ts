@@ -71,7 +71,7 @@ export class ApiAllTrainersComponent implements OnInit {
     var request; 
     if(window.XMLHttpRequest) 
       request = new XMLHttpRequest(); 
-    request.open('GET', this.urls.getUrl, false);
+    request.open('GET', this.urls.getUrl(), false);
     request.send();
     if (request.status < 500 && request.status > 399 ) { this.mockData = 'fail-400'; }
     else if (request.status < 600 && request.status > 499 ) { this.mockData = 'fail-500'; }
