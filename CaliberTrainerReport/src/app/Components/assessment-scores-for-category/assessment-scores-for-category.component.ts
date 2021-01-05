@@ -45,6 +45,10 @@ export class AssessmentScoresForCategoryComponent
   // Dealing with Scalability
   width: number;
   isBig: boolean;
+  
+  deselectAll = false;
+  selectAll = true;
+  isChecked = true;
 
   constructor(
     private assessScoresByCategoryAllBatchesService: AssessScoresByCategoryAllBatchesService,
@@ -58,6 +62,7 @@ export class AssessmentScoresForCategoryComponent
     
     this.categoriesName = [];
     this.batchNames = [];
+
     this.multiGraphYValues = [];
 
     this.batchFlags = [];
@@ -79,9 +84,10 @@ export class AssessmentScoresForCategoryComponent
         this.batchFlags.push(true);
       }
 
+
       this.categoriesName.unshift("Overview");
       this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.multiGraphYValues,this.batchFlags));
-    },
+    },//end of resp sub
     () => {
       console.log("An error has occurred building the assessment-scores-for-category.");
     });
@@ -280,9 +286,19 @@ export class AssessmentScoresForCategoryComponent
   }
 
   toggle(index: number): void{
-    this.batchFlags[index] = !this.batchFlags[index];
+      this.batchFlags[index] = !this.batchFlags[index];
+      this.updateGraph();
+  }
+
+  checkSelectAll(): void {
+      this.selectAll = !this.selectAll;
+    for(let i = 0 ; i<this.batchNames.length; i ++){
+        this.batchFlags[i] = this.selectAll;
+      }
+    //deselect all option needs to be unchecked:
     this.updateGraph();
   }
+
 
   batch_dropdown_flag: boolean = true;
   toggleBatchDropdown(): void{

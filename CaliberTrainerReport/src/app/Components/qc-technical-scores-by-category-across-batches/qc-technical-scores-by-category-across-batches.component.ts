@@ -50,6 +50,10 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   width: number;
   isBig: boolean;
 
+  selectAll = true;
+  deselectAll = false;
+
+
   constructor(
     private batchTechnicalStatusBySkillCategoryService: BatchTechnicalStatusBySkillCategoryService,
     private qcTS: QCComponent,
@@ -408,7 +412,17 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   toggle(index: number): void{
     this.batchFlags[index] = !this.batchFlags[index];
     this.updateGraph();
+}
+
+
+checkSelectAll(): void {
+  this.selectAll = !this.selectAll;
+for(let i = 0 ; i<this.batchNames.length; i ++){
+    this.batchFlags[i] = this.selectAll;
   }
+//deselect all option needs to be unchecked:
+this.updateGraph();
+}
 
   batch_dropdown_flag: boolean = true;
   toggleBatchDropdown(): void{
