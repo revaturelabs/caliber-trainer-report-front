@@ -114,19 +114,45 @@ export class AssessmentScoresForCategoryComponent
       '#6495ED', '#696969']
 
     // An array of objects. Each object should contain a yDisplay array within.
+    var pointRadius = [];
+    var pointHitRadius = [];
     let lineData: any[] = [];
     if(this.pickedCategory == 0){
       for(let i = 1; i < this.categoriesName.length; i++){
         if(this.multiGraphYValues[i-1].reduce(batchRemoveEmptyReduce, 0) != 0) {
           let lineColor: string = colorArray[(i-1) % colorArray.length];
+          var pointRadius1 = [];
+          var pointHitRadius1 = [];
+                    let dataWith0Values = this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags);
+                    //remove interactive points where there is no data
+                    var j;
+                    //console.log(dataWith0Values.length)
+                    for(j=0; j< dataWith0Values.length; j++) {
+                      pointRadius1.push(3);
+                      pointHitRadius1.push(3);
+                      if (dataWith0Values[j] == 0) {
+                        console.log(dataWith0Values[j])
+                        pointRadius1[j] = 0;
+                        pointHitRadius1[j] = 0; 
+                        }
+                    }
+          
+                    //filter out no data values and replace with averages
+                    for(let k = 1; k < dataWith0Values.length-1; k++){
+                      if(dataWith0Values[k] == 0){
+                        dataWith0Values[k] = (dataWith0Values[k-1] + dataWith0Values[k+1])/2;
+                      }
+                    }
 
           let dataObj = {
             label: ''+this.categoriesName[i], // Name the series
-            data: this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags), // Specify the data values array
+            data: dataWith0Values, // Specify the data values array
             fill: false,
             borderColor: lineColor, // Add custom color border (Line)
             backgroundColor: lineColor, // Add custom color background (Points and Fill)
             borderWidth: 1, // Specify bar border width
+            pointRadius: pointRadius1,
+            pointHitRadius: pointHitRadius1
           };
 
           lineData.push(dataObj);
@@ -167,6 +193,25 @@ export class AssessmentScoresForCategoryComponent
 
     
     let lineColor:string = colorArray[(this.pickedCategory-1) % colorArray.length];
+    var i;
+    //console.log(this.myLineChart.data.datasets[0].length)
+    for(i=0; i< yValues.length; i++) {
+      pointRadius.push(3);
+      pointHitRadius.push(3);
+      if (yValues[i] == 0) {
+        console.log(yValues[i])
+        pointRadius[i] = 0;
+        pointHitRadius[i] = 0;
+        }
+    }
+
+    let dataWith0Values = yValues;
+    //filter out no data values and replace with averages of non-zero points
+    for(let k = 1; k < dataWith0Values.length-1; k++){
+      if(dataWith0Values[k] == 0){
+        dataWith0Values[k] = (dataWith0Values[k-1] + dataWith0Values[k+1])/2;
+      }
+    }
 
     this.myLineChart = new Chart('sixthChart', {
       type: 'line',
@@ -175,11 +220,13 @@ export class AssessmentScoresForCategoryComponent
         datasets: [
           {
             label: 'Overall Average', // Name the series
-            data: yValues, // Specify the data values array
+            data: dataWith0Values, // Specify the data values array
             fill: false,
             borderColor: lineColor, // Add custom color border (Line)
             backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
             borderWidth: 1, // Specify bar border width
+            pointRadius: pointRadius,
+            pointHitRadius: pointHitRadius
           },
         ],
       },
