@@ -3,6 +3,11 @@
     <div class="option-select-menu" style="margin-bottom: 10px;">
     </div>
   </div>
+  <div style="text-align: right" class="dates-dropdown">
+    <select id="dates-selector" (change)="updateGraph()" [(ngModel)]="pickedYear">
+        <option *ngFor="let year of years; let i = index" [value]="i" >{{year}}</option>
+    </select>
+</div>
 <div id="calendar-container">
 <dx-chart
     id="chart"
