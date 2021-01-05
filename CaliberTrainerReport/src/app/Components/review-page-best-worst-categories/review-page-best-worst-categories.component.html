@@ -4,6 +4,10 @@
         <fa-icon class="barGraphIcon" [icon]="balanceIcon"></fa-icon>
     </div>
     <div *ngIf="!viewAll "class="card-body">
+        <div>
+            <label for="viewAll">View All Categories:&nbsp;</label>
+            <input type="checkbox" name="viewAll" id="viewAllCheckbox" (click)="toggleViewAll()"/>
+        </div>
         <div style="display: flex; flex-direction: row; width: 80%;">
 
             <div class="category">
@@ -36,15 +40,13 @@
                 </div>
             </div>
         </div>
-
-        <div>
-            <label for="viewAll">View All Categories:&nbsp;</label>
-            <input type="checkbox" name="viewAll" id="viewAllCheckbox" (click)="toggleViewAll()"/>
-        </div>
-
     </div>
 
     <div *ngIf="viewAll" class="card-body">
+        <div>
+            <label for="view3">View Best 3 and Worst 3:&nbsp;</label>
+            <input type="checkbox" name="view3" id="view3Checkbox" (click)="toggleViewAll()"/>
+        </div>
         <div style="display: flex; flex-direction: row; width: 80%;">
 
             <div class="category">
@@ -63,11 +65,5 @@
                 </div>
             </div>
         </div>
-
-        <div>
-            <label for="view3">View Best 3 and Worst 3:&nbsp;</label>
-            <input type="checkbox" name="view3" id="view3Checkbox" (click)="toggleViewAll()"/>
-        </div>
-        
     </div>
 </div>
