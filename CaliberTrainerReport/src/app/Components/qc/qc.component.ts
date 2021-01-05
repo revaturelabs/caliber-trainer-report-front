@@ -43,9 +43,9 @@ export class QCComponent implements OnInit, DoCheck {
  
      let width = pdfDOC.internal.pageSize.getWidth();
      let height = pdfDOC.internal.pageSize.getHeight();
-     height = ratio * width;
+     //height = ratio * width;
  
-     pdfDOC.addImage(imgData, 'jpeg', 10, 10, width - 20, height - 10);
+     pdfDOC.addImage(imgData, 'jpeg', 10, 10, width - 20, height - 20);
      pdfDOC.save('QC Report.pdf');
    })
    
