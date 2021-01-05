@@ -4,6 +4,14 @@
         <fa-icon class="barGraphIcon" [icon]="scaleIcon"></fa-icon>
     </div>
     <div class="card-body">
+        <ng-container *ngIf="viewAllQCCategories; else viewTop3Bottom3">
+                <button class="switchBestWorst" type = button>View Top 3/Bottom 3</button>
+                <span>{{viewAllQCCategories}}</span>
+        </ng-container>
+        <ng-template #viewTop3Bottom3>
+                <button class="switchBestWorst" type = button>View All Categories</button>
+                <span>{{viewAllQCCategories}}</span>
+        </ng-template>
         <div class="row best-worst">
             <div class="category">
                 <div class="category-title">

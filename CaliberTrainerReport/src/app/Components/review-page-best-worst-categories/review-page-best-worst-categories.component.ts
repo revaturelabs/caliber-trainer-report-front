@@ -151,6 +151,13 @@ export class ReviewPageBestWorstCategoriesComponent implements OnInit {
     }
     return index;
   }
+
+  //sorts CategoryScore objects by score
+  sortCategoryScores(catScores: CategoryScore[]): CategoryScore[]{
+    let sortedArray = catScores.sort((a, b) => (a.score > b.score) ? 1: (a.score == b.score) ? ((a.category < b.category) ? 1 : -1) : -1);
+    console.log(sortedArray)
+    return null;
+  }
 }
 
 // Object that combines category and score

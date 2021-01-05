@@ -17,16 +17,21 @@ export class ReviewQcBestWorstComponent implements OnInit {
 
   public categoryScores:Object = {};
 
-  //Both Best Categories and Worst Categories are rendederd in the browser 
+  // 1 or 0 for switching view between all categories and best/worst
+  public viewAllQCCategories;
+
+  //Both Best Categories and Worst Categories are rendered in the browser 
   public bestCategories:string[] = []
   public worstCategories:string[] = []
-
+  //Sorted array of category names
+  public sortedCategories: String[];
 
 
   constructor(private QCscores:BatchTechnicalStatusBySkillCategoryService) { 
     this.scaleIcon = faBalanceScale;
     this.goodIcon = faCheckCircle;
     this.badIcon = faTimesCircle;
+    this.viewAllQCCategories = 0; //default shows best/worst
   }
 
   //Creates a point system which corresponds to the possible results of a QC.
@@ -69,6 +74,21 @@ public findWorstCategories(categories){
   return worstCategoriesArray
 }
 
+//sorts CategoryScore objects by score
+public sortCategoryScores(categoryScores: Object){
+  let keys = Object.keys(categoryScores);
+  let catScores = [];
+  for(let key of keys){
+    let newCatScore = new CategoryScore(key, categoryScores[key]);
+    console.log(newCatScore);
+    catScores.push(newCatScore);
+  }
+  catScores.sort((a,b) => (a.score > b.score) ? 1 : -1);
+  console.log(catScores)
+  let sortedCats: String[];
+  return sortedCats;
+}
+
   ngOnInit(): void {
     this.QCscores.getAvgCategoryScoresObservables().subscribe(data =>{
       //
@@ -89,6 +109,23 @@ public findWorstCategories(categories){
       }
       this.bestCategories = this.findBestCategories(this.categoryScores)
       this.worstCategories = this.findWorstCategories(this.categoryScores)
+      console.log(this.categoryScores);
+      console.log(Object.values(this.categoryScores));
+      console.log(Object.keys(this.categoryScores));
+      console.log(this.categoryScores['SQL']);
+      let dummy = this.sortCategoryScores(this.categoryScores);
+      console.log(dummy);
     })
+  }
+}
+
+// Object that combines category and score
+export class CategoryScore {
+  category: string;
+  score: number;
+
+  constructor(s: string, n: number) {
+    this.category = s;
+    this.score = n
   }
 }
