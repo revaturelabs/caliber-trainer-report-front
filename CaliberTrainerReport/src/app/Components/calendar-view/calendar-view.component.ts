@@ -21,8 +21,34 @@ export class CalendarViewComponent implements OnInit {
   constructor(private batchServ: GetBatchService) { }
 
   ngOnInit(){
-
-    this.updateGraph()
+    this.dataSource = [];
+    this.batchServ.getBatches().subscribe(
+      (response) => {
+        this.batches = response;
+        for(let batch of this.batches) {
+          console.log(batch)
+          
+          let sd = batch.startDate.split("-");
+          let ed = batch.endDate.split("-");
+          // console.log(parseInt(sd[0]));
+          // console.log(this.years[this.pickedYear]);
+          // if ((parseInt(sd[0]))==this.years[this.pickedYear]){
+            
+          let d = {
+            batchName: batch.batchName,
+            trainer: batch.name,
+            
+            start: new Date(parseInt(sd[0]), parseInt(sd[1]), parseInt(sd[2])),
+            end: new Date(parseInt(ed[0]), parseInt(ed[1]), parseInt(ed[2]))
+            
+          };
+          console.log(d.end);
+          this.dataSource.push(d);
+        }
+        }
+      // }
+    )
+    // this.updateGraph()
   }
 
   updateGraph(){
