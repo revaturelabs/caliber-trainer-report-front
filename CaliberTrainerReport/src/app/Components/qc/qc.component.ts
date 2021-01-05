@@ -1,5 +1,8 @@
+import { JSDocCommentStmt } from '@angular/compiler';
 import { Component, OnInit, DoCheck, ViewChild, ElementRef } from '@angular/core';
 import * as html2PDF from 'html2pdf.js';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-qc',
@@ -26,21 +29,47 @@ export class QCComponent implements OnInit, DoCheck {
 
 
   public downloadPDF() {
-   const content: Element = document.getElementById('qc-body');
+   let content = window.document.getElementById('qc-body');
+   content.style.margin = "auto";
+   content.style.padding = "2px";
+   
+   const divHeight = content.clientHeight
+   const divWidth = content.clientWidth
+   const ratio = divHeight / divWidth;
+ 
+   html2canvas(content).then(function (canvas){
+     let imgData = canvas.toDataURL('image/jpeg');
+     let pdfDOC = new jsPDF();
+ 
+     let width = pdfDOC.internal.pageSize.getWidth();
+     let height = pdfDOC.internal.pageSize.getHeight();
+     height = ratio * width;
+ 
+     pdfDOC.addImage(imgData, 'jpeg', 10, 10, width - 20, height - 10);
+     pdfDOC.save('QC Report.pdf');
+   })
+   
+   // Original Implementation
+   /* 
+   let content = window.document.getElementById('qc-body');
    
    const options = {
+     margin:  1,
      filename: 'QC Report.pdf',
      image: {type: 'jpeg', quality: 1},
-     html2canvas: {scale: 1, width: content.clientWidth},
-     jsPDF: {orientation: 'portrait'}
+     html2canvas: {scale: 1},
+     jsPDF: {orientation: 'portrait', format: 'a4'}
    };
+   
+   
+   html2PDF()
+   .set(options)
+   .from(content)
+   .save();*/
 
    
 
-   html2PDF()
-   .from(content)
-   .set(options)
-   .save();
+
   }
 
 }

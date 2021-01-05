@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as html2PDF from 'html2pdf.js';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-review-page',
@@ -15,6 +17,27 @@ export class ReviewPageComponent implements OnInit {
   }
 
   public downloadPDF() {
+    let content = window.document.getElementById('review-page-body');
+    content.style.margin = "auto";
+    content.style.padding = "2px";
+    
+    const divHeight = content.clientHeight
+    const divWidth = content.clientWidth
+    const ratio = divHeight / divWidth;
+  
+    html2canvas(content).then(function (canvas){
+      let imgData = canvas.toDataURL('image/jpeg');
+      let pdfDOC = new jsPDF();
+  
+      let width = pdfDOC.internal.pageSize.getWidth();
+      let height = pdfDOC.internal.pageSize.getHeight();
+      height = ratio * width;
+  
+      pdfDOC.addImage(imgData, 'jpeg', 10, 10, width - 20, height - 10);
+      pdfDOC.save('Review Page Report.pdf');
+    })
+
+    /*
     const content: Element = document.getElementById('review-page-body');
     
     const options = {
@@ -27,7 +50,7 @@ export class ReviewPageComponent implements OnInit {
    html2PDF()
    .from(content)
    .set(options)
-   .save();
+   .save();*/
   }
 
 }
