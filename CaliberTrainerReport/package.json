@@ -32,6 +32,7 @@
     "@fullcalendar/interaction": "^5.3.1",
     "@fullcalendar/resource-timeline": "5.3.1",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
+    "angular": "^1.8.2",
     "angular-chart.js": "^1.1.1",
     "bootstrap": "^4.5.2",
     "chart.js": "^2.9.3",
