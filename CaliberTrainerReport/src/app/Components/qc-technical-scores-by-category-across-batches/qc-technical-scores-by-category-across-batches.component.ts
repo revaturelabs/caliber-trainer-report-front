@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy, SystemJsNgModuleLoader } from '@angular/core';
 import { faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
 import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/BatchTechnicalStatusBySkillCategory.service';
@@ -40,6 +40,11 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   // this array tracks which batches to show on the graph
   // index of batchFlags corresponds to index of batchNames:string[]
   batchFlags: boolean[];
+
+  // this array tracks which cateories to show on the graph
+  // index of catFlags corresponds to index of batchNames:string[]
+  catFlags: boolean[];
+
   // FilterBatch is a helper class located in utility folder under src > app
   // it contains a method called filterBatch(any[], boolean[]) that takes in any[] and returns a new any[] with true indices from boolean[]
   batchFilter: FilterBatch;
@@ -74,6 +79,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.cumulativeGood = [];
     this.cumulativePoor = [];
 
+    this.catFlags = [];
     this.batchFlags = [];
     this.batchFilter = new FilterBatch();
 
@@ -96,8 +102,9 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
         for (const obj of resp.batchByCategory) {
           this.categoriesName.push(obj.categoryName);
           this.categoriesObj.push(obj.batches);
+          this.catFlags.push(true);
         }
-        this.categoriesName.unshift("Overview");
+        this.categoriesName.unshift("Overview"); //overview might not be needed
         this.categoriesObj.unshift(resp.batchByCategory[0].batches);
         // this.categoriesObj.unshift("COOL");
         this.setScoreValues();
@@ -126,9 +133,10 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
 
     let trainerId = sessionStorage.getItem("selectedId");
     let gA2: any[] = JSON.parse(sessionStorage.getItem("graphingArray2" + trainerId));
-
     this.setScoreValues();
-    if(this.selectedValue ==0 ){
+    console.log("gA2",gA2);//////////LOGING
+    console.log("se,lectedvalue",this.selectedValue);//////////LOGING
+    if(this.selectedValue ==0 ){ ///selceted value set to "all" in the QC component
       this.displayGraph(gA2[0], gA2[1]);
       this.displayGraph(this.batchFilter.filterBatch(gA2[0],this.batchFlags), this.batchFilter.filterBatch(gA2[1], this.batchFlags));
     } else {
@@ -357,7 +365,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
           ],
         },
         title: {
-          display: true,
+          display: true,//title to change with array of picked categories
           text: `QC scores based on ${
             this.categoriesName[this.pickedCategory]
           }`,
@@ -407,6 +415,14 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
 
   toggle(index: number): void{
     this.batchFlags[index] = !this.batchFlags[index];
+    console.log("yo")
+    this.updateGraph();
+  }
+
+  //This is where we edit the lines germanicus
+  toggleCat(index: number): void{
+    this.catFlags[index-1] = !this.catFlags[index-1];
+    console.log(this.catFlags)
     this.updateGraph();
   }
 
