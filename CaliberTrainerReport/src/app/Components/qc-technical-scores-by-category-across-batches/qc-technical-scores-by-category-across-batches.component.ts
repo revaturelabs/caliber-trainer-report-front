@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { FilterBatch } from 'src/app/utility/FilterBatch';
 
+
 @Component({
   selector: 'app-qc-technical-scores-by-category-across-batches',
   templateUrl: './qc-technical-scores-by-category-across-batches.component.html',
@@ -14,6 +15,7 @@ import { FilterBatch } from 'src/app/utility/FilterBatch';
 })
 export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   implements OnInit, OnDestroy {
+  filterText: string;
   private BatchTechnicalStatusBySkillCategoryServiceSubscription: Subscription;
   lineGraphIcon = faChartLine;
   tableGraphIcon = faTable;
@@ -77,6 +79,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.batchFlags = [];
     this.batchFilter = new FilterBatch();
 
+    this.filterText = '';
 
     this.BatchTechnicalStatusBySkillCategoryServiceSubscription = this.batchTechnicalStatusBySkillCategoryService
       .getAvgCategoryScoresObservables()
