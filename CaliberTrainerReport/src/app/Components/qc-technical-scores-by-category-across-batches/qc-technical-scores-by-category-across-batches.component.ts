@@ -292,7 +292,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       // Just copy and paste
 
       const yLabels = {
-        0: 'No Data',
+        0: '',
         1: 'Poor',
         2: 'Average',
         3: 'Good',
@@ -336,7 +336,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     
 
     const yLabels = {
-      0: 'No Data',
+      0: '',
       1: 'Poor',
       2: 'Average',
       3: 'Good',
