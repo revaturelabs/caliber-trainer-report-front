@@ -23,8 +23,9 @@ export class ReviewQcBestWorstComponent implements OnInit {
   //Both Best Categories and Worst Categories are rendered in the browser 
   public bestCategories:string[] = []
   public worstCategories:string[] = []
-  //Sorted array of category names
-  public sortedCategories: String[];
+
+  //Array of CategoryScore objects sorted by score
+  public sortedCategories: CategoryScore[];
 
 
   constructor(private QCscores:BatchTechnicalStatusBySkillCategoryService) { 
@@ -52,25 +53,19 @@ public calculateTotalBatchQuantity(batch){
   return result
 }
 public findBestCategories(categories){
-  let arrayOfScoresByCategory = Object.values(this.categoryScores)
-  let bestScore = Math.max(...arrayOfScoresByCategory)
   let bestCategoriesArray = []
-  for(let category in categories){
-    if(this.categoryScores[category] === bestScore){
-      bestCategoriesArray.push(category)
-    }
+  for(let i = 0; i < 3; i++){
+    bestCategoriesArray[i] = categories[i];
   }
   return bestCategoriesArray
 }
 public findWorstCategories(categories){
-  let arrayOfScoresByCategory = Object.values(this.categoryScores)
-  let worstScore = Math.min(...arrayOfScoresByCategory)
   let worstCategoriesArray = []
-  for(let category in categories){
-    if(this.categoryScores[category] === worstScore){
-      worstCategoriesArray.push(category)
-    }
+  let length = categories.length;
+  for(let i = 1; i < 4; i++){
+    worstCategoriesArray[i - 1] = categories[length - i];
   }
+  console.log(worstCategoriesArray);
   return worstCategoriesArray
 }
 
@@ -80,13 +75,18 @@ public sortCategoryScores(categoryScores: Object){
   let catScores = [];
   for(let key of keys){
     let newCatScore = new CategoryScore(key, categoryScores[key]);
-    console.log(newCatScore);
     catScores.push(newCatScore);
   }
-  catScores.sort((a,b) => (a.score > b.score) ? 1 : -1);
-  console.log(catScores)
-  let sortedCats: String[];
-  return sortedCats;
+  catScores.sort((a,b) => (a.score < b.score) ? 1 : -1);
+  let sortedCats = new Array();
+  for(let i = catScores.length - 1; i >= 0; i--){
+    sortedCats.push(catScores[i].category);
+  }
+  return catScores;
+}
+
+public toggleViewAll(){
+  this.viewAllQCCategories = 1 - this.viewAllQCCategories;
 }
 
   ngOnInit(): void {
@@ -107,14 +107,11 @@ public sortCategoryScores(categoryScores: Object){
           this.categoryScores[categoryName] = catAverage 
         }
       }
-      this.bestCategories = this.findBestCategories(this.categoryScores)
-      this.worstCategories = this.findWorstCategories(this.categoryScores)
-      console.log(this.categoryScores);
-      console.log(Object.values(this.categoryScores));
-      console.log(Object.keys(this.categoryScores));
-      console.log(this.categoryScores['SQL']);
-      let dummy = this.sortCategoryScores(this.categoryScores);
-      console.log(dummy);
+      this.sortedCategories = this.sortCategoryScores(this.categoryScores);
+      this.bestCategories = this.findBestCategories(this.sortedCategories);
+      this.worstCategories = this.findWorstCategories(this.sortedCategories);
+      console.log(this.sortedCategories);
+      console.log(this.bestCategories);
     })
   }
 }
