@@ -279,17 +279,13 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
               }
           }
 
-          //filter out no data values and replace with averages
-          for(let k = 1; k < dataWith0Values.length-1; k++){
-            if(dataWith0Values[k] == 0){
-              dataWith0Values[k] = (dataWith0Values[k-1] + dataWith0Values[k+1])/2;
-            }
-          }
+          // //filter out no data values and replace with averages
+          let finalYValues = this.cleanYValues(dataWith0Values);
   
           let dataObj = {
             label: ''+this.categoriesName[i], // Name the series
             //data: this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags), // Specify the data values array
-            data: dataWith0Values,
+            data: finalYValues,
             fill: false,
             borderColor: lineColor, // Add custom color border (Line)
             backgroundColor: '#000000', // Add custom color background (Points and Fill)
@@ -357,10 +353,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       4: 'Superstar',
     };
 
-    console.log('yDisplayValues',yDisplayValues);
-
     var i;
-    //console.log(this.myLineChart.data.datasets[0].length)
     for(i=0; i< yDisplayValues.length; i++) {
       pointRadius.push(3);
       pointHitRadius.push(3);
@@ -373,11 +366,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
 
     let dataWith0Values = yDisplayValues;
     //filter out no data values and replace with averages of non-zero points
-    for(let k = 1; k < dataWith0Values.length-1; k++){
-      if(dataWith0Values[k] == 0){
-        dataWith0Values[k] = (dataWith0Values[k-1] + dataWith0Values[k+1])/2;
-      }
-    }
+    let finalYValues = this.cleanYValues(dataWith0Values);
     
     this.myLineChart = new Chart('secondChart', {
       type: 'line',
@@ -386,7 +375,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
         datasets: [
           {
             label: 'Overall Average', // Name the series
-            data: dataWith0Values, // Specify the data values array
+            data: finalYValues, // Specify the data values array
             fill: false,
             pointRadius: pointRadius,
             pointHitRadius: pointHitRadius,
@@ -468,5 +457,60 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   batch_dropdown_flag: boolean = true;
   toggleBatchDropdown(): void{
     this.batch_dropdown_flag = !this.batch_dropdown_flag;
+  }
+
+  cleanYValues(dataWith0Values: number[]){
+    //filter out no data values and replace with averages
+    let finalYValues = [];
+
+    if(dataWith0Values[0] == 0){
+      //the first value is zero, replace it with the first non-zero value
+      for(let k = 1; k < dataWith0Values.length; k++){
+        if(dataWith0Values[k] != 0){
+          dataWith0Values[0] = dataWith0Values[k];
+          break;
+        }
+      }
+    }
+
+    if(dataWith0Values[dataWith0Values.length-1] == 0){
+      //the last value is zero, replace it with the first previous non-zero value
+      for(let k = dataWith0Values.length-1; k >= 0; k--){
+        if(dataWith0Values[k] != 0){
+          dataWith0Values[dataWith0Values.length-1] = dataWith0Values[k];
+          break;
+        }
+      }
+    }
+
+    finalYValues.push(dataWith0Values[0]);
+    //replace any zero inner y values with averages of values around them
+    for(let k = 1; k < dataWith0Values.length-1; k++){
+      if(dataWith0Values[k] == 0){
+
+        let prev;
+        for(let h = k-1; h >= 0; h--){
+          if(dataWith0Values[h] != 0){
+            prev = dataWith0Values[h];
+            break;
+          }
+        }
+
+        let next;
+        for(let h = k+1; h < dataWith0Values.length; h++){
+          if(dataWith0Values[h] != 0){
+            next = dataWith0Values[h];
+            break;
+          }
+        }
+
+        let avg = (next+prev)/2;
+        finalYValues.push(avg);
+      } else {
+        finalYValues.push(dataWith0Values[k]);
+      }
+    }
+    finalYValues.push(dataWith0Values[dataWith0Values.length-1]);
+    return finalYValues;
   }
 }
