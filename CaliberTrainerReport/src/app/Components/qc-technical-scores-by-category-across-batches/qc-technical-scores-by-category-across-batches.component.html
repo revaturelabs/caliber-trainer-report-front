@@ -12,15 +12,29 @@
         <div id="batch-dropdown">
             <div id="batches" (click)="toggleBatchDropdown()"><p>Batches</p></div>
             <div id="batch-list" [hidden]="batch_dropdown_flag">
-                <!-- <li *ngFor="let move of pokemon.moves | filter:filterText"></li> -->
-                <label for="search">Search: </label>
+
                 
-                <input name="search" type="text" [(ngModel)]="filterText" ><br>
-                <ng-container *ngFor="let name of batchNames | filter:filterText; let i = index ">
-                    
-                    <input type="checkbox" [id]="name" [value]="i" (change)="toggle(i)" checked>
-                    <label [for]="name">{{name}}</label>
-                    <br>
+                
+
+                
+                <input name="search" type="text" [(ngModel)]="filterText" placeholder="Search" ><br>
+                <ng-container *ngIf="!filterText"><input type="checkbox" id="batchSelectAll" name="batchSelectAll" (change)="checkSelectAll()" checked>
+                <label for="batchSelectAll">Select/Deselect All</label>
+                <br></ng-container>
+                <ng-container *ngFor="let name of batchNames | filter:filterText; let i = index">
+
+                    <ng-container *ngIf ="selectAll; else elseBlock">
+                        <input  type="checkbox" [id]="name" [value]="i" (change)="toggle(i)" checked>
+                        <label [for]="name">{{name}}</label>
+                        <br>
+                    </ng-container>
+
+                    <ng-template #elseBlock> 
+                        <input  type="checkbox" [id]="name" [value]="i" (change)="toggle(i)">
+                        <label [for]="name">{{name}}</label>
+                        <br>
+                    </ng-template>
+
                 </ng-container>
                 
             </div>
