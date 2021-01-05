@@ -65,7 +65,6 @@ public findWorstCategories(categories){
   for(let i = 1; i < 4; i++){
     worstCategoriesArray[i - 1] = categories[length - i];
   }
-  console.log(worstCategoriesArray);
   return worstCategoriesArray
 }
 
@@ -75,6 +74,7 @@ public sortCategoryScores(categoryScores: Object){
   let catScores = [];
   for(let key of keys){
     let newCatScore = new CategoryScore(key, categoryScores[key]);
+    newCatScore.score = parseFloat(newCatScore.score.toFixed(2));
     catScores.push(newCatScore);
   }
   catScores.sort((a,b) => (a.score < b.score) ? 1 : -1);
@@ -100,8 +100,10 @@ public toggleViewAll(){
           let currentBatch = data.batchByCategory[category].batches[batch]
           totalScores += this.calculateTotalBatchScore(currentBatch)
           totalQuantity += this.calculateTotalBatchQuantity(currentBatch)
-          catAverage = totalScores/totalQuantity
         }
+        catAverage = totalScores/totalQuantity
+        console.log(totalScores);
+        console.log(totalQuantity);
         if(!isNaN(catAverage)){
           let categoryName = data.batchByCategory[category].categoryName
           this.categoryScores[categoryName] = catAverage 

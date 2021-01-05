@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReviewQcBestWorstComponent } from './review-qc-best-worst.component';
 
-describe('ReviewQcBestWorstComponent', () => {
+fdescribe('ReviewQcBestWorstComponent', () => {
   let component: ReviewQcBestWorstComponent;
   let fixture: ComponentFixture<ReviewQcBestWorstComponent>;
   let batch = {
@@ -14,6 +14,8 @@ describe('ReviewQcBestWorstComponent', () => {
       superstar: 2
     }
   }
+  // mock categoryScores:Object goes here
+  // sortedCategories:CategoryScore[] goes here
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -39,4 +41,12 @@ describe('ReviewQcBestWorstComponent', () => {
   it('should calculate total batch quantity', () => {
     expect(component.calculateTotalBatchQuantity(batch)).toBe(23)
   })
+
+  // Test sortCategoryScores using mock categoryScores:Object data above
+  // return the result as sortedCategories:CategoryScore[] as variable above
+
+  // Test findBestCategories using returned sortedCategories from above test
+
+  // Test findWorstCategories using returned sortedCategories from above test
+
 });

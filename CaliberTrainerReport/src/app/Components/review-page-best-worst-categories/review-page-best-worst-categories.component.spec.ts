@@ -68,5 +68,5 @@ describe('BestWorstCategoriesComponent', () => {
       expect(component.getCategoryScores()[i].score >= component.getCategoryScores()[i - 1].score);
     }
   })
-
+  
 });
