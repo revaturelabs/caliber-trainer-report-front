@@ -43,33 +43,11 @@ export class QCComponent implements OnInit, DoCheck {
  
      let width = pdfDOC.internal.pageSize.getWidth();
      let height = pdfDOC.internal.pageSize.getHeight();
-     //height = ratio * width;
  
      pdfDOC.addImage(imgData, 'jpeg', 10, 10, width - 20, height - 20);
      pdfDOC.save('QC Report.pdf');
    })
    
-   // Original Implementation
-   /* 
-   let content = window.document.getElementById('qc-body');
-   
-   const options = {
-     margin:  1,
-     filename: 'QC Report.pdf',
-     image: {type: 'jpeg', quality: 1},
-     html2canvas: {scale: 1},
-     jsPDF: {orientation: 'portrait', format: 'a4'}
-   };
-   
-   
-   html2PDF()
-   .set(options)
-   .from(content)
-   .save();*/
-
-   
-
-
   }
 
 }
