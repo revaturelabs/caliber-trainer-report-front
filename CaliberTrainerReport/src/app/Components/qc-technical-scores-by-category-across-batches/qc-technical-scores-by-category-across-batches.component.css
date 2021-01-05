@@ -10,7 +10,10 @@
     width: 325px;
     margin-right: 2vw;
   }
-  
+  #category-dropdown {
+    width: 325px;
+    margin-right: 2vw;
+  }
   #batch-list {
     position: absolute;
     color: black;
@@ -49,4 +52,24 @@
     background: white;
     color: black;
     height: 28px;
+  }
+
+  #qc-graph2-selector {
+    border: gray 1px;
+    border-style: solid;
+    background: white;
+    color: black;
+    height: 28px;
+  }
+
+  #category-list {
+    position: absolute;
+    color: black;
+    z-index: 1;
+    width: 325px;
+    max-height: 250px;
+    overflow: auto;
+    background-color:#f7f7f7;
+    white-space: nowrap;
+    border: solid gray 1px;
   }

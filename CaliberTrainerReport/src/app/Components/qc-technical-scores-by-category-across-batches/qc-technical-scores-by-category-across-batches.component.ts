@@ -20,6 +20,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   lineGraphIcon = faChartLine;
   tableGraphIcon = faTable;
   pickedCategory: any;
+  pickedCategories: string[];
   myLineChart: any;
   categoriesName: string[];
   categoriesObj: any[];
@@ -42,6 +43,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   // this array tracks which batches to show on the graph
   // index of batchFlags corresponds to index of batchNames:string[]
   batchFlags: boolean[];
+  catFlags: boolean[];
   // FilterBatch is a helper class located in utility folder under src > app
   // it contains a method called filterBatch(any[], boolean[]) that takes in any[] and returns a new any[] with true indices from boolean[]
   batchFilter: FilterBatch;
@@ -53,7 +55,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   isBig: boolean;
 
   selectAll = true;
-  deselectAll = false;
+  catSelectAll = true;
 
 
   constructor(
@@ -71,6 +73,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.multiGraphYValues = [];
     this.batchNames = [];
     this.pickedCategory = 0;
+    this.pickedCategories = [];
     this.poorRawScore = [];
     this.averageRawScore = [];
     this.goodRawScore = [];
@@ -81,6 +84,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.cumulativePoor = [];
 
     this.batchFlags = [];
+    this.catFlags = [];
     this.batchFilter = new FilterBatch();
 
     this.filterText = '';
@@ -134,6 +138,8 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     let trainerId = sessionStorage.getItem("selectedId");
     let gA2: any[] = JSON.parse(sessionStorage.getItem("graphingArray2" + trainerId));
 
+    // if (this.pickedCategories) this.setAllScoreValues()
+    // else 
     this.setScoreValues();
     if(this.selectedValue ==0 ){
       this.displayGraph(gA2[0], gA2[1]);
@@ -142,7 +148,9 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.yValues, this.batchFlags));
     }
   }
+  setAllScoreValues() {
 
+  }
   setScoreValues() {
     if(this.pickedCategory == 0){
       this.categoriesObj.forEach(c => {
@@ -430,5 +438,24 @@ this.updateGraph();
   batch_dropdown_flag: boolean = true;
   toggleBatchDropdown(): void{
     this.batch_dropdown_flag = !this.batch_dropdown_flag;
+  }
+
+  catToggle(index: number): void{
+    this.catFlags[index] = !this.catFlags[index];
+    this.updateGraph();
+}
+
+
+catCheckSelectAll(): void {
+  this.catSelectAll = !this.catSelectAll;
+for(let i = 0 ; i<this.categoriesName.length; i ++){
+    this.catFlags[i] = this.catSelectAll;
+  }
+//deselect all option needs to be unchecked:
+this.updateGraph();
+}
+  cat_dropdown_flag: boolean = true;
+  toggleCatDropdown(): void{
+    this.cat_dropdown_flag = !this.cat_dropdown_flag;
   }
 }
