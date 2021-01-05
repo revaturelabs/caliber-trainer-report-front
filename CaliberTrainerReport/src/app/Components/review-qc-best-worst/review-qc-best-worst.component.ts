@@ -87,11 +87,8 @@ public findWorstCategories(categories){
           this.categoryScores[categoryName] = catAverage 
         }
       }
-      console.log(this.categoryScores);
       this.bestCategories = this.findBestCategories(this.categoryScores)
-      console.log(this.bestCategories);
       this.worstCategories = this.findWorstCategories(this.categoryScores)
-      console.log(this.worstCategories);
     })
   }
 }
