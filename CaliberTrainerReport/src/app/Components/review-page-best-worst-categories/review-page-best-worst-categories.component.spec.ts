@@ -49,4 +49,24 @@ describe('BestWorstCategoriesComponent', () => {
       new CategoryScore("Git", 25.25)]);
   })
 
+  // For the expandable feature
+  it('should display all the categories', ()=> {
+    expect(component.getCategoryScores()).toEqual([
+      new CategoryScore("Spring", 92.12), 
+      new CategoryScore("Java", 90.05), 
+      new CategoryScore("AWS", 88.88),
+      new CategoryScore("Junit", 70.75),
+      new CategoryScore("Git", 25.25),
+      new CategoryScore("Jenkins", 25.02), 
+      new CategoryScore("DevOps", 12.12)]
+    );
+  })
+
+  // For the expandable feature
+  it('the allCategoryScores list should be sorted by score in a descending order', () => {
+    for (let i = 1; i < component.getCategoryScores().length; i++) {
+      expect(component.getCategoryScores()[i].score >= component.getCategoryScores()[i - 1].score);
+    }
+  })
+
 });
