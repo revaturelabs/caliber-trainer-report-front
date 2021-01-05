@@ -47,6 +47,7 @@
             
             <div *ngIf="pickedCategory == 0">
                 <div *ngFor="let category of categoriesName.slice(1); let i = index">
+                    <div *ngIf="categoryFlags[i]">
                     <h1>{{category}}</h1>
                     <table>
                         <caption></caption>
@@ -69,6 +70,7 @@
                             <td class="leftColumnStyle" *ngFor="let poor of cumulativePoor[i+1]">{{poor}}</td>
                         </tr>
                     </table>
+                    </div>
                 </div>
             </div>
         
