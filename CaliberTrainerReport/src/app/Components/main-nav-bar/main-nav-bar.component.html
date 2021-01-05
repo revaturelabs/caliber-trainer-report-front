@@ -1,0 +1,25 @@
+<div class="mainNavBG">
+    <nav class="mainNav">
+        <div class="mainLogo"> <a routerLink="#"> <img src="https://imgur.com/QMNMf4M.png" class="mainLogoIMG" alt="Revature Logo"></a> </div>
+        <div class="mainTitle" *ngIf="isBig"><a routerLink="#">EXCALIBER</a></div>
+        <div class="navButtonSection">
+            <div class="navButton" *ngIf="isBig"><a id="demo" routerLink="/qc">View QC Reports</a></div>
+            <div class="navButton" *ngIf="isBig"><a routerLink="/review-page">View Review Page</a></div>
+            <div class="navButton" *ngIf="isBig"><a routerLink="/assessment">View Assessment Reports</a></div>
+            <div class="navButton" *ngIf="isBig"><a routerLink="/calendarview">View Batch Calendar</a></div> 
+        </div>
+        <div class="hBSection" *ngIf="!isBig">
+            <div class="hamburgerButton" *ngIf="!isBig">
+                <fa-icon class="hambIcon" [icon]="hamburgerIcon" (click)="openMenu()"></fa-icon>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="hambDropdown" id="hambDropdown">
+    <div class="hambBG"></div>
+    <a id="demo2" routerLink="/qc" style="z-index: 3;">View QC Reports</a>
+    <a id="demo3" routerLink="/assessment" style="z-index: 3;
+    margin-top: 10px;">View Assessment Reports</a>
+    <a id="demo4" routerLink="/calendarview" style="z-index: 3;
+    margin-top: 10px;">View Batch Calendar</a>
+</div>

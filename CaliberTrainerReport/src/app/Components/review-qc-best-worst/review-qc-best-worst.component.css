@@ -1,0 +1,31 @@
+.best-worst{
+    width:80%;
+}
+.category {
+    justify-items: center;
+    width: 35%;
+    text-align: center;
+    margin: auto;
+    border-radius: 5px;
+    border: 2px solid #ea753e;
+}
+
+.category-title {
+    align-items: center;
+    font-size: 15pt;
+    background-color: #ea753e;
+    color: white;
+    text-align: center;
+    justify-items: center;
+    display: flex;
+    flex-direction: row;
+    flex: 3;
+}
+.cat-results p{
+    padding: 5px;
+    margin: 0px;
+    font-size: 20px;
+}
+.titleicon {
+    flex: 1;
+}

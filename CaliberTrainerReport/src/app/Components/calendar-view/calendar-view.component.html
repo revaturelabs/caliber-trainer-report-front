@@ -1,0 +1,32 @@
+<div class="qc-title">
+    <h2>All Batches by Trainer</h2>
+    <div class="option-select-menu" style="margin-bottom: 10px;">
+    </div>
+  </div>
+<div id="calendar-container">
+<dx-chart
+    id="chart"
+    [dataSource]="dataSource"
+    [rotated]="true"
+    [barGroupPadding]="0.2">
+    <dxo-argument-axis [categories]="['Batch Ids']">
+        <dxo-tick [visible]="false"></dxo-tick>
+    </dxo-argument-axis>
+    <dxo-title text="Batch Overview"
+        subtitle="A timeline of batches"
+    ></dxo-title>
+    <dxo-animation [enabled]="false"></dxo-animation>
+    <dxo-legend verticalAlignment="bottom"
+        horizontalAlignment="center">
+        <dxo-title text="Batch Names"></dxo-title>
+    </dxo-legend>
+    <dxo-series-template nameField="trainer"></dxo-series-template>
+    <dxo-common-series-settings
+        argumentField="batchName"
+        type="rangeBar"
+        rangeValue1Field="start"
+        rangeValue2Field="end"
+        barOverlapGroup="trainers">
+    </dxo-common-series-settings>
+</dx-chart>
+</div>

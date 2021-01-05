@@ -1,0 +1,16 @@
+<div class="card-layout">
+    <div class="card-title">
+        <span>Caliber 2 JSON Import Menu</span>
+        <fa-icon class="faDatabase" [icon]="databaseIcon"></fa-icon>
+
+    </div>
+    <div class="card-body">
+        <app-upload></app-upload>
+        <div *ngIf="displayLoader | async" alt="loading" class="loadingio-spinner-bean-eater-tpo3nfialo"><div class="ldio-wgd555tlx8h">
+            <div><div></div><div></div><div></div></div><div><div></div><div></div><div></div></div>
+            </div></div>
+    </div>
+    <div style="margin-top:20px; border-top-right-radius: 10px; border-top-left-radius: 10px;" class = "card-body">
+        <app-api-all-trainers></app-api-all-trainers>
+    </div>
+</div>

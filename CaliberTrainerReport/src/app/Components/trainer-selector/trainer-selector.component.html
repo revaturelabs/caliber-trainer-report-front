@@ -1,0 +1,3 @@
+<select id="trainer-selector" (change)="getSelectedTrainer($event)" [ngModel]="selectedValue" >
+    <option value={{trainer.id}} *ngFor="let trainer of trainerList">{{trainer.firstName}}</option>
+</select>
