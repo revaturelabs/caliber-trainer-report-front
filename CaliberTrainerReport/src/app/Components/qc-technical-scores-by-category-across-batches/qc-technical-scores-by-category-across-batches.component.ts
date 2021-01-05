@@ -262,10 +262,34 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
           lineColor = colorArray[(i-1) % colorArray.length];
           var pointRadius1 = [];
           var pointHitRadius1 = [];
+
+          
+          let dataWith0Values = this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags);
+
+          //remove interactive points where there is no data
+          var j;
+          //console.log(dataWith0Values.length)
+          for(j=0; j< dataWith0Values.length; j++) {
+            pointRadius1.push(3);
+            pointHitRadius1.push(3);
+            if (dataWith0Values[j] == 0) {
+              console.log(dataWith0Values[j])
+              pointRadius1[j] = 0;
+              pointHitRadius1[j] = 0; 
+              }
+          }
+
+          //filter out no data values and replace with averages
+          for(let k = 1; k < dataWith0Values.length-1; k++){
+            if(dataWith0Values[k] == 0){
+              dataWith0Values[k] = (dataWith0Values[k-1] + dataWith0Values[k+1])/2;
+            }
+          }
   
           let dataObj = {
             label: ''+this.categoriesName[i], // Name the series
-            data: this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags), // Specify the data values array
+            //data: this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags), // Specify the data values array
+            data: dataWith0Values,
             fill: false,
             borderColor: lineColor, // Add custom color border (Line)
             backgroundColor: '#000000', // Add custom color background (Points and Fill)
@@ -275,17 +299,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
           };
   
           lineData.push(dataObj);
-          var j;
-          console.log(dataObj.data.length)
-          for(j=0; j< dataObj.data.length; j++) {
-            pointRadius1.push(3);
-            pointHitRadius1.push(3);
-            if (dataObj.data[j] == 0) {
-              console.log(dataObj.data[j])
-              pointRadius1[j] = 0;
-              pointHitRadius1[j] = 0; 
-              }
-          }
+          
         }
       }
 
@@ -342,6 +356,29 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       3: 'Good',
       4: 'Superstar',
     };
+
+    console.log('yDisplayValues',yDisplayValues);
+
+    var i;
+    //console.log(this.myLineChart.data.datasets[0].length)
+    for(i=0; i< yDisplayValues.length; i++) {
+      pointRadius.push(3);
+      pointHitRadius.push(3);
+      if (yDisplayValues[i] == 0) {
+        console.log(yDisplayValues[i])
+        pointRadius[i] = 0;
+        pointHitRadius[i] = 0;
+        }
+    }
+
+    let dataWith0Values = yDisplayValues;
+    //filter out no data values and replace with averages of non-zero points
+    for(let k = 1; k < dataWith0Values.length-1; k++){
+      if(dataWith0Values[k] == 0){
+        dataWith0Values[k] = (dataWith0Values[k-1] + dataWith0Values[k+1])/2;
+      }
+    }
+    
     this.myLineChart = new Chart('secondChart', {
       type: 'line',
       data: {
@@ -349,7 +386,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
         datasets: [
           {
             label: 'Overall Average', // Name the series
-            data: yDisplayValues, // Specify the data values array
+            data: dataWith0Values, // Specify the data values array
             fill: false,
             pointRadius: pointRadius,
             pointHitRadius: pointHitRadius,
@@ -386,18 +423,6 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
         },
       },
     });
-    var i;
-    console.log(this.myLineChart.data.datasets[0].length)
-    for(i=0; i< this.myLineChart.data.datasets[0].data.length; i++) {
-      pointRadius.push(3);
-      pointHitRadius.push(3);
-      if (this.myLineChart.data.datasets[0].data[i] == 0) {
-        console.log(this.myLineChart.data.datasets[0].data[i])
-        pointRadius[i] = 0;
-        pointHitRadius[i] = 0; 
-        this.myLineChart.update();
-        }
-    }
   }
   }
 
