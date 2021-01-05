@@ -11,7 +11,8 @@ import { DisplayGraphService } from 'src/app/services/display-graph.service';
   templateUrl: './qc-overall-week-technical-scores.component.html',
   styleUrls: ['./qc-overall-week-technical-scores.component.css'],
 })
-export class QcOverallWeekTechnicalScoresComponent implements OnInit, OnDestroy {
+export class QcOverallWeekTechnicalScoresComponent
+  implements OnInit, OnDestroy {
   private statusByWeekServiceSubscription: Subscription;
   barGraphIcon = faChartBar;
   width: number;
@@ -37,6 +38,7 @@ export class QcOverallWeekTechnicalScoresComponent implements OnInit, OnDestroy 
   selectedValue: any;
 
   myGraph: any;
+  public noStatusByWeekData: boolean;
 
   constructor(
     private statusByWeekService: TechnicalStatusByWeekService,
@@ -49,20 +51,37 @@ export class QcOverallWeekTechnicalScoresComponent implements OnInit, OnDestroy 
     this.graphAdjust();
     // This method receives the JSON object from the URL GET request
 
-    let trainerId = sessionStorage.getItem("selectedId");    
-    
-    this.statusByWeekServiceSubscription = this.statusByWeekService.getTechnicalStatusByWeek().subscribe((resp) => {
-      this.thirdGraphObj = resp;
-      this.batches = this.getBatches();
-      this.pickedBatch = this.batches[0];
+    let trainerId = sessionStorage.getItem('selectedId');
 
-      let graphArray = [this.thirdGraphObj, this.batches[0]]
-      sessionStorage.setItem("graphArray3" + trainerId, JSON.stringify(graphArray));
+    this.statusByWeekServiceSubscription = this.statusByWeekService
+      .getTechnicalStatusByWeek()
+      .subscribe(
+        (resp) => {
+          console.log('Fetching statusByWeek successful:\n');
+          console.log(resp);
 
-      this.displayGraph();
-      
-    });
-    
+          this.thirdGraphObj = resp;
+          this.batches = this.getBatches();
+          this.pickedBatch = this.batches[0];
+
+          if (this.pickedBatch === undefined) {
+            console.log('no databyWeek to dislay');
+            this.noStatusByWeekData = true;
+            return;
+          }
+
+          let graphArray = [this.thirdGraphObj, this.batches[0]];
+          sessionStorage.setItem(
+            'graphArray3' + trainerId,
+            JSON.stringify(graphArray)
+          );
+
+          this.displayGraph();
+        },
+        (error) => {
+          console.log('Error fetching statusByWeek:\n' + error);
+        }
+      );
   }
 
   // returns array of the batch ids (need for populating batch drop-down list)
@@ -79,7 +98,7 @@ export class QcOverallWeekTechnicalScoresComponent implements OnInit, OnDestroy 
   displayGraph() {
     const elmnt = document.getElementById('thirdChart');
     const y = elmnt.scrollTop;
-    if(this.getXData(this.pickedBatch).length === 0) {
+    if (this.getXData(this.pickedBatch).length === 0) {
       this.myGraph.destroy();
     }
 

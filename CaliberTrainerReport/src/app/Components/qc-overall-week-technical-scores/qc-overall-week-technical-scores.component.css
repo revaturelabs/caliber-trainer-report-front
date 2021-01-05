@@ -1,1 +1,6 @@
 /* CSS is located in main style.css */
+
+.error-msg {
+  font-weight: bolder;
+  margin: auto;
+}
