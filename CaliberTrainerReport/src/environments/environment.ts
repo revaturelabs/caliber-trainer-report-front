@@ -7,6 +7,8 @@ export const environment = {
   backEndUrl: 'http://localhost:8081/excaliber/'
 };
 
+//'http://3.236.244.228:8081/excaliber/'
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

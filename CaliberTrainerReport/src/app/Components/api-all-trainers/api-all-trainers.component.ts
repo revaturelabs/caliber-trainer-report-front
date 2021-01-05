@@ -90,8 +90,10 @@ export class ApiAllTrainersComponent implements OnInit {
 
           let temp;
           let success: boolean = true;
-          
+          let calls = 0;
+          console.log("batch id array: " + response);
           for (let id of batchIds) { //Get each batch by id
+            calls++;
             await this.batchService.getPromiseBatchById(id).then(
 
               async (response2) => {
@@ -114,8 +116,9 @@ export class ApiAllTrainersComponent implements OnInit {
                     let tempNotes: QCNote[] = response3;
                     let tempNote;
                     let cat;
-                  
+                    
                       for (let note of tempNotes) {
+                        calls++;
                         await this.qcs.getCategoryByBatchIdAndWeek(id, note.week).toPromise().then(
                           async (response4) => { 
     
@@ -142,7 +145,9 @@ export class ApiAllTrainersComponent implements OnInit {
 
                     
                     let tempBatches: Batch[] = [];
+                    
                     for (let i = 0; i < batch.currentWeek; i++) {
+                      calls++;
                       await this.as.getPromiseAssessmentsByWeekAndBatchId(id, i + 1).then(
                         // Works
                         async (response5) => {
@@ -150,6 +155,7 @@ export class ApiAllTrainersComponent implements OnInit {
                           let assessments: Assessment[] = response5;
 
                           for (let j = 0; j < assessments.length; j++) {
+                            calls++;
                             await this.cs.getPromiseCategoryById(assessments[j].assessmentCategory).then(
                               // Works
                               async (response6) => {
@@ -157,6 +163,7 @@ export class ApiAllTrainersComponent implements OnInit {
                                 assessments[j].skillCategory = response6.skillCategory;
                                 //console.log(assessments[i].skillCategory);
 
+                                calls++;
                                 await this.as.getAverageGradeByAssessment(assessments[j].assessmentId).toPromise().then(
                                   // Does NOT work, needs more path variables?
                                   async (response7) => {
@@ -185,7 +192,11 @@ export class ApiAllTrainersComponent implements OnInit {
                         }
                       );
                     }
-                    this.allData.batches = tempBatches;
+                    if(this.allData.batches == [])
+                    {
+                      this.allData.batches = tempBatches;
+                    }
+                    
                   },
                   (response3) => {
                     this.mockData = 'fail-QCNote';
@@ -206,6 +217,8 @@ export class ApiAllTrainersComponent implements OnInit {
             }
 
           }
+          console.log("num of calls: " + calls);
+          console.log("recorded batches: " + this.allData.batches);
         },
         (response) => {
           this.mockData = 'fail-IDs';
