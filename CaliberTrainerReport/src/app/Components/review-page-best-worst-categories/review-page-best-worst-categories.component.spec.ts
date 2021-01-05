@@ -35,7 +35,7 @@ describe('BestWorstCategoriesComponent', () => {
   })
 
   it('should return the best 3 categories along with their scores', ()=>{
-    expect(component.getBest3()).toEqual([
+    expect(component.getCategoryScores(true, 3)).toEqual([
       new CategoryScore("Spring", 92.12), 
       new CategoryScore("Java", 90.05), 
       new CategoryScore("AWS", 88.88)]);
@@ -43,7 +43,7 @@ describe('BestWorstCategoriesComponent', () => {
 
   it('should return the worst 3 categories along with their scores', ()=>{
 
-    expect(component.getWorst3()).toEqual([
+    expect(component.getCategoryScores(false, 3)).toEqual([
       new CategoryScore("DevOps", 12.12), 
       new CategoryScore("Jenkins", 25.02), 
       new CategoryScore("Git", 25.25)]);

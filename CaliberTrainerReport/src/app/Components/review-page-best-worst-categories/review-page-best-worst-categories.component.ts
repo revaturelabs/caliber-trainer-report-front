@@ -25,6 +25,10 @@ export class ReviewPageBestWorstCategoriesComponent implements OnInit {
   public best3: CategoryScore[];
   public worst3: CategoryScore[];
 
+  // For view all functionality of the categories
+  public viewAll: boolean = false;
+  public allCategoryScores: CategoryScore[];
+
   // Set icons and create reference to service
   constructor(private catAccess: AssessmentByCategoryService) {
     this.balanceIcon = faBalanceScale;
@@ -64,11 +68,14 @@ export class ReviewPageBestWorstCategoriesComponent implements OnInit {
         index++;
       }
 
+      // Get all categories and scores
+      this.allCategoryScores = this.getCategoryScores();
+
       // Get best 3 scores and category
-      this.best3 = this.getBest3();
+      this.best3 = this.getCategoryScores(true, 3);
 
       // Get worst 3 scores and category
-      this.worst3 = this.getWorst3()
+      this.worst3 = this.getCategoryScores(false, 3);
     })
   }
 
@@ -77,79 +84,32 @@ export class ReviewPageBestWorstCategoriesComponent implements OnInit {
     return Math.round(val * 100) / 100;
   }
 
-
-  // Get best 3 scores
-  getBest3(): CategoryScore[] {
+  getCategoryScores(descending: boolean = true, numCats: number = 0): CategoryScore[] {
     let l: CategoryScore[] = [];
 
-    // Get length of avevage scores since array will be modified
-    let originalLength = this.averageScores.length;
+    for (let i = 0; i < this.averageScores.length; i++) {
+      let cat: string = this.categories[i];
+      let score: number = this.averageScores[i];
 
-    /* Run get worst category index 3 times or less if there are less than 3 categories remaining 
-     (should not occur since there are more than 6 categories)*/
-    for (let i = 0; i < Math.min(3, originalLength); i++) {
-      let bc = this.getBestCategoryIndex();
-
-      // Remove category and score from corresponding lists
-      let cat: string = this.categories.splice(bc, 1)[0];
-      let score: number = this.averageScores.splice(bc, 1)[0];
-      // Add category with score to list
       l.push(new CategoryScore(cat, score));
     }
+    if (descending) {
+      l.sort(function (a,b) {
+        return b.score - a.score;
+      });
+    } else {
+      l.sort(function (a,b) {
+        return a.score - b.score;
+      })
+    }
+
+    if (numCats !== 0) l = l.slice(0,numCats);
 
     return l;
   }
 
-  // Get worst 3 scores
-  getWorst3(): CategoryScore[] {
-    let l: CategoryScore[] = [];
-
-    // Get length of avevage scores since array will be modified
-    let originalLength = this.averageScores.length;
-    /* Run get worst category index 3 times or less if there are less than 3 categories remaining 
-    (should not occur since there are more than 6 categories)*/
-    for (let i = 0; i < Math.min(3, originalLength); i++) {
-      let bc = this.getWorstCategoryIndex();
-
-      // Remove category and score from corresponding lists
-      let cat: string = this.categories.splice(bc, 1)[0];
-      let score: number = this.averageScores.splice(bc, 1)[0];
-      // Add to list
-      l.push(new CategoryScore(cat, score));
-    }
-
-    return l;
-  }
-
-
-  // Returns index of lowest score
-  getWorstCategoryIndex(): number {
-    // Highest percent is 100
-    let least: number = 101;
-    let index: number = -1;
-    // Iterate through list and return lowest score
-    for (let i = 0; i < this.averageScores.length; i++) {
-      if (this.averageScores[i] < least) {
-        least = this.averageScores[i];
-        index = i;
-      }
-    }
-    return index;
-  }
-
-  // Return index of highest score
-  getBestCategoryIndex(): number {
-    // Lowest percent is 0
-    let most: number = 0;
-    let index: number = -1;
-    // Iterate through list and return highest score
-    for (let i = 0; i < this.averageScores.length; i++) {
-      if (this.averageScores[i] > most) {
-        most = this.averageScores[i];
-        index = i;
-      }
-    }
-    return index;
+  toggleViewAll(): void {
+    this.viewAll = !this.viewAll;
   }
 }
 
