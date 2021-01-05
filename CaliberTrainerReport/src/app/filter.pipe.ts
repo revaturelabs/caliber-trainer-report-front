@@ -8,7 +8,8 @@ export class FilterPipe implements PipeTransform {
   transform(value: any[], searchText: string): any[] {
     const matches = [];
     for (const m of value) {
-      if (m.includes(searchText)) {
+      
+      if (m.toLowerCase().includes(searchText.toLowerCase())) {
         matches.push(m);
       }
     }
