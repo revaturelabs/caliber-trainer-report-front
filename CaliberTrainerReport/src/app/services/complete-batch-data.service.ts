@@ -11,9 +11,9 @@ export class CompleteBatchDataService {
   constructor(private http: HttpClient, private urlServe: UrlService) { }
 
 
-  getCompleteBatchDataById(id: number) : Observable<Batch>
+  getCompleteBatchDataById(id: number) : Observable<Object>
   {
-
+    return this.http.get(this.urlServe.getUrl() + "/Complete/Batch" + id);
   }
 
 }
