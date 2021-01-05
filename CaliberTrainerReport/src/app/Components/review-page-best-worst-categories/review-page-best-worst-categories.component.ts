@@ -25,10 +25,6 @@ export class ReviewPageBestWorstCategoriesComponent implements OnInit {
   public best3: CategoryScore[];
   public worst3: CategoryScore[];
 
-  // For view all functionality of the categories
-  public viewAll: boolean = false;
-  public allCategoryScores: CategoryScore[];
-
   // Set icons and create reference to service
   constructor(private catAccess: AssessmentByCategoryService) {
     this.balanceIcon = faBalanceScale;
@@ -67,16 +63,12 @@ export class ReviewPageBestWorstCategoriesComponent implements OnInit {
         // Increment index for category
         index++;
       }
-      // Get all categories and scores
-      this.allCategoryScores = this.getCategoryScores();
 
       // Get best 3 scores and category
       this.best3 = this.getBest3();
 
       // Get worst 3 scores and category
       this.worst3 = this.getWorst3()
-
-
     })
   }
 
@@ -129,22 +121,6 @@ export class ReviewPageBestWorstCategoriesComponent implements OnInit {
     return l;
   }
 
-  getCategoryScores(): CategoryScore[] {
-    let l: CategoryScore[] = [];
-
-    for (let i = 0; i < this.averageScores.length; i++) {
-      let cat: string = this.categories[i];
-      let score: number = this.averageScores[i];
-
-      l.push(new CategoryScore(cat, score));
-    }
-
-    l.sort(function (a,b) {
-      return b.score - a.score;
-    })
-
-    return l;
-  }
 
   // Returns index of lowest score
   getWorstCategoryIndex(): number {
@@ -174,10 +150,6 @@ export class ReviewPageBestWorstCategoriesComponent implements OnInit {
       }
     }
     return index;
-  }
-
-  toggleViewAll(): void {
-    this.viewAll = !this.viewAll;
   }
 }
 
