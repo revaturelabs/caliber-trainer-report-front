@@ -109,6 +109,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
 
         // These arguments might need to change.
         this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.yValues,this.batchFlags));
+        // display call
       });
   }
 
@@ -248,6 +249,8 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     ]
 
     // An array of objects. Each object should contain a yDisplay array within.
+    var pointRadius = [];
+    var pointHitRadius = [];
     let lineData: any[] = [];
     if(this.pickedCategory == 0){
       // Removes the first (redundant) element
@@ -257,6 +260,8 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
           let lineColor:string;
         
           lineColor = colorArray[(i-1) % colorArray.length];
+          var pointRadius1 = [];
+          var pointHitRadius1 = [];
   
           let dataObj = {
             label: ''+this.categoriesName[i], // Name the series
@@ -265,9 +270,22 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
             borderColor: lineColor, // Add custom color border (Line)
             backgroundColor: '#000000', // Add custom color background (Points and Fill)
             borderWidth: 1, // Specify bar border width
+            pointRadius: pointRadius1,
+            pointHitRadius: pointHitRadius1
           };
   
           lineData.push(dataObj);
+          var j;
+          console.log(dataObj.data.length)
+          for(j=0; j< dataObj.data.length; j++) {
+            pointRadius1.push(3);
+            pointHitRadius1.push(3);
+            if (dataObj.data[j] == 0) {
+              console.log(dataObj.data[j])
+              pointRadius1[j] = 0;
+              pointHitRadius1[j] = 0; 
+              }
+          }
         }
       }
 
@@ -280,7 +298,6 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
         3: 'Good',
         4: 'Superstar',
       };
-  
       this.myLineChart = new Chart('secondChart', {
         type: 'line',
         data: {
@@ -325,7 +342,6 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       3: 'Good',
       4: 'Superstar',
     };
-
     this.myLineChart = new Chart('secondChart', {
       type: 'line',
       data: {
@@ -335,6 +351,8 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
             label: 'Overall Average', // Name the series
             data: yDisplayValues, // Specify the data values array
             fill: false,
+            pointRadius: pointRadius,
+            pointHitRadius: pointHitRadius,
             borderColor: lineColor, // Add custom color border (Line)
             backgroundColor: '#000000', // Add custom color background (Points and Fill)
             borderWidth: 1, // Specify bar border width
@@ -368,6 +386,18 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
         },
       },
     });
+    var i;
+    console.log(this.myLineChart.data.datasets[0].length)
+    for(i=0; i< this.myLineChart.data.datasets[0].data.length; i++) {
+      pointRadius.push(3);
+      pointHitRadius.push(3);
+      if (this.myLineChart.data.datasets[0].data[i] == 0) {
+        console.log(this.myLineChart.data.datasets[0].data[i])
+        pointRadius[i] = 0;
+        pointHitRadius[i] = 0; 
+        this.myLineChart.update();
+        }
+    }
   }
   }
 
