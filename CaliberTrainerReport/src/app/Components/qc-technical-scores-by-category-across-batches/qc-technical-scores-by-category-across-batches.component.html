@@ -13,54 +13,23 @@
             <div id="categories" (click)="toggleCatDropdown()"><p>Categories</p></div>
             <div id="qc-graph2-selector" [hidden]="cat_dropdown_flag">
                 <input name="search" type="text" [(ngModel)]="filterText" placeholder="Search" ><br>
-                <ng-container *ngIf="!filterText"><input type="checkbox" id="catSelectAll" name="catSelectAll" (change)="checkSelectAll()" checked>
+                <ng-container *ngIf="!filterText"><input type="checkbox" id="catSelectAll" name="catSelectAll" (change)="catCheckSelectAll()" checked>
                 <label for="catSelectAll">Select/Deselect All</label>
                 <br></ng-container>
-                <ng-container *ngFor="let name of categoriesName; let i = index">
+                <ng-container *ngFor="let name of categoriesName| filter:filterText; let i = index">
 
-                    <ng-container *ngIf ="selectAll; else elseCatBlock">
-                    <input type="checkbox" [id]="name" [value]="i" (change)="toggleCategory(i)" checked>
+                    <ng-container *ngIf ="catSelectAll; else elseCatBlock">
+                    <input type="checkbox" [id]="name" [value]="i" (change)="toggleCategory(name)" checked>
                     <label [for]="name">{{name}}</label>
                     <br></ng-container>
 
                     <ng-template #elseCatBlock>
-                        <input type="checkbox" [id]="name" [value]="i" (change)="toggleCategory(i)">
-                        <label [for]="name">{{name}}</label>
+                        <input type="checkbox" [id]="name" [value]="i" (change)="toggleCategory(name)">
+                        <label [for]="name">{{name}}</label><br>
                     </ng-template>
                 </ng-container>
             </div>
         </div>
-        -->
-
-        <div class="category-dropdown">
-            <div id="qc-graph2-selector" (click)="toggleCatDropdown()" [(ngModel)]="pickedCategory"><p>Categories</p></div>
-            <div id="category-list" [hidden]="cat_dropdown_flag">
-                
-                <input name="search" type="text" [(ngModel)]="filterText" placeholder="Search" ><br>
-                <ng-container *ngIf="!filterText"><input type="checkbox" id="catSelectAll" name="catSelectAll" (change)="catCheckSelectAll()" checked>
-                <label for="catSelectAll">Select/Deselect All</label>
-                <br></ng-container>
-                <ng-container *ngFor="let cat of categoriesName | filter:filterText; let i = index">
-
-                    <ng-container *ngIf ="selectAll; else catElse">
-                        <input  type="checkbox" [id]="cat" [value]="i" (change)="updateGraph()" checked>
-                        <label [for]="cat">{{cat}}</label>
-                        <br>
-                    </ng-container>
-
-                    <ng-template #catElse> 
-                        <input  type="checkbox" [id]="cat" [value]="i" (change)="updateGraph()">
-                        <label [for]="cat">{{cat}}</label>
-                        <br>
-                    </ng-template>
-
-                </ng-container>
-                
-            </div>
-        </div>
-
-
-
         <div id="batch-dropdown">
             <div id="batches" (click)="toggleBatchDropdown()"><p>Batches</p></div>
             <div id="batch-list" [hidden]="batch_dropdown_flag">
@@ -71,14 +40,14 @@
                 <br></ng-container>
                 <ng-container *ngFor="let name of batchNames | filter:filterText; let i = index">
 
-                    <ng-container *ngIf ="selectAll; else batchElse">
-                        <input  type="checkbox" [id]="name" [value]="i" (change)="toggle(i)" checked>
+                    <ng-container *ngIf ="selectAll; else elseBatchBlock">
+                        <input  type="checkbox" [id]="name" [value]="i" (change)="toggleBatch(name)" checked>
                         <label [for]="name">{{name}}</label>
                         <br>
                     </ng-container>
 
-                    <ng-template #batchElse> 
-                        <input  type="checkbox" [id]="name" [value]="i" (change)="toggle(i)">
+                    <ng-template #elseBatchBlock> 
+                        <input  type="checkbox" [id]="name" [value]="i" (change)="toggleBatch(name)">
                         <label [for]="name">{{name}}</label>
                         <br>
                     </ng-template>
@@ -104,7 +73,8 @@
             </h4>
             
             <div *ngIf="pickedCategory == 0">
-                <div *ngFor="let category of categoriesName.slice(1); let i = index">
+                <div *ngFor="let category of categoriesName.slice(0); let i = index">
+                    <div *ngIf="categoryFlags[i]">
                     <h1>{{category}}</h1>
                     <table>
                         <caption></caption>
@@ -127,6 +97,7 @@
                             <td class="leftColumnStyle" *ngFor="let poor of cumulativePoor[i+1]">{{poor}}</td>
                         </tr>
                     </table>
+                    </div>
                 </div>
             </div>
         
