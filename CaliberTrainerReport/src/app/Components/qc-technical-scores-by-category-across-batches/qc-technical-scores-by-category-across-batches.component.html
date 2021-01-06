@@ -46,7 +46,7 @@
             </h4>
             
             <div *ngIf="pickedCategory == 0">
-                <div *ngFor="let category of categoriesName.slice(1); let i = index">
+                <div *ngFor="let category of categoriesName.slice(0); let i = index">
                     <div *ngIf="categoryFlags[i]">
                     <h1>{{category}}</h1>
                     <table>
