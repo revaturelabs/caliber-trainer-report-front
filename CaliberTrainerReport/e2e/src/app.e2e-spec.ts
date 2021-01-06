@@ -69,7 +69,7 @@ describe('Testing Navigation and Top Navbar', () => {
     page.navigateTo();
     browser.driver.manage().window().setSize(315, 812);
     element(by.css('app-main-nav-bar .hambIcon')).click();
-    element(by.id('demo2')).click();
+    element(by.id('demo1')).click();
     expect(element(by.css('app-qc h2')).getText()).toBe('QC Technical Status');
   });
 
@@ -88,7 +88,16 @@ describe('Testing Navigation and Top Navbar', () => {
     browser.driver.manage().window().setSize(1920, 1080);
     page.getNavBarViewReviewPageButton(1920,1080).click();
     expect(element(by.css('app-review-page h2')).getText()).toBe('Review Page Status');
-  })
+  });
+
+  // 12
+  it('should navigate to review page with Hamburger Icon', () => {
+    page.navigateTo();
+    browser.driver.manage().window().setSize(315, 812);
+    element(by.css('app-main-nav-bar .hambIcon')).click();
+    element(by.id('demo2')).click();
+    expect(element(by.css('app-review-page h2')).getText()).toBe('Review Page Status');
+  });
 
 });
 
