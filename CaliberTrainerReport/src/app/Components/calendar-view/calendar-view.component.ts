@@ -37,7 +37,6 @@ export class CalendarViewComponent implements OnInit {
     }
   )
 
- // comment for this branch
   }
 }
 
