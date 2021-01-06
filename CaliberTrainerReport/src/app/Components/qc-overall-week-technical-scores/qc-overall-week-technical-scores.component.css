@@ -3,4 +3,5 @@
 .error-msg {
   font-weight: bolder;
   margin: auto;
+  width: fit-content;
 }
