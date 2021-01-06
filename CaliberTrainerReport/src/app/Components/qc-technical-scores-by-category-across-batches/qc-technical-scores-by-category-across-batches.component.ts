@@ -426,14 +426,6 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
 
   toggleBatch(index: number): void{
     this.batchFlags[index] = !this.batchFlags[index];
-    console.log("yo")
-    this.updateGraph();
-  }
-
-  //This is where we edit the lines germanicus
-  toggleCat(index: number): void{
-    this.catFlags[index-1] = !this.catFlags[index-1];
-    console.log(this.catFlags)
     this.updateGraph();
   }
 
