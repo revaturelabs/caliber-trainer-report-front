@@ -10,6 +10,7 @@ import { Assessment } from 'src/app/class/assessment';
 import { GetCategoryService } from 'src/app/services/get-category.service';
 import { SendJSONAsStringService } from 'src/app/services/send-json-as-string.service';
 import { UrlService } from 'src/app/services/url.service';
+import { CompleteBatchDataService } from 'src/app/services/complete-batch-data.service';
 
 @Component({
   selector: 'app-api-all-trainers',
@@ -27,7 +28,7 @@ export class ApiAllTrainersComponent implements OnInit {
 
   mockData: string;
 
-  constructor(private trainerService: GetTrainerService, private batchService: GetBatchService, private qcs: GetQcNoteService, private as: GetAssessmentService, private cs: GetCategoryService, private sendJsonService : SendJSONAsStringService, private urls : UrlService) { }
+  constructor(private trainerService: GetTrainerService, private batchService: GetBatchService, private qcs: GetQcNoteService, private as: GetAssessmentService, private cs: GetCategoryService, private sendJsonService : SendJSONAsStringService, private urls : UrlService, private completeBatchServ: CompleteBatchDataService) { }
 
   ngOnInit(): void {
     this.getAllTrainers();
@@ -78,7 +79,8 @@ export class ApiAllTrainersComponent implements OnInit {
     
     try{
 
-    
+
+      
       await this.batchService.getBatchesByTrainerEmail(tempTrainer.email).toPromise().then(
         //Get the batch ids
         async (response) => {
@@ -88,6 +90,20 @@ export class ApiAllTrainersComponent implements OnInit {
 
           if (batchIds.length == 0 && this.mockData == 'loading') {this.mockData = 'fail-no-batches';console.log("Trainer has no batches.");}        
 
+          
+          let allbatches : Batch[] = new Array<Batch>();
+
+          for(let ids of batchIds)
+          {
+            let newBatch: Batch = await this.completeBatchServ.getCompleteBatchDataById(ids).toPromise();
+            console.log(newBatch);
+
+            allbatches.push(newBatch);
+          }
+          
+          this.allData.batches = allbatches;
+          
+          /*
           let temp;
           let success: boolean = true;
           let calls = 0;
@@ -218,10 +234,13 @@ export class ApiAllTrainersComponent implements OnInit {
 
           }
           console.log("num of calls: " + calls);
-          console.log("recorded batches: " + this.allData.batches);
+          */
+          console.log("recorded batches: " + JSON.stringify(this.allData.batches));
         },
         (response) => {
           this.mockData = 'fail-IDs';
+          
+          
         }
       );
       if (this.mockData == 'loading') {
@@ -238,6 +257,7 @@ export class ApiAllTrainersComponent implements OnInit {
         ); 
       }
     } catch (miscFailure){
+      console.log(miscFailure);
       this.mockData = 'fail';
     }
     
