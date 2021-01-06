@@ -25,6 +25,17 @@
     white-space: nowrap;
     border: solid gray 1px;
   }
+  #qc-graph2-selector {
+    position: absolute;
+    color: black;
+    z-index: 1;
+    width: 325px;
+    max-height: 250px;
+    overflow: auto; 
+    background-color:#f7f7f7;
+    white-space: nowrap;
+    border: solid gray 1px;
+  }
   
   input[type=checkbox]{
     margin: 0px 8px;

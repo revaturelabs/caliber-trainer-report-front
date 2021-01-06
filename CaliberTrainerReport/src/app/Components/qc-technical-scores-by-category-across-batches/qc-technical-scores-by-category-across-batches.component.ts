@@ -47,6 +47,12 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   // FilterBatch is a helper class located in utility folder under src > app
   // it contains a method called filterBatch(any[], boolean[]) that takes in any[] and returns a new any[] with true indices from boolean[]
   batchFilter: FilterBatch;
+
+  // this array tracks which categories to show on the graph.
+  // index categoryFlags corresponds to index of categoryNames: string[]
+  // unlike batchFlags, there is no corresponding categoryFilter because there
+  // is no need to keep track of category selection beyond boolean.
+  categoryFlags: boolean[];
   
   yValues: any[];
 
@@ -55,8 +61,8 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   isBig: boolean;
 
   selectAll = true;
+  deselectAll = false;
   catSelectAll = true;
-
 
   constructor(
     private batchTechnicalStatusBySkillCategoryService: BatchTechnicalStatusBySkillCategoryService,
@@ -88,6 +94,9 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.batchFilter = new FilterBatch();
 
     this.filterText = '';
+    this.categoryFlags = [];
+
+
 
     this.BatchTechnicalStatusBySkillCategoryServiceSubscription = this.batchTechnicalStatusBySkillCategoryService
       .getAvgCategoryScoresObservables()
@@ -107,6 +116,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
         for (const obj of resp.batchByCategory) {
           this.categoriesName.push(obj.categoryName);
           this.categoriesObj.push(obj.batches);
+          this.categoryFlags.push(true);
         }
         this.categoriesName.unshift("Overview");
         this.categoriesObj.unshift(resp.batchByCategory[0].batches);
@@ -271,8 +281,9 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       // Removes the first (redundant) element
       this.multiGraphYValues.shift();
       for(let i = 1; i < this.categoriesName.length; i++){
-        if(this.multiGraphYValues[i-1].reduce(batchRemoveEmptyReduce, 0) !== 0) {
-          let lineColor:string;
+        if (this.multiGraphYValues[i-1].reduce(batchRemoveEmptyReduce, 0) !== 0) {
+          if (this.categoryFlags[i-1]){
+            let lineColor:string;
         
           lineColor = colorArray[(i-1) % colorArray.length];
           var pointRadius1 = [];
@@ -310,9 +321,9 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
           };
   
           lineData.push(dataObj);
-          
-        }
-      }
+          }
+        }//end if
+      }//end if
 
       // Just copy and paste
 
@@ -353,7 +364,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
             intersect: true,
           },
         },
-      });
+      });//end building new chart
 
 
     } else {
@@ -426,9 +437,9 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
           intersect: true,
         },
       },
-    });
-  }
-  }
+    });//end new chart object 
+  }//end this pick category if statement
+} //end function
 
   graphAdjust() {
     const chartElem = document.getElementById('divChart2');
@@ -464,7 +475,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     }
   }
 
-  toggle(index: number): void{
+  toggleBatch(index: number): void{
     this.batchFlags[index] = !this.batchFlags[index];
     this.updateGraph();
 }
@@ -478,10 +489,29 @@ for(let i = 0 ; i<this.batchNames.length; i ++){
 //deselect all option needs to be unchecked:
 this.updateGraph();
 }
+catCheckSelectAll(): void {
+  this.catSelectAll = !this.catSelectAll;
+for(let i = 0 ; i<this.categoriesName.length; i ++){
+    this.categoryFlags[i] = this.catSelectAll;
+  }
+//deselect all option needs to be unchecked:
+this.updateGraph();
+}
+
+  toggleCategory(index: number): void{
+    this.categoryFlags[index - 1] = !this.categoryFlags[index - 1];
+    console.log(this.categoryFlags);
+    this.updateGraph();
+  }
 
   batch_dropdown_flag: boolean = true;
   toggleBatchDropdown(): void{
     this.batch_dropdown_flag = !this.batch_dropdown_flag;
+  }
+
+  cat_dropdown_flag: boolean = true;
+  toggleCatDropdown(): void{
+    this.cat_dropdown_flag = !this.cat_dropdown_flag;
   }
 
   cleanYValues(dataWith0Values: number[]){
@@ -537,24 +567,5 @@ this.updateGraph();
     }
     finalYValues.push(dataWith0Values[dataWith0Values.length-1]);
     return finalYValues;
-  }
-
-  catToggle(index: number): void{
-    this.catFlags[index] = !this.catFlags[index];
-    this.updateGraph();
-  }
-
-
-  catCheckSelectAll(): void {
-    this.catSelectAll = !this.catSelectAll;
-  for(let i = 0 ; i<this.categoriesName.length; i ++){
-      this.catFlags[i] = this.catSelectAll;
-    }
-  //deselect all option needs to be unchecked:
-  this.updateGraph();
-  }
-  cat_dropdown_flag: boolean = true;
-  toggleCatDropdown(): void{
-    this.cat_dropdown_flag = !this.cat_dropdown_flag;
   }
 }
