@@ -180,6 +180,13 @@ describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
 
   });
 
+
+  //This next part of tests will test that components show up when they are clicked
+  //and not show up when they aren't.
+  it("should set the Java option to false when the Java option is unchecked", () => {
+    
+  });
+
   function trimEmpty() {
     for(let i = mockResponse.batchByCategory.length - 1; i >= 0; i--) {
       let batchSum: number = 0;
@@ -192,4 +199,6 @@ describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
       }
     }
   }
+
+  
 });
