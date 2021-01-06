@@ -32,10 +32,6 @@ export class QCComponent implements OnInit, DoCheck {
    let content = window.document.getElementById('qc-body');
    content.style.margin = "auto";
    content.style.padding = "2px";
-   
-   const divHeight = content.clientHeight
-   const divWidth = content.clientWidth
-   const ratio = divHeight / divWidth;
  
    html2canvas(content).then(function (canvas){
      let imgData = canvas.toDataURL('image/jpeg');
