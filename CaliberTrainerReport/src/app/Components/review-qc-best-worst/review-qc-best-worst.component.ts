@@ -10,9 +10,7 @@ import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/Bat
 export class ReviewQcBestWorstComponent implements OnInit {
 
   public scaleIcon;
-
   public goodIcon;
-  
   public badIcon;
 
   public categoryScores:Object = {};
@@ -36,8 +34,7 @@ export class ReviewQcBestWorstComponent implements OnInit {
   }
 
   //Creates a point system which corresponds to the possible results of a QC.
-// (Poor 1, Average 2, Good 3, Superstar 4)
-
+  // (Poor 1, Average 2, Good 3, Superstar 4)
 public calculateTotalBatchScore(batch){
   let result = batch.score.poor * 1 +
   batch.score.average * 2 +
@@ -52,6 +49,7 @@ public calculateTotalBatchQuantity(batch){
   batch.score.superstar
   return result
 }
+//takes the presorted array of CategoryScore objects and returns an array of the three with the highest scores
 public findBestCategories(categories){
   let bestCategoriesArray = []
   for(let i = 0; i < 3; i++){
@@ -59,6 +57,7 @@ public findBestCategories(categories){
   }
   return bestCategoriesArray
 }
+//takes the presorted array of CategoryScore objects and returns an array of the three with the lowest scores
 public findWorstCategories(categories){
   let worstCategoriesArray = []
   let length = categories.length;
@@ -85,6 +84,7 @@ public sortCategoryScores(categoryScores: Object){
   return catScores;
 }
 
+// switches the variable controlling the view all/view best & worst 3
 public toggleViewAll(){
   this.viewAllQCCategories = 1 - this.viewAllQCCategories;
 }
@@ -102,8 +102,6 @@ public toggleViewAll(){
           totalQuantity += this.calculateTotalBatchQuantity(currentBatch)
         }
         catAverage = totalScores/totalQuantity
-        console.log(totalScores);
-        console.log(totalQuantity);
         if(!isNaN(catAverage)){
           let categoryName = data.batchByCategory[category].categoryName
           this.categoryScores[categoryName] = catAverage 
@@ -112,8 +110,6 @@ public toggleViewAll(){
       this.sortedCategories = this.sortCategoryScores(this.categoryScores);
       this.bestCategories = this.findBestCategories(this.sortedCategories);
       this.worstCategories = this.findWorstCategories(this.sortedCategories);
-      console.log(this.sortedCategories);
-      console.log(this.bestCategories);
     })
   }
 }
