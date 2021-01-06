@@ -43,9 +43,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   // index of batchFlags corresponds to index of batchNames:string[]
   batchFlags: boolean[];
 
-  // this array tracks which cateories to show on the graph
-  // index of catFlags corresponds to index of batchNames:string[]
-  catFlags: boolean[];
+
 
   // FilterBatch is a helper class located in utility folder under src > app
   // it contains a method called filterBatch(any[], boolean[]) that takes in any[] and returns a new any[] with true indices from boolean[]
@@ -64,7 +62,6 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   isBig: boolean;
 
   selectAll = true;
-  deselectAll = false;
   catSelectAll = true;
 
   constructor(
@@ -91,7 +88,6 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.cumulativeGood = [];
     this.cumulativePoor = [];
 
-    this.catFlags = [];
     this.batchFlags = [];
     this.batchFilter = new FilterBatch();
 
@@ -470,7 +466,8 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     }
   }
 
-  toggleBatch(index: number): void{
+  toggleBatch(name: string): void{
+    let index = this.batchNames.indexOf(name);
     this.batchFlags[index] = !this.batchFlags[index];
     this.updateGraph();
 }
@@ -489,24 +486,33 @@ catCheckSelectAll(): void {
 for(let i = 0 ; i<this.categoriesName.length; i ++){
     this.categoryFlags[i] = this.catSelectAll;
   }
+ 
 //deselect all option needs to be unchecked:
 this.updateGraph();
 }
 
-  toggleCategory(index: number): void{
+  toggleCategory(name: string): void{
+    let index = this.categoriesName.indexOf(name);
     this.categoryFlags[index ] = !this.categoryFlags[index ];
-  //  console.log(this.categoryFlags);
     this.updateGraph();
   }
 
   batch_dropdown_flag: boolean = true;
   toggleBatchDropdown(): void{
     this.batch_dropdown_flag = !this.batch_dropdown_flag;
+    this.filterText = "";
+    if(!this.cat_dropdown_flag){
+      this.cat_dropdown_flag = true;
+    }
   }
 
   cat_dropdown_flag: boolean = true;
   toggleCatDropdown(): void{
     this.cat_dropdown_flag = !this.cat_dropdown_flag;
+    this.filterText = "";
+    if(!this.batch_dropdown_flag){
+      this.batch_dropdown_flag = true;
+    }
   }
 
   cleanYValues(dataWith0Values: number[]){

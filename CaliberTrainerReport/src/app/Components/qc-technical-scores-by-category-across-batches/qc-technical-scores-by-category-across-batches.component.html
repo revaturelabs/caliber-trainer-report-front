@@ -13,19 +13,19 @@
             <div id="categories" (click)="toggleCatDropdown()"><p>Categories</p></div>
             <div id="qc-graph2-selector" [hidden]="cat_dropdown_flag">
                 <input name="search" type="text" [(ngModel)]="filterText" placeholder="Search" ><br>
-                <ng-container *ngIf="!filterText"><input type="checkbox" id="catSelectAll" name="catSelectAll" (change)="checkSelectAll()" checked>
+                <ng-container *ngIf="!filterText"><input type="checkbox" id="catSelectAll" name="catSelectAll" (change)="catCheckSelectAll()" checked>
                 <label for="catSelectAll">Select/Deselect All</label>
                 <br></ng-container>
-                <ng-container *ngFor="let name of categoriesName; let i = index">
+                <ng-container *ngFor="let name of categoriesName| filter:filterText; let i = index">
 
-                    <ng-container *ngIf ="selectAll; else elseCatBlock">
-                    <input type="checkbox" [id]="name" [value]="i" (change)="toggleCategory(i)" checked>
+                    <ng-container *ngIf ="catSelectAll; else elseCatBlock">
+                    <input type="checkbox" [id]="name" [value]="i" (change)="toggleCategory(name)" checked>
                     <label [for]="name">{{name}}</label>
                     <br></ng-container>
 
                     <ng-template #elseCatBlock>
-                        <input type="checkbox" [id]="name" [value]="i" (change)="toggleCategory(i)">
-                        <label [for]="name">{{name}}</label>
+                        <input type="checkbox" [id]="name" [value]="i" (change)="toggleCategory(name)">
+                        <label [for]="name">{{name}}</label><br>
                     </ng-template>
                 </ng-container>
             </div>
@@ -45,13 +45,13 @@
                 <ng-container *ngFor="let name of batchNames | filter:filterText; let i = index">
 
                     <ng-container *ngIf ="selectAll; else elseBatchBlock">
-                        <input  type="checkbox" [id]="name" [value]="i" (change)="toggleBatch(i)" checked>
+                        <input  type="checkbox" [id]="name" [value]="i" (change)="toggleBatch(name)" checked>
                         <label [for]="name">{{name}}</label>
                         <br>
                     </ng-container>
 
                     <ng-template #elseBatchBlock> 
-                        <input  type="checkbox" [id]="name" [value]="i" (change)="toggleBatch(i)">
+                        <input  type="checkbox" [id]="name" [value]="i" (change)="toggleBatch(name)">
                         <label [for]="name">{{name}}</label>
                         <br>
                     </ng-template>
