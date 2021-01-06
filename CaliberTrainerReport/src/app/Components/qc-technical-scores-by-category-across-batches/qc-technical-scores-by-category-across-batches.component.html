@@ -34,6 +34,10 @@
             <div id="batches" (click)="toggleBatchDropdown()"><p>Batches</p></div>
             <div id="batch-list" [hidden]="batch_dropdown_flag">
 
+                
+                
+
+                
                 <input name="search" type="text" [(ngModel)]="filterText" placeholder="Search" ><br>
                 <ng-container *ngIf="!filterText"><input type="checkbox" id="batchSelectAll" name="batchSelectAll" (change)="checkSelectAll()" checked>
                 <label for="batchSelectAll">Select/Deselect All</label>
