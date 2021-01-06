@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy, SystemJsNgModuleLoader } from '@angular/core';
 import { faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
 import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/BatchTechnicalStatusBySkillCategory.service';
@@ -42,6 +42,11 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   // this array tracks which batches to show on the graph
   // index of batchFlags corresponds to index of batchNames:string[]
   batchFlags: boolean[];
+
+  // this array tracks which cateories to show on the graph
+  // index of catFlags corresponds to index of batchNames:string[]
+  catFlags: boolean[];
+
   // FilterBatch is a helper class located in utility folder under src > app
   // it contains a method called filterBatch(any[], boolean[]) that takes in any[] and returns a new any[] with true indices from boolean[]
   batchFilter: FilterBatch;
@@ -86,6 +91,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.cumulativeGood = [];
     this.cumulativePoor = [];
 
+    this.catFlags = [];
     this.batchFlags = [];
     this.batchFilter = new FilterBatch();
 
@@ -114,8 +120,8 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
           this.categoriesObj.push(obj.batches);
           this.categoryFlags.push(true);
         }
-        this.categoriesName.unshift("Overview");
-        this.categoriesObj.unshift(resp.batchByCategory[0].batches);
+        //this.categoriesName.unshift("Overview"); //overview might not be needed
+        //this.categoriesObj.unshift(resp.batchByCategory[0].batches);
         // this.categoriesObj.unshift("COOL");
         this.setScoreValues();
         
@@ -144,9 +150,8 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
 
     let trainerId = sessionStorage.getItem("selectedId");
     let gA2: any[] = JSON.parse(sessionStorage.getItem("graphingArray2" + trainerId));
-
     this.setScoreValues();
-    if(this.selectedValue ==0 ){
+    if(this.selectedValue ==0 ){ ///selceted value set to "all" in the QC component
       this.displayGraph(gA2[0], gA2[1]);
       this.displayGraph(this.batchFilter.filterBatch(gA2[0],this.batchFlags), this.batchFilter.filterBatch(gA2[1], this.batchFlags));
     } else {
@@ -239,7 +244,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       }
     }
   }
-  }
+}
 
   displayGraph(batchDisplayNames: string[], yDisplayValues: any[]) {
     if (this.myLineChart) {
@@ -270,19 +275,19 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     var pointHitRadius = [];
     let lineData: any[] = [];
     if(this.pickedCategory == 0){
-      // Removes the first (redundant) element
-      this.multiGraphYValues.shift();
-      for(let i = 1; i < this.categoriesName.length; i++){
-        if (this.multiGraphYValues[i-1].reduce(batchRemoveEmptyReduce, 0) !== 0) {
-          if (this.categoryFlags[i-1]){
-            let lineColor:string;
+   
+      for(let i = 0; i < this.categoriesName.length; i++){
+        if (this.multiGraphYValues[i].reduce(batchRemoveEmptyReduce, 0) !== 0) {
+         if (this.categoryFlags[i]){
+        //  console.log(this.categoriesName[i]);
+          let lineColor:string;
         
-          lineColor = colorArray[(i-1) % colorArray.length];
+          lineColor = colorArray[(i) % colorArray.length];
           var pointRadius1 = [];
           var pointHitRadius1 = [];
 
           
-          let dataWith0Values = this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags);
+          let dataWith0Values = this.batchFilter.filterBatch(this.multiGraphYValues[i],this.batchFlags);
 
           //remove interactive points where there is no data
           var j;
@@ -291,7 +296,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
             pointRadius1.push(3);
             pointHitRadius1.push(3);
             if (dataWith0Values[j] == 0) {
-              console.log(dataWith0Values[j])
+            //  console.log(dataWith0Values[j])
               pointRadius1[j] = 0;
               pointHitRadius1[j] = 0; 
               }
@@ -311,11 +316,10 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
             pointRadius: pointRadius1,
             pointHitRadius: pointHitRadius1
           };
-  
           lineData.push(dataObj);
-          }
-        }//end if
-      }//end if
+         }
+        }
+      }
 
       // Just copy and paste
 
@@ -356,9 +360,8 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
             intersect: true,
           },
         },
-      });//end building new chart
-
-
+      });
+      
     } else {
       let lineColor:string = colorArray[(this.pickedCategory-1) % colorArray.length];
     
@@ -376,7 +379,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       pointRadius.push(3);
       pointHitRadius.push(3);
       if (yDisplayValues[i] == 0) {
-        console.log(yDisplayValues[i])
+        //console.log(yDisplayValues[i])
         pointRadius[i] = 0;
         pointHitRadius[i] = 0;
         }
@@ -419,7 +422,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
           ],
         },
         title: {
-          display: true,
+          display: true,//title to change with array of picked categories
           text: `QC scores based on ${
             this.categoriesName[this.pickedCategory]
           }`,
@@ -491,8 +494,8 @@ this.updateGraph();
 }
 
   toggleCategory(index: number): void{
-    this.categoryFlags[index - 1] = !this.categoryFlags[index - 1];
-    console.log(this.categoryFlags);
+    this.categoryFlags[index ] = !this.categoryFlags[index ];
+  //  console.log(this.categoryFlags);
     this.updateGraph();
   }
 
