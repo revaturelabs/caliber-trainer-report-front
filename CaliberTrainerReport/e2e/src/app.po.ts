@@ -20,6 +20,11 @@ export class AppPage {
     return element(by.css('[routerLink = "/qc"]'));
   }
 
+  getNavBarViewReviewPageButton(width, height) {
+    browser.driver.manage().window().setSize(width, height);
+    return element(by.css('[routerLink = "/review-page"]'));
+  }
+
   getNavBarViewAssessmentReportsButton(width, height) {
     browser.driver.manage().window().setSize(width, height);
     return element(by.css('[routerLink = "/assessment"]'));

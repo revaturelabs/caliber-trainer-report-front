@@ -82,6 +82,14 @@ describe('Testing Navigation and Top Navbar', () => {
     expect(element(by.css('app-assessment h2')).getText()).toBe('Assessment Technical Status');
   });
 
+  // 11
+  it('should navigate to review page from Homepage', () => {
+    page.navigateTo();
+    browser.driver.manage().window().setSize(1920, 1080);
+    page.getNavBarViewReviewPageButton(1920,1080).click();
+    expect(element(by.css('app-review-page h2')).getText()).toBe('Review Page Status');
+  })
+
 });
 
 describe('(NEGATIVE)Testing graph display', () => {
@@ -238,6 +246,7 @@ describe('(POSITIVE)Testing file upload and graph display', () => {
     element(by.css('#qc-graph2-selector')).click();
     expect(element(by.css('#catSelectAll')).isPresent()).toBe(true);
   });
+
 
 });
 
