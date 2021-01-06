@@ -97,7 +97,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
         // a message to the user and do not display the data
         // otherwise, we can adjust the graph
         if (resp.batchByCategory.length === 0) {
-          console.log('no databyWeek to dislay');
+          console.log('no noScoresByCategoryData to dislay');
           this.noScoresByCategoryData = true;
           return;
         } else {
