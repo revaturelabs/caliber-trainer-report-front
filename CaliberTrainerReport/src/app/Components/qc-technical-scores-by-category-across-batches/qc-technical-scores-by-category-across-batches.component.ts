@@ -113,8 +113,8 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
           this.categoriesObj.push(obj.batches);
           this.categoryFlags.push(true);
         }
-        this.categoriesName.unshift("Overview"); //overview might not be needed
-        this.categoriesObj.unshift(resp.batchByCategory[0].batches);
+        //this.categoriesName.unshift("Overview"); //overview might not be needed
+        //this.categoriesObj.unshift(resp.batchByCategory[0].batches);
         // this.categoriesObj.unshift("COOL");
         this.setScoreValues();
         
@@ -144,8 +144,6 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     let trainerId = sessionStorage.getItem("selectedId");
     let gA2: any[] = JSON.parse(sessionStorage.getItem("graphingArray2" + trainerId));
     this.setScoreValues();
-    console.log("gA2",gA2);//////////LOGING
-    console.log("se,lectedvalue",this.selectedValue);//////////LOGING
     if(this.selectedValue ==0 ){ ///selceted value set to "all" in the QC component
       this.displayGraph(gA2[0], gA2[1]);
       this.displayGraph(this.batchFilter.filterBatch(gA2[0],this.batchFlags), this.batchFilter.filterBatch(gA2[1], this.batchFlags));
@@ -239,7 +237,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       }
     }
   }
-  }
+}
 
   displayGraph(batchDisplayNames: string[], yDisplayValues: any[]) {
     if (this.myLineChart) {
@@ -270,19 +268,19 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     var pointHitRadius = [];
     let lineData: any[] = [];
     if(this.pickedCategory == 0){
-      // Removes the first (redundant) element
-      this.multiGraphYValues.shift();
-      for(let i = 1; i < this.categoriesName.length; i++){
-        if (this.multiGraphYValues[i-1].reduce(batchRemoveEmptyReduce, 0) !== 0) {
-          if (this.categoryFlags[i-1]){
-            let lineColor:string;
+   
+      for(let i = 0; i < this.categoriesName.length; i++){
+        if (this.multiGraphYValues[i].reduce(batchRemoveEmptyReduce, 0) !== 0) {
+         if (this.categoryFlags[i]){
+        //  console.log(this.categoriesName[i]);
+          let lineColor:string;
         
-          lineColor = colorArray[(i-1) % colorArray.length];
+          lineColor = colorArray[(i) % colorArray.length];
           var pointRadius1 = [];
           var pointHitRadius1 = [];
 
           
-          let dataWith0Values = this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags);
+          let dataWith0Values = this.batchFilter.filterBatch(this.multiGraphYValues[i],this.batchFlags);
 
           //remove interactive points where there is no data
           var j;
@@ -291,7 +289,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
             pointRadius1.push(3);
             pointHitRadius1.push(3);
             if (dataWith0Values[j] == 0) {
-              console.log(dataWith0Values[j])
+            //  console.log(dataWith0Values[j])
               pointRadius1[j] = 0;
               pointHitRadius1[j] = 0; 
               }
@@ -311,9 +309,8 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
             pointRadius: pointRadius1,
             pointHitRadius: pointHitRadius1
           };
-  
           lineData.push(dataObj);
-          
+         }
         }
       }
 
@@ -357,8 +354,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
           },
         },
       });
-
-
+      
     } else {
       let lineColor:string = colorArray[(this.pickedCategory-1) % colorArray.length];
     
@@ -376,7 +372,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       pointRadius.push(3);
       pointHitRadius.push(3);
       if (yDisplayValues[i] == 0) {
-        console.log(yDisplayValues[i])
+        //console.log(yDisplayValues[i])
         pointRadius[i] = 0;
         pointHitRadius[i] = 0;
         }
@@ -430,8 +426,9 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
         },
       },
     });
+  
   }
-}
+  }
 
   graphAdjust() {
     const chartElem = document.getElementById('divChart2');
@@ -473,8 +470,8 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   }
 
   toggleCategory(index: number): void{
-    this.categoryFlags[index - 1] = !this.categoryFlags[index - 1];
-    console.log(this.categoryFlags);
+    this.categoryFlags[index ] = !this.categoryFlags[index ];
+  //  console.log(this.categoryFlags);
     this.updateGraph();
   }
 
