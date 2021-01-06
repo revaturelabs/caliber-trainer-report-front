@@ -17,9 +17,16 @@
                 <label for="catSelectAll">Select/Deselect All</label>
                 <br></ng-container>
                 <ng-container *ngFor="let name of categoriesName; let i = index">
+
+                    <ng-container *ngIf ="selectAll; else elseCatBlock">
                     <input type="checkbox" [id]="name" [value]="i" (change)="toggleCategory(i)" checked>
                     <label [for]="name">{{name}}</label>
-                    <br>
+                    <br></ng-container>
+
+                    <ng-template #elseCatBlock>
+                        <input type="checkbox" [id]="name" [value]="i" (change)="toggleCategory(i)">
+                        <label [for]="name">{{name}}</label>
+                    </ng-template>
                 </ng-container>
             </div>
         </div>
@@ -38,13 +45,13 @@
                 <br></ng-container>
                 <ng-container *ngFor="let name of batchNames | filter:filterText; let i = index">
 
-                    <ng-container *ngIf ="selectAll; else elseBlock">
+                    <ng-container *ngIf ="selectAll; else elseBatchBlock">
                         <input  type="checkbox" [id]="name" [value]="i" (change)="toggleBatch(i)" checked>
                         <label [for]="name">{{name}}</label>
                         <br>
                     </ng-container>
 
-                    <ng-template #elseBlock> 
+                    <ng-template #elseBatchBlock> 
                         <input  type="checkbox" [id]="name" [value]="i" (change)="toggleBatch(i)">
                         <label [for]="name">{{name}}</label>
                         <br>
