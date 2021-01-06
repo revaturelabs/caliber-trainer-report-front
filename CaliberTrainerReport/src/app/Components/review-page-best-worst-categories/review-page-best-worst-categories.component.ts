@@ -111,6 +111,7 @@ export class ReviewPageBestWorstCategoriesComponent implements OnInit {
   toggleViewAll(): void {
     this.viewAll = !this.viewAll;
   }
+
 }
 
 // Object that combines category and score
