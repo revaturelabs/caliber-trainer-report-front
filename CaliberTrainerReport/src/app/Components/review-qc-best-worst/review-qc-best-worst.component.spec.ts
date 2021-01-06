@@ -14,7 +14,7 @@ export class CategoryScore {
   }
 }
 
-fdescribe('ReviewQcBestWorstComponent', () => {
+describe('ReviewQcBestWorstComponent', () => {
   let component: ReviewQcBestWorstComponent;
   let fixture: ComponentFixture<ReviewQcBestWorstComponent>;
   let batch = {
