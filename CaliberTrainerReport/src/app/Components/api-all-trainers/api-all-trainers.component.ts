@@ -105,11 +105,12 @@ export class ApiAllTrainersComponent implements OnInit {
               "skill": newBatch.skill,
               "location": newBatch.location,
               "type": newBatch.type,
-              "qcNotes": newBatch.qcNotes,
+              "qcNotes": newBatch.qcnotes,
               "assessments": newBatch.assessments
             }
-            console.log(newBatch);
-
+            console.log(newBatch.qcnotes);
+            console.log(newBatch.qcNotes);
+            console.log(temp);
             //allbatches.push(newBatch);
             this.allData.batches.push(temp);
           }
