@@ -2,23 +2,32 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { UrlService } from './url.service';
-import { map } from 'rxjs/operators';
-
+import { catchError, map } from 'rxjs/operators';
+import { ErrorHandlingServiceService } from './error-handling-service.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BatchTechnicalStatusBySkillCategoryService {
   xlabels: string[]; // Push batches onto here
 
   yAvglabels: any[];
-  constructor(private http: HttpClient, private urlService: UrlService) { }
+  constructor(
+    private http: HttpClient,
+    private urlService: UrlService,
+    private errorHandler: ErrorHandlingServiceService
+  ) {}
 
-  getAvgCategoryScoresObservables(): Observable<any>{
+  getAvgCategoryScoresObservables(): Observable<any> {
     // this will be making our observable
-    return this.http.get(this.urlService.getUrlWithId() + 'BatchTechnicalStatusBySkillCategory/').pipe(
-      map(resp => resp)
-    );
+    return this.http
+      .get(
+        this.urlService.getUrlWithId() + 'BatchTechnicalStatusBySkillCategory/'
+      )
+      .pipe(
+        map((resp) => resp),
+        catchError(this.errorHandler.handleError)
+      );
   }
 
   // // X-axis variables...
@@ -35,7 +44,6 @@ export class BatchTechnicalStatusBySkillCategoryService {
 
   //   this.yAvglabels = [];
 
-
   //   if (category === 'SQL'){
   //   // our subscribe method eventually
   //     this.yAvglabels.push(0);
@@ -50,5 +58,4 @@ export class BatchTechnicalStatusBySkillCategoryService {
   //   }
   //   return this.yAvglabels;
   // }
-
 }
