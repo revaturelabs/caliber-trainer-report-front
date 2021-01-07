@@ -24,14 +24,17 @@
     <app-qc-overall-week-technical-scores></app-qc-overall-week-technical-scores>
 
   </div>
+
   <div class="qc-graph-full" *ngIf="selectedValue == 'status'">
     <app-qc-overall-batch-technical-scores></app-qc-overall-batch-technical-scores>
-  
-  </div><div class="qc-graph-full" *ngIf="selectedValue == 'individual'">
-    <app-qc-technical-scores-by-category-across-batches></app-qc-technical-scores-by-category-across-batches>
-
-  </div><div class="qc-graph-full" *ngIf="selectedValue == 'week'">
-    <app-qc-overall-week-technical-scores></app-qc-overall-week-technical-scores>
-
   </div>
+  
+  <div class="qc-graph-full" *ngIf="selectedValue == 'individual'">
+    <app-qc-technical-scores-by-category-across-batches></app-qc-technical-scores-by-category-across-batches>
+  </div>
+  
+  <div class="qc-graph-full" *ngIf="selectedValue == 'week'">
+    <app-qc-overall-week-technical-scores></app-qc-overall-week-technical-scores>
+  </div>
+  
 </div>

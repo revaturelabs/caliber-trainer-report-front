@@ -38,6 +38,7 @@ export class AssessmentScoresForCategoryComponent
   // this array tracks which batches to show on the graph
   // index of batchFlags corresponds to index of batchNames:string[]
   batchFlags: boolean[];
+  categoryFlags: boolean[];
   // FilterBatch is a helper class located in utility folder under src > app
   // it contains a method called filterBatch(any[], boolean[]) that takes in any[] and returns a new any[] with true indices from boolean[]
   batchFilter: FilterBatch;
@@ -45,6 +46,11 @@ export class AssessmentScoresForCategoryComponent
   // Dealing with Scalability
   width: number;
   isBig: boolean;
+  
+  selectAll = true;
+  catSelectAll = true;
+
+  filterText: string;
 
   constructor(
     private assessScoresByCategoryAllBatchesService: AssessScoresByCategoryAllBatchesService,
@@ -58,11 +64,13 @@ export class AssessmentScoresForCategoryComponent
     
     this.categoriesName = [];
     this.batchNames = [];
+
     this.multiGraphYValues = [];
 
     this.batchFlags = [];
+    this.categoryFlags =[];
     this.batchFilter = new FilterBatch();
-
+    this.filterText ='';
     this.pickedCategory = 0;
     
     this.AssessScoresByCategoryAllBatchesServiceSubscription = this.assessScoresByCategoryAllBatchesService
@@ -71,17 +79,21 @@ export class AssessmentScoresForCategoryComponent
         if(!this.isCategoryEmpty(score.batchAssessments)) {
           this.categoriesName.push(score.category);
           this.multiGraphYValues.push(JSON.parse(JSON.stringify(this.getBatchAverages(score.batchAssessments))));
+          this.categoryFlags.push(true);
         } 
       }
         
       for (const score of resp.categories[0].batchAssessments) {
         this.batchNames.push(score.batchName);
         this.batchFlags.push(true);
+       
+        
       }
 
-      this.categoriesName.unshift("Overview");
+
+      
       this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.multiGraphYValues,this.batchFlags));
-    },
+    },//end of resp sub
     () => {
       console.log("An error has occurred building the assessment-scores-for-category.");
     });
@@ -118,12 +130,13 @@ export class AssessmentScoresForCategoryComponent
     var pointHitRadius = [];
     let lineData: any[] = [];
     if(this.pickedCategory == 0){
-      for(let i = 1; i < this.categoriesName.length; i++){
-        if(this.multiGraphYValues[i-1].reduce(batchRemoveEmptyReduce, 0) != 0) {
-          let lineColor: string = colorArray[(i-1) % colorArray.length];
+      for(let i = 0; i < this.categoriesName.length; i++){
+        if(this.multiGraphYValues[i].reduce(batchRemoveEmptyReduce, 0) != 0) {
+          if (this.categoryFlags[i]){
+          let lineColor: string = colorArray[(i) % colorArray.length];
           var pointRadius1 = [];
           var pointHitRadius1 = [];
-                    let dataWith0Values = this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags);
+                    let dataWith0Values = this.batchFilter.filterBatch(this.multiGraphYValues[i],this.batchFlags);
                     //remove interactive points where there is no data
                     var j;
                     //console.log(dataWith0Values.length)
@@ -151,6 +164,7 @@ export class AssessmentScoresForCategoryComponent
           };
 
           lineData.push(dataObj);
+          }
         }
       }
   
@@ -189,7 +203,7 @@ export class AssessmentScoresForCategoryComponent
     
     let lineColor:string = colorArray[(this.pickedCategory-1) % colorArray.length];
     var i;
-    //console.log(this.myLineChart.data.datasets[0].length)
+    
     for(i=0; i< yValues.length; i++) {
       pointRadius.push(3);
       pointHitRadius.push(3);
@@ -317,14 +331,54 @@ export class AssessmentScoresForCategoryComponent
     }
   }
 
-  toggle(index: number): void{
+
+  toggleBatch(name: string): void{
+    let index = this.batchNames.indexOf(name);
     this.batchFlags[index] = !this.batchFlags[index];
+    this.updateGraph();
+}
+
+
+checkSelectAll(): void {
+  this.selectAll = !this.selectAll;
+for(let i = 0 ; i<this.batchNames.length; i ++){
+    this.batchFlags[i] = this.selectAll;
+  }
+//deselect all option needs to be unchecked:
+this.updateGraph();
+}
+catCheckSelectAll(): void {
+  this.catSelectAll = !this.catSelectAll;
+for(let i = 0 ; i<this.categoriesName.length; i ++){
+    this.categoryFlags[i] = this.catSelectAll;
+  }
+
+//deselect all option needs to be unchecked:
+this.updateGraph();
+}
+
+  toggleCategory(name: string): void{
+    let index = this.categoriesName.indexOf(name);
+    this.categoryFlags[index ] = !this.categoryFlags[index ];
     this.updateGraph();
   }
 
   batch_dropdown_flag: boolean = true;
   toggleBatchDropdown(): void{
     this.batch_dropdown_flag = !this.batch_dropdown_flag;
+    this.filterText = "";
+    if(!this.cat_dropdown_flag){
+      this.cat_dropdown_flag = true;
+    }
+  }
+
+  cat_dropdown_flag: boolean = true;
+  toggleCatDropdown(): void{
+    this.cat_dropdown_flag = !this.cat_dropdown_flag;
+    this.filterText = "";
+    if(!this.batch_dropdown_flag){
+      this.batch_dropdown_flag = true;
+    }
   }
 
   cleanYValues(dataWith0Values: number[]){
