@@ -37,6 +37,8 @@ export class QcOverallWeekTechnicalScoresComponent
 
   selectedValue: any;
 
+  errorMessage: string;
+
   myGraph: any;
   public noStatusByWeekData: boolean;
 
@@ -65,8 +67,7 @@ export class QcOverallWeekTechnicalScoresComponent
           this.pickedBatch = this.batches[0];
 
           if (this.pickedBatch === undefined) {
-            console.log('no databyWeek to dislay');
-            this.noStatusByWeekData = true;
+            this.displayErrorMassage('No Data to Display');
             return;
           }
 
@@ -80,6 +81,8 @@ export class QcOverallWeekTechnicalScoresComponent
         },
         (error) => {
           console.log('Error fetching statusByWeek:\n' + error);
+          this.displayErrorMassage('Data Source Unavailable');
+          return;
         }
       );
   }
@@ -284,5 +287,11 @@ export class QcOverallWeekTechnicalScoresComponent
 
   ngOnDestroy() {
     this.statusByWeekServiceSubscription.unsubscribe();
+  }
+
+  displayErrorMassage(message: string) {
+    console.log(message);
+    this.errorMessage = message;
+    this.noStatusByWeekData = true;
   }
 }

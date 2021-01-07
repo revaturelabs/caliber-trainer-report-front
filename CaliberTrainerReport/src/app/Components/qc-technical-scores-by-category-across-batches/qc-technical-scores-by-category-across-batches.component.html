@@ -41,7 +41,7 @@
     </div>
     <div *ngIf="selectedValue == 'individual'" class="extraDataTable">
       <h3 *ngIf="noScoresByCategoryData; else table" class="error-msg">
-        No Data to Display
+        {{ errorMessage }}
       </h3>
       <hr class="breakPoint" />
       <h4 class="tableTitle">

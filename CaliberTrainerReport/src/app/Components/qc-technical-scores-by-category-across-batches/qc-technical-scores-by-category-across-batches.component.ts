@@ -50,6 +50,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   width: number;
   isBig: boolean;
   noScoresByCategoryData: boolean;
+  errorMessage: string;
 
   constructor(
     private batchTechnicalStatusBySkillCategoryService: BatchTechnicalStatusBySkillCategoryService,
@@ -79,51 +80,64 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
 
     this.BatchTechnicalStatusBySkillCategoryServiceSubscription = this.batchTechnicalStatusBySkillCategoryService
       .getAvgCategoryScoresObservables()
-      .subscribe((resp) => {
-        // Remove entries with no scores.
-        for (let i = resp.batchByCategory.length - 1; i >= 0; i--) {
-          let batchSum: number = 0;
-          for (const batch of resp.batchByCategory[i].batches) {
-            let scores = batch.score;
-            batchSum +=
-              scores.average + scores.good + scores.poor + scores.superstar;
+      .subscribe(
+        (resp) => {
+          // We must ensure that the batchByCategory property of the response
+          // exists before attempting to get its length, otherwise we'll get a
+          // null pointer exception
+          if (resp.batchByCategory === undefined) {
+            this.displayErrorMassage('Data Source Unavaliable');
+            return;
           }
-          if (batchSum == 0) {
-            resp.batchByCategory.splice(i, 1);
-          }
-        }
 
-        // In the event that all the entries are removed. We display
-        // a message to the user and do not display the data
-        // otherwise, we can adjust the graph
-        if (resp.batchByCategory.length === 0) {
-          console.log('no noScoresByCategoryData to dislay');
-          this.noScoresByCategoryData = true;
+          // Remove entries with no scores.
+          for (let i = resp.batchByCategory.length - 1; i >= 0; i--) {
+            let batchSum: number = 0;
+            for (const batch of resp.batchByCategory[i].batches) {
+              let scores = batch.score;
+              batchSum +=
+                scores.average + scores.good + scores.poor + scores.superstar;
+            }
+            if (batchSum == 0) {
+              resp.batchByCategory.splice(i, 1);
+            }
+          }
+
+          // In the event that all the entries are removed. We display
+          // a message to the user and do not display the data
+          // otherwise, we can adjust the graph
+          if (resp.batchByCategory.length === 0) {
+            this.displayErrorMassage('No Data to Display');
+            return;
+          } else {
+            this.graphAdjust();
+          }
+
+          for (const obj of resp.batchByCategory) {
+            this.categoriesName.push(obj.categoryName);
+            this.categoriesObj.push(obj.batches);
+          }
+          this.categoriesName.unshift('Overview');
+          this.categoriesObj.unshift(resp.batchByCategory[0].batches);
+          // this.categoriesObj.unshift("COOL");
+          this.setScoreValues();
+
+          for (const score of resp.batchByCategory[0].batches) {
+            this.batchNames.push(score.batchName);
+            this.batchFlags.push(true);
+          }
+
+          // These arguments might need to change.
+          this.displayGraph(
+            this.batchFilter.filterBatch(this.batchNames, this.batchFlags),
+            this.batchFilter.filterBatch(this.yValues, this.batchFlags)
+          );
+        },
+        (error) => {
+          this.displayErrorMassage('Data Source Unavaliable');
           return;
-        } else {
-          this.graphAdjust();
         }
-
-        for (const obj of resp.batchByCategory) {
-          this.categoriesName.push(obj.categoryName);
-          this.categoriesObj.push(obj.batches);
-        }
-        this.categoriesName.unshift('Overview');
-        this.categoriesObj.unshift(resp.batchByCategory[0].batches);
-        // this.categoriesObj.unshift("COOL");
-        this.setScoreValues();
-
-        for (const score of resp.batchByCategory[0].batches) {
-          this.batchNames.push(score.batchName);
-          this.batchFlags.push(true);
-        }
-
-        // These arguments might need to change.
-        this.displayGraph(
-          this.batchFilter.filterBatch(this.batchNames, this.batchFlags),
-          this.batchFilter.filterBatch(this.yValues, this.batchFlags)
-        );
-      });
+      );
   }
 
   updateGraph() {
@@ -428,5 +442,11 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   batch_dropdown_flag: boolean = true;
   toggleBatchDropdown(): void {
     this.batch_dropdown_flag = !this.batch_dropdown_flag;
+  }
+
+  displayErrorMassage(message: string) {
+    console.log(message);
+    this.errorMessage = message;
+    this.noScoresByCategoryData = true;
   }
 }

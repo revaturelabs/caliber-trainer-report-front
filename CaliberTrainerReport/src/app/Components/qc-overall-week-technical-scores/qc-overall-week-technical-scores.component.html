@@ -9,7 +9,7 @@
     </div>
     <div *ngIf="selectedValue == 'week'" class="extraDataTable">
       <h3 *ngIf="noStatusByWeekData; else table" class="error-msg">
-        No Data To Display
+        {{ errorMessage }}
       </h3>
       <hr class="breakPoint" />
       <h4 class="tableTitle">Raw Technical Scores</h4>
