@@ -9,8 +9,11 @@
     [dataSource]="dataSource"
     [rotated]="true"
     [barGroupPadding]="0.2">
+
+
     <dxo-argument-axis [categories]="['Batch Ids']">
         <dxo-tick [visible]="false"></dxo-tick>
+        
     </dxo-argument-axis>
     <dxo-title text="Batch Overview"
         subtitle="A timeline of batches"
@@ -30,3 +33,12 @@
     </dxo-common-series-settings>
 </dx-chart>
 </div>
+<div style="text-align: center" class="dates-dropdown">
+    <h6>select a year</h6>
+    <select id="dates-selector"  (change)="updateGraph()" [(ngModel)]="pickedYear">
+        <option *ngFor="let year of years; let i = index" [value]="i"  >{{year}}</option>
+    </select>
+</div>
+<br>
+<br>
+<br>
