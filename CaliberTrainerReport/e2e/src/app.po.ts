@@ -45,6 +45,8 @@ export class AppPage {
     this.navigateTo();
     if (reportPage === 'QC'){
       this.getNavBarViewQCReportsButton(1920, 1080).click();
+    }else if (reportPage === 'review') {
+      this.getNavBarViewReviewPageButton(1920,1080).click();
     }else {
       this.getNavBarViewAssessmentReportsButton(1920, 1080).click();
     }

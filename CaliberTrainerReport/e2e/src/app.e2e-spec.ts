@@ -256,6 +256,40 @@ describe('(POSITIVE)Testing file upload and graph display', () => {
     expect(element(by.css('#catSelectAll')).isPresent()).toBe(true);
   });
 
-
 });
 
+describe('(POSITIVE) clicking the check box will expand/collapse the metrics ', () => {
+  let page: AppPage;
+
+  beforeEach(() => {
+    page = new AppPage();
+  });
+
+  it('should navigate to the report page using the nav bar and see the checkboxes for metrics expansion', () => {
+    page.navigateTo();
+    browser.driver.manage().window().setSize(1920, 1080);
+    page.getNavBarViewReviewPageButton(1920,1080).click();
+    expect(element(by.css('app-review-page h2')).getText()).toBe('Review Page Status');
+    expect(element(by.id('viewAllAssessmentCheckbox')).isPresent()).toBe(true);
+    expect(element(by.id('viewAllQCCheckbox')).isPresent()).toBe(true);
+  });
+
+  it('clicking viewAllAssessmentCheckbox should expose a different checkbox, collapseAssessmentCheckbox, and vice versa', () => {
+    element(by.id('viewAllAssessmentCheckbox')).click();
+    expect(element(by.id('viewAllAssessmentCheckbox')).isPresent()).toBe(false);
+    expect(element(by.id('collapseAssessmentCheckbox')).isPresent()).toBe(true);
+    element(by.id('collapseAssessmentCheckbox')).click();
+    expect(element(by.id('collapseAssessmentCheckbox')).isPresent()).toBe(false);
+    expect(element(by.id('viewAllAssessmentCheckbox')).isPresent()).toBe(true);
+  });
+
+  it('clicking viewAllQCCheckbox should expose a different checkbox, collapseQCCheckbox, and vice versa', () => {
+    element(by.id('viewAllQCCheckbox')).click();
+    expect(element(by.id('viewAllQCCheckbox')).isPresent()).toBe(false);
+    expect(element(by.id('collapseQCCheckbox')).isPresent()).toBe(true);
+    element(by.id('collapseQCCheckbox')).click();
+    expect(element(by.id('collapseQCCheckbox')).isPresent()).toBe(false);
+    expect(element(by.id('viewAllQCCheckbox')).isPresent()).toBe(true);
+  });
+
+});
