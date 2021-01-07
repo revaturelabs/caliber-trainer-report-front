@@ -42,6 +42,13 @@ export class CalendarViewComponent implements OnInit {
             start: new Date(parseInt(sd[0]), parseInt(sd[1]) -1, parseInt(sd[2])),
             end: new Date(parseInt(ed[0]), parseInt(ed[1])-1, parseInt(ed[2]))
           };
+          let y = {
+            batchName: batch.batchName,
+            trainer: batch.name,
+
+            start: new Date(parseInt(sd[0]), 0, 1),
+            end: new Date(parseInt(sd[0]), 0, 1)
+          }
           let g = {
             batchName: batch.batchName,
             trainer: batch.name,
@@ -52,6 +59,7 @@ export class CalendarViewComponent implements OnInit {
           }
           this.dataSource.push(d);
           this.dataSource.push(g);
+          this.dataSource.push(y);
         }
       }
         }
@@ -75,6 +83,14 @@ export class CalendarViewComponent implements OnInit {
           start: new Date(parseInt(sd[0]), parseInt(sd[1]), parseInt(sd[2])),
           end: new Date(parseInt(ed[0]), parseInt(ed[1]), parseInt(ed[2]))
         };
+        let y= {
+          batchName: batch.batchName,
+          trainer: batch.name,
+
+
+          start: new Date(parseInt(sd[0]), 0, 1),
+          end: new Date(parseInt(sd[0]), 0, 1)
+        }
         let g = {
           batchName: batch.batchName,
           trainer: batch.name,
@@ -85,6 +101,7 @@ export class CalendarViewComponent implements OnInit {
         }
         console.log(parseInt(sd[0]))
         this.dataSource.push(d);
+        this.dataSource.push(y);
         this.dataSource.push(g);
       }
       }
