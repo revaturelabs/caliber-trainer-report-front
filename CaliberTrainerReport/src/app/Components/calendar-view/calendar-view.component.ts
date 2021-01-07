@@ -21,46 +21,54 @@ export class CalendarViewComponent implements OnInit {
   constructor(private batchServ: GetBatchService) { }
 
   ngOnInit(){
-    this.years[this.pickedYear] = 2018;
     this.dataSource = [];
     this.batchServ.getBatches().subscribe(
       (response) => {
         this.batches = response;
         for(let batch of this.batches) {
-          console.log(batch)
-          
+          let latest = this.batches.reduce(function (r,a) {
+            return r.startDate > a.startDate ? r : a;
+          });
+          let latestSplit = latest.startDate.split("-");
+          let latestYear = parseInt(latestSplit[0]); 
+          this.years[this.pickedYear] = latestYear;
           let sd = batch.startDate.split("-");
           let ed = batch.endDate.split("-");
-          // console.log(parseInt(sd[0]));
-          // console.log(this.years[this.pickedYear]);
-          
+        
          if ((parseInt(sd[0]))==this.years[this.pickedYear]){  
           let d = {
             batchName: batch.batchName,
             trainer: batch.name,
+<<<<<<< HEAD
             
             start: new Date(parseInt(sd[0]), parseInt(sd[1])-1, parseInt(sd[2])),
             end: new Date(parseInt(ed[0]), parseInt(ed[1])-1, parseInt(ed[2]))
             
+=======
+            start: new Date(parseInt(sd[0]), parseInt(sd[1]) -1, parseInt(sd[2])),
+            end: new Date(parseInt(ed[0]), parseInt(ed[1])-1, parseInt(ed[2]))
+>>>>>>> 758996ff310a995cdf10397d3a83c9fac17e0f53
           };
           let g = {
             batchName: batch.batchName,
             trainer: batch.name,
+<<<<<<< HEAD
   
   
             start: new Date(parseInt(sd[0]), 11, 31),
             end: new Date(parseInt(sd[0]), 11, 31)
+=======
+            start: new Date(parseInt(sd[0]), 12, 31),
+            end: new Date(parseInt(sd[0]), 12, 31)
+>>>>>>> 758996ff310a995cdf10397d3a83c9fac17e0f53
           }
-          console.log(d.end);
           this.dataSource.push(d);
           this.dataSource.push(g);
         }
       }
         }
-      // }
     )
-    // this.years[this.pickedYear] = 2018;
-    // this.updateGraph()
+
   }
 
   updateGraph(){
@@ -70,28 +78,15 @@ export class CalendarViewComponent implements OnInit {
       this.batches = response;
       for(let batch of this.batches) {
         console.log(batch)
-        
         let sd = batch.startDate.split("-");
         let ed = batch.endDate.split("-");
-        // console.log(parseInt(sd[0]));
-        // console.log(this.years[this.pickedYear]);
         if ((parseInt(sd[0]))==this.years[this.pickedYear]){
         let d = {
           batchName: batch.batchName,
           trainer: batch.name,
-          
           start: new Date(parseInt(sd[0]), parseInt(sd[1]), parseInt(sd[2])),
           end: new Date(parseInt(ed[0]), parseInt(ed[1]), parseInt(ed[2]))
         };
-        // let y = {
-        //   batchName: batch.batchName,
-        //   trainer: batch.name,
-          
-
-        //   year : parseInt(sd[0]),
-        //   start: new Date(parseInt(sd[0]), 0, 1),
-        //   end: new Date (parseInt(sd[0]), 0, 1)
-        // }
         let g = {
           batchName: batch.batchName,
           trainer: batch.name,
@@ -103,7 +98,6 @@ export class CalendarViewComponent implements OnInit {
         console.log(parseInt(sd[0]))
         this.dataSource.push(d);
         this.dataSource.push(g);
-        // this.dataSource.push(y);
       }
       }
     }

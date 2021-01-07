@@ -4,8 +4,13 @@
 
 export const environment = {
   production: false,
+<<<<<<< HEAD
   //backEndUrl: 'http://3.236.244.228:8081/excaliber/'
   backEndUrl: 'http://localhost:8080/excaliber/'
+=======
+  backEndUrl: 'http://localhost:8081/excaliber/'
+  // backEndUrl: 'http://3.236.244.228:8081/excaliber/'
+>>>>>>> 758996ff310a995cdf10397d3a83c9fac17e0f53
 };
 
 /*
