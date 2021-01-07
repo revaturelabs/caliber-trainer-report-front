@@ -11,7 +11,7 @@
   margin-right: 2vw;
 }
 
-#batch-list {
+#batch-list,#qc-graph2-selector {
   position: absolute;
   color: black;
   z-index: 1;

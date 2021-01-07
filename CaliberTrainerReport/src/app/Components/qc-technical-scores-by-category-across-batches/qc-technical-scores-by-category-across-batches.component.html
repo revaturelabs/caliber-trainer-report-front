@@ -3,146 +3,165 @@
     <span>QC Technical Scores By Category Across Batches</span>
     <fa-icon class="lineGraphIcon" [icon]="lineGraphIcon"></fa-icon>
 
-        <div id="category-dropdown">
-            <div id="categories" (click)="toggleCatDropdown()"><p>Categories</p></div>
-            <div id="qc-graph2-selector" [hidden]="cat_dropdown_flag">
-                <input name="search" type="text" [(ngModel)]="filterText" placeholder="Search" ><br>
-                <ng-container *ngIf="!filterText"><input type="checkbox" id="catSelectAll" name="catSelectAll" (change)="catCheckSelectAll()" checked>
-                <label for="catSelectAll">Select/Deselect All</label>
-                <br></ng-container>
-                <ng-container *ngFor="let name of categoriesName| filter:filterText; let i = index">
+    <div id="category-dropdown">
+      <div id="categories" (click)="toggleCatDropdown()">
+        <p>Categories</p>
+      </div>
+      <div id="qc-graph2-selector" [hidden]="cat_dropdown_flag">
+        <input name="search" type="text" [(ngModel)]="filterText" placeholder="Search"><br>
+        <ng-container *ngIf="!filterText"><input type="checkbox" id="catSelectAll" name="catSelectAll"
+            (change)="catCheckSelectAll()" checked>
+          <label for="catSelectAll">Select/Deselect All</label>
+          <br>
+        </ng-container>
+        <ng-container *ngFor="let name of categoriesName| filter:filterText; let i = index">
 
-                    <ng-container *ngIf ="catSelectAll; else elseCatBlock">
-                    <input type="checkbox" [id]="name" [value]="i" (change)="toggleCategory(name)" checked>
-                    <label [for]="name">{{name}}</label>
-                    <br></ng-container>
+          <ng-container *ngIf="catSelectAll; else elseCatBlock">
+            <input type="checkbox" [id]="name" [value]="i" (change)="toggleCategory(name)" checked>
+            <label [for]="name">{{name}}</label>
+            <br>
+          </ng-container>
 
-                    <ng-template #elseCatBlock>
-                        <input type="checkbox" [id]="name" [value]="i" (change)="toggleCategory(name)">
-                        <label [for]="name">{{name}}</label><br>
-                    </ng-template>
-                </ng-container>
-            </div>
-        </div>
-        <div id="batch-dropdown">
-            <div id="batches" (click)="toggleBatchDropdown()"><p>Batches</p></div>
-            <div id="batch-list" [hidden]="batch_dropdown_flag">
-
-                <input name="search" type="text" [(ngModel)]="filterText" placeholder="Search" ><br>
-                <ng-container *ngIf="!filterText"><input type="checkbox" id="batchSelectAll" name="batchSelectAll" (change)="checkSelectAll()" checked>
-                <label for="batchSelectAll">Select/Deselect All</label>
-                <br></ng-container>
-                <ng-container *ngFor="let name of batchNames | filter:filterText; let i = index">
-
-                    <ng-container *ngIf ="selectAll; else elseBatchBlock">
-                        <input  type="checkbox" [id]="name" [value]="i" (change)="toggleBatch(name)" checked>
-                        <label [for]="name">{{name}}</label>
-                        <br>
-                    </ng-container>
-
-                    <ng-template #elseBatchBlock> 
-                        <input  type="checkbox" [id]="name" [value]="i" (change)="toggleBatch(name)">
-                        <label [for]="name">{{name}}</label>
-                        <br>
-                    </ng-template>
-
-                </ng-container>
-                
-            </div>
-        </div>
-        
+          <ng-template #elseCatBlock>
+            <input type="checkbox" [id]="name" [value]="i" (change)="toggleCategory(name)">
+            <label [for]="name">{{name}}</label><br>
+          </ng-template>
+        </ng-container>
+      </div>
     </div>
-    <div class="card-body">
-        <div id="divChart2" class="divChart">
-            <canvas id="secondChart"> 
-                
-            </canvas>
-        </div>
-        <div *ngIf="selectedValue == 'individual'" class="extraDataTable">
-          <h3 *ngIf="noScoresByCategoryData; else table" class="error-msg">
-            {{ errorMessage }}
-          </h3>
-            <hr class="breakPoint">
-            <h4 class="tableTitle">
-                <fa-icon class="barGraphIcon" [icon]="tableGraphIcon"></fa-icon>
-                Raw technical scores by category across batches      
-                <fa-icon class="" [icon]="tableGraphIcon"></fa-icon>
-            </h4>
-            
-            <div *ngIf="pickedCategory == 0">
-                <div *ngFor="let category of categoriesName.slice(0); let i = index">
-                    <div *ngIf="categoryFlags[i]">
-                    <h1>{{category}}</h1>
-                    <table>
-                        <caption></caption>
-                        <th scope="col"></th>
-                        <th scope="col" *ngFor="let batch of batchNames; let j = index">{{batch}}</th>
-                        <tr>
-                            <td class="description superstar-text">Superstar</td>  
-                            <td class="leftColumnStyle" *ngFor="let super of cumulativeSuper[i+1]">{{super}}</td>
-                        </tr>
-                        <tr>
-                            <td class="description good-text">Good</td> 
-                            <td class="leftColumnStyle" *ngFor="let good of cumulativeGood[i+1]">{{good}}</td>
-                        </tr>
-                        <tr>
-                            <td class="description average-text">Average</td> 
-                            <td class="leftColumnStyle" *ngFor="let average of cumulativeAverage[i+1]">{{average}}</td>
-                        </tr>
-                        <tr>
-                            <td class="description poor-text">Poor</td> 
-                            <td class="leftColumnStyle" *ngFor="let poor of cumulativePoor[i+1]">{{poor}}</td>
-                        </tr>
-                    </table>
-                    </div>
-                </div>
-            </div>
-        
-            <table *ngIf="pickedCategory != 0">
-                <caption></caption>
-                <th scope="col"></th>
-                <th scope="col" *ngFor="let batch of batchNames; let i = index">{{batch}}</th>
-                <tr><td class="description superstar-text">Superstar</td>  <td class="leftColumnStyle" *ngFor="let super of superstarRawScore">{{super}}</td></tr>
-                <tr><td class="description good-text">Good</td> <td class="leftColumnStyle" *ngFor="let good of goodRawScore">{{good}}</td></tr>
-                <tr><td class="description average-text">Average</td> <td class="leftColumnStyle" *ngFor="let average of averageRawScore">{{average}}</td></tr>
-                <tr><td class="description poor-text">Poor</td> <td class="leftColumnStyle" *ngFor="let poor of poorRawScore">{{poor}}</td></tr>
-            </table>
+    <div id="batch-dropdown">
+      <div id="batches" (click)="toggleBatchDropdown()">
+        <p>Batches</p>
+      </div>
+      <div id="batch-list" [hidden]="batch_dropdown_flag">
 
+        <input name="search" type="text" [(ngModel)]="filterText" placeholder="Search"><br>
+        <ng-container *ngIf="!filterText"><input type="checkbox" id="batchSelectAll" name="batchSelectAll"
+            (change)="checkSelectAll()" checked>
+          <label for="batchSelectAll">Select/Deselect All</label>
+          <br>
+        </ng-container>
+        <ng-container *ngFor="let name of batchNames | filter:filterText; let i = index">
+
+          <ng-container *ngIf="selectAll; else elseBatchBlock">
+            <input type="checkbox" [id]="name" [value]="i" (change)="toggleBatch(name)" checked>
+            <label [for]="name">{{name}}</label>
+            <br>
+          </ng-container>
+
+          <ng-template #elseBatchBlock>
+            <input type="checkbox" [id]="name" [value]="i" (change)="toggleBatch(name)">
+            <label [for]="name">{{name}}</label>
+            <br>
+          </ng-template>
+
+        </ng-container>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="card-body">
+    <div id="divChart2" class="divChart">
+      <canvas id="secondChart">
+
+      </canvas>
+    </div>
+    <div *ngIf="selectedValue == 'individual'" class="extraDataTable">
+      <h3 *ngIf="noScoresByCategoryData; else table" class="error-msg">
+        {{ errorMessage }}
+      </h3>
+      <hr class="breakPoint">
+      <h4 class="tableTitle">
+        <fa-icon class="barGraphIcon" [icon]="tableGraphIcon"></fa-icon>
+        Raw technical scores by category across batches
+        <fa-icon class="" [icon]="tableGraphIcon"></fa-icon>
+      </h4>
+
+      <div *ngIf="pickedCategory == 0">
+        <div *ngFor="let category of categoriesName.slice(0); let i = index">
+          <div *ngIf="categoryFlags[i]">
+            <h1>{{category}}</h1>
+            <table>
+              <caption></caption>
+              <th scope="col"></th>
+              <th scope="col" *ngFor="let batch of batchNames; let j = index">{{batch}}</th>
+              <tr>
+                <td class="description superstar-text">Superstar</td>
+                <td class="leftColumnStyle" *ngFor="let super of cumulativeSuper[i+1]">{{super}}</td>
+              </tr>
+              <tr>
+                <td class="description good-text">Good</td>
+                <td class="leftColumnStyle" *ngFor="let good of cumulativeGood[i+1]">{{good}}</td>
+              </tr>
+              <tr>
+                <td class="description average-text">Average</td>
+                <td class="leftColumnStyle" *ngFor="let average of cumulativeAverage[i+1]">{{average}}</td>
+              </tr>
+              <tr>
+                <td class="description poor-text">Poor</td>
+                <td class="leftColumnStyle" *ngFor="let poor of cumulativePoor[i+1]">{{poor}}</td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
-      <ng-template #table>
-        <table *ngIf="pickedCategory != 0">
-          <caption></caption>
-          <th scope="col"></th>
-          <th scope="col" *ngFor="let batch of batchNames; let i = index">
-            {{ batch }}
-          </th>
-          <tr>
-            <td class="description superstar-text">Superstar</td>
-            <td class="leftColumnStyle" *ngFor="let super of superstarRawScore">
-              {{ super }}
-            </td>
-          </tr>
-          <tr>
-            <td class="description good-text">Good</td>
-            <td class="leftColumnStyle" *ngFor="let good of goodRawScore">
-              {{ good }}
-            </td>
-          </tr>
-          <tr>
-            <td class="description average-text">Average</td>
-            <td class="leftColumnStyle" *ngFor="let average of averageRawScore">
-              {{ average }}
-            </td>
-          </tr>
-          <tr>
-            <td class="description poor-text">Poor</td>
-            <td class="leftColumnStyle" *ngFor="let poor of poorRawScore">
-              {{ poor }}
-            </td>
-          </tr>
-        </table>
-      </ng-template>
+
+      <table *ngIf="pickedCategory != 0">
+        <caption></caption>
+        <th scope="col"></th>
+        <th scope="col" *ngFor="let batch of batchNames; let i = index">{{batch}}</th>
+        <tr>
+          <td class="description superstar-text">Superstar</td>
+          <td class="leftColumnStyle" *ngFor="let super of superstarRawScore">{{super}}</td>
+        </tr>
+        <tr>
+          <td class="description good-text">Good</td>
+          <td class="leftColumnStyle" *ngFor="let good of goodRawScore">{{good}}</td>
+        </tr>
+        <tr>
+          <td class="description average-text">Average</td>
+          <td class="leftColumnStyle" *ngFor="let average of averageRawScore">{{average}}</td>
+        </tr>
+        <tr>
+          <td class="description poor-text">Poor</td>
+          <td class="leftColumnStyle" *ngFor="let poor of poorRawScore">{{poor}}</td>
+        </tr>
+      </table>
+
     </div>
   </div>
+  <ng-template #table>
+    <table *ngIf="pickedCategory != 0">
+      <caption></caption>
+      <th scope="col"></th>
+      <th scope="col" *ngFor="let batch of batchNames; let i = index">
+        {{ batch }}
+      </th>
+      <tr>
+        <td class="description superstar-text">Superstar</td>
+        <td class="leftColumnStyle" *ngFor="let super of superstarRawScore">
+          {{ super }}
+        </td>
+      </tr>
+      <tr>
+        <td class="description good-text">Good</td>
+        <td class="leftColumnStyle" *ngFor="let good of goodRawScore">
+          {{ good }}
+        </td>
+      </tr>
+      <tr>
+        <td class="description average-text">Average</td>
+        <td class="leftColumnStyle" *ngFor="let average of averageRawScore">
+          {{ average }}
+        </td>
+      </tr>
+      <tr>
+        <td class="description poor-text">Poor</td>
+        <td class="leftColumnStyle" *ngFor="let poor of poorRawScore">
+          {{ poor }}
+        </td>
+      </tr>
+    </table>
+  </ng-template>
 </div>
