@@ -120,9 +120,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
           this.categoriesObj.push(obj.batches);
           this.categoryFlags.push(true);
         }
-        //this.categoriesName.unshift("Overview"); //overview might not be needed
-        //this.categoriesObj.unshift(resp.batchByCategory[0].batches);
-        // this.categoriesObj.unshift("COOL");
+
         this.setScoreValues();
         
         for (const score of resp.batchByCategory[0].batches) {
@@ -281,7 +279,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       for(let i = 0; i < this.categoriesName.length; i++){
         if (this.multiGraphYValues[i].reduce(batchRemoveEmptyReduce, 0) !== 0) {
          if (this.categoryFlags[i]){
-        //  console.log(this.categoriesName[i]);
+        
           let lineColor:string;
         
           lineColor = colorArray[(i) % colorArray.length];
@@ -293,12 +291,12 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
 
           //remove interactive points where there is no data
           var j;
-          //console.log(dataWith0Values.length)
+          
           for(j=0; j< dataWith0Values.length; j++) {
             pointRadius1.push(3);
             pointHitRadius1.push(3);
             if (dataWith0Values[j] == 0) {
-            //  console.log(dataWith0Values[j])
+            
               pointRadius1[j] = 0;
               pointHitRadius1[j] = 0; 
               }
@@ -309,7 +307,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   
           let dataObj = {
             label: ''+this.categoriesName[i], // Name the series
-            //data: this.batchFilter.filterBatch(this.multiGraphYValues[i-1],this.batchFlags), // Specify the data values array
+            
             data: finalYValues,
             fill: false,
             borderColor: lineColor, // Add custom color border (Line)
@@ -381,7 +379,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       pointRadius.push(3);
       pointHitRadius.push(3);
       if (yDisplayValues[i] == 0) {
-        //console.log(yDisplayValues[i])
+        
         pointRadius[i] = 0;
         pointHitRadius[i] = 0;
         }

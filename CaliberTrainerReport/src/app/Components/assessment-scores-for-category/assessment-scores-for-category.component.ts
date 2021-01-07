@@ -91,7 +91,7 @@ export class AssessmentScoresForCategoryComponent
       }
 
 
-      // this.categoriesName.unshift("Overview");
+      
       this.displayGraph(this.batchFilter.filterBatch(this.batchNames,this.batchFlags), this.batchFilter.filterBatch(this.multiGraphYValues,this.batchFlags));
     },//end of resp sub
     () => {
@@ -203,7 +203,7 @@ export class AssessmentScoresForCategoryComponent
     
     let lineColor:string = colorArray[(this.pickedCategory-1) % colorArray.length];
     var i;
-    //console.log(this.myLineChart.data.datasets[0].length)
+    
     for(i=0; i< yValues.length; i++) {
       pointRadius.push(3);
       pointHitRadius.push(3);
