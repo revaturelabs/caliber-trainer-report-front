@@ -80,8 +80,8 @@ export class CalendarViewComponent implements OnInit {
         let d = {
           batchName: batch.batchName,
           trainer: batch.name,
-          start: new Date(parseInt(sd[0]), parseInt(sd[1]), parseInt(sd[2])),
-          end: new Date(parseInt(ed[0]), parseInt(ed[1]), parseInt(ed[2]))
+          start: new Date(parseInt(sd[0]), parseInt(sd[1])-1, parseInt(sd[2])),
+          end: new Date(parseInt(ed[0]), parseInt(ed[1])-1, parseInt(ed[2]))
         };
         let y= {
           batchName: batch.batchName,
@@ -96,8 +96,8 @@ export class CalendarViewComponent implements OnInit {
           trainer: batch.name,
 
 
-          start: new Date(parseInt(sd[0]), 12, 31),
-          end: new Date(parseInt(sd[0]), 12, 31)
+          start: new Date(parseInt(sd[0]), 11, 31),
+          end: new Date(parseInt(sd[0]), 11, 31)
         }
         console.log(parseInt(sd[0]))
         this.dataSource.push(d);
