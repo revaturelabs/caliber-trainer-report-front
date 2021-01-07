@@ -208,6 +208,30 @@ describe('(POSITIVE)Testing file upload and graph display', () => {
     element(by.css('.mainLogoIMG')).click();
     expect(element(by.tagName('app-home')).isPresent()).toBe(true);
   });
+  //31
+  it('should navigate to the report page see the searchbox in the batches dropdown', () => {
+    page.navigateToReportsPage('QC');
+    element(by.css('#batches')).click();
+    expect(element(by.css('#batchSearch')).isPresent()).toBe(true);
+  });
+  //32
+  it('should navigate to the report page and see a checkbox in the batches dropdown', () => {
+    page.navigateToReportsPage('QC');
+    element(by.css('#batches')).click();
+    expect(element(by.css('input[type=checkbox]')).isPresent()).toBe(true);
+  });
+  //33
+  it('should navigate to the report page and see a checkbox in the category dropdown', () => {
+    page.navigateToReportsPage('QC');
+    element(by.css('#categories')).click();
+    expect(element(by.css('input[type=checkbox]')).isPresent()).toBe(true);
+  });
+  //34
+  it('should navigate to the report page and see a select/deselect all checkbox in the category dropdown', () => {
+    page.navigateToReportsPage('QC');
+    element(by.css('#categories')).click();
+    expect(element(by.css('#catSelectAll')).isPresent()).toBe(true);
+  });
 
 });
 

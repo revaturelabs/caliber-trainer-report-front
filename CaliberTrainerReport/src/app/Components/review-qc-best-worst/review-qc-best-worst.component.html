@@ -4,37 +4,66 @@
         <fa-icon class="barGraphIcon" [icon]="scaleIcon"></fa-icon>
     </div>
     <div class="card-body">
-        <div class="row best-worst">
-            <div class="category">
-                <div class="category-title">
-
-                    <fa-icon class="titleicon" [icon]="goodIcon"></fa-icon>
-
-                    <div style="flex: 2;">
-                        <span>Best Categories</span>
+        <ng-container *ngIf="!viewAllQCCategories; else viewAll">
+            <div>
+                <label for="view3">View All Categories:&nbsp;</label>
+                <input type="checkbox" name="viewAll" id="viewAllCheckbox" (click)="toggleViewAll()"/>
+            </div>
+            <div class="row best-worst">
+                <div class="category">
+                    <div class="category-title">
+    
+                        <fa-icon class="titleicon" [icon]="goodIcon"></fa-icon>
+    
+                        <div style="flex: 2;">
+                            <span>Best Categories</span>
+                        </div>
+                        <fa-icon class="titleicon" [icon]="goodIcon"></fa-icon>
+    
                     </div>
-                    <fa-icon class="titleicon" [icon]="goodIcon"></fa-icon>
-
+                    <div class="cat-results best">
+                            <p *ngFor="let cat of bestCategories">{{cat.category}}: {{cat.score}}</p>
+                    </div>
                 </div>
-                <div class="cat-results best">
-                        <p *ngFor="let cat of bestCategories">{{cat}}</p>
+                <div class="category">
+                    <div class="category-title">
+    
+                        <fa-icon class="titleicon" [icon]="badIcon"></fa-icon>
+    
+                        <div style="flex: 2;">
+                            <span>Worst Categories</span>
+                        </div>
+                        <fa-icon class="titleicon" [icon]="badIcon"></fa-icon>
+    
+                    </div>
+                    <div class="cat-results worst">
+                            <p *ngFor="let cat of worstCategories">{{cat.category}}: {{cat.score}}</p>
+                    </div>
                 </div>
             </div>
-            <div class="category">
-                <div class="category-title">
-
-                    <fa-icon class="titleicon" [icon]="badIcon"></fa-icon>
-
-                    <div style="flex: 2;">
-                        <span>Worst Categories</span>
+        </ng-container>
+        <ng-template #viewAll>
+            <div>
+                <label for="view3">View Best 3/Worst 3:&nbsp;</label>
+                <input type="checkbox" name="viewAll" id="viewAllCheckbox" (click)="toggleViewAll()"/>
+            </div>
+            <div class="row best-worst">
+                <div class="category">
+                    <div class="category-title">
+    
+                        <fa-icon class="titleicon" [icon]="goodIcon"></fa-icon>
+    
+                        <div style="flex: 2;">
+                            <span>Categories</span>
+                        </div>
+                        <fa-icon class="titleicon" [icon]="badIcon"></fa-icon>
+    
                     </div>
-                    <fa-icon class="titleicon" [icon]="badIcon"></fa-icon>
-
-                </div>
-                <div class="cat-results worst">
-                        <p *ngFor="let cat of worstCategories">{{cat}}</p>
+                    <div class="cat-results all">
+                            <p *ngFor="let cat of sortedCategories">{{cat.category}}: {{cat.score}}</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </ng-template>
     </div>
 </div>
