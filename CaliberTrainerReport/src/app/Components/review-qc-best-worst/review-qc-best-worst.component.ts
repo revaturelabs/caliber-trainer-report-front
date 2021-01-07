@@ -10,28 +10,31 @@ import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/Bat
 export class ReviewQcBestWorstComponent implements OnInit {
 
   public scaleIcon;
-
   public goodIcon;
-  
   public badIcon;
 
   public categoryScores:Object = {};
 
-  //Both Best Categories and Worst Categories are rendederd in the browser 
+  // 1 or 0 for switching view between all categories and best/worst
+  public viewAllQCCategories;
+
+  //Both Best Categories and Worst Categories are rendered in the browser 
   public bestCategories:string[] = []
   public worstCategories:string[] = []
 
+  //Array of CategoryScore objects sorted by score
+  public sortedCategories: CategoryScore[];
 
 
   constructor(private QCscores:BatchTechnicalStatusBySkillCategoryService) { 
     this.scaleIcon = faBalanceScale;
     this.goodIcon = faCheckCircle;
     this.badIcon = faTimesCircle;
+    this.viewAllQCCategories = 0; //default shows best/worst
   }
 
   //Creates a point system which corresponds to the possible results of a QC.
-// (Poor 1, Average 2, Good 3, Superstar 4)
-
+  // (Poor 1, Average 2, Good 3, Superstar 4)
 public calculateTotalBatchScore(batch){
   let result = batch.score.poor * 1 +
   batch.score.average * 2 +
@@ -46,27 +49,44 @@ public calculateTotalBatchQuantity(batch){
   batch.score.superstar
   return result
 }
+//takes the presorted array of CategoryScore objects and returns an array of the three with the highest scores
 public findBestCategories(categories){
-  let arrayOfScoresByCategory = Object.values(this.categoryScores)
-  let bestScore = Math.max(...arrayOfScoresByCategory)
   let bestCategoriesArray = []
-  for(let category in categories){
-    if(this.categoryScores[category] === bestScore){
-      bestCategoriesArray.push(category)
-    }
+  for(let i = 0; i < 3; i++){
+    bestCategoriesArray[i] = categories[i];
   }
   return bestCategoriesArray
 }
+//takes the presorted array of CategoryScore objects and returns an array of the three with the lowest scores
 public findWorstCategories(categories){
-  let arrayOfScoresByCategory = Object.values(this.categoryScores)
-  let worstScore = Math.min(...arrayOfScoresByCategory)
   let worstCategoriesArray = []
-  for(let category in categories){
-    if(this.categoryScores[category] === worstScore){
-      worstCategoriesArray.push(category)
-    }
+  let length = categories.length;
+  for(let i = 1; i < 4; i++){
+    worstCategoriesArray[i - 1] = categories[length - i];
   }
   return worstCategoriesArray
+}
+
+//sorts CategoryScore objects by score
+public sortCategoryScores(categoryScores: Object){
+  let keys = Object.keys(categoryScores);
+  let catScores = [];
+  for(let key of keys){
+    let newCatScore = new CategoryScore(key, categoryScores[key]);
+    newCatScore.score = parseFloat(newCatScore.score.toFixed(2));
+    catScores.push(newCatScore);
+  }
+  catScores.sort((a,b) => (a.score < b.score) ? 1 : -1);
+  let sortedCats = new Array();
+  for(let i = catScores.length - 1; i >= 0; i--){
+    sortedCats.push(catScores[i].category);
+  }
+  return catScores;
+}
+
+// switches the variable controlling the view all/view best & worst 3
+public toggleViewAll(){
+  this.viewAllQCCategories = 1 - this.viewAllQCCategories;
 }
 
   ngOnInit(): void {
@@ -80,15 +100,27 @@ public findWorstCategories(categories){
           let currentBatch = data.batchByCategory[category].batches[batch]
           totalScores += this.calculateTotalBatchScore(currentBatch)
           totalQuantity += this.calculateTotalBatchQuantity(currentBatch)
-          catAverage = totalScores/totalQuantity
         }
+        catAverage = totalScores/totalQuantity
         if(!isNaN(catAverage)){
           let categoryName = data.batchByCategory[category].categoryName
           this.categoryScores[categoryName] = catAverage 
         }
       }
-      this.bestCategories = this.findBestCategories(this.categoryScores)
-      this.worstCategories = this.findWorstCategories(this.categoryScores)
+      this.sortedCategories = this.sortCategoryScores(this.categoryScores);
+      this.bestCategories = this.findBestCategories(this.sortedCategories);
+      this.worstCategories = this.findWorstCategories(this.sortedCategories);
     })
+  }
+}
+
+// Object that combines category and score
+export class CategoryScore {
+  category: string;
+  score: number;
+
+  constructor(s: string, n: number) {
+    this.category = s;
+    this.score = n
   }
 }
