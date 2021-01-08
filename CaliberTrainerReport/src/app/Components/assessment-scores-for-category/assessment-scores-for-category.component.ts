@@ -282,6 +282,10 @@ export class AssessmentScoresForCategoryComponent
     this.graphAdjust();
   }
 
+  emptyDoubleClick() {
+    event.stopPropagation();
+  }
+
   // This method selects the large view of the graph when double clicking the graph title.
   doubleClickGraph6(): void {
     const graphSelector = document.getElementById(

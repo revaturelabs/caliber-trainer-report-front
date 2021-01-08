@@ -4,6 +4,9 @@
     <fa-icon class="barGraphIcon" [icon]="barGraphIcon"></fa-icon>
   </div>
   <div #targetLocation class="card-body">
+    <h3 *ngIf="noStatusByWeekData && selectedValue != 'week'" class="error-msg">
+      {{ errorMessage }}
+    </h3>
     <div id="divChart3" class="divChart">
       <canvas id="thirdChart"></canvas>
     </div>

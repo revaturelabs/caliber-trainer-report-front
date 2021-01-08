@@ -3,7 +3,7 @@
     <span>QC Technical Scores By Category Across Batches</span>
     <fa-icon class="lineGraphIcon" [icon]="lineGraphIcon"></fa-icon>
 
-    <div id="category-dropdown">
+    <div id="category-dropdown" (dblclick)="emptyDoubleClick()">
       <div id="categories" (click)="toggleCatDropdown()">
         <p>Categories</p>
       </div>
@@ -29,7 +29,7 @@
         </ng-container>
       </div>
     </div>
-    <div id="batch-dropdown">
+    <div id="batch-dropdown" (dblclick)="emptyDoubleClick()">
       <div id="batches" (click)="toggleBatchDropdown()">
         <p>Batches</p>
       </div>
@@ -62,6 +62,9 @@
 
   </div>
   <div class="card-body">
+    <h3 *ngIf="noScoresByCategoryData && selectedValue != 'individual'" class="error-msg">
+      {{ errorMessage }}
+    </h3>
     <div id="divChart2" class="divChart">
       <canvas id="secondChart">
 

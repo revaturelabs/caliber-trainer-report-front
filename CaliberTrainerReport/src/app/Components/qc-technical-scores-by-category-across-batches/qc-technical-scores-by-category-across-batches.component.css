@@ -11,6 +11,11 @@
   margin-right: 2vw;
 }
 
+#category-dropdown {
+  width: 325px;
+  margin-right: 2vw;
+}
+
 #batch-list,#qc-graph2-selector {
   position: absolute;
   color: black;
@@ -51,6 +56,14 @@ p {
 }
 
 #batches {
+  border: gray 1px;
+  border-style: solid;
+  background: white;
+  color: black;
+  height: 28px;
+}
+
+#categories {
   border: gray 1px;
   border-style: solid;
   background: white;

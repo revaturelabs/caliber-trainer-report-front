@@ -142,8 +142,8 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
             this.categoriesObj.push(obj.batches);
             this.categoryFlags.push(true);
           }
-          this.categoriesName.unshift('Overview');
-          this.categoriesObj.unshift(resp.batchByCategory[0].batches);
+          //this.categoriesName.unshift('Overview');
+          //this.categoriesObj.unshift(resp.batchByCategory[0].batches);
           // this.categoriesObj.unshift("COOL");
           this.setScoreValues();
 
@@ -412,6 +412,10 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.graphAdjust();
+  }
+
+  emptyDoubleClick() {
+    event.stopPropagation();
   }
 
   // This method selects the large view of the graph when double clicking the graph title.

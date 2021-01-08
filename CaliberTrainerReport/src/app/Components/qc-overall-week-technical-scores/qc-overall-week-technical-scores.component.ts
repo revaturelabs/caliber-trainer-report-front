@@ -91,8 +91,9 @@ export class QcOverallWeekTechnicalScoresComponent
   getBatches(): string[] {
     const batches = [];
     for (const batch of this.thirdGraphObj) {
-      if (batches.indexOf(batch.batchName) === -1) {
-        batches.push(batch.batchName);
+      console.log(batch);
+      if (batches.indexOf(batch.category) === -1) {
+        batches.push(batch.category);
       }
     }
     return batches;
