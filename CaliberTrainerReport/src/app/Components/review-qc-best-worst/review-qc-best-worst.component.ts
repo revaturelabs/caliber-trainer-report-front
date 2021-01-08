@@ -52,8 +52,17 @@ public calculateTotalBatchQuantity(batch){
 //takes the presorted array of CategoryScore objects and returns an array of the three with the highest scores
 public findBestCategories(categories){
   let bestCategoriesArray = []
-  for(let i = 0; i < 3; i++){
-    bestCategoriesArray[i] = categories[i];
+  if(categories.length >= 3)
+  {
+    for(let i = 0; i < 3; i++){
+      bestCategoriesArray[i] = categories[i];
+    }
+  }
+  else{
+    for(let cat of categories)
+    {
+      bestCategoriesArray.push(cat);
+    }
   }
   return bestCategoriesArray
 }
@@ -61,8 +70,18 @@ public findBestCategories(categories){
 public findWorstCategories(categories){
   let worstCategoriesArray = []
   let length = categories.length;
-  for(let i = 1; i < 4; i++){
-    worstCategoriesArray[i - 1] = categories[length - i];
+  if(length >= 3)
+  {
+    for(let i = 1; i < 4; i++){
+      worstCategoriesArray[i - 1] = categories[length - i];
+    }
+  }
+  else
+  {
+    for(let i = categories.length-1; i >= 0; i--)
+    {
+      worstCategoriesArray.push(categories[i]);
+    }
   }
   return worstCategoriesArray
 }
@@ -92,18 +111,27 @@ public toggleViewAll(){
   ngOnInit(): void {
     this.QCscores.getAvgCategoryScoresObservables().subscribe(data =>{
       //
-      for(let category in data.batchByCategory){
+      for(let category of data.batchByCategory){
         let totalScores = 0;
         let totalQuantity = 0;
         let catAverage = 0;
-        for(let batch in data.batchByCategory[category].batches){
-          let currentBatch = data.batchByCategory[category].batches[batch]
+        
+        for(let batch of category.batches){
+          let currentBatch = batch;
           totalScores += this.calculateTotalBatchScore(currentBatch)
           totalQuantity += this.calculateTotalBatchQuantity(currentBatch)
         }
-        catAverage = totalScores/totalQuantity
-        if(!isNaN(catAverage)){
-          let categoryName = data.batchByCategory[category].categoryName
+        if (totalQuantity == 0 && totalScores == 0)
+        {
+         catAverage = 0; 
+        }
+        else
+        {
+          catAverage = totalScores/totalQuantity
+        }
+        
+        if(!isNaN(catAverage) && catAverage > 0){
+          let categoryName = category.categoryName
           this.categoryScores[categoryName] = catAverage 
         }
       }

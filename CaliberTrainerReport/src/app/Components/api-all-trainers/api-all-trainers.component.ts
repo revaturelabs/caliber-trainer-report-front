@@ -95,7 +95,9 @@ export class ApiAllTrainersComponent implements OnInit {
 
           for(let ids of batchIds)
           {
-            let newBatch: Batch = await this.completeBatchServ.getCompleteBatchDataById(ids).toPromise();
+            //this really should be a Batch object, but the typescript yells at us over qcnotes
+            let newBatch: any;
+            newBatch = await this.completeBatchServ.getCompleteBatchDataById(ids).toPromise();
             let temp = {
               "id": newBatch.id,
               "batchId": newBatch.batchId,
@@ -109,7 +111,7 @@ export class ApiAllTrainersComponent implements OnInit {
               "assessments": newBatch.assessments
             }
             console.log("qcnotes value",newBatch.qcnotes);
-            console.log("qcNotes value ",newBatch.qcNotes);
+            //console.log("qcNotes value ",newBatch.qcNotes);
             console.log(temp);
             //allbatches.push(newBatch);
             this.allData.batches.push(temp);
