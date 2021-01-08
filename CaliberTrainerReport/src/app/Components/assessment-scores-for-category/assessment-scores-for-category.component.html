@@ -3,7 +3,7 @@
         <span>Assessment Scores For Category</span>
         <fa-icon class="lineGraphIcon" [icon]="lineGraphIcon"></fa-icon>
 
-        <div id="category-dropdown">
+        <div id="category-dropdown" (dblclick)="emptyDoubleClick()">
             <div id="categories" (click)="toggleCatDropdown()"><p>Categories</p></div>
             <div id="qc-graph2-selector" [hidden]="cat_dropdown_flag">
                 <input name="search" type="text" [(ngModel)]="filterText" placeholder="Search" ><br>
@@ -24,7 +24,7 @@
                 </ng-container>
             </div>
         </div>
-        <div id="batch-dropdown">
+        <div id="batch-dropdown" (dblclick)="emptyDoubleClick()">
             <div id="batches" (click)="toggleBatchDropdown()"><p>Batches</p></div>
             <div id="batch-list" [hidden]="batch_dropdown_flag">
 

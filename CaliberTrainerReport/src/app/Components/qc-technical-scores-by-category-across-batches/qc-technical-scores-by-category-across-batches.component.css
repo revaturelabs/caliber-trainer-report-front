@@ -1,6 +1,6 @@
 /* CSS is located in main style.css */
 
-.qc-body{
+.qc-body {
   margin: 0 auto;
   width: 75%;
   margin-bottom: 100px;
@@ -10,39 +10,36 @@
   width: 325px;
   margin-right: 2vw;
 }
+
 #category-dropdown {
   width: 325px;
   margin-right: 2vw;
 }
 
-#batch-list {
+#batch-list,#qc-graph2-selector {
   position: absolute;
   color: black;
   z-index: 1;
   width: 325px;
   max-height: 250px;
   overflow: auto;
-  background-color:#f7f7f7;
-  white-space: nowrap;
-  border: solid gray 1px;
-}
-#qc-graph2-selector {
-  position: absolute;
-  color: black;
-  z-index: 1;
-  width: 325px;
-  max-height: 250px;
-  overflow: auto; 
-  background-color:#f7f7f7;
+  background-color: #f7f7f7;
   white-space: nowrap;
   border: solid gray 1px;
 }
 
-input[type=checkbox]{
+.error-msg {
+  font-weight: bolder;
+  margin: auto;
+  width: fit-content;
+}
+
+input[type="checkbox"] {
   margin: 0px 8px;
 }
 
-label, p{
+label,
+p {
   margin: 0px;
   line-height: normal;
 }
@@ -50,7 +47,7 @@ label, p{
 label {
   height: 26px;
   vertical-align: middle;
-  padding-top: .5px;
+  padding-top: 0.5px;
 }
 
 p {
@@ -65,6 +62,7 @@ p {
   color: black;
   height: 28px;
 }
+
 #categories {
   border: gray 1px;
   border-style: solid;
