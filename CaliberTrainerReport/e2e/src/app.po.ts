@@ -20,6 +20,11 @@ export class AppPage {
     return element(by.css('[routerLink = "/qc"]'));
   }
 
+  getNavBarViewReviewPageButton(width, height) {
+    browser.driver.manage().window().setSize(width, height);
+    return element(by.css('[routerLink = "/review-page"]'));
+  }
+
   getNavBarViewAssessmentReportsButton(width, height) {
     browser.driver.manage().window().setSize(width, height);
     return element(by.css('[routerLink = "/assessment"]'));
@@ -40,6 +45,8 @@ export class AppPage {
     this.navigateTo();
     if (reportPage === 'QC'){
       this.getNavBarViewQCReportsButton(1920, 1080).click();
+    }else if (reportPage === 'review') {
+      this.getNavBarViewReviewPageButton(1920,1080).click();
     }else {
       this.getNavBarViewAssessmentReportsButton(1920, 1080).click();
     }
