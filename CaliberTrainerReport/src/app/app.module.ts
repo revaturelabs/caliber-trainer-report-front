@@ -43,6 +43,7 @@ import { ReviewQcBestWorstComponent } from './Components/review-qc-best-worst/re
 import { ReviewPageAvgQcScoreComponent } from './Components/review-page-avg-qc-score/review-page-avg-qc-score.component';
 import { ReviewPageSignificantChangesComponent } from './Components/review-page-significant-changes/review-page-significant-changes.component';
 import { DxChartModule } from 'devextreme-angular';
+import { FilterPipe } from './filter.pipe';
 
 FullCalendarModule.registerPlugins([ 
   dayGridPlugin,
@@ -75,7 +76,8 @@ FullCalendarModule.registerPlugins([
     ReviewPageBestWorstCategoriesComponent,
     ReviewQcBestWorstComponent,
     ReviewPageAvgQcScoreComponent,
-    ReviewPageSignificantChangesComponent
+    ReviewPageSignificantChangesComponent,
+    FilterPipe
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   imports: [

@@ -10,7 +10,7 @@
         <option value="week">Category by Week</option>
       </select>
     </div>
-    <div class="container" style="width: fit-content;">
+    <div class="container data-html2canvas-ignore" style="width: fit-content;">
       <button class="btn btn-danger btn-block" style="background-color: #ea753e; margin-bottom: 15px; width: 20vw;" (click)="downloadPDF()">Download PDF</button>
    </div>
   </div>
@@ -19,20 +19,22 @@
 
     
     <app-qc-overall-batch-technical-scores></app-qc-overall-batch-technical-scores>
-    <div class="html2pdf__page-break"></div>
     <app-qc-technical-scores-by-category-across-batches></app-qc-technical-scores-by-category-across-batches>
     <div class="html2pdf__page-break"></div>
     <app-qc-overall-week-technical-scores></app-qc-overall-week-technical-scores>
 
   </div>
+
   <div class="qc-graph-full" *ngIf="selectedValue == 'status'">
     <app-qc-overall-batch-technical-scores></app-qc-overall-batch-technical-scores>
-  
-  </div><div class="qc-graph-full" *ngIf="selectedValue == 'individual'">
-    <app-qc-technical-scores-by-category-across-batches></app-qc-technical-scores-by-category-across-batches>
-
-  </div><div class="qc-graph-full" *ngIf="selectedValue == 'week'">
-    <app-qc-overall-week-technical-scores></app-qc-overall-week-technical-scores>
-
   </div>
+  
+  <div class="qc-graph-full" *ngIf="selectedValue == 'individual'">
+    <app-qc-technical-scores-by-category-across-batches></app-qc-technical-scores-by-category-across-batches>
+  </div>
+  
+  <div class="qc-graph-full" *ngIf="selectedValue == 'week'">
+    <app-qc-overall-week-technical-scores></app-qc-overall-week-technical-scores>
+  </div>
+  
 </div>

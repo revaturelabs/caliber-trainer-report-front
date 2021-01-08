@@ -69,7 +69,7 @@ describe('Testing Navigation and Top Navbar', () => {
     page.navigateTo();
     browser.driver.manage().window().setSize(315, 812);
     element(by.css('app-main-nav-bar .hambIcon')).click();
-    element(by.id('demo2')).click();
+    element(by.id('demo1')).click();
     expect(element(by.css('app-qc h2')).getText()).toBe('QC Technical Status');
   });
 
@@ -80,6 +80,23 @@ describe('Testing Navigation and Top Navbar', () => {
     element(by.css('app-main-nav-bar .hambIcon')).click();
     element(by.id('demo3')).click();
     expect(element(by.css('app-assessment h2')).getText()).toBe('Assessment Technical Status');
+  });
+
+  // 11
+  it('should navigate to review page from Homepage', () => {
+    page.navigateTo();
+    browser.driver.manage().window().setSize(1920, 1080);
+    page.getNavBarViewReviewPageButton(1920,1080).click();
+    expect(element(by.css('app-review-page h2')).getText()).toBe('Review Page Status');
+  });
+
+  // 12
+  it('should navigate to review page with Hamburger Icon', () => {
+    page.navigateTo();
+    browser.driver.manage().window().setSize(315, 812);
+    element(by.css('app-main-nav-bar .hambIcon')).click();
+    element(by.id('demo2')).click();
+    expect(element(by.css('app-review-page h2')).getText()).toBe('Review Page Status');
   });
 
 });
@@ -208,6 +225,65 @@ describe('(POSITIVE)Testing file upload and graph display', () => {
     element(by.css('.mainLogoIMG')).click();
     expect(element(by.tagName('app-home')).isPresent()).toBe(true);
   });
+  //31
+  it('should navigate to the report page see the searchbox in the batches dropdown', () => {
+    page.navigateToReportsPage('QC');
+    element(by.css('#batches')).click();
+    expect(element(by.css('#batchSearch')).isPresent()).toBe(true);
+  });
+  //32
+  it('should navigate to the report page and see a checkbox in the batches dropdown', () => {
+    page.navigateToReportsPage('QC');
+    element(by.css('#batches')).click();
+    expect(element(by.css('input[type=checkbox]')).isPresent()).toBe(true);
+  });
+  //33
+  it('should navigate to the report page and see a checkbox in the category dropdown', () => {
+    page.navigateToReportsPage('QC');
+    element(by.css('#categories')).click();
+    expect(element(by.css('input[type=checkbox]')).isPresent()).toBe(true);
+  });
+  //34
+  it('should navigate to the report page and see a select/deselect all checkbox in the category dropdown', () => {
+    page.navigateToReportsPage('QC');
+    element(by.css('#categories')).click();
+    expect(element(by.css('#catSelectAll')).isPresent()).toBe(true);
+  });
 
 });
 
+describe('(POSITIVE) clicking the check box will expand/collapse the metrics ', () => {
+  let page: AppPage;
+
+  beforeEach(() => {
+    page = new AppPage();
+  });
+
+  it('should navigate to the report page using the nav bar and see the checkboxes for metrics expansion', () => {
+    page.navigateTo();
+    browser.driver.manage().window().setSize(1920, 1080);
+    page.getNavBarViewReviewPageButton(1920,1080).click();
+    expect(element(by.css('app-review-page h2')).getText()).toBe('Review Page Status');
+    expect(element(by.id('viewAllAssessmentCheckbox')).isPresent()).toBe(true);
+    expect(element(by.id('viewAllQCCheckbox')).isPresent()).toBe(true);
+  });
+
+  it('clicking viewAllAssessmentCheckbox should expose a different checkbox, collapseAssessmentCheckbox, and vice versa', () => {
+    element(by.id('viewAllAssessmentCheckbox')).click();
+    expect(element(by.id('viewAllAssessmentCheckbox')).isPresent()).toBe(false);
+    expect(element(by.id('collapseAssessmentCheckbox')).isPresent()).toBe(true);
+    element(by.id('collapseAssessmentCheckbox')).click();
+    expect(element(by.id('collapseAssessmentCheckbox')).isPresent()).toBe(false);
+    expect(element(by.id('viewAllAssessmentCheckbox')).isPresent()).toBe(true);
+  });
+
+  it('clicking viewAllQCCheckbox should expose a different checkbox, collapseQCCheckbox, and vice versa', () => {
+    element(by.id('viewAllQCCheckbox')).click();
+    expect(element(by.id('viewAllQCCheckbox')).isPresent()).toBe(false);
+    expect(element(by.id('collapseQCCheckbox')).isPresent()).toBe(true);
+    element(by.id('collapseQCCheckbox')).click();
+    expect(element(by.id('collapseQCCheckbox')).isPresent()).toBe(false);
+    expect(element(by.id('viewAllQCCheckbox')).isPresent()).toBe(true);
+  });
+
+});

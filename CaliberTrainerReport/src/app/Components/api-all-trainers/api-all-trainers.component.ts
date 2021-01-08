@@ -90,18 +90,34 @@ export class ApiAllTrainersComponent implements OnInit {
 
           if (batchIds.length == 0 && this.mockData == 'loading') {this.mockData = 'fail-no-batches';console.log("Trainer has no batches.");}        
 
-          
-          let allbatches : Batch[] = new Array<Batch>();
+
+          //let allbatches : Batch[] = new Array<Batch>();
 
           for(let ids of batchIds)
           {
-            let newBatch: Batch = await this.completeBatchServ.getCompleteBatchDataById(ids).toPromise();
-            console.log(newBatch);
-
-            allbatches.push(newBatch);
+            //this really should be a Batch object, but the typescript yells at us over qcnotes
+            let newBatch: any;
+            newBatch = await this.completeBatchServ.getCompleteBatchDataById(ids).toPromise();
+            let temp = {
+              "id": newBatch.id,
+              "batchId": newBatch.batchId,
+              "name": newBatch.name,
+              "startDate": newBatch.startDate,
+              "endDate": newBatch.endDate,
+              "skill": newBatch.skill,
+              "location": newBatch.location,
+              "type": newBatch.type,
+              "qcNotes": newBatch.qcnotes,
+              "assessments": newBatch.assessments
+            }
+            console.log("qcnotes value",newBatch.qcnotes);
+            //console.log("qcNotes value ",newBatch.qcNotes);
+            console.log(temp);
+            //allbatches.push(newBatch);
+            this.allData.batches.push(temp);
           }
           
-          this.allData.batches = allbatches;
+          //this.allData.batches = allbatches;
           
           /*
           let temp;
