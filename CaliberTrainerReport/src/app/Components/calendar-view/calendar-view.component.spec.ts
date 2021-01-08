@@ -12,6 +12,7 @@ import { combineLatest, of } from 'rxjs';
 describe('CalendarViewComponent', () => {
   let component: CalendarViewComponent;
   let fixture: ComponentFixture<CalendarViewComponent>;
+  let latestYear;
   beforeEach(async(() => {
     let mockBatches: {batches: Batch[]} = {
       batches: [
@@ -40,16 +41,15 @@ describe('CalendarViewComponent', () => {
           currentWeek : 12,
           }
          ]
+
         }
         for (let batch of mockBatches.batches) {
           let latest = mockBatches.batches.reduce(function (r,a) {
           return r.startDate > a.startDate ? r : a;
           });
           let latestSplit = latest.startDate.split("-");
-          let latestYear = parseInt(latestSplit[0]);
-          expect(latestYear).toEqual(2012) // verifies sort output for mock data
+          latestYear = parseInt(latestSplit[0]);
         }
-        
     TestBed.configureTestingModule({
       declarations: [ CalendarViewComponent ],
       imports:[HttpClientTestingModule]
@@ -66,6 +66,9 @@ describe('CalendarViewComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should choose the latest year with a batch', () => {
+      expect(latestYear).toEqual(2012) // verifies sort output for mock data
+    });
   it('should render', () => {
     fixture = TestBed.createComponent(CalendarViewComponent);
     component = fixture.componentInstance;
