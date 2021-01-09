@@ -7,7 +7,7 @@
         <ng-container *ngIf="!viewAllQCCategories; else viewAll">
             <div>
                 <label for="view3">View All Categories:&nbsp;</label>
-                <input type="checkbox" name="viewAll" id="viewAllCheckbox" (click)="toggleViewAll()"/>
+                <input type="checkbox" name="viewAll" id="viewAllQCCheckbox" (click)="toggleViewAll()"/>
             </div>
             <div class="row best-worst">
                 <div class="category">
@@ -45,7 +45,7 @@
         <ng-template #viewAll>
             <div>
                 <label for="view3">View Best 3/Worst 3:&nbsp;</label>
-                <input type="checkbox" name="viewAll" id="viewAllCheckbox" (click)="toggleViewAll()"/>
+                <input type="checkbox" name="view3" id="collapseQCCheckbox" (click)="toggleViewAll()"/>
             </div>
             <div class="row best-worst">
                 <div class="category">

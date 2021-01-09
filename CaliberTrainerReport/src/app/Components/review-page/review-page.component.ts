@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as html2PDF from 'html2pdf.js';
+//import * as html2PDF from 'html2pdf.js';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
