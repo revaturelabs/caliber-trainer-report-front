@@ -6,7 +6,7 @@ import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { FilterBatch } from 'src/app/utility/FilterBatch';
-
+import {FilterPipe} from '../../filter.pipe';
 
 @Component({
   selector: 'app-qc-technical-scores-by-category-across-batches',
@@ -30,7 +30,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   averageRawScore: any[];
   goodRawScore: any[];
   superstarRawScore: any[];
-
+  filter = new FilterPipe();
   cumulativePoor: any[];
   cumulativeAverage: any[];
   cumulativeGood: any[];
