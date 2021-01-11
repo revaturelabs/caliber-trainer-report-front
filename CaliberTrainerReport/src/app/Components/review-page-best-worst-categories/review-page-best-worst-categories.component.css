@@ -17,10 +17,12 @@
     display: flex;
     flex-direction: row;
     flex: 3;
+    overflow:auto;
 }
 
 .cat-score {
     margin: 10px;
+    word-wrap:break-word;
 }
 
 .titleicon {

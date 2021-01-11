@@ -6,7 +6,7 @@
     <div *ngIf="!viewAll "class="card-body">
         <div>
             <label for="viewAll">View All Categories:&nbsp;</label>
-            <input type="checkbox" name="viewAll" id="viewAllCheckbox" (click)="toggleViewAll()"/>
+            <input type="checkbox" name="viewAll" id="viewAllAssessmentCheckbox" (click)="toggleViewAll()"/>
         </div>
         <div style="display: flex; flex-direction: row; width: 80%;">
 
@@ -45,7 +45,7 @@
     <div *ngIf="viewAll" class="card-body">
         <div>
             <label for="view3">View Best 3/Worst 3:&nbsp;</label>
-            <input type="checkbox" name="view3" id="view3Checkbox" (click)="toggleViewAll()"/>
+            <input type="checkbox" name="view3" id="collapseAssessmentCheckbox" (click)="toggleViewAll()"/>
         </div>
         <div style="display: flex; flex-direction: row; width: 80%;">
 
