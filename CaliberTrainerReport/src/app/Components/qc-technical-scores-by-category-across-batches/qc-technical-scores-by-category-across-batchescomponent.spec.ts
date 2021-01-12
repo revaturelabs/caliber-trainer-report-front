@@ -4,6 +4,8 @@ import { of } from 'rxjs';
 import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/BatchTechnicalStatusBySkillCategory.service';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { QCComponent } from '../qc/qc.component';
+import { FilterPipe } from 'src/app/filter.pipe';
+import { Pipe, PipeTransform } from '@angular/core';
 
 import { QcTechnicalScoresByCategoryAcrossBatchesComponent } from './qc-technical-scores-by-category-across-batches.component';
 
@@ -115,11 +117,11 @@ describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
     let mockBTSBSCS = jasmine.createSpyObj("BatchTechnicalStatusBySkillCategoryService", ["getAvgCategoryScoresObservables"]);
     mockBTSBSCS.getAvgCategoryScoresObservables.and.returnValue(of(mockResponse));
     TestBed.configureTestingModule({
-      declarations: [ QcTechnicalScoresByCategoryAcrossBatchesComponent ],
+      declarations: [ QcTechnicalScoresByCategoryAcrossBatchesComponent, FilterPipe],
       providers: [{
         provide: BatchTechnicalStatusBySkillCategoryService,
         useValue: mockBTSBSCS
-      }, QCComponent, DisplayGraphService],
+      }, QCComponent, DisplayGraphService, FilterPipe],
       imports: [ FormsModule ]
     })
     .compileComponents();

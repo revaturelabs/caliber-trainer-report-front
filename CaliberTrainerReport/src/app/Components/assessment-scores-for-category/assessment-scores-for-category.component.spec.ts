@@ -7,6 +7,7 @@ import { AssessScoresByCategoryAllBatchesService } from 'src/app/services/Assess
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { UrlService } from 'src/app/services/url.service';
 import { AssessmentComponent } from '../assessment/assessment.component';
+import { FilterPipe } from 'src/app/filter.pipe';
 
 import { AssessmentScoresForCategoryComponent } from './assessment-scores-for-category.component';
 
@@ -85,7 +86,7 @@ describe('AssessmentScoresForCategoryComponent', () => {
     let mockASBCABS = jasmine.createSpyObj("AssessScoresByCategoryAllBatchesService", ["getSixthGraphData"]);
     mockASBCABS.getSixthGraphData.and.returnValue(of(mockResponse));
     TestBed.configureTestingModule({
-      declarations: [ AssessmentScoresForCategoryComponent ],
+      declarations: [ AssessmentScoresForCategoryComponent, FilterPipe],
       providers: [
         { provide: AssessScoresByCategoryAllBatchesService, 
           useValue: mockASBCABS
