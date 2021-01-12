@@ -6,6 +6,8 @@ import { AssessmentComponent } from 'src/app/Components/assessment/assessment.co
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { FilterBatch } from '../../utility/FilterBatch';
+import {FilterPipe} from '../../filter.pipe';
+
 
 @Component({
   selector: 'app-assessment-scores-for-category',
@@ -22,6 +24,7 @@ export class AssessmentScoresForCategoryComponent
   tableGraphIcon = faTable;
   myLineChart: any;
   selectedValue: string;
+  filter = new FilterPipe();
 
   // The selected category, representing the index of the category data to display. If 0, displays all data ("Overview").
   pickedCategory: number;
