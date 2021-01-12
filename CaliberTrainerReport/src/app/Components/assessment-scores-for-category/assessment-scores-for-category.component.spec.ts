@@ -7,8 +7,11 @@ import { AssessScoresByCategoryAllBatchesService } from 'src/app/services/Assess
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { UrlService } from 'src/app/services/url.service';
 import { AssessmentComponent } from '../assessment/assessment.component';
-
+import {FilterPipe} from '../../filter.pipe';
+import { Pipe, PipeTransform } from '@angular/core';
 import { AssessmentScoresForCategoryComponent } from './assessment-scores-for-category.component';
+
+
 
 interface BatchAssessment {
   batchName: string;
@@ -85,7 +88,7 @@ describe('AssessmentScoresForCategoryComponent', () => {
     let mockASBCABS = jasmine.createSpyObj("AssessScoresByCategoryAllBatchesService", ["getSixthGraphData"]);
     mockASBCABS.getSixthGraphData.and.returnValue(of(mockResponse));
     TestBed.configureTestingModule({
-      declarations: [ AssessmentScoresForCategoryComponent ],
+      declarations: [ AssessmentScoresForCategoryComponent, FilterPipe],
       providers: [
         { provide: AssessScoresByCategoryAllBatchesService, 
           useValue: mockASBCABS
@@ -158,6 +161,8 @@ describe('AssessmentScoresForCategoryComponent', () => {
   }
 
   it('should change the selected value when a category is clicked', () => {
+
+    const filter = new FilterPipe();
     component.pickedCategory = 0;
     let yValues: number[] = [];
 
