@@ -29,12 +29,12 @@ export class TrainerSelectorComponent implements OnInit, DoCheck {
   }
 
   getSelectedTrainer(event: any) {
+    sessionStorage.setItem('selectedId', event.target.value);
     // This works, refreshes via full reload.
     if(event.target.value != this.selectedValue){
       this.router.navigateByUrl(this.router.url).then(() => {
         location.reload();
       });
-      sessionStorage.setItem('selectedId', event.target.value);
     }
   }
 }

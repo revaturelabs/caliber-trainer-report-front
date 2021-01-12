@@ -28,11 +28,21 @@ describe('TrainerSelectorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should refresh upon mouse clicks', () => {
-    let event = {target: {value: 5}};
+  it('should refresh the window when selected value changes', () => {
+    let event = {target: {value: "5"}};
+    let mySpy = spyOn(component, 'getSelectedTrainer').withArgs(event);
     component.getSelectedTrainer(event);
-    console.log(component.selectedValue); 
-    expect(component.selectedValue).toBeTruthy();
+    console.log(mySpy);
+    expect(location.reload).toHaveBeenCalled();
+  }); 
+
+
+
+  it('should not refresh the window if the selected value does not change', () => {
+    let event = {target: {value: ""}};
+    component.getSelectedTrainer(event);
+    console.log(component.selectedValue);
+    expect(component.selectedValue).toEqual("");
   }); 
 
 });

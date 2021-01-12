@@ -80,7 +80,7 @@ let mockResponse: {categories: Category[]} = {
   ]
 };
 
-describe('AssessmentScoresForCategoryComponent', () => {
+fdescribe('AssessmentScoresForCategoryComponent', () => {
   let component: AssessmentScoresForCategoryComponent;
   let fixture: ComponentFixture<AssessmentScoresForCategoryComponent>;
 
@@ -118,8 +118,8 @@ describe('AssessmentScoresForCategoryComponent', () => {
   it('should populate category names correctly on init', () => {
     let titles: string[] = mockResponse.categories.map(value => value.category);
     titles.pop();
-    titles.unshift("Overview");
-
+    console.log(titles);
+    console.log(component.categoriesName);
     expect(component.categoriesName).toEqual(titles);
   });
 
@@ -154,8 +154,8 @@ describe('AssessmentScoresForCategoryComponent', () => {
   /* ----- UPDATEGRAPH() TESTS ----- */
 
   function chooseOptionFromDropdown(option: number): void {
-    const categorySelector: HTMLSelectElement = fixture.debugElement.query(By.css("#assessment-graph6-selector")).nativeElement;
-    categorySelector.value = categorySelector.options[option].value;
+    const categorySelector: HTMLSelectElement = fixture.debugElement.query(By.css("#Java")).nativeElement;
+    categorySelector.value = option+"";
     categorySelector.dispatchEvent(new Event('change'));
     fixture.detectChanges();
   }
@@ -166,17 +166,80 @@ describe('AssessmentScoresForCategoryComponent', () => {
     component.pickedCategory = 0;
     let yValues: number[] = [];
 
+    expect(component.categoryFlags[0]).toBeTrue(); //confirming the default value
+
     chooseOptionFromDropdown(1);
     yValues = getAveragesOfAssessments(mockResponse.categories[0].batchAssessments);
-    expect(component.pickedCategory + "").toEqual("1");
+    expect(component.categoryFlags[0]).toBeFalse(); //confirming changed value
     expect(component.multiGraphYValues[0]).toEqual(yValues);
 
-    chooseOptionFromDropdown(2);
-    yValues = getAveragesOfAssessments(mockResponse.categories[1].batchAssessments);
-    expect(component.pickedCategory + "").toEqual("2");
-    expect(component.multiGraphYValues[1]).toEqual(yValues);
-
     chooseOptionFromDropdown(0);
-    expect(component.pickedCategory + "").toEqual("0");
+    expect(component.categoryFlags[0]).toBeTrue(); //confirming value has changed back
   });
+
+  function selectDeselectAllCategories(): void {
+    const selector: HTMLSelectElement = fixture.debugElement.query(By.css("#catSelectAll")).nativeElement;
+    selector.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+  }
+
+  it('should change the selected categories when select/deselect all is clicked', () => {
+
+    const filter = new FilterPipe();
+    let allTrue = [true, true, true];
+    let allFalse = [false, false, false];
+    expect(component.categoryFlags).toEqual(allTrue); //confirming the default values
+
+    selectDeselectAllCategories();
+    expect(component.categoryFlags).toEqual(allFalse); //confirming changed values
+
+    selectDeselectAllCategories();
+    expect(component.categoryFlags).toEqual(allTrue); //confirming values have changed back
+  });
+
+  function selectDeselectAllBatches(): void {
+    const selector: HTMLSelectElement = fixture.debugElement.query(By.css("#batchSelectAll")).nativeElement;
+    selector.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+  }
+
+  it('should change the selected batches when select/deselect all is clicked', () => {
+
+    const filter = new FilterPipe();
+    let allTrue = [true, true];
+    let allFalse = [false, false];
+    expect(component.batchFlags).toEqual(allTrue); //confirming the default values
+
+    selectDeselectAllBatches();
+    expect(component.batchFlags).toEqual(allFalse); //confirming changed values
+
+    selectDeselectAllBatches();
+    expect(component.batchFlags).toEqual(allTrue); //confirming values have changed back
+  });
+
+  function selectDeselectOneBatch(): void {
+    const selector: HTMLSelectElement = fixture.debugElement.query(By.css("#name")).nativeElement;
+    console.log(selector);
+    selector.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    console.log(selector);
+  }
+
+  it('should change the selected batch when ', () => {
+
+    const filter = new FilterPipe();
+    console.log(component.batchFlags);
+    selectDeselectOneBatch();
+    console.log(component.batchFlags);
+    // expect(component.categoryFlags).toBeTrue(); //confirming the default value
+
+    // selectDeselectOneBatch();
+    // expect(component.categoryFlags[1]).toBeFalse(); //confirming changed value
+
+    // selectDeselectOneBatch();
+    // expect(component.categoryFlags).toBeTrue(); //confirming value has changed back
+  });
+
+
+  
 });
