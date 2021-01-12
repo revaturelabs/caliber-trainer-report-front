@@ -7,9 +7,16 @@ import { AssessScoresByCategoryAllBatchesService } from 'src/app/services/Assess
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { UrlService } from 'src/app/services/url.service';
 import { AssessmentComponent } from '../assessment/assessment.component';
+<<<<<<< HEAD
 import { FilterPipe } from 'src/app/filter.pipe';
 
+=======
+import {FilterPipe} from '../../filter.pipe';
+import { Pipe, PipeTransform } from '@angular/core';
+>>>>>>> 2531810051ab261ffa80156e8c43f12ea5993a22
 import { AssessmentScoresForCategoryComponent } from './assessment-scores-for-category.component';
+
+
 
 interface BatchAssessment {
   batchName: string;
@@ -159,6 +166,8 @@ describe('AssessmentScoresForCategoryComponent', () => {
   }
 
   it('should change the selected value when a category is clicked', () => {
+
+    const filter = new FilterPipe();
     component.pickedCategory = 0;
     let yValues: number[] = [];
 

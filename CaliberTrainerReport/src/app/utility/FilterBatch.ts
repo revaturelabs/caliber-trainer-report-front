@@ -8,12 +8,14 @@ export class FilterBatch {
   public filterBatch(arr: any[], batchFlags: boolean[]): any[] {
       let temp: any[] = [];
 
-      for (let i = 0; i < batchFlags.length; i++) {
-          if (batchFlags[i]) {
-              temp.push(arr[i]);
-          }
+      if (arr.length === batchFlags.length) {
+        for (let i = 0; i < batchFlags.length; i++) {
+            if (batchFlags[i]) {
+                temp.push(arr[i]);
+            }
+        }
       }
-
+      
       return temp;
   }
 }
