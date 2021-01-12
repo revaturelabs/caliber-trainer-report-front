@@ -7,26 +7,20 @@ let fourTrueBatch:boolean[] = [false, true, false, true, true, true];
 let diffLenBatch:boolean[] = [true, false];
 let filter: FilterBatch = new FilterBatch();
 
-describe('filters truthful batch', () => {
-    it('should return an any[] array of size 6.', () => {
+describe('filters batches', () => {
+    it('should return the full array when all batches are true.', () => {
         expect(filter.filterBatch(anyArray, trueBatch).length).toEqual(6);
-    }) 
-})
+    });
 
-describe('filters false batch', () => {
-    it('should return an empty array.', () => {
+    it('should return an empty array when all batches are false', () => {
         expect(filter.filterBatch(anyArray, falseBatch).length).toEqual(0);
-    })
-})
+    });
 
-describe('filters for four true values', () => {
-    it('should return an any[] array of size 4.', () => {
+    it('should return an any[] array of size 4 when only 4 batches are true', () => {
         expect(filter.filterBatch(anyArray, fourTrueBatch).length).toEqual(4);
-    })
-})
+    });
 
-describe('filter is given arrays of differing lengths', () => {
-    it('should return an empty array.', () => {
+    it('should return an empty array if the two arrays provided are of different length', () => {
         expect(filter.filterBatch(anyArray, diffLenBatch).length).toEqual(0);
-    })
+    });
 })
