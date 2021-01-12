@@ -30,4 +30,9 @@ describe('CalendarViewComponent', () => {
     const compiled = fixture.nativeElement;
     expect(compiled).toBeTruthy();
   })
+  
+  it('should have 2019 in "year dropdown"', () => {
+    const drpdn = fixture.debugElement.nativeElement.querySelector('#dates-selector');
+    expect(drpdn.innerHTML).toContain('2019');
+  });
 });
