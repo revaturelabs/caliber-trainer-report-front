@@ -5,9 +5,8 @@ import { environment } from '../../environments/environment'
 
 import { UrlService } from './url.service';
 
-fdescribe('UrlService', () => {
+describe('UrlService', () => {
   let service: UrlService;
-  let mockService;
   let caliberUrl = 'https://caliber2-mock.revaturelabs.com/mock/';
   let mockId = '17';
 
