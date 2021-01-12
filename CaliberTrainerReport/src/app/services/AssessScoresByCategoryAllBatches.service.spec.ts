@@ -16,4 +16,9 @@ describe('AssessScoresByCategoryAllBatchesService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('should return something', () => {
+    console.log(service.getSixthGraphData().toString());
+    expect(service.getSixthGraphData()).toBeTruthy();
+  });
 });
