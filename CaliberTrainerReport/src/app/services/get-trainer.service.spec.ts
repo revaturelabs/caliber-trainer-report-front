@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment'
 
 import { GetTrainerService } from './get-trainer.service';
 
-fdescribe('GetTrainerService', () => {
+describe('GetTrainerService', () => {
   let service: GetTrainerService;
   let urlServ: UrlService;
 
