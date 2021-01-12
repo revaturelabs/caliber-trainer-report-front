@@ -6,8 +6,7 @@ import { AssessmentComponent } from 'src/app/Components/assessment/assessment.co
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { FilterBatch } from '../../utility/FilterBatch';
-import {FilterPipe} from '../../filter.pipe';
-
+import { FilterPipe } from 'src/app/filter.pipe';
 
 @Component({
   selector: 'app-assessment-scores-for-category',
@@ -54,11 +53,13 @@ export class AssessmentScoresForCategoryComponent
   catSelectAll = true;
 
   filterText: string;
+  filter: FilterPipe;
 
   constructor(
     private assessScoresByCategoryAllBatchesService: AssessScoresByCategoryAllBatchesService,
     private assessmentTS: AssessmentComponent,
-    private displayGraphService: DisplayGraphService
+    private displayGraphService: DisplayGraphService,
+    //private filter: FilterPipe
   ) {}
 
   ngOnInit(): void {
