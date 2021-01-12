@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/BatchTechnicalStatusBySkillCategory.service';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { QCComponent } from '../qc/qc.component';
-
+import {FilterPipe} from '../../filter.pipe';
 import { QcTechnicalScoresByCategoryAcrossBatchesComponent } from './qc-technical-scores-by-category-across-batches.component';
 
 let mockResponse; 
@@ -115,7 +115,7 @@ describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
     let mockBTSBSCS = jasmine.createSpyObj("BatchTechnicalStatusBySkillCategoryService", ["getAvgCategoryScoresObservables"]);
     mockBTSBSCS.getAvgCategoryScoresObservables.and.returnValue(of(mockResponse));
     TestBed.configureTestingModule({
-      declarations: [ QcTechnicalScoresByCategoryAcrossBatchesComponent ],
+      declarations: [ QcTechnicalScoresByCategoryAcrossBatchesComponent, FilterPipe ],
       providers: [{
         provide: BatchTechnicalStatusBySkillCategoryService,
         useValue: mockBTSBSCS
@@ -184,7 +184,7 @@ describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
   //This next part of tests will test that components show up when they are clicked
   //and not show up when they aren't.
   it("should set the Java option to false when the Java option is unchecked", () => {
-    
+    const filter = new FilterPipe();
   });
 
   function trimEmpty() {
