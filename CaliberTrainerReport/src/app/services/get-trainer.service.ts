@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { UrlService } from './url.service';
 import { catchError, map } from 'rxjs/operators';
 import { ErrorHandlerService } from './error-handler.service';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,8 @@ export class GetTrainerService {
   constructor(
     private http: HttpClient,
     private urlServe: UrlService,
-    private errorHandler: ErrorHandlerService
+    private errorHandler: ErrorHandlerService,
+    private localStorageServ: LocalStorageService
   ) {}
 
   getTrainer(trainer: Trainer) {
@@ -51,7 +53,7 @@ export class GetTrainerService {
       const resp = await this.http
         .get<Trainer>(`${environment.backEndUrl}Trainer`)
         .toPromise();
-      sessionStorage.setItem('currentTrainers', JSON.stringify(resp));
+      this.localStorageServ.set('currentTrainers', resp);
     } catch (msg) {
       return console.log('Error: ' + msg.status + ' ' + msg.statusText);
     }
