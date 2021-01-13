@@ -8,7 +8,10 @@ import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { FilterBatch } from 'src/app/utility/FilterBatch';
 import { FilterPipe } from 'src/app/filter.pipe';
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f56d97ace7666034e13f2d619041ae5a19f55815
 @Component({
   selector: 'app-qc-technical-scores-by-category-across-batches',
   templateUrl:
