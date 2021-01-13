@@ -6,12 +6,8 @@ import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { FilterBatch } from 'src/app/utility/FilterBatch';
-<<<<<<< HEAD
 import { FilterPipe } from 'src/app/filter.pipe';
 
-=======
-import {FilterPipe} from '../../filter.pipe';
->>>>>>> 2531810051ab261ffa80156e8c43f12ea5993a22
 
 @Component({
   selector: 'app-qc-technical-scores-by-category-across-batches',
@@ -65,8 +61,6 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   
   yValues: any[];
 
-  filter = new FilterPipe();
-
   // Dealing with Scalability
   width: number;
   isBig: boolean;
@@ -80,7 +74,6 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     private batchTechnicalStatusBySkillCategoryService: BatchTechnicalStatusBySkillCategoryService,
     private qcTS: QCComponent,
     private displayGraphService: DisplayGraphService,
-    //private filter: FilterPipe
   ) {}
 
   ngOnInit(): void {
