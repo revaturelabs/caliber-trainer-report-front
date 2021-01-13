@@ -123,7 +123,7 @@ describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
       providers: [{
         provide: BatchTechnicalStatusBySkillCategoryService,
         useValue: mockBTSBSCS
-      }, QCComponent, DisplayGraphService, FilterPipe],
+      }, QCComponent, DisplayGraphService],
       imports: [ FormsModule ]
     })
     .compileComponents();

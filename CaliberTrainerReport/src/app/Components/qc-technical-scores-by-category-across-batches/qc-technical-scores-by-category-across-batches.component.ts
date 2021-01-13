@@ -60,8 +60,6 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   
   yValues: any[];
 
-  filter = new FilterPipe();
-
   // Dealing with Scalability
   width: number;
   isBig: boolean;
@@ -75,7 +73,6 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     private batchTechnicalStatusBySkillCategoryService: BatchTechnicalStatusBySkillCategoryService,
     private qcTS: QCComponent,
     private displayGraphService: DisplayGraphService,
-    //private filter: FilterPipe
   ) {}
 
   ngOnInit(): void {

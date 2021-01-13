@@ -8,7 +8,6 @@ import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { UrlService } from 'src/app/services/url.service';
 import { AssessmentComponent } from '../assessment/assessment.component';
 import { FilterPipe } from 'src/app/filter.pipe';
-import { Pipe, PipeTransform } from '@angular/core';
 import { AssessmentScoresForCategoryComponent } from './assessment-scores-for-category.component';
 
 

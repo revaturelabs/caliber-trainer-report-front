@@ -24,6 +24,7 @@ export class AssessmentScoresForCategoryComponent
   myLineChart: any;
   selectedValue: string;
   filter = new FilterPipe();
+  filterText: string;
 
   // The selected category, representing the index of the category data to display. If 0, displays all data ("Overview").
   pickedCategory: number;
@@ -52,14 +53,11 @@ export class AssessmentScoresForCategoryComponent
   selectAll = true;
   catSelectAll = true;
 
-  filterText: string;
-  filter: FilterPipe;
 
   constructor(
     private assessScoresByCategoryAllBatchesService: AssessScoresByCategoryAllBatchesService,
     private assessmentTS: AssessmentComponent,
-    private displayGraphService: DisplayGraphService,
-    //private filter: FilterPipe
+    private displayGraphService: DisplayGraphService
   ) {}
 
   ngOnInit(): void {
