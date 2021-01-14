@@ -74,7 +74,7 @@ describe('CalendarViewComponent', () => {
     component = fixture.componentInstance;
     const compiled = fixture.nativeElement;
     expect(compiled).toBeTruthy();
-  })
+  });
   
   it('should have 2019 in "year dropdown"', () => {
     const drpdn = fixture.debugElement.nativeElement.querySelector('#dates-selector');
