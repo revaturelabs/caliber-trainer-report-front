@@ -1,4 +1,10 @@
-import { Component, OnInit, HostListener, OnDestroy, SystemJsNgModuleLoader } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  HostListener,
+  OnDestroy,
+  SystemJsNgModuleLoader,
+} from '@angular/core';
 import { faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
 import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/batch-status-by-skill-cat.service';
@@ -6,7 +12,7 @@ import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { FilterBatch } from 'src/app/utility/FilterBatch';
-
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-qc-technical-scores-by-category-across-batches',
@@ -44,12 +50,9 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   // index of batchFlags corresponds to index of batchNames:string[]
   batchFlags: boolean[];
 
-
-
   // FilterBatch is a helper class located in utility folder under src > app
   // it contains a method called filterBatch(any[], boolean[]) that takes in any[] and returns a new any[] with true indices from boolean[]
   batchFilter: FilterBatch;
-
 
   // this array tracks which categories to show on the graph.
   // index categoryFlags corresponds to index of categoryNames: string[]
@@ -57,7 +60,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   // is no need to keep track of category selection beyond boolean.
   categoryFlags: boolean[];
   catFlags: any[];
-  
+
   yValues: any[];
 
   // Dealing with Scalability
@@ -72,7 +75,8 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   constructor(
     private batchTechnicalStatusBySkillCategoryService: BatchTechnicalStatusBySkillCategoryService,
     private qcTS: QCComponent,
-    private displayGraphService: DisplayGraphService
+    private displayGraphService: DisplayGraphService,
+    private localStorageServ: LocalStorageService
   ) {}
 
   ngOnInit(): void {
@@ -99,8 +103,6 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
 
     this.filterText = '';
     this.categoryFlags = [];
-
-
 
     this.BatchTechnicalStatusBySkillCategoryServiceSubscription = this.batchTechnicalStatusBySkillCategoryService
       .getAvgCategoryScoresObservables()
@@ -177,11 +179,11 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.cumulativeGood = [];
     this.cumulativePoor = [];
 
-
-    let trainerId = sessionStorage.getItem("selectedId");
-    let gA2: any[] = JSON.parse(sessionStorage.getItem("graphingArray2" + trainerId));
+    let trainerId = this.localStorageServ.get('selectedId');
+    let gA2: any[] = this.localStorageServ.get('graphingArray2' + trainerId);
     this.setScoreValues();
-    if(this.selectedValue ==0 ){ ///selceted value set to "all" in the QC component
+    if (this.selectedValue == 0) {
+      ///selceted value set to "all" in the QC component
 
       this.displayGraph(gA2[0], gA2[1]);
       this.displayGraph(
@@ -195,9 +197,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       );
     }
   }
-  setAllScoreValues() {
-
-  }
+  setAllScoreValues() {}
   setScoreValues() {
     if (this.pickedCategory == 0) {
       this.categoriesObj.forEach((c) => {
@@ -268,9 +268,6 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     }
   }
 
-
-
-
   displayGraph(batchDisplayNames: string[], yDisplayValues: any[]) {
     if (this.myLineChart) {
       this.myLineChart.destroy();
@@ -307,51 +304,50 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     var pointHitRadius = [];
     let lineData: any[] = [];
 
-    if(this.pickedCategory == 0){
-   
-      for(let i = 0; i < this.categoriesName.length; i++){
+    if (this.pickedCategory == 0) {
+      for (let i = 0; i < this.categoriesName.length; i++) {
         if (this.multiGraphYValues[i].reduce(batchRemoveEmptyReduce, 0) !== 0) {
-         if (this.categoryFlags[i]){
-        
-          let lineColor:string;
-        
-          lineColor = colorArray[(i) % colorArray.length];
-          var pointRadius1 = [];
-          var pointHitRadius1 = [];
+          if (this.categoryFlags[i]) {
+            let lineColor: string;
 
-          
-          let dataWith0Values = this.batchFilter.filterBatch(this.multiGraphYValues[i],this.batchFlags);
+            lineColor = colorArray[i % colorArray.length];
+            var pointRadius1 = [];
+            var pointHitRadius1 = [];
 
-          //remove interactive points where there is no data
-          var j;
-          
-          for(j=0; j< dataWith0Values.length; j++) {
-            pointRadius1.push(3);
-            pointHitRadius1.push(3);
-            if (dataWith0Values[j] == 0) {
-            
-              pointRadius1[j] = 0;
-              pointHitRadius1[j] = 0; 
+            let dataWith0Values = this.batchFilter.filterBatch(
+              this.multiGraphYValues[i],
+              this.batchFlags
+            );
+
+            //remove interactive points where there is no data
+            var j;
+
+            for (j = 0; j < dataWith0Values.length; j++) {
+              pointRadius1.push(3);
+              pointHitRadius1.push(3);
+              if (dataWith0Values[j] == 0) {
+                pointRadius1[j] = 0;
+                pointHitRadius1[j] = 0;
               }
+            }
+
+            // //filter out no data values and replace with averages
+            let finalYValues = this.cleanYValues(dataWith0Values);
+
+            let dataObj = {
+              label: '' + this.categoriesName[i], // Name the series
+
+              data: finalYValues,
+
+              fill: false,
+              borderColor: lineColor, // Add custom color border (Line)
+              backgroundColor: '#000000', // Add custom color background (Points and Fill)
+              borderWidth: 1, // Specify bar border width
+              pointRadius: pointRadius1,
+              pointHitRadius: pointHitRadius1,
+            };
+            lineData.push(dataObj);
           }
-
-          // //filter out no data values and replace with averages
-          let finalYValues = this.cleanYValues(dataWith0Values);
-  
-          let dataObj = {
-            label: ''+this.categoriesName[i], // Name the series
-            
-            data: finalYValues,
-
-            fill: false,
-            borderColor: lineColor, // Add custom color border (Line)
-            backgroundColor: '#000000', // Add custom color background (Points and Fill)
-            borderWidth: 1, // Specify bar border width
-            pointRadius: pointRadius1,
-            pointHitRadius: pointHitRadius1
-          };
-          lineData.push(dataObj);
-         }
         }
       }
 
@@ -396,8 +392,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
           },
         },
       });
-      
-    } 
+    }
   }
 
   graphAdjust() {
@@ -438,74 +433,73 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     }
   }
 
-  toggleBatch(name: string): void{
+  toggleBatch(name: string): void {
     let index = this.batchNames.indexOf(name);
     this.batchFlags[index] = !this.batchFlags[index];
     this.updateGraph();
-}
-
-
-checkSelectAll(): void {
-  this.selectAll = !this.selectAll;
-for(let i = 0 ; i<this.batchNames.length; i ++){
-    this.batchFlags[i] = this.selectAll;
   }
-//deselect all option needs to be unchecked:
-this.updateGraph();
-}
-catCheckSelectAll(): void {
-  this.catSelectAll = !this.catSelectAll;
-for(let i = 0 ; i<this.categoriesName.length; i ++){
-    this.categoryFlags[i] = this.catSelectAll;
-  }
- 
-//deselect all option needs to be unchecked:
-this.updateGraph();
-}
 
-  toggleCategory(name: string): void{
+  checkSelectAll(): void {
+    this.selectAll = !this.selectAll;
+    for (let i = 0; i < this.batchNames.length; i++) {
+      this.batchFlags[i] = this.selectAll;
+    }
+    //deselect all option needs to be unchecked:
+    this.updateGraph();
+  }
+  catCheckSelectAll(): void {
+    this.catSelectAll = !this.catSelectAll;
+    for (let i = 0; i < this.categoriesName.length; i++) {
+      this.categoryFlags[i] = this.catSelectAll;
+    }
+
+    //deselect all option needs to be unchecked:
+    this.updateGraph();
+  }
+
+  toggleCategory(name: string): void {
     let index = this.categoriesName.indexOf(name);
-    this.categoryFlags[index ] = !this.categoryFlags[index ];
+    this.categoryFlags[index] = !this.categoryFlags[index];
     this.updateGraph();
   }
 
   batch_dropdown_flag: boolean = true;
   toggleBatchDropdown(): void {
     this.batch_dropdown_flag = !this.batch_dropdown_flag;
-    this.filterText = "";
-    if(!this.cat_dropdown_flag){
+    this.filterText = '';
+    if (!this.cat_dropdown_flag) {
       this.cat_dropdown_flag = true;
     }
   }
 
   cat_dropdown_flag: boolean = true;
-  toggleCatDropdown(): void{
+  toggleCatDropdown(): void {
     this.cat_dropdown_flag = !this.cat_dropdown_flag;
-    this.filterText = "";
-    if(!this.batch_dropdown_flag){
+    this.filterText = '';
+    if (!this.batch_dropdown_flag) {
       this.batch_dropdown_flag = true;
     }
   }
 
-  cleanYValues(dataWith0Values: number[]){
+  cleanYValues(dataWith0Values: number[]) {
     //filter out no data values and replace with averages
     let finalYValues = [];
 
-    if(dataWith0Values[0] == 0){
+    if (dataWith0Values[0] == 0) {
       //the first value is zero, replace it with the first non-zero value
-      for(let k = 1; k < dataWith0Values.length; k++){
-        if(dataWith0Values[k] != 0){
+      for (let k = 1; k < dataWith0Values.length; k++) {
+        if (dataWith0Values[k] != 0) {
           dataWith0Values[0] = dataWith0Values[k];
           break;
         }
       }
     }
 
-    if(dataWith0Values[dataWith0Values.length-1] == 0){
+    if (dataWith0Values[dataWith0Values.length - 1] == 0) {
       //the last value is zero, replace it with the first previous non-zero value
-      for(let k = dataWith0Values.length-1; k >= 0; k--){
-        if(dataWith0Values[k] != 0){
-          dataWith0Values[dataWith0Values.length-1] = dataWith0Values[k];
+      for (let k = dataWith0Values.length - 1; k >= 0; k--) {
+        if (dataWith0Values[k] != 0) {
+          dataWith0Values[dataWith0Values.length - 1] = dataWith0Values[k];
           break;
         }
       }
@@ -513,32 +507,31 @@ this.updateGraph();
 
     finalYValues.push(dataWith0Values[0]);
     //replace any zero inner y values with averages of values around them
-    for(let k = 1; k < dataWith0Values.length-1; k++){
-      if(dataWith0Values[k] == 0){
-
+    for (let k = 1; k < dataWith0Values.length - 1; k++) {
+      if (dataWith0Values[k] == 0) {
         let prev;
-        for(let h = k-1; h >= 0; h--){
-          if(dataWith0Values[h] != 0){
+        for (let h = k - 1; h >= 0; h--) {
+          if (dataWith0Values[h] != 0) {
             prev = dataWith0Values[h];
             break;
           }
         }
 
         let next;
-        for(let h = k+1; h < dataWith0Values.length; h++){
-          if(dataWith0Values[h] != 0){
+        for (let h = k + 1; h < dataWith0Values.length; h++) {
+          if (dataWith0Values[h] != 0) {
             next = dataWith0Values[h];
             break;
           }
         }
 
-        let avg = (next+prev)/2;
+        let avg = (next + prev) / 2;
         finalYValues.push(avg);
       } else {
         finalYValues.push(dataWith0Values[k]);
       }
     }
-    finalYValues.push(dataWith0Values[dataWith0Values.length-1]);
+    finalYValues.push(dataWith0Values[dataWith0Values.length - 1]);
     return finalYValues;
   }
 

@@ -4,13 +4,14 @@ import { TechnicalStatusPerBatchService } from 'src/app/services/tech-status-per
 import { Chart } from 'node_modules/chart.js';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-qc-overall-batch-technical-scores',
   templateUrl: './qc-overall-batch-technical-scores.component.html',
   styleUrls: ['./qc-overall-batch-technical-scores.component.css'],
 })
-export class QcOverallBatchTechnicalScoresComponent implements OnInit{
+export class QcOverallBatchTechnicalScoresComponent implements OnInit {
   barGraphIcon = faChartBar;
   tableGraphIcon = faTable;
   width: number;
@@ -36,19 +37,19 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit{
   constructor(
     private technicalStatusPerBatchService: TechnicalStatusPerBatchService,
     private qcTS: QCComponent,
-    private displayGraphService: DisplayGraphService
+    private displayGraphService: DisplayGraphService,
+    private localStorageServ: LocalStorageService
   ) {}
 
   ngOnInit(): void {
     this.selectedValue = this.qcTS.selectedValue;
     this.graphAdjust();
 
-    let trainerId = sessionStorage.getItem("selectedId");
-    
+    let trainerId = this.localStorageServ.get('selectedId');
 
     // This method receives the JSON object from the URL GET request
-    
-   this.technicalStatusPerBatchService
+
+    this.technicalStatusPerBatchService
       .getTechnicalStatusPerBatch()
       .subscribe((resp) => {
         this.firstGraphObj = resp;
@@ -87,8 +88,13 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit{
           this.goodRawData.push(batches[2]);
           this.superstarRawData.push(batches[3]);
           this.nullRawData.push(batches[4]);
-          rawDataArray = [this.poorRawData, this.averageRawData, this.goodRawData, 
-                                      this.superstarRawData, this.nullRawData]
+          rawDataArray = [
+            this.poorRawData,
+            this.averageRawData,
+            this.goodRawData,
+            this.superstarRawData,
+            this.nullRawData,
+          ];
 
           // Seperates data into each technical score type (good, bad, avg) and performs math
           // to get the weighted value out of 100%
@@ -130,20 +136,25 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit{
           }
         }
 
-        
-        let graphArray: any[] = [this.batchNames, this.poorData, this.averageData, this.goodData, 
-                                  this.superstarData, this.nullData, this.batchNames, this.technicalStatus, 
-                                  rawDataArray];
-        sessionStorage.setItem("gA1"+trainerId, JSON.stringify(graphArray));
+        let graphArray: any[] = [
+          this.batchNames,
+          this.poorData,
+          this.averageData,
+          this.goodData,
+          this.superstarData,
+          this.nullData,
+          this.batchNames,
+          this.technicalStatus,
+          rawDataArray,
+        ];
+        this.localStorageServ.set('gA1' + trainerId, graphArray);
         // This actually passes the data to display the graph after receiving the data from the observables
-        this.displayGraphAll(
-         
-        );
+        this.displayGraphAll();
       });
   }
 
   displayGraphAll() {
-    if(this.batchNames.length === 0) {
+    if (this.batchNames.length === 0) {
       this.myGraph.destroy();
     }
 
@@ -180,7 +191,7 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit{
           },
         ],
       },
-      options: this.displayGraphService.graphOptions(graphText)
+      options: this.displayGraphService.graphOptions(graphText),
     });
 
     let superstarTotal = 0;

@@ -5,6 +5,7 @@ import { TechnicalStatusByWeekService } from 'src/app/services/tech-status-by-we
 import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-qc-overall-week-technical-scores',
@@ -45,7 +46,8 @@ export class QcOverallWeekTechnicalScoresComponent
   constructor(
     private statusByWeekService: TechnicalStatusByWeekService,
     private qcTS: QCComponent,
-    private displayGraphService: DisplayGraphService
+    private displayGraphService: DisplayGraphService,
+    private localStorageServ: LocalStorageService
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +55,7 @@ export class QcOverallWeekTechnicalScoresComponent
     this.graphAdjust();
     // This method receives the JSON object from the URL GET request
 
-    let trainerId = sessionStorage.getItem('selectedId');
+    let trainerId = this.localStorageServ.get('selectedId');
 
     this.statusByWeekServiceSubscription = this.statusByWeekService
       .getTechnicalStatusByWeek()
@@ -72,10 +74,7 @@ export class QcOverallWeekTechnicalScoresComponent
           }
 
           let graphArray = [this.thirdGraphObj, this.batches[0]];
-          sessionStorage.setItem(
-            'graphArray3' + trainerId,
-            JSON.stringify(graphArray)
-          );
+          this.localStorageServ.set('graphArray3' + trainerId, graphArray);
 
           this.displayGraph();
         },
