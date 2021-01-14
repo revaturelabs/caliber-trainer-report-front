@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TechnicalStatusPerBatchService } from './TechnicalStatusPerBatch.service';
+import { TechnicalStatusPerBatchService } from './tech-status-per-batch.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('TechnicalStatusPerBatchService', () => {

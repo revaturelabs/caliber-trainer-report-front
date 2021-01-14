@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
-import { TechnicalStatusPerBatchService } from 'src/app/services/TechnicalStatusPerBatch.service';
+import { TechnicalStatusPerBatchService } from 'src/app/services/tech-status-per-batch.service';
 import { Chart } from 'node_modules/chart.js';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';

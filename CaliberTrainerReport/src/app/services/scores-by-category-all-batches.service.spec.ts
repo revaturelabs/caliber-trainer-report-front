@@ -1,16 +1,16 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { BatchTechnicalStatusBySkillCategoryService } from './BatchTechnicalStatusBySkillCategory.service';
+import { AssessScoresByCategoryAllBatchesService } from './scores-by-category-all-batches.service';
 
-describe('BatchTechnicalStatusBySkillCategoryServiceService', () => {
-  let service: BatchTechnicalStatusBySkillCategoryService;
+describe('AssessScoresByCategoryAllBatchesService', () => {
+  let service: AssessScoresByCategoryAllBatchesService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports:[HttpClientTestingModule]
     });
-    service = TestBed.inject(BatchTechnicalStatusBySkillCategoryService);
+    service = TestBed.inject(AssessScoresByCategoryAllBatchesService);
   });
 
   it('should be created', () => {

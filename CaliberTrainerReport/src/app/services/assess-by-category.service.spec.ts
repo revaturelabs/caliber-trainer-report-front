@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { AssessmentByCategoryService } from './AssessmentByCategory.service';
+import { AssessmentByCategoryService } from './assess-by-category.service';
 
 describe('AssessmentByCategoryService', () => {
   let service: AssessmentByCategoryService;

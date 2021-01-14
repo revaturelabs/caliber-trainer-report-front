@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faBalanceScale, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { AssessmentByCategoryService } from 'src/app/services/AssessmentByCategory.service';
+import { AssessmentByCategoryService } from 'src/app/services/assess-by-category.service';
 
 @Component({
   selector: 'review-page-best-worst-categories',

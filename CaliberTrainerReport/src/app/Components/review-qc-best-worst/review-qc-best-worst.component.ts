@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faBalanceScale, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/BatchTechnicalStatusBySkillCategory.service';
+import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/batch-status-by-skill-cat.service';
 
 @Component({
   selector: 'review-qc-best-worst',

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faChartBar,faChartLine } from '@fortawesome/free-solid-svg-icons';
-import { TechnicalStatusPerBatchService } from 'src/app/services/TechnicalStatusPerBatch.service';
+import { TechnicalStatusPerBatchService } from 'src/app/services/tech-status-per-batch.service';
 import { Chart } from 'node_modules/chart.js';
 import { DisplayQcAverageGraphService } from 'src/app/services/display-qc-average-graph.service';
 

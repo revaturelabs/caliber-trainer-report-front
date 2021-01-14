@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { AssessmentByBatchService } from './AssessmentByBatch.service';
+import { AssessmentByBatchService } from './assess-by-batch.service';
 
 describe('AssessmentByBatchService', () => {
   let service: AssessmentByBatchService;
