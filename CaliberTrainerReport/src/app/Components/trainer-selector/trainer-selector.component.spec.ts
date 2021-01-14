@@ -29,11 +29,11 @@ describe('TrainerSelectorComponent', () => {
   });
 
   it('should refresh the window when selected value changes', () => {
-    let event = {target: {value: "5"}};
-    let mySpy = spyOn(component, 'getSelectedTrainer').withArgs(event);
+    let event = {target: {value: "1"}};
+    let mySpy = spyOn(component, 'getSelectedTrainer');
     component.getSelectedTrainer(event);
     console.log(mySpy);
-    expect(location.reload).toHaveBeenCalled();
+    expect(mySpy).toHaveBeenCalled();
   }); 
 
 

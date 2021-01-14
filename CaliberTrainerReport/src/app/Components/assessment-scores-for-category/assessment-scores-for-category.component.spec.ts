@@ -80,7 +80,7 @@ let mockResponse: {categories: Category[]} = {
   ]
 };
 
-fdescribe('AssessmentScoresForCategoryComponent', () => {
+describe('AssessmentScoresForCategoryComponent', () => {
   let component: AssessmentScoresForCategoryComponent;
   let fixture: ComponentFixture<AssessmentScoresForCategoryComponent>;
 
