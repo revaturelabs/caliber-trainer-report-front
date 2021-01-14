@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Trainer } from '../class/trainer'; // trainer class
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {BehaviorSubject, Observable} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UrlService } from './url.service';
+import { catchError, map } from 'rxjs/operators';
+import { ErrorHandlerService } from './error-handler.service';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GetTrainerService {
   trainerList: Trainer[];
@@ -15,25 +18,30 @@ export class GetTrainerService {
 
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Headers':'Access-Control-Allow-Origin,Access-Control-Request-Method,Access-Control-Request-Headers,Access-Control-Allow-Headers,Authorization,Accept,Content-Type,Origin,Host,Referer,X-Requested-With,X-CSRF-Token',
-    'Accept':'*/*',
+    'Access-Control-Allow-Headers':
+      'Access-Control-Allow-Origin,Access-Control-Request-Method,Access-Control-Request-Headers,Access-Control-Allow-Headers,Authorization,Accept,Content-Type,Origin,Host,Referer,X-Requested-With,X-CSRF-Token',
+    Accept: '*/*',
     'Access-Control-Allow-Origin': 'http://localhost:4200',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
-    'Access-Control-Allow-Credentials': 'true'
+    'Access-Control-Allow-Credentials': 'true',
   });
-  
-  constructor(private http: HttpClient, private urlServe: UrlService) { }
-  
+
+  constructor(
+    private http: HttpClient,
+    private urlServe: UrlService,
+    private errorHandler: ErrorHandlerService,
+    private localStorageServ: LocalStorageService
+  ) {}
+
   getTrainer(trainer: Trainer) {
     return trainer;
   }
-  
+
   getTrainerId(trainer: Trainer) {
     return trainer.id;
   }
-  
+
   async getTrainerList() {
-    
     // return this.http.get<Trainer>(`${environment.backEndUrl}Trainer`)
     //   .pipe(map(result => {
     //     // store Trainer details and jwt token in local storage to keep Trainer details in between page refreshes
@@ -42,17 +50,24 @@ export class GetTrainerService {
     //     return result;
     //   }));
     try {
-      const resp = await this.http.get<Trainer>(`${environment.backEndUrl}Trainer`).toPromise();
-      sessionStorage.setItem('currentTrainers', JSON.stringify(resp));
-    }
-    catch (msg) {
+      const resp = await this.http
+        .get<Trainer>(`${environment.backEndUrl}Trainer`)
+        .toPromise();
+      this.localStorageServ.set('currentTrainers', resp);
+    } catch (msg) {
       return console.log('Error: ' + msg.status + ' ' + msg.statusText);
     }
   }
 
-
-  getAllTrainers() : Observable<Trainer[]>{
-    return this.http.get<Trainer[]>(this.urlServe.getUrl() + "Trainer/trainer", {headers: this.headers});
+  getAllTrainers(): Observable<Trainer[]> {
+    return this.http
+      .get<Trainer[]>(this.urlServe.getUrl() + 'Trainer/trainer', {
+        headers: this.headers,
+      })
+      .pipe(
+        map((resp) => resp as Trainer[]),
+        catchError(this.errorHandler.handleError)
+      );
   }
 
   // To Reduce complexity, and reuse the function, we could try to figure out how to synchronize this function call properly
@@ -73,8 +88,4 @@ export class GetTrainerService {
   //   });
   //   return sessionStorage.getItem('selectedId');
   // }
-
-
-
-
 }
