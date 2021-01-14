@@ -12,7 +12,7 @@ import { DebugElement } from '@angular/core';
 
 let mockResponse; 
 
-describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
+fdescribe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
   let component: QcTechnicalScoresByCategoryAcrossBatchesComponent;
   let fixture: ComponentFixture<QcTechnicalScoresByCategoryAcrossBatchesComponent>;
 
@@ -149,8 +149,8 @@ describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
     let categoryObjs = [];
     trimEmpty();
 
-    categoryNames.push("Overview");
-    categoryObjs.push(mockResponse.batchByCategory[0].batches);
+    //categoryNames.push("Overview");
+    //categoryObjs.push(mockResponse.batchByCategory[0].batches);
     for(const category of mockResponse.batchByCategory) {
       categoryNames.push(category.categoryName);
       categoryObjs.push(category.batches);
@@ -256,6 +256,9 @@ describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
     expect(mySpy).toHaveBeenCalled();
   });
 
+
+
+  /* This should work, but qc-graph-selector is not in qc-technical-scores
   it('should "expand" the graph into large view when I double click on the title.', () => {
     let titleSelector: HTMLDivElement = fixture.debugElement.query(By.css("#card-title")).nativeElement;
     let graphSelector: HTMLSelectElement = fixture.debugElement.query(By.css("#qc-graph-selector")).nativeElement;
@@ -264,7 +267,116 @@ describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
 
     expect(graphSelector.value).toBe("all");
   });
+  */
 
+  //next, check that when all category option is unselected
+  //all category flags are unselected and no data is shown.
+  it('should uncheck all category options and remove all categories from the graph when I click on "select/deselect all categories"', () => {
+    let allCategorySelector: HTMLInputElement = fixture.debugElement.query(By.css("#catSelectAll")).nativeElement;
+    allCategorySelector.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+
+    for (let flag of component.categoryFlags){
+      expect(flag).toBeFalse();
+    }
+    expect(component.myLineChart.data.datasets.length).toBe(0);
+  });
+
+  //next, check that when all category flag is selected
+  //all category flags are selected and all data is shown.
+  it('should check all category options and add all categories from the graph when I click on "select/deselect all categories" again', () => {
+    let allCategorySelector: HTMLInputElement = fixture.debugElement.query(By.css("#catSelectAll")).nativeElement;
+    allCategorySelector.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    allCategorySelector.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+
+    for (let flag of component.categoryFlags){
+      expect(flag).toBeTrue();
+    }
+    expect(component.myLineChart.data.datasets).toBeTruthy();
+  });
+
+  //same should be done to uncheck batch options. It is assumed they are are the same
+  it('should uncheck all batch options and remove all batches from the graph when I click on "select/deselect all batches"', () => {
+    let allBatchesSelector: HTMLInputElement = fixture.debugElement.query(By.css("#batchSelectAll")).nativeElement;
+    allBatchesSelector.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+
+    for (let flag of component.batchFlags){
+      expect(flag).toBeFalse();
+    }
+
+    expect(component.myLineChart.data.labels.length).toBe(0);
+    expect(component.myLineChart.data.datasets.length).toBe(0);
+  });
+
+  it('should drop down categories list when I click on the categories dropdown', () => {
+    let categoryDropdownSelector: HTMLDivElement = fixture.debugElement.query(By.css("#categories")).nativeElement;
+    let categoryListSelector: HTMLDivElement = fixture.debugElement.query(By.css("#qc-graph2-selector")).nativeElement;
+
+    categoryDropdownSelector.dispatchEvent(new Event('click'));
+    fixture.detectChanges();
+
+    expect(component.cat_dropdown_flag).toBeFalse();
+    expect(categoryListSelector.hidden).toBeFalse();
+  });
+
+  it('should drop down batch list when I click on the batches dropdown', () => {
+    let batchDropdownSelector: HTMLDivElement = fixture.debugElement.query(By.css("#batches")).nativeElement;
+    let batchListSelector: HTMLDivElement = fixture.debugElement.query(By.css("#batch-list")).nativeElement;
+
+    batchDropdownSelector.dispatchEvent(new Event('click'));
+    fixture.detectChanges();
+
+    expect(component.batch_dropdown_flag).toBeFalse();
+    expect(batchListSelector.hidden).toBeFalse();
+  });
+
+  it('should close the batch dropdown when I click on the category dropdown', () => {
+    let categoryDropdownSelector: HTMLDivElement = fixture.debugElement.query(By.css("#categories")).nativeElement;
+    let categoryListSelector: HTMLDivElement = fixture.debugElement.query(By.css("#qc-graph2-selector")).nativeElement;
+    let batchDropdownSelector: HTMLDivElement = fixture.debugElement.query(By.css("#batches")).nativeElement;
+    let batchListSelector: HTMLDivElement = fixture.debugElement.query(By.css("#batch-list")).nativeElement;
+
+    batchDropdownSelector.dispatchEvent(new Event('click'));
+    fixture.detectChanges();
+    categoryDropdownSelector.dispatchEvent(new Event('click'));
+    fixture.detectChanges();
+
+    expect(component.cat_dropdown_flag).toBeFalse();
+    expect(categoryListSelector.hidden).toBeFalse();
+    expect(component.batch_dropdown_flag).toBeTrue();
+    expect(batchListSelector.hidden).toBeTrue();
+  });
+
+  it('should close the category dropdown when I click on the batch dropdown', () => {
+    let categoryDropdownSelector: HTMLDivElement = fixture.debugElement.query(By.css("#categories")).nativeElement;
+    let categoryListSelector: HTMLDivElement = fixture.debugElement.query(By.css("#qc-graph2-selector")).nativeElement;
+    let batchDropdownSelector: HTMLDivElement = fixture.debugElement.query(By.css("#batches")).nativeElement;
+    let batchListSelector: HTMLDivElement = fixture.debugElement.query(By.css("#batch-list")).nativeElement;
+
+    categoryDropdownSelector.dispatchEvent(new Event('click'));
+    fixture.detectChanges();
+    batchDropdownSelector.dispatchEvent(new Event('click'));
+    fixture.detectChanges();
+
+    expect(component.batch_dropdown_flag).toBeFalse();
+    expect(batchListSelector.hidden).toBeFalse();
+    expect(component.cat_dropdown_flag).toBeTrue();
+    expect(categoryListSelector.hidden).toBeTrue();
+  });
+
+  it('should interpolate/extrapolate data containing zero values', () =>{
+    let mockYValues: number[] = [0, 0, 1, 1, 0, 0, 3, 0];
+    let result = component.cleanYValues(mockYValues);
+    console.log(result)
+    expect(result[0]).toEqual(1);
+    expect(result[1]).toEqual(1);
+    expect(result[4]).toEqual(2);
+    expect(result[5]).toEqual(2);
+    expect(result[7]).toEqual(3);
+  });
 
   function trimEmpty() {
     for(let i = mockResponse.batchByCategory.length - 1; i >= 0; i--) {
