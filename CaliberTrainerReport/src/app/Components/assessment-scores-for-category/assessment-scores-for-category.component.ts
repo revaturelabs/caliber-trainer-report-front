@@ -267,9 +267,6 @@ export class AssessmentScoresForCategoryComponent
   }
   }
 
-  // scroll(el: HTMLElement) {
-  //   el.scrollIntoView();
-  // }
 
   graphAdjust() {
     const chartElem = document.getElementById('divChart6');
