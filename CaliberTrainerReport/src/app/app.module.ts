@@ -77,7 +77,8 @@ FullCalendarModule.registerPlugins([
     ReviewQcBestWorstComponent,
     ReviewPageAvgQcScoreComponent,
     ReviewPageSignificantChangesComponent,
-    FilterPipe
+    FilterPipe,
+    HttpClientModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   imports: [

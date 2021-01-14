@@ -4,8 +4,9 @@ import { of } from 'rxjs';
 import { AssessmentByCategoryService } from 'src/app/services/AssessmentByCategory.service';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { AssessmentComponent } from '../assessment/assessment.component';
-
+import { DebugElement } from '@angular/core';
 import { AssessmentScoresAccordingToCategoryComponent } from './assessment-scores-according-to-category.component';
+import { By } from '@angular/platform-browser';
 
 describe('AssessmentScoresAccordingToCategoryComponent', () => {
   let component: AssessmentScoresAccordingToCategoryComponent;
@@ -79,6 +80,19 @@ describe('AssessmentScoresAccordingToCategoryComponent', () => {
     }
 
     expect(component.categories).toEqual(categoryNames);
+  });
+  it('should call emptyDoubleClick to stop event propagation when double clicked', () =>{
+    let mySpy = spyOn(component, 'doubleClickGraph5').and.callThrough();
+    const doubleClickEl: DebugElement[] = fixture.debugElement.queryAll(By.css("#graph5Header"));
+    doubleClickEl[0].triggerEventHandler("dblclick", new MouseEvent("dblClick"));
+    fixture.detectChanges();
+    expect(mySpy).toHaveBeenCalled();
+  });
+  it('should call onresize function', () =>{
+    let mySpy = spyOn(component, 'onResize').and.callThrough();
+    component.onResize();
+    fixture.detectChanges();
+    expect(mySpy).toHaveBeenCalled();
   });
 
   it("should initialize scores correctly", () => {
