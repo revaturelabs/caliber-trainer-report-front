@@ -9,12 +9,13 @@
       </div>
       <div id="qc-graph2-selector" [hidden]="cat_dropdown_flag">
         <input name="search" type="text" [(ngModel)]="filterText" placeholder="Search"><br>
-        <ng-container *ngIf="!filterText">
-          <input type="checkbox" id="catSelectAll" name="catSelectAll" (change)="catCheckSelectAll()" checked>
+        <ng-container *ngIf="!filterText"><input type="checkbox" id="catSelectAll" name="catSelectAll"
+            (change)="catCheckSelectAll()" checked>
           <label for="catSelectAll">Select/Deselect All</label>
           <br>
         </ng-container>
         <ng-container *ngFor="let name of categoriesName| filter:filterText; let i = index">
+
           <ng-container *ngIf="catSelectAll; else elseCatBlock">
             <input type="checkbox" [id]="name" [value]="i" (change)="toggleCategory(name)" checked>
             <label [for]="name">{{name}}</label>
@@ -40,8 +41,8 @@
           <label for="batchSelectAll">Select/Deselect All</label>
           <br>
         </ng-container>
-
         <ng-container *ngFor="let name of batchNames | filter:filterText; let i = index">
+
           <ng-container *ngIf="selectAll; else elseBatchBlock">
             <input type="checkbox" [id]="name" [value]="i" (change)="toggleBatch(name)" checked>
             <label [for]="name">{{name}}</label>

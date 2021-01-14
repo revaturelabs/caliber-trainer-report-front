@@ -19,8 +19,8 @@ export class TrainerSelectorComponent implements OnInit, DoCheck {
     this.trainerList = [];
     this.selectedValue = sessionStorage.getItem('selectedId');
 
-  // This function will populate the trainerList after the asynchronous call (getTrainerList()) is finished. The values for
-  // trainerList are then populated for use with component initilization and storage data persistance.
+    // This function will populate the trainerList after the asynchronous call (getTrainerList()) is finished. The values for
+    // trainerList are then populated for use with component initilization and storage data persistance.
     this.selectedValue = this.setTrainerServ.setTrainerList(this.trainerList);
   }
 
@@ -29,10 +29,12 @@ export class TrainerSelectorComponent implements OnInit, DoCheck {
   }
 
   getSelectedTrainer(event: any) {
-    // This works, refreshes via full reload.
-    this.router.navigateByUrl(this.router.url).then(() => {
-      location.reload();
-    });
     sessionStorage.setItem('selectedId', event.target.value);
+    // This works, refreshes via full reload.
+    if(event.target.value != this.selectedValue){
+      this.router.navigateByUrl(this.router.url).then(() => {
+        location.reload();
+      });
+    }
   }
 }

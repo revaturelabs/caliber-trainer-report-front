@@ -4,9 +4,7 @@ import { of } from 'rxjs';
 import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/BatchTechnicalStatusBySkillCategory.service';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { QCComponent } from '../qc/qc.component';
-import { FilterPipe } from 'src/app/filter.pipe';
-import { Pipe, PipeTransform } from '@angular/core';
-
+import {FilterPipe} from '../../filter.pipe';
 import { QcTechnicalScoresByCategoryAcrossBatchesComponent } from './qc-technical-scores-by-category-across-batches.component';
 import { element } from 'protractor';
 import { By } from '@angular/platform-browser';
@@ -14,7 +12,7 @@ import { DebugElement } from '@angular/core';
 
 let mockResponse; 
 
-fdescribe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
+describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
   let component: QcTechnicalScoresByCategoryAcrossBatchesComponent;
   let fixture: ComponentFixture<QcTechnicalScoresByCategoryAcrossBatchesComponent>;
 
@@ -120,7 +118,7 @@ fdescribe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
     let mockBTSBSCS = jasmine.createSpyObj("BatchTechnicalStatusBySkillCategoryService", ["getAvgCategoryScoresObservables"]);
     mockBTSBSCS.getAvgCategoryScoresObservables.and.returnValue(of(mockResponse));
     TestBed.configureTestingModule({
-      declarations: [ QcTechnicalScoresByCategoryAcrossBatchesComponent, FilterPipe],
+      declarations: [ QcTechnicalScoresByCategoryAcrossBatchesComponent, FilterPipe ],
       providers: [{
         provide: BatchTechnicalStatusBySkillCategoryService,
         useValue: mockBTSBSCS
@@ -145,16 +143,14 @@ fdescribe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
   it("should initialize categories correctly", () => {
     /*
       All test initialization assumes that the last and only the last element does
-      not contain any scores. However, pushing Overview messed up the ability
-      to compare mock data to what should be in the component area.
-      I commented out this so that it would work. It does work.
+      not contain any scores. 
     */
     let categoryNames = [];
     let categoryObjs = [];
     trimEmpty();
 
-    //categoryNames.push("Overview");
-    //categoryObjs.push(mockResponse.batchByCategory[0].batches);
+    categoryNames.push("Overview");
+    categoryObjs.push(mockResponse.batchByCategory[0].batches);
     for(const category of mockResponse.batchByCategory) {
       categoryNames.push(category.categoryName);
       categoryObjs.push(category.batches);
@@ -189,8 +185,7 @@ fdescribe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
 
 
   //This next part of tests will test that components show up when they are clicked
-  //and not show up when they aren't. The simple thing is to check that information
-  //category flags of Java is false and no line data is named Java.
+  //and not show up when they aren't.
   it("should set the Java option to false when the Java option is unchecked", () => {
     
     let categorySelector: HTMLInputElement = fixture.debugElement.query(By.css("#Java")).nativeElement;
