@@ -4,7 +4,7 @@ import { Chart } from 'node_modules/chart.js';
 import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/BatchTechnicalStatusBySkillCategory.service';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
-import { DisplayGraphService } from 'src/app/services/display-graph.service';
+import { DisplayGraphService } from 'src/app/services/display-graph.service'; 
 import { FilterBatch } from 'src/app/utility/FilterBatch';
 import { FilterPipe } from 'src/app/filter.pipe';
 
@@ -423,6 +423,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     const graphSelector = document.getElementById(
       'qc-graph-selector'
     ) as HTMLSelectElement;
+    console.log(graphSelector);
     if (graphSelector.value === 'individual') {
       graphSelector.value = 'all';
     } else {

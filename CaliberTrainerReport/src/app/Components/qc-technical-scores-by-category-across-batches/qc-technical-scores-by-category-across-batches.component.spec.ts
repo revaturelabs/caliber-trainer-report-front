@@ -10,10 +10,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { QcTechnicalScoresByCategoryAcrossBatchesComponent } from './qc-technical-scores-by-category-across-batches.component';
 import { element } from 'protractor';
 import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
 
 let mockResponse; 
 
-describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
+fdescribe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
   let component: QcTechnicalScoresByCategoryAcrossBatchesComponent;
   let fixture: ComponentFixture<QcTechnicalScoresByCategoryAcrossBatchesComponent>;
 
@@ -193,22 +194,82 @@ describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
   it("should set the Java option to false when the Java option is unchecked", () => {
     
     let categorySelector: HTMLInputElement = fixture.debugElement.query(By.css("#Java")).nativeElement;
-    //categorySelector.checked = false;
+
     categorySelector.dispatchEvent(new Event('change'));
     fixture.detectChanges();
     expect(component.categoryFlags[0]).toBeFalse(); //by the strange "it should contain categories" test that pushed overview,
                                                     //Java is confirmed to be first. So we want first category flag to be false.
 
     component.myLineChart.data.datasets.forEach(element => {
-      expect(element.label).not.toBe(" Java");
+      expect(element.label).not.toBe("Java");
     });
   });
 
+  //this is to check that unchecking/checking for all options works.
+  it("should set the Java option to true when the Java option is checked", () => {
+    let categorySelector: HTMLInputElement = fixture.debugElement.query(By.css("#Java")).nativeElement;
 
-  //next, we test the same for batches.
-  //if all is going as planned, mock data should have "group 1 12/34/5678" as first batch
-  //so once again, we want the flag to be false and the part of the graph
-  //holding whatever
+    //because of the event above, it is confirmed that doing so will flip things around/
+    categorySelector.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+
+    categorySelector.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+
+    expect(component.categoryFlags[0]).toBeTrue();
+
+    let javaIndicator: boolean = false;
+    component.myLineChart.data.datasets.forEach(element => {
+      if (element.label === "Java"){
+        javaIndicator = true;
+      }
+    });
+
+    expect(javaIndicator).toBeTrue();    
+  });
+
+  //next, you must make sure that the batches is the same.
+  //the logic is the same as testing categories.
+  it("should set the 'batch 1 12/34/5678' batch to false when that batch is unchecked", () =>{
+    let categorySelector: HTMLInputElement = fixture.debugElement.query(By.css("[id = \"batch 1 12/34/5678\"]")).nativeElement;
+    categorySelector.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(component.batchFlags[0]).toBeFalse(); //by the strange "it should contain categories" test that pushed overview,
+                                                    //Java is confirmed to be first. So we want first category flag to be false.
+
+    component.myLineChart.data.labels.forEach(element => {
+      expect(element).not.toBe("batch 1 12/34/5678");
+    });
+  });
+
+  it('should update the graph when the window is resized', () =>{
+    let secondSpy = spyOn(component, 'graphAdjust');
+    window.resizeTo(1000,1000);
+    window.dispatchEvent(new Event('resize'));
+    let mySpy = spyOn(component, 'onResize');
+    window.resizeTo(1100,1000);
+    window.dispatchEvent(new Event('resize'));
+    expect(mySpy).toHaveBeenCalled();
+    expect(secondSpy).toHaveBeenCalled();
+  });
+
+  it('should call emptyDoubleClick to stop event propagation when double clicked', () =>{
+    let mySpy = spyOn(component, 'emptyDoubleClick').and.callThrough();
+    const doubleClickEl: DebugElement[] = fixture.debugElement.queryAll(By.css("#category-dropdown"));
+    doubleClickEl[0].triggerEventHandler("dblclick", new MouseEvent("dblClick"));
+    fixture.detectChanges();
+    expect(mySpy).toHaveBeenCalled();
+  });
+
+  it('should "expand" the graph into large view when I double click on the title.', () => {
+    let titleSelector: HTMLDivElement = fixture.debugElement.query(By.css("#card-title")).nativeElement;
+    let graphSelector: HTMLSelectElement = fixture.debugElement.query(By.css("#qc-graph-selector")).nativeElement;
+    titleSelector.dispatchEvent(new Event("dblclick"));
+    fixture.detectChanges();
+
+    expect(graphSelector.value).toBe("all");
+  });
+
 
   function trimEmpty() {
     for(let i = mockResponse.batchByCategory.length - 1; i >= 0; i--) {
