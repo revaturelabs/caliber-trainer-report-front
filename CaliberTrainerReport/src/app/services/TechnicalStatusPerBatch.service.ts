@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { UrlService } from './url.service';
 import { catchError, map } from 'rxjs/operators';
-import { ErrorHandlingServiceService } from './error-handling-service.service';
+import { ErrorHandlerService } from './error-handler.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class TechnicalStatusPerBatchService {
   constructor(
     private http: HttpClient,
     private urlService: UrlService,
-    private errorHandler: ErrorHandlingServiceService
+    private errorHandler: ErrorHandlerService
   ) {}
 
   getTechnicalStatusPerBatch(): Observable<any> {
