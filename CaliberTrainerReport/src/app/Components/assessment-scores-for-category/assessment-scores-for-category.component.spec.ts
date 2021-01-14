@@ -8,7 +8,7 @@ import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { UrlService } from 'src/app/services/url.service';
 import { AssessmentComponent } from '../assessment/assessment.component';
 import {FilterPipe} from '../../filter.pipe';
-import { Pipe, PipeTransform } from '@angular/core';
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { AssessmentScoresForCategoryComponent } from './assessment-scores-for-category.component';
 
 
@@ -161,8 +161,6 @@ fdescribe('AssessmentScoresForCategoryComponent', () => {
   }
 
   it('should change the selected value when a category is clicked', () => {
-
-    const filter = new FilterPipe();
     component.pickedCategory = 0;
     let yValues: number[] = [];
 
@@ -184,8 +182,6 @@ fdescribe('AssessmentScoresForCategoryComponent', () => {
   }
 
   it('should change the selected categories when select/deselect all is clicked', () => {
-
-    const filter = new FilterPipe();
     let allTrue = [true, true, true];
     let allFalse = [false, false, false];
     expect(component.categoryFlags).toEqual(allTrue); //confirming the default values
@@ -204,8 +200,6 @@ fdescribe('AssessmentScoresForCategoryComponent', () => {
   }
 
   it('should change the selected batches when select/deselect all is clicked', () => {
-
-    const filter = new FilterPipe();
     let allTrue = [true, true];
     let allFalse = [false, false];
     expect(component.batchFlags).toEqual(allTrue); //confirming the default values
@@ -217,27 +211,110 @@ fdescribe('AssessmentScoresForCategoryComponent', () => {
     expect(component.batchFlags).toEqual(allTrue); //confirming values have changed back
   });
 
-  function selectDeselectOneBatch(): void {
-    const selector: HTMLSelectElement = fixture.debugElement.query(By.css("#name")).nativeElement;
-    console.log(selector);
-    selector.dispatchEvent(new Event('change'));
+  it('should toggle the selected batch when called', () => {
+    expect(component.batchFlags[0]).toBeTrue(); //confirming the default value
+    component.toggleBatch("12/34/56 - Java EE");
+
+    expect(component.batchFlags[0]).toBeFalse(); //confirming changed value
+
+    component.toggleBatch("12/34/56 - Java EE");
+    expect(component.batchFlags[0]).toBeTrue(); //confirming value has changed back
+  });
+
+  it('should update the graph when the window is resized', () =>{
+    let secondSpy = spyOn(component, 'graphAdjust');
+    window.resizeTo(1000,1000);
+    window.dispatchEvent(new Event('resize'));
+    let mySpy = spyOn(component, 'onResize');
+    window.resizeTo(1100,1000);
+    window.dispatchEvent(new Event('resize'));
+    expect(mySpy).toHaveBeenCalled();
+    expect(secondSpy).toHaveBeenCalled();
+  });
+
+  it('should toggle the category selected and automatically update the graph', () =>{
+    let mySpy = spyOn(component, 'updateGraph');
+    expect(component.categoryFlags[0]).toBeTrue();
+    component.toggleCategory('Java');
+    expect(component.categoryFlags[0]).toBeFalse();
+    component.toggleCategory('Java');
+    expect(component.categoryFlags[0]).toBeTrue();
+    expect(mySpy).toHaveBeenCalled();
+  });
+
+  it('should toggle the batch selected and automatically update the graph', () =>{
+    let mySpy = spyOn(component, 'updateGraph');
+    console.log(component.batchFlags);
+    console.log(component.batchNames);
+    expect(component.batchFlags[0]).toBeTrue();
+    component.toggleBatch('12/34/56 - Java EE');
+    expect(component.batchFlags[0]).toBeFalse();
+    component.toggleBatch('12/34/56 - Java EE');
+    expect(component.batchFlags[0]).toBeTrue();
+    expect(mySpy).toHaveBeenCalled();
+  });
+
+  it('should toggle the flag for the batch dropdown menu', () =>{
+    expect(component.cat_dropdown_flag).toBeTrue();
+
+    expect(component.batch_dropdown_flag).toBeTrue(); 
+    component.toggleBatchDropdown();
+    expect(component.batch_dropdown_flag).toBeFalse();
+    component.cat_dropdown_flag = false;
+    component.toggleBatchDropdown();
+    expect(component.batch_dropdown_flag).toBeTrue();
+    expect(component.cat_dropdown_flag).toBeTrue();
+
+    //confirming that the function also sets the cat_dropdown_flag to true when it is false
+  });
+
+  it('should toggle the flag for the category dropdown menu', () =>{
+    expect(component.batch_dropdown_flag).toBeTrue();
+
+    expect(component.cat_dropdown_flag).toBeTrue();
+    component.toggleCatDropdown();
+    expect(component.cat_dropdown_flag).toBeFalse();
+    component.batch_dropdown_flag = false;
+    component.toggleCatDropdown();
+    expect(component.cat_dropdown_flag).toBeTrue();
+    expect(component.batch_dropdown_flag).toBeTrue();
+  });
+
+  it('should call emptyDoubleClick to stop event propagation when double clicked', () =>{
+    let mySpy = spyOn(component, 'emptyDoubleClick').and.callThrough();
+    const doubleClickEl: DebugElement[] = fixture.debugElement.queryAll(By.css("#category-dropdown"));
+    doubleClickEl[0].triggerEventHandler("dblclick", new MouseEvent("dblClick"));
     fixture.detectChanges();
-    console.log(selector);
-  }
+    expect(mySpy).toHaveBeenCalled();
+  });
 
-  it('should change the selected batch when ', () => {
+  it('should use filters when the picked category is not zero', () =>{
+    component.pickedCategory = 1;
+    let mySpy = spyOn(component.batchFilter, 'filterBatch').and.callThrough();
+    component.updateGraph();
+    expect(mySpy).toHaveBeenCalled();
+    component.pickedCategory = 0;
+  });
 
-    const filter = new FilterPipe();
-    console.log(component.batchFlags);
-    selectDeselectOneBatch();
-    console.log(component.batchFlags);
-    // expect(component.categoryFlags).toBeTrue(); //confirming the default value
+  it('should interpolate/extrapolate data containing zero values', () =>{
+    let mockYValues: number[] = [0, 0, 1, 1, 0, 0, 3, 0];
+    let result = component.cleanYValues(mockYValues);
+    console.log(result)
+    expect(result[0]).toEqual(1);
+    expect(result[1]).toEqual(1);
+    expect(result[4]).toEqual(2);
+    expect(result[5]).toEqual(2);
+    expect(result[7]).toEqual(3);
+  });
 
-    // selectDeselectOneBatch();
-    // expect(component.categoryFlags[1]).toBeFalse(); //confirming changed value
-
-    // selectDeselectOneBatch();
-    // expect(component.categoryFlags).toBeTrue(); //confirming value has changed back
+  it('should graph data containing zero values', () =>{
+    component.pickedCategory = 1;
+    let mockYValues: number[] = [0, 0, 1, 1, 0, 0, 3, 0];
+    component.displayGraph(['Java'], mockYValues);
+    let mySpy = spyOn(component, 'displayGraph').and.callThrough();
+    component.displayGraph(['Java'], mockYValues);
+    expect(mySpy).toHaveBeenCalled();
+    component.pickedCategory = 0;
   });
 
 

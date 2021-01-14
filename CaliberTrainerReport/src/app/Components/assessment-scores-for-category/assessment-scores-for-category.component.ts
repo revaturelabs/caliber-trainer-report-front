@@ -206,7 +206,7 @@ export class AssessmentScoresForCategoryComponent
     
     let lineColor:string = colorArray[(this.pickedCategory-1) % colorArray.length];
     var i;
-    
+    console.log(yValues);
     for(i=0; i< yValues.length; i++) {
       pointRadius.push(3);
       pointHitRadius.push(3);
@@ -267,9 +267,9 @@ export class AssessmentScoresForCategoryComponent
   }
   }
 
-  scroll(el: HTMLElement) {
-    el.scrollIntoView();
-  }
+  // scroll(el: HTMLElement) {
+  //   el.scrollIntoView();
+  // }
 
   graphAdjust() {
     const chartElem = document.getElementById('divChart6');
@@ -294,6 +294,7 @@ export class AssessmentScoresForCategoryComponent
     const graphSelector = document.getElementById(
       'assessment-graph-selector'
     ) as HTMLSelectElement;
+    console.log(graphSelector);
     if (graphSelector.value === 'trend') {
       graphSelector.value = 'all';
     } else {
