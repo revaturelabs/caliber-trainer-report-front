@@ -12,7 +12,7 @@ import { DebugElement } from '@angular/core';
 
 let mockResponse; 
 
-fdescribe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
+describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
   let component: QcTechnicalScoresByCategoryAcrossBatchesComponent;
   let fixture: ComponentFixture<QcTechnicalScoresByCategoryAcrossBatchesComponent>;
 

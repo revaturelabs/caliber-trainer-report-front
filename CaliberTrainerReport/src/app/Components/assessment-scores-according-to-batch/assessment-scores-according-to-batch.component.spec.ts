@@ -33,6 +33,7 @@ describe('AssessmentScoresAccordingToBatchComponent', () => {
     component.ngOnInit();
     expect(mySpy).toHaveBeenCalled();
   })
+
   it('should call the updateGraph', () => {
     let mySpy = spyOn(component, 'updateGraph').and.callThrough();
     component.allBatches = JSON.parse(`[{"batchId":"Ix2x2UAB","batchName":"1804  Apr16 -2","assessmentScores":[75.74875,80.53154,78.206665,0,0]},{"batchId":"2rUNwAAM","batchName":"1901 Jan06 Other","assessmentScores":[77.69572,79.13,80.45,74.78,0]},{"batchId":"2rgIVAAY","batchName":"1903 Mar04 Full Stack Java/JEE","assessmentScores":[76.84375,59.44,83.13,0,0]},{"batchId":"2ehKRAAY","batchName":"1909 Sep30 Other","assessmentScores":[77.908455,78.20637,0,79.9,91.2]}]`);
