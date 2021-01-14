@@ -44,31 +44,33 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit{
     this.graphAdjust();
 
     let trainerId = sessionStorage.getItem("selectedId");
+
+    // Initializing the arrays for our data
+    this.goodData = [];
+    this.averageData = [];
+    this.poorData = [];
+    this.superstarData = [];
+    this.nullData = [];
+    this.superstarRawData = [];
+    this.goodRawData = [];
+    this.averageRawData = [];
+    this.poorRawData = [];
+    this.nullRawData = [];
+    this.batchNames = [];
+    this.technicalStatus = [];
+    let rawDataArray: any[] = [];
     
 
     // This method receives the JSON object from the URL GET request
     
+    console.log("running ngOnInit")
    this.technicalStatusPerBatchService
       .getTechnicalStatusPerBatch()
       .subscribe((resp) => {
         this.firstGraphObj = resp;
 
-        // Initializing the arrays for our data
-        this.goodData = [];
-        this.averageData = [];
-        this.poorData = [];
-        this.superstarData = [];
-        this.nullData = [];
-        this.superstarRawData = [];
-        this.goodRawData = [];
-        this.averageRawData = [];
-        this.poorRawData = [];
-        this.nullRawData = [];
-        this.batchNames = [];
-        this.technicalStatus = [];
-        let rawDataArray: any[] = [];
-
         // Store batch names
+        console.log(this.firstGraphObj);
         for (const batch of this.firstGraphObj) {
           this.batchNames.push(batch.batchName);
           this.technicalStatus.push(batch.technicalStatus);
@@ -76,6 +78,7 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit{
 
         // This for loop goes through each batch
         for (const batches of this.technicalStatus) {
+          console.log(batches);
           // This for loop calculates the total technical scores for each batch
           let total = 0;
           for (const num of batches) {
@@ -136,13 +139,14 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit{
                                   rawDataArray];
         sessionStorage.setItem("gA1"+trainerId, JSON.stringify(graphArray));
         // This actually passes the data to display the graph after receiving the data from the observables
-        this.displayGraphAll(
-         
-        );
+        this.displayGraphAll();
       });
+      console.log(this.firstGraphObj);
   }
 
   displayGraphAll() {
+    console.log(this.firstGraphObj);
+    console.log(this.myGraph);
     if(this.batchNames.length === 0) {
       this.myGraph.destroy();
     }
@@ -223,7 +227,7 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit{
       backgroundHoverColor: '#7a7b7d',
       borderWidth: 1,
     };
-
+    console.log(this.myGraph.data);
     this.myGraph.data.datasets.push(dataset);
     this.myGraph.update();
   }
