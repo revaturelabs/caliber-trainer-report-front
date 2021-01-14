@@ -73,7 +73,7 @@ export class CalendarViewComponent implements OnInit {
     (response) => {
       this.batches = response;
       for(let batch of this.batches) {
-        console.log(batch)
+       
         let sd = batch.startDate.split("-");
         let ed = batch.endDate.split("-");
         if ((parseInt(sd[0]))==this.years[this.pickedYear]){
@@ -99,7 +99,7 @@ export class CalendarViewComponent implements OnInit {
           start: new Date(parseInt(sd[0]), 11, 31),
           end: new Date(parseInt(sd[0]), 11, 31)
         }
-        console.log(parseInt(sd[0]))
+   
         this.dataSource.push(d);
         this.dataSource.push(y);
         this.dataSource.push(g);
