@@ -6,7 +6,7 @@ import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { FilterBatch } from 'src/app/utility/FilterBatch';
-import { FilterPipe } from 'src/app/filter.pipe';
+import {FilterPipe} from '../../filter.pipe';
 
 @Component({
   selector: 'app-qc-technical-scores-by-category-across-batches',
@@ -56,7 +56,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   // unlike batchFlags, there is no corresponding categoryFilter because there
   // is no need to keep track of category selection beyond boolean.
   categoryFlags: boolean[];
-  //catFlags: any[];
+  catFlags: any[];
   
   yValues: any[];
 
@@ -72,7 +72,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   constructor(
     private batchTechnicalStatusBySkillCategoryService: BatchTechnicalStatusBySkillCategoryService,
     private qcTS: QCComponent,
-    private displayGraphService: DisplayGraphService,
+    private displayGraphService: DisplayGraphService
   ) {}
 
   ngOnInit(): void {
@@ -94,7 +94,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.cumulativePoor = [];
 
     this.batchFlags = [];
-    //this.catFlags = [];
+    this.catFlags = [];
     this.batchFilter = new FilterBatch();
 
     this.filterText = '';

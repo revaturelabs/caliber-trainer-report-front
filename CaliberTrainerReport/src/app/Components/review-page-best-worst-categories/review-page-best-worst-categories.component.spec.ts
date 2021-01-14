@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { HttpClientModule } from '@angular/common/http';
 import { ReviewPageBestWorstCategoriesComponent, CategoryScore } from './review-page-best-worst-categories.component';
 
 let testCategories:string[] = ["Jenkins", "Java", "AWS",  "Git", "DevOps", "Spring", "Junit"]
@@ -13,7 +12,7 @@ describe('BestWorstCategoriesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ReviewPageBestWorstCategoriesComponent ],
-      imports: [HttpClientTestingModule, HttpClientModule]
+      imports: [HttpClientTestingModule]
     })
     .compileComponents();
   }));
@@ -70,12 +69,4 @@ describe('BestWorstCategoriesComponent', () => {
     }
   })
   
-  it('should NOT viewAll by using toggleViewAll() function', () => {
-    component.viewAll = true;
-    component.toggleViewAll();
-    expect(component.viewAll).toBeFalsy();
-    component.toggleViewAll();
-    expect(component.viewAll).toBeTruthy();
-  });
-
 });
