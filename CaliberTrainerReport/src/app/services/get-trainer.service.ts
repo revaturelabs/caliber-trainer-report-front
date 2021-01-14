@@ -24,14 +24,15 @@ export class GetTrainerService {
   
   constructor(private http: HttpClient, private urlServe: UrlService) { }
   
+  getTrainer(trainer: Trainer) {
+    return trainer;
+  }
+  
+  getTrainerId(trainer: Trainer) {
+    return trainer.id;
+  }
+  
   async getTrainerList() {
-    // return this.http.get<Trainer>(`${environment.backEndUrl}Trainer`)
-    //   .pipe(map(result => {
-    //     // store Trainer details and jwt token in local storage to keep Trainer details in between page refreshes
-    //     sessionStorage.setItem('currentTrainers', JSON.stringify(result));
-    //     console.log(result);
-    //     return result;
-    //   }));
     try {
       const resp = await this.http.get<Trainer>(`${environment.backEndUrl}Trainer`).toPromise();
       sessionStorage.setItem('currentTrainers', JSON.stringify(resp));
