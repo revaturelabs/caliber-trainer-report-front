@@ -1,9 +1,9 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { AssessmentByBatchService } from 'src/app/services/AssessmentByBatch.service';
 import { Subscription } from 'rxjs';
 import { Chart } from 'node_modules/chart.js';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { AssessmentService } from 'src/app/services/assessment.service';
 
 @Component({
   selector: 'app-review-page-total-avg-assessment',
@@ -11,7 +11,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
   styleUrls: ['./review-page-total-avg-assessment.component.css'],
 })
 export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
-  private AssessmentByBatchServiceSubscription: Subscription;
+  private assessmentSubscription: Subscription;
   pickedBatch: any;
   allBatches: any[];
   batchesObj: any[];
@@ -23,7 +23,7 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
   width: number;
   isBig: boolean;
   constructor(
-    private assessmentByBatchService: AssessmentByBatchService,
+    private assessmentService: AssessmentService,
     private displayGraphService: DisplayGraphService,
     private localStorageServ: LocalStorageService
   ) {}
@@ -38,7 +38,7 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
 
     // Performance workaround to prevent constantly loading from DB.
 
-    this.AssessmentByBatchServiceSubscription = this.assessmentByBatchService
+    this.assessmentSubscription = this.assessmentService
       .getAssessmentByBatch()
       .subscribe((resp) => {
         this.allBatches = resp;
