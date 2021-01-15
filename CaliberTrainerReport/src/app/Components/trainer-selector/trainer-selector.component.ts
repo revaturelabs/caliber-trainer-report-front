@@ -34,10 +34,13 @@ export class TrainerSelectorComponent implements OnInit, DoCheck {
   }
 
   getSelectedTrainer(event: any) {
-    // This works, refreshes via full reload.
-    this.router.navigateByUrl(this.router.url).then(() => {
-      location.reload();
-    });
+
     this.localStorageServ.set('selectedId', event.target.value);
+    // This works, refreshes via full reload.
+    if(event.target.value != this.selectedValue){
+      this.router.navigateByUrl(this.router.url).then(() => {
+        location.reload();
+      });
+    }
   }
 }

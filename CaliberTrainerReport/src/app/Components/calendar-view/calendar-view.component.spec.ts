@@ -6,6 +6,8 @@ import { QcOverallBatchTechnicalScoresComponent } from '../qc-overall-batch-tech
 import { getWeekYearWithOptions } from 'date-fns/fp';
 import { GetBatchService } from 'src/app/services/get-batch.service';
 import { combineLatest, of } from 'rxjs';
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 
 
@@ -74,5 +76,19 @@ describe('CalendarViewComponent', () => {
     component = fixture.componentInstance;
     const compiled = fixture.nativeElement;
     expect(compiled).toBeTruthy();
-  })
+  });
+  
+  it('should have 2019 in "year dropdown"', () => {
+    const drpdn = fixture.debugElement.nativeElement.querySelector('#dates-selector');
+    expect(drpdn.innerHTML).toContain('2019');
+  });
+
+  it('should call updateGraph when dropdown menu is changed', () =>{
+    let mySpy = spyOn(component, 'updateGraph').and.callThrough();
+    const e = fixture.debugElement.nativeElement.querySelector('#dates-selector');
+    e.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(mySpy).toHaveBeenCalled();
+  });
 });
+

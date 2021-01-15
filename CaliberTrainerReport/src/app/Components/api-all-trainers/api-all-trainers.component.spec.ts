@@ -23,11 +23,4 @@ describe('ApiAllTrainersComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should not be loading after getting trainer', () => {
-    component.trainers = [];
-    component.trainers.push({email:"",firstName:"",lastName:"",trainingBatches:[]});
-    component.getDataByTrainer(0);
-    expect(component.mockData).not.toEqual('loading');
-  });
 });

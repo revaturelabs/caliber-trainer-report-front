@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
 import { UrlService } from 'src/app/services/url.service';
 import { Batch } from '../class/batch';
 import { ErrorHandlerService } from './error-handler.service';
 import { LocalStorageService } from './local-storage.service';
 
+
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class GetBatchService {
   constructor(
@@ -26,27 +26,16 @@ export class GetBatchService {
     );
   }
 
-  getBatchesByTrainerEmail(email: string): Observable<string[]> {
-    return this.http
-      .post<string[]>(this.url.getUrl() + '/Batch/batches', email)
-      .pipe(
-        map((resp) => resp as string[]),
-        catchError(this.errorHandler.handleError)
-      );
+  getBatchesByTrainerEmail(email : string) : Observable<string[]> {
+    return this.http.post<string[]>(this.url.getUrl() + "/Batch/batches", email);
   }
 
-  getBatchById(batchId: string): Observable<Batch> {
-    return this.http
-      .get<Batch>(this.url.getUrl() + '/Batch/batch/' + batchId)
-      .pipe(
-        map((resp) => resp as Batch),
-        catchError(this.errorHandler.handleError)
-      );
+  getBatchById(batchId : string) : Observable<Batch>{
+    return this.http.get<Batch>(this.url.getUrl() + "/Batch/batch/"+batchId);
   }
 
-  getPromiseBatchById(batchId: string): Promise<Batch> {
-    return this.http
-      .get<Batch>(this.url.getUrl() + '/Batch/batch/' + batchId)
-      .toPromise();
+  getPromiseBatchById(batchId : string) : Promise<Batch>{
+    return this.http.get<Batch>(this.url.getUrl() + "/Batch/batch/"+batchId).toPromise();
   }
+
 }

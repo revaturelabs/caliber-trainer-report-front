@@ -10,9 +10,11 @@ import { Chart } from 'node_modules/chart.js';
 import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/BatchTechnicalStatusBySkillCategory.service';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
-import { DisplayGraphService } from 'src/app/services/display-graph.service';
+import { DisplayGraphService } from 'src/app/services/display-graph.service'; 
 import { FilterBatch } from 'src/app/utility/FilterBatch';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import {FilterPipe} from '../../filter.pipe';
+
 
 @Component({
   selector: 'app-qc-technical-scores-by-category-across-batches',
@@ -36,7 +38,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   averageRawScore: any[];
   goodRawScore: any[];
   superstarRawScore: any[];
-
+  filter = new FilterPipe();
   cumulativePoor: any[];
   cumulativeAverage: any[];
   cumulativeGood: any[];
@@ -197,7 +199,6 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       );
     }
   }
-  setAllScoreValues() {}
   setScoreValues() {
     if (this.pickedCategory == 0) {
       this.categoriesObj.forEach((c) => {
@@ -418,6 +419,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     const graphSelector = document.getElementById(
       'qc-graph-selector'
     ) as HTMLSelectElement;
+    console.log(graphSelector);
     if (graphSelector.value === 'individual') {
       graphSelector.value = 'all';
     } else {
@@ -439,47 +441,49 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.updateGraph();
   }
 
-  checkSelectAll(): void {
-    this.selectAll = !this.selectAll;
-    for (let i = 0; i < this.batchNames.length; i++) {
-      this.batchFlags[i] = this.selectAll;
-    }
-    //deselect all option needs to be unchecked:
-    this.updateGraph();
-  }
-  catCheckSelectAll(): void {
-    this.catSelectAll = !this.catSelectAll;
-    for (let i = 0; i < this.categoriesName.length; i++) {
-      this.categoryFlags[i] = this.catSelectAll;
-    }
 
-    //deselect all option needs to be unchecked:
-    this.updateGraph();
+checkSelectAll(): void {
+  this.selectAll = !this.selectAll;
+  for(let i = 0 ; i<this.batchNames.length; i ++){
+    this.batchFlags[i] = this.selectAll;
+  }
+  //deselect all option needs to be unchecked:
+  this.updateGraph();
+}
+
+catCheckSelectAll(): void {
+  this.catSelectAll = !this.catSelectAll;
+  for(let i = 0 ; i<this.categoriesName.length; i ++){
+    this.categoryFlags[i] = this.catSelectAll;
+  }
+ 
+  //deselect all option needs to be unchecked:
+  this.updateGraph();
+}
+
+toggleCategory(name: string): void{
+  let index = this.categoriesName.indexOf(name);
+  this.categoryFlags[index ] = !this.categoryFlags[index];
+  this.updateGraph();
+}
+
+batch_dropdown_flag: boolean = true;
+toggleBatchDropdown(): void {
+  this.batch_dropdown_flag = !this.batch_dropdown_flag;
+  this.filterText = "";
+  if(!this.cat_dropdown_flag){
+    this.cat_dropdown_flag = true;
   }
 
-  toggleCategory(name: string): void {
-    let index = this.categoriesName.indexOf(name);
-    this.categoryFlags[index] = !this.categoryFlags[index];
-    this.updateGraph();
+
+cat_dropdown_flag: boolean = true;
+toggleCatDropdown(): void{
+  this.cat_dropdown_flag = !this.cat_dropdown_flag;
+  this.filterText = "";
+  if(!this.batch_dropdown_flag){
+    this.batch_dropdown_flag = true;
   }
 
-  batch_dropdown_flag: boolean = true;
-  toggleBatchDropdown(): void {
-    this.batch_dropdown_flag = !this.batch_dropdown_flag;
-    this.filterText = '';
-    if (!this.cat_dropdown_flag) {
-      this.cat_dropdown_flag = true;
-    }
-  }
-
-  cat_dropdown_flag: boolean = true;
-  toggleCatDropdown(): void {
-    this.cat_dropdown_flag = !this.cat_dropdown_flag;
-    this.filterText = '';
-    if (!this.batch_dropdown_flag) {
-      this.batch_dropdown_flag = true;
-    }
-  }
 
   cleanYValues(dataWith0Values: number[]) {
     //filter out no data values and replace with averages
