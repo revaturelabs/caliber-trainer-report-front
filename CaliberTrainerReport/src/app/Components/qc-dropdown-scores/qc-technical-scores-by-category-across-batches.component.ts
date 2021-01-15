@@ -13,6 +13,8 @@ import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { FilterBatch } from 'src/app/utility/FilterBatch';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { FilterPipe } from '../../filter.pipe';
+import { BatchService } from 'src/app/services/batch.service';
 
 @Component({
   selector: 'app-qc-technical-scores-by-category-across-batches',
@@ -23,7 +25,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   implements OnInit, OnDestroy {
   filterText: string;
-  private BatchTechnicalStatusBySkillCategoryServiceSubscription: Subscription;
+  private batchServiceSubscription: Subscription;
   lineGraphIcon = faChartLine;
   tableGraphIcon = faTable;
   pickedCategory: any;
@@ -36,7 +38,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   averageRawScore: any[];
   goodRawScore: any[];
   superstarRawScore: any[];
-
+  filter = new FilterPipe();
   cumulativePoor: any[];
   cumulativeAverage: any[];
   cumulativeGood: any[];
@@ -73,7 +75,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   catSelectAll = true;
 
   constructor(
-    private batchTechnicalStatusBySkillCategoryService: BatchTechnicalStatusBySkillCategoryService,
+    private batchService: BatchService,
     private qcTS: QCComponent,
     private displayGraphService: DisplayGraphService,
     private localStorageServ: LocalStorageService
@@ -104,7 +106,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.filterText = '';
     this.categoryFlags = [];
 
-    this.BatchTechnicalStatusBySkillCategoryServiceSubscription = this.batchTechnicalStatusBySkillCategoryService
+    this.batchServiceSubscription = this.batchService
       .getAvgCategoryScoresObservables()
       .subscribe(
         (resp) => {
@@ -197,7 +199,6 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       );
     }
   }
-  setAllScoreValues() {}
   setScoreValues() {
     if (this.pickedCategory == 0) {
       this.categoriesObj.forEach((c) => {
@@ -418,6 +419,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     const graphSelector = document.getElementById(
       'qc-graph-selector'
     ) as HTMLSelectElement;
+    console.log(graphSelector);
     if (graphSelector.value === 'individual') {
       graphSelector.value = 'all';
     } else {
@@ -426,10 +428,8 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   }
 
   ngOnDestroy() {
-    if (
-      this.BatchTechnicalStatusBySkillCategoryServiceSubscription != undefined
-    ) {
-      this.BatchTechnicalStatusBySkillCategoryServiceSubscription.unsubscribe();
+    if (this.batchServiceSubscription != undefined) {
+      this.batchServiceSubscription.unsubscribe();
     }
   }
 
@@ -447,6 +447,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     //deselect all option needs to be unchecked:
     this.updateGraph();
   }
+
   catCheckSelectAll(): void {
     this.catSelectAll = !this.catSelectAll;
     for (let i = 0; i < this.categoriesName.length; i++) {

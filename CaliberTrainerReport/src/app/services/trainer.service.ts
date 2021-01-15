@@ -1,20 +1,26 @@
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Trainer } from '../class/trainer'; // trainer class
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { UrlService } from './url.service';
-import { catchError, map } from 'rxjs/operators';
+import { Trainer } from '../class/trainer';
 import { ErrorHandlerService } from './error-handler.service';
 import { LocalStorageService } from './local-storage.service';
+import { UrlService } from './url.service';
+
+/**
+ * trainer-session
+ * get-trainer
+ */
 
 @Injectable({
   providedIn: 'root',
 })
-export class GetTrainerService {
+export class TrainerService {
   trainerList: Trainer[];
   currentTrainers: Observable<Trainer>;
   currentTrainerSubject: BehaviorSubject<Trainer>;
+  selectedValue: string;
 
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -42,13 +48,6 @@ export class GetTrainerService {
   }
 
   async getTrainerList() {
-    // return this.http.get<Trainer>(`${environment.backEndUrl}Trainer`)
-    //   .pipe(map(result => {
-    //     // store Trainer details and jwt token in local storage to keep Trainer details in between page refreshes
-    //     sessionStorage.setItem('currentTrainers', JSON.stringify(result));
-    //     console.log(result);
-    //     return result;
-    //   }));
     try {
       const resp = await this.http
         .get<Trainer>(`${environment.backEndUrl}Trainer`)
@@ -70,22 +69,20 @@ export class GetTrainerService {
       );
   }
 
-  // To Reduce complexity, and reuse the function, we could try to figure out how to synchronize this function call properly
-  // when added here, (instead of in the app component and trainer selector components)
-  //
-  // This function will populate the trainerList after the asynchronous call (getTrainerList()) is finished. The values for
-  // trainerList are then populated for use with component initilization and storage data persistance.
-  // RETURNS: selectedId - the id of the selected trainer from the dropdown menu. (These are the loaded JSON sets).
-  // populateTrainerList(): string {
-  //   this.getTrainerList().then(resp => {
-  //     for (const iter of JSON.parse(sessionStorage.getItem('currentTrainers'))) {
-  //       this.trainerList.push(iter);
-  //     }
-  //     if (sessionStorage.getItem('currentTrainers') && !(sessionStorage.getItem('selectedId'))) {
-  //       const ct = JSON.parse(sessionStorage.getItem('currentTrainers'));
-  //       sessionStorage.setItem('selectedId', ct[0].id);
-  //     }
-  //   });
-  //   return sessionStorage.getItem('selectedId');
-  // }
+  // This code could probably be refactored out since it called a local method
+  setTrainerList(trainerList): string {
+    this.getTrainerList().then((resp) => {
+      const ct = this.localStorageServ.get('currentTrainers');
+      console.log('CT:');
+      console.log(ct);
+      for (const iter of ct) {
+        trainerList.push(iter);
+      }
+      if (ct.length != 0 && !this.localStorageServ.get('selectedId')) {
+        this.localStorageServ.set('selectedId', ct[0].id);
+        this.selectedValue = ct[0].id;
+      }
+    });
+    return this.selectedValue;
+  }
 }

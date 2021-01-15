@@ -5,19 +5,16 @@ import { AssessmentByCategoryService } from 'src/app/services/assess-by-category
 import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
-
+import { AssessmentService } from 'src/app/services/assessment.service';
 
 @Component({
   selector: 'app-assessment-scores-according-to-category',
-  templateUrl:
-    './assessment-scores-according-to-category.component.html',
-  styleUrls: [
-    './assessment-scores-according-to-category.component.css',
-  ],
+  templateUrl: './assessment-scores-according-to-category.component.html',
+  styleUrls: ['./assessment-scores-according-to-category.component.css'],
 })
 export class AssessmentScoresAccordingToCategoryComponent
   implements OnInit, OnDestroy {
-  private AssessmentByCategoryServiceSubscription: Subscription;
+  private assessmentServiceSubscription: Subscription;
 
   barGraphIcon = faChartBar;
   tableGraphIcon = faTable;
@@ -27,7 +24,7 @@ export class AssessmentScoresAccordingToCategoryComponent
   categories: string[];
   myBarGraph: any;
 
-  // Utility 
+  // Utility
   categories0: string[];
   categories15: string[];
   examRawScores0: number[];
@@ -54,7 +51,7 @@ export class AssessmentScoresAccordingToCategoryComponent
   selectedValue: any;
 
   constructor(
-    private assessmentByCategoryService: AssessmentByCategoryService,
+    private assessmentService: AssessmentService,
     private assessmentTS: AssessmentComponent,
     private displayGraphService: DisplayGraphService
   ) {}
@@ -74,18 +71,21 @@ export class AssessmentScoresAccordingToCategoryComponent
     this.projectRawScores = [];
     this.presentationRawScores = [];
     this.otherRawScores = [];
-    let trainerId: string = sessionStorage.getItem("selectedId");
+    let trainerId: string = sessionStorage.getItem('selectedId');
 
-    this.AssessmentByCategoryServiceSubscription = this.assessmentByCategoryService
+    this.assessmentServiceSubscription = this.assessmentService
       .getScorePerCategory()
       .subscribe((resp) => {
         // Removes all entries with no scores.
-        for(let i = resp.length - 1; i >= 0; i--) {
-          if(resp[i].average.reduce((acc, curr) => {return acc + curr}) == 0) {
+        for (let i = resp.length - 1; i >= 0; i--) {
+          if (
+            resp[i].average.reduce((acc, curr) => {
+              return acc + curr;
+            }) == 0
+          ) {
             resp.splice(i, 1);
           }
         }
-
 
         for (const cat of resp) {
           this.categories.push(cat.category);
@@ -133,12 +133,14 @@ export class AssessmentScoresAccordingToCategoryComponent
           this.verbalScores,
           this.projectScores,
           this.presentationScores,
-          this.otherScores
-
+          this.otherScores,
         ];
-        
-        sessionStorage.setItem("graphArray5" + trainerId, JSON.stringify(graphArray));
-        
+
+        sessionStorage.setItem(
+          'graphArray5' + trainerId,
+          JSON.stringify(graphArray)
+        );
+
         this.categories0 = this.categories.slice(0, 14);
         this.categories15 = this.categories.slice(14);
 
@@ -166,7 +168,6 @@ export class AssessmentScoresAccordingToCategoryComponent
           this.otherScores
         );
       });
-    
   }
 
   displayGraph(
@@ -227,18 +228,17 @@ export class AssessmentScoresAccordingToCategoryComponent
           },
         ],
       },
-      options: this.displayGraphService.graphOptions(graphText)
+      options: this.displayGraphService.graphOptions(graphText),
     });
   }
 
   graphAdjust() {
     const chartElem = document.getElementById('divChart5');
     this.isBig = this.displayGraphService.graphAdjust(
-          chartElem,
-          this.assessmentTS.selectedValue,
-          this.isBig
-        );
-
+      chartElem,
+      this.assessmentTS.selectedValue,
+      this.isBig
+    );
   }
 
   @HostListener('window:resize', ['$event'])
@@ -259,12 +259,9 @@ export class AssessmentScoresAccordingToCategoryComponent
     this.graphAdjust();
   }
 
-  ngOnDestroy(): void{
-    if(this.AssessmentByCategoryServiceSubscription != undefined){
-      this.AssessmentByCategoryServiceSubscription.unsubscribe();
-
+  ngOnDestroy(): void {
+    if (this.assessmentServiceSubscription != undefined) {
+      this.assessmentServiceSubscription.unsubscribe();
     }
   }
 }
-
-

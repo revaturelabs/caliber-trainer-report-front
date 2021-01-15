@@ -1,10 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TechnicalStatusPerBatchService } from './services/tech-status-per-batch.service';
 import { MainNavBarComponent } from './Components/main-nav-bar/main-nav-bar.component';
 import { QcOverallBatchTechnicalScoresComponent } from './Components/qc-batch-scores/qc-overall-batch-technical-scores.component';
 import { QcOverallWeekTechnicalScoresComponent } from './Components/qc-week-scores/qc-overall-week-technical-scores.component';
@@ -13,9 +12,6 @@ import { AssessmentScoresForCategoryComponent } from './Components/filter-scores
 import { QCComponent } from './Components/qc/qc.component';
 import { AssessmentComponent } from './Components/assessment/assessment.component';
 import { HomeComponent } from './Components/home/home.component';
-import { BatchTechnicalStatusBySkillCategoryService } from './services/batch-status-by-skill-cat.service';
-import { AssessmentByBatchService } from './services/assess-by-batch.service';
-import { AssessmentByCategoryService } from './services/assess-by-category.service';
 import { FileUploadService } from './services/file-upload.service';
 import { UrlService } from './services/url.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -26,11 +22,10 @@ import { TrainerSelectorComponent } from './Components/trainer-selector/trainer-
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ApiAllTrainersComponent } from './Components/api-all-trainers/api-all-trainers.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CalendarViewComponent } from './Components/calendar-view/calendar-view.component'
-import { FullCalendarModule } from '@fullcalendar/angular'; 
-import dayGridPlugin from '@fullcalendar/daygrid'; 
-import interactionPlugin from '@fullcalendar/interaction'; 
-import { GetBatchService } from './services/get-batch.service';
+import { CalendarViewComponent } from './Components/calendar-view/calendar-view.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import { AssessmentScoresAccordingToCategoryComponent } from './Components/assess-scores-by-category/assessment-scores-according-to-category.component';
 import { QcTechnicalScoresByCategoryAcrossBatchesComponent } from './Components/qc-dropdown-scores/qc-technical-scores-by-category-across-batches.component';
 import { ReviewPageComponent } from './Components/review-page/review-page.component';
@@ -44,14 +39,10 @@ import { ReviewPageAvgQcScoreComponent } from './Components/avg-qc-score-review/
 import { ReviewPageSignificantChangesComponent } from './Components/review-page-sig-changes/review-page-significant-changes.component';
 import { DxChartModule } from 'devextreme-angular';
 import { FilterPipe } from './filter.pipe';
+import { BatchService } from './services/batch.service';
+import { AssessmentService } from './services/assessment.service';
 
-FullCalendarModule.registerPlugins([ 
-  dayGridPlugin,
-  interactionPlugin
-]);
-
-
-
+FullCalendarModule.registerPlugins([dayGridPlugin, interactionPlugin]);
 
 @NgModule({
   declarations: [
@@ -77,9 +68,9 @@ FullCalendarModule.registerPlugins([
     ReviewQcBestWorstComponent,
     ReviewPageAvgQcScoreComponent,
     ReviewPageSignificantChangesComponent,
-    FilterPipe
+    FilterPipe,
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -90,10 +81,9 @@ FullCalendarModule.registerPlugins([
     FullCalendarModule,
     NgbModule,
     BrowserAnimationsModule,
-    DxChartModule
+    DxChartModule,
   ],
-  providers: [TechnicalStatusPerBatchService, BatchTechnicalStatusBySkillCategoryService, AssessmentByBatchService, 
-                AssessmentByCategoryService, UrlService, FileUploadService, GetBatchService],
-  bootstrap: [AppComponent]
+  providers: [AssessmentService, BatchService, UrlService, FileUploadService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -5,6 +5,7 @@ import { Chart } from 'node_modules/chart.js';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { BatchService } from 'src/app/services/batch.service';
 
 @Component({
   selector: 'app-qc-overall-batch-technical-scores',
@@ -35,7 +36,7 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
   myGraph: any;
 
   constructor(
-    private technicalStatusPerBatchService: TechnicalStatusPerBatchService,
+    private batchService: BatchService,
     private qcTS: QCComponent,
     private displayGraphService: DisplayGraphService,
     private localStorageServ: LocalStorageService
@@ -49,108 +50,106 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
 
     // This method receives the JSON object from the URL GET request
 
-    this.technicalStatusPerBatchService
-      .getTechnicalStatusPerBatch()
-      .subscribe((resp) => {
-        this.firstGraphObj = resp;
+    this.batchService.getTechnicalStatusPerBatch().subscribe((resp) => {
+      this.firstGraphObj = resp;
 
-        // Initializing the arrays for our data
-        this.goodData = [];
-        this.averageData = [];
-        this.poorData = [];
-        this.superstarData = [];
-        this.nullData = [];
-        this.superstarRawData = [];
-        this.goodRawData = [];
-        this.averageRawData = [];
-        this.poorRawData = [];
-        this.nullRawData = [];
-        this.batchNames = [];
-        this.technicalStatus = [];
-        let rawDataArray: any[] = [];
+      // Initializing the arrays for our data
+      this.goodData = [];
+      this.averageData = [];
+      this.poorData = [];
+      this.superstarData = [];
+      this.nullData = [];
+      this.superstarRawData = [];
+      this.goodRawData = [];
+      this.averageRawData = [];
+      this.poorRawData = [];
+      this.nullRawData = [];
+      this.batchNames = [];
+      this.technicalStatus = [];
+      let rawDataArray: any[] = [];
 
-        // Store batch names
-        for (const batch of this.firstGraphObj) {
-          this.batchNames.push(batch.batchName);
-          this.technicalStatus.push(batch.technicalStatus);
+      // Store batch names
+      for (const batch of this.firstGraphObj) {
+        this.batchNames.push(batch.batchName);
+        this.technicalStatus.push(batch.technicalStatus);
+      }
+
+      // This for loop goes through each batch
+      for (const batches of this.technicalStatus) {
+        // This for loop calculates the total technical scores for each batch
+        let total = 0;
+        for (const num of batches) {
+          total += num;
         }
 
-        // This for loop goes through each batch
-        for (const batches of this.technicalStatus) {
-          // This for loop calculates the total technical scores for each batch
-          let total = 0;
-          for (const num of batches) {
-            total += num;
-          }
-
-          this.poorRawData.push(batches[0]);
-          this.averageRawData.push(batches[1]);
-          this.goodRawData.push(batches[2]);
-          this.superstarRawData.push(batches[3]);
-          this.nullRawData.push(batches[4]);
-          rawDataArray = [
-            this.poorRawData,
-            this.averageRawData,
-            this.goodRawData,
-            this.superstarRawData,
-            this.nullRawData,
-          ];
-
-          // Seperates data into each technical score type (good, bad, avg) and performs math
-          // to get the weighted value out of 100%
-          // Expects order to be from bad[0] -> avg[1] -> good[2] -> superstar[3] -> null[4]
-          if (batches[0] === 0) {
-            this.poorData.push(0.5);
-          } else {
-            this.poorData.push(
-              Math.round(((batches[0] * 100) / total) * 100) / 100
-            );
-          }
-          if (batches[1] === 0) {
-            this.averageData.push(0.5);
-          } else {
-            this.averageData.push(
-              Math.round(((batches[1] * 100) / total) * 100) / 100
-            );
-          }
-          if (batches[2] === 0) {
-            this.goodData.push(0.5);
-          } else {
-            this.goodData.push(
-              Math.round(((batches[2] * 100) / total) * 100) / 100
-            );
-          }
-          if (batches[3] === 0) {
-            this.superstarData.push(0.5);
-          } else {
-            this.superstarData.push(
-              Math.round(((batches[3] * 100) / total) * 100) / 100
-            );
-          }
-          if (batches[4] === 0) {
-            this.nullData.push(0.5);
-          } else {
-            this.nullData.push(
-              Math.round(((batches[4] * 100) / total) * 100) / 100
-            );
-          }
-        }
-
-        let graphArray: any[] = [
-          this.batchNames,
-          this.poorData,
-          this.averageData,
-          this.goodData,
-          this.superstarData,
-          this.nullData,
-          this.batchNames,
-          this.technicalStatus,
-          rawDataArray,
+        this.poorRawData.push(batches[0]);
+        this.averageRawData.push(batches[1]);
+        this.goodRawData.push(batches[2]);
+        this.superstarRawData.push(batches[3]);
+        this.nullRawData.push(batches[4]);
+        rawDataArray = [
+          this.poorRawData,
+          this.averageRawData,
+          this.goodRawData,
+          this.superstarRawData,
+          this.nullRawData,
         ];
-        this.localStorageServ.set('gA1' + trainerId, graphArray);
-        // This actually passes the data to display the graph after receiving the data from the observables
-        this.displayGraphAll();
-      });
+
+        // Seperates data into each technical score type (good, bad, avg) and performs math
+        // to get the weighted value out of 100%
+        // Expects order to be from bad[0] -> avg[1] -> good[2] -> superstar[3] -> null[4]
+        if (batches[0] === 0) {
+          this.poorData.push(0.5);
+        } else {
+          this.poorData.push(
+            Math.round(((batches[0] * 100) / total) * 100) / 100
+          );
+        }
+        if (batches[1] === 0) {
+          this.averageData.push(0.5);
+        } else {
+          this.averageData.push(
+            Math.round(((batches[1] * 100) / total) * 100) / 100
+          );
+        }
+        if (batches[2] === 0) {
+          this.goodData.push(0.5);
+        } else {
+          this.goodData.push(
+            Math.round(((batches[2] * 100) / total) * 100) / 100
+          );
+        }
+        if (batches[3] === 0) {
+          this.superstarData.push(0.5);
+        } else {
+          this.superstarData.push(
+            Math.round(((batches[3] * 100) / total) * 100) / 100
+          );
+        }
+        if (batches[4] === 0) {
+          this.nullData.push(0.5);
+        } else {
+          this.nullData.push(
+            Math.round(((batches[4] * 100) / total) * 100) / 100
+          );
+        }
+      }
+
+      let graphArray: any[] = [
+        this.batchNames,
+        this.poorData,
+        this.averageData,
+        this.goodData,
+        this.superstarData,
+        this.nullData,
+        this.batchNames,
+        this.technicalStatus,
+        rawDataArray,
+      ];
+      this.localStorageServ.set('gA1' + trainerId, graphArray);
+      // This actually passes the data to display the graph after receiving the data from the observables
+      this.displayGraphAll();
+    });
   }
 
   displayGraphAll() {
