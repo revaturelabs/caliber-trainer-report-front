@@ -26,16 +26,4 @@ describe('QcOverallBatchTechnicalScoresComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should update the graph when the window is resized', () =>{
-    let secondSpy = spyOn(component, 'graphAdjust');
-    window.resizeTo(1000,1000);
-    window.dispatchEvent(new Event('resize'));
-    let mySpy = spyOn(component, 'onResize');
-    window.resizeTo(1100,1000);
-    window.dispatchEvent(new Event('resize'));
-    expect(mySpy).toHaveBeenCalled();
-    expect(secondSpy).toHaveBeenCalled();
-  });
-
 });
