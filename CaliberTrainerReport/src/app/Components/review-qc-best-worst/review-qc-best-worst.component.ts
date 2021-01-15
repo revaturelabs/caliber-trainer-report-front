@@ -110,14 +110,12 @@ public toggleViewAll(){
 
   ngOnInit(): void {
     this.QCscores.getAvgCategoryScoresObservables().subscribe(data =>{
-      //
       for(let category of data.batchByCategory){
         let totalScores = 0;
         let totalQuantity = 0;
         let catAverage = 0;
         
-        for(let batch of category.batches){
-          let currentBatch = batch;
+        for(let currentBatch of category.batches){
           totalScores += this.calculateTotalBatchScore(currentBatch)
           totalQuantity += this.calculateTotalBatchQuantity(currentBatch)
         }
@@ -138,7 +136,7 @@ public toggleViewAll(){
       this.sortedCategories = this.sortCategoryScores(this.categoryScores);
       this.bestCategories = this.findBestCategories(this.sortedCategories);
       this.worstCategories = this.findWorstCategories(this.sortedCategories);
-    })
+    });
   }
 }
 

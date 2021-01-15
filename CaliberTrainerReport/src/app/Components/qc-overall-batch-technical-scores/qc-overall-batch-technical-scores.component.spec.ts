@@ -4,7 +4,7 @@ import { QCComponent } from '../qc/qc.component';
 
 import { QcOverallBatchTechnicalScoresComponent } from './qc-overall-batch-technical-scores.component';
 
-describe('QcOverallBatchTechnicalScoresComponent', () => {
+fdescribe('QcOverallBatchTechnicalScoresComponent', () => {
   let component: QcOverallBatchTechnicalScoresComponent;
   let fixture: ComponentFixture<QcOverallBatchTechnicalScoresComponent>;
 
