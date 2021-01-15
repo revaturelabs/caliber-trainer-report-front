@@ -5,4 +5,8 @@ describe('FilterPipe', () => {
     const pipe = new FilterPipe();
     expect(pipe).toBeTruthy();
   });
+
+  it('will return an empty ', () => {
+
+  });
 });
