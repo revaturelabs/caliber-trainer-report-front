@@ -21,7 +21,11 @@ export class QCComponent implements OnInit, DoCheck {
 
   ngDoCheck(): void {
     const graphSelector = document.getElementById('qc-graph-selector') as HTMLSelectElement;
-    this.selectedValue = graphSelector.value;
+    // if (!graphSelector.value) {
+    //   graphSelector.value = 'all';
+    // }
+    // this.selectedValue = graphSelector.value;
+    
   }
 
 
