@@ -1,11 +1,11 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { faChartArea } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
-import { AssessmentByBatchService } from 'src/app/services/AssessmentByBatch.service';
 import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { AssessmentService } from 'src/app/services/assessment.service';
 
 @Component({
   selector: 'app-assessment-scores-according-to-batch',
@@ -14,7 +14,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 })
 export class AssessmentScoresAccordingToBatchComponent
   implements OnInit, OnDestroy {
-  private AssessmentByBatchServiceSubscription: Subscription;
+  private AssessmentServiceSubscription: Subscription;
   radarChartIcon = faChartArea;
   pickedBatch: any;
   myRadarGraph: any;
@@ -28,7 +28,7 @@ export class AssessmentScoresAccordingToBatchComponent
   scoreNames: string[];
 
   constructor(
-    private assessmentByBatchService: AssessmentByBatchService,
+    private assessmentService: AssessmentService,
     private assessmentTS: AssessmentComponent,
     private displayGraphService: DisplayGraphService,
     private localStorageServ: LocalStorageService
@@ -46,7 +46,7 @@ export class AssessmentScoresAccordingToBatchComponent
     let trainerId: string = this.localStorageServ.get('selectedId');
     console.log('ACESSING DB');
 
-    this.AssessmentByBatchServiceSubscription = this.assessmentByBatchService
+    this.AssessmentServiceSubscription = this.assessmentService
       .getAssessmentByBatch()
       .subscribe((resp) => {
         this.allBatches = resp;
@@ -161,8 +161,8 @@ export class AssessmentScoresAccordingToBatchComponent
   }
 
   ngOnDestroy() {
-    if (this.AssessmentByBatchServiceSubscription != undefined) {
-      this.AssessmentByBatchServiceSubscription.unsubscribe();
+    if (this.AssessmentServiceSubscription != undefined) {
+      this.AssessmentServiceSubscription.unsubscribe();
     }
   }
 }

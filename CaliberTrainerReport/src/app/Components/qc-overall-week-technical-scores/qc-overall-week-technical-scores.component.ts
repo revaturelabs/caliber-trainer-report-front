@@ -1,11 +1,11 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { faChartBar } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
-import { TechnicalStatusByWeekService } from 'src/app/services/TechnicalStatusByWeek.service';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { BatchService } from 'src/app/services/batch.service';
 
 @Component({
   selector: 'app-qc-overall-week-technical-scores',
@@ -14,7 +14,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 })
 export class QcOverallWeekTechnicalScoresComponent
   implements OnInit, OnDestroy {
-  private statusByWeekServiceSubscription: Subscription;
+  private batchServiceSubscription: Subscription;
   barGraphIcon = faChartBar;
   width: number;
   isBig: boolean;
@@ -44,7 +44,7 @@ export class QcOverallWeekTechnicalScoresComponent
   public noStatusByWeekData: boolean;
 
   constructor(
-    private statusByWeekService: TechnicalStatusByWeekService,
+    private batchService: BatchService,
     private qcTS: QCComponent,
     private displayGraphService: DisplayGraphService,
     private localStorageServ: LocalStorageService
@@ -57,7 +57,7 @@ export class QcOverallWeekTechnicalScoresComponent
 
     let trainerId = this.localStorageServ.get('selectedId');
 
-    this.statusByWeekServiceSubscription = this.statusByWeekService
+    this.batchServiceSubscription = this.batchService
       .getTechnicalStatusByWeek()
       .subscribe(
         (resp) => {
@@ -286,7 +286,7 @@ export class QcOverallWeekTechnicalScoresComponent
   }
 
   ngOnDestroy() {
-    this.statusByWeekServiceSubscription.unsubscribe();
+    this.batchServiceSubscription.unsubscribe();
   }
 
   displayErrorMassage(message: string) {

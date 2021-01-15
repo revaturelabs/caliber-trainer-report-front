@@ -1,9 +1,8 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
 import { Trainer } from '../../class/trainer';
 import { Router } from '@angular/router';
-import { GetTrainerService } from 'src/app/services/get-trainer.service';
-import { TrainerSessionService } from 'src/app/services/trainer-session.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { TrainerService } from 'src/app/services/trainer.service';
 
 @Component({
   selector: 'app-trainer-selector',
@@ -14,9 +13,8 @@ export class TrainerSelectorComponent implements OnInit, DoCheck {
   selectedValue: string;
   trainerList: Trainer[];
   constructor(
-    private getTrainerServ: GetTrainerService,
+    private trainerService: TrainerService,
     private router: Router,
-    private setTrainerServ: TrainerSessionService,
     private localStorageServ: LocalStorageService
   ) {}
 
@@ -24,9 +22,9 @@ export class TrainerSelectorComponent implements OnInit, DoCheck {
     this.trainerList = [];
     this.selectedValue = this.localStorageServ.get('selectedId');
 
-    // This function will populate the trainerList after the asynchronous call (getTrainerList()) is finished. The values for
+    // This function will populate the trainerList after the asynchronous call (List()) is finished. The values for
     // trainerList are then populated for use with component initilization and storage data persistance.
-    this.selectedValue = this.setTrainerServ.setTrainerList(this.trainerList);
+    this.selectedValue = this.trainerService.setTrainerList(this.trainerList);
   }
 
   ngDoCheck(): void {
@@ -34,10 +32,9 @@ export class TrainerSelectorComponent implements OnInit, DoCheck {
   }
 
   getSelectedTrainer(event: any) {
-
     this.localStorageServ.set('selectedId', event.target.value);
     // This works, refreshes via full reload.
-    if(event.target.value != this.selectedValue){
+    if (event.target.value != this.selectedValue) {
       this.router.navigateByUrl(this.router.url).then(() => {
         location.reload();
       });

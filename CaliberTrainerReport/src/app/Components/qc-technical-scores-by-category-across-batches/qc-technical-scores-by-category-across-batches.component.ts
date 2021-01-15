@@ -7,14 +7,13 @@ import {
 } from '@angular/core';
 import { faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
-import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/BatchTechnicalStatusBySkillCategory.service';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
-import { DisplayGraphService } from 'src/app/services/display-graph.service'; 
+import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { FilterBatch } from 'src/app/utility/FilterBatch';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-import {FilterPipe} from '../../filter.pipe';
-
+import { FilterPipe } from '../../filter.pipe';
+import { BatchService } from 'src/app/services/batch.service';
 
 @Component({
   selector: 'app-qc-technical-scores-by-category-across-batches',
@@ -25,7 +24,7 @@ import {FilterPipe} from '../../filter.pipe';
 export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   implements OnInit, OnDestroy {
   filterText: string;
-  private BatchTechnicalStatusBySkillCategoryServiceSubscription: Subscription;
+  private batchServiceSubscription: Subscription;
   lineGraphIcon = faChartLine;
   tableGraphIcon = faTable;
   pickedCategory: any;
@@ -75,7 +74,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   catSelectAll = true;
 
   constructor(
-    private batchTechnicalStatusBySkillCategoryService: BatchTechnicalStatusBySkillCategoryService,
+    private batchService: BatchService,
     private qcTS: QCComponent,
     private displayGraphService: DisplayGraphService,
     private localStorageServ: LocalStorageService
@@ -106,7 +105,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.filterText = '';
     this.categoryFlags = [];
 
-    this.BatchTechnicalStatusBySkillCategoryServiceSubscription = this.batchTechnicalStatusBySkillCategoryService
+    this.batchServiceSubscription = this.batchService
       .getAvgCategoryScoresObservables()
       .subscribe(
         (resp) => {
@@ -428,10 +427,8 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
   }
 
   ngOnDestroy() {
-    if (
-      this.BatchTechnicalStatusBySkillCategoryServiceSubscription != undefined
-    ) {
-      this.BatchTechnicalStatusBySkillCategoryServiceSubscription.unsubscribe();
+    if (this.batchServiceSubscription != undefined) {
+      this.batchServiceSubscription.unsubscribe();
     }
   }
 
@@ -441,103 +438,102 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.updateGraph();
   }
 
-
-checkSelectAll(): void {
-  this.selectAll = !this.selectAll;
-  for(let i = 0 ; i<this.batchNames.length; i ++){
-    this.batchFlags[i] = this.selectAll;
+  checkSelectAll(): void {
+    this.selectAll = !this.selectAll;
+    for (let i = 0; i < this.batchNames.length; i++) {
+      this.batchFlags[i] = this.selectAll;
+    }
+    //deselect all option needs to be unchecked:
+    this.updateGraph();
   }
-  //deselect all option needs to be unchecked:
-  this.updateGraph();
-}
 
-catCheckSelectAll(): void {
-  this.catSelectAll = !this.catSelectAll;
-  for(let i = 0 ; i<this.categoriesName.length; i ++){
-    this.categoryFlags[i] = this.catSelectAll;
+  catCheckSelectAll(): void {
+    this.catSelectAll = !this.catSelectAll;
+    for (let i = 0; i < this.categoriesName.length; i++) {
+      this.categoryFlags[i] = this.catSelectAll;
+    }
+
+    //deselect all option needs to be unchecked:
+    this.updateGraph();
   }
- 
-  //deselect all option needs to be unchecked:
-  this.updateGraph();
-}
 
-toggleCategory(name: string): void{
-  let index = this.categoriesName.indexOf(name);
-  this.categoryFlags[index ] = !this.categoryFlags[index];
-  this.updateGraph();
-}
-
-batch_dropdown_flag: boolean = true;
-toggleBatchDropdown(): void {
-  this.batch_dropdown_flag = !this.batch_dropdown_flag;
-  this.filterText = "";
-  if(!this.cat_dropdown_flag){
-    this.cat_dropdown_flag = true;
+  toggleCategory(name: string): void {
+    let index = this.categoriesName.indexOf(name);
+    this.categoryFlags[index] = !this.categoryFlags[index];
+    this.updateGraph();
   }
-}
 
-cat_dropdown_flag: boolean = true;
-toggleCatDropdown(): void{
-  this.cat_dropdown_flag = !this.cat_dropdown_flag;
-  this.filterText = "";
-  if(!this.batch_dropdown_flag){
-    this.batch_dropdown_flag = true;
-  }
-}
-
-cleanYValues(dataWith0Values: number[]) {
-  //filter out no data values and replace with averages
-  let finalYValues = [];
-
-  if (dataWith0Values[0] == 0) {
-    //the first value is zero, replace it with the first non-zero value
-    for (let k = 1; k < dataWith0Values.length; k++) {
-      if (dataWith0Values[k] != 0) {
-        dataWith0Values[0] = dataWith0Values[k];
-        break;
-      }
+  batch_dropdown_flag: boolean = true;
+  toggleBatchDropdown(): void {
+    this.batch_dropdown_flag = !this.batch_dropdown_flag;
+    this.filterText = '';
+    if (!this.cat_dropdown_flag) {
+      this.cat_dropdown_flag = true;
     }
   }
 
-  if (dataWith0Values[dataWith0Values.length - 1] == 0) {
-    //the last value is zero, replace it with the first previous non-zero value
-    for (let k = dataWith0Values.length - 1; k >= 0; k--) {
-      if (dataWith0Values[k] != 0) {
-        dataWith0Values[dataWith0Values.length - 1] = dataWith0Values[k];
-        break;
-      }
+  cat_dropdown_flag: boolean = true;
+  toggleCatDropdown(): void {
+    this.cat_dropdown_flag = !this.cat_dropdown_flag;
+    this.filterText = '';
+    if (!this.batch_dropdown_flag) {
+      this.batch_dropdown_flag = true;
     }
   }
 
-  finalYValues.push(dataWith0Values[0]);
-  //replace any zero inner y values with averages of values around them
-  for (let k = 1; k < dataWith0Values.length - 1; k++) {
-    if (dataWith0Values[k] == 0) {
-      let prev;
-      for (let h = k - 1; h >= 0; h--) {
-        if (dataWith0Values[h] != 0) {
-          prev = dataWith0Values[h];
+  cleanYValues(dataWith0Values: number[]) {
+    //filter out no data values and replace with averages
+    let finalYValues = [];
+
+    if (dataWith0Values[0] == 0) {
+      //the first value is zero, replace it with the first non-zero value
+      for (let k = 1; k < dataWith0Values.length; k++) {
+        if (dataWith0Values[k] != 0) {
+          dataWith0Values[0] = dataWith0Values[k];
           break;
         }
       }
+    }
 
-      let next;
-      for (let h = k + 1; h < dataWith0Values.length; h++) {
-        if (dataWith0Values[h] != 0) {
-          next = dataWith0Values[h];
+    if (dataWith0Values[dataWith0Values.length - 1] == 0) {
+      //the last value is zero, replace it with the first previous non-zero value
+      for (let k = dataWith0Values.length - 1; k >= 0; k--) {
+        if (dataWith0Values[k] != 0) {
+          dataWith0Values[dataWith0Values.length - 1] = dataWith0Values[k];
           break;
         }
       }
-
-      let avg = (next + prev) / 2;
-      finalYValues.push(avg);
-    } else {
-      finalYValues.push(dataWith0Values[k]);
     }
+
+    finalYValues.push(dataWith0Values[0]);
+    //replace any zero inner y values with averages of values around them
+    for (let k = 1; k < dataWith0Values.length - 1; k++) {
+      if (dataWith0Values[k] == 0) {
+        let prev;
+        for (let h = k - 1; h >= 0; h--) {
+          if (dataWith0Values[h] != 0) {
+            prev = dataWith0Values[h];
+            break;
+          }
+        }
+
+        let next;
+        for (let h = k + 1; h < dataWith0Values.length; h++) {
+          if (dataWith0Values[h] != 0) {
+            next = dataWith0Values[h];
+            break;
+          }
+        }
+
+        let avg = (next + prev) / 2;
+        finalYValues.push(avg);
+      } else {
+        finalYValues.push(dataWith0Values[k]);
+      }
+    }
+    finalYValues.push(dataWith0Values[dataWith0Values.length - 1]);
+    return finalYValues;
   }
-  finalYValues.push(dataWith0Values[dataWith0Values.length - 1]);
-  return finalYValues;
-}
 
   displayErrorMassage(message: string) {
     console.log(message);
