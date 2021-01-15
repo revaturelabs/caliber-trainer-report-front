@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReviewPageBestWorstCategoriesComponent, CategoryScore } from './review-page-best-worst-categories.component';
 
 let testCategories:string[] = ["Jenkins", "Java", "AWS",  "Git", "DevOps", "Spring", "Junit"]
-let testScores:number[] =     [    25.02,  90.05, 88.88,  25.25,    12.12,    92.12,   70.75]
+let testScores:number[] =     [    25.02,  90.05, 88.88,  25.25,   12.12,    92.12,   70.75]
 
 describe('BestWorstCategoriesComponent', () => {
   let component: ReviewPageBestWorstCategoriesComponent;
@@ -30,28 +30,37 @@ describe('BestWorstCategoriesComponent', () => {
   });
 
   it('should initialize the fields of the component', () => {
-    let fakeInfo = [{category: 'cat', average: [1, 2, 3, 4, 5]}, 
-      {category: 'dog', average: [6, 7, 8, 9, 10]}, 
-      {category: 'hamster', average: [11, 12, 13, 14, 15]},
-      {category: 'fish', average: [16, 17, 18, 19, 20]}];
+    let fakeInfo = [{category: 'Jenkins', average: [23.02, 24.02, 25.02 , 26.02, 27.02]}, 
+      {category: "Java", average: [88.05, 89.05, 90.05, 91.05, 92.05]}, 
+      {category: "AWS", average: [86.88, 87.88, 88.88, 89.88, 90.88]},
+      {category: "Git", average: [23.25, 24.25, 25.25, 26.25, 27.25]},
+      {category: "DevOps", average: [10.12, 11.12, 12.12, 13.12, 14.12]},
+      {category: "Spring", average: [90.12, 91.12, 92.12, 93.12, 94.12]},
+      {category: "Junit", average: [68.75, 69.75, 70.75, 71.75, 72.75]}];
 
+    component.categories = [];
+    component.averageScores = [];
+    
     component.initField(fakeInfo);
-    expect(component.categories).toEqual(['cat', 'dog', 'hamster']);
+    expect(component.categories).toEqual(["Jenkins", "Java", "AWS",  "Git", "DevOps", "Spring", "Junit"]);
     expect(component.allCategoryScores).toEqual([
-      new CategoryScore('cat', 3),
-      new CategoryScore('dog', 8),
-      new CategoryScore('hamster', 13),
-      new CategoryScore('fish', 18)
-    ]);
+      new CategoryScore("Spring", 92.12), 
+      new CategoryScore("Java", 90.05), 
+      new CategoryScore("AWS", 88.88),
+      new CategoryScore("Junit", 70.75),
+      new CategoryScore("Git", 25.25),
+      new CategoryScore("Jenkins", 25.02), 
+      new CategoryScore("DevOps", 12.12)]);
+
     expect(component.best3).toEqual([      
-      new CategoryScore('dog', 8),
-      new CategoryScore('hamster', 13),
-      new CategoryScore('fish', 18)]);
+      new CategoryScore("Spring", 92.12), 
+      new CategoryScore("Java", 90.05), 
+      new CategoryScore("AWS", 88.88)]);
+
     expect(component.worst3).toEqual([
-      new CategoryScore('cat', 3),
-      new CategoryScore('dog', 8),
-      new CategoryScore('hamster', 13),
-    ]);
+      new CategoryScore("DevOps", 12.12), 
+      new CategoryScore("Jenkins", 25.02), 
+      new CategoryScore("Git", 25.25)]);
 
   });
 
