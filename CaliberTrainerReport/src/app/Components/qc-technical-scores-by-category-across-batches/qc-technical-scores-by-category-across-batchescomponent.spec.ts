@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
-import { BatchService } from 'src/app/services/batch.service';
+import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/BatchTechnicalStatusBySkillCategory.service';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { QCComponent } from '../qc/qc.component';
 import {FilterPipe} from '../../filter.pipe';
@@ -120,7 +120,7 @@ describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ QcTechnicalScoresByCategoryAcrossBatchesComponent, FilterPipe ],
       providers: [{
-        provide: BatchService,
+        provide: BatchTechnicalStatusBySkillCategoryService,
         useValue: mockBTSBSCS
       }, QCComponent, DisplayGraphService],
       imports: [ FormsModule ]

@@ -4,7 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Batch } from 'src/app/class/batch';
 import { QcOverallBatchTechnicalScoresComponent } from '../qc-overall-batch-technical-scores/qc-overall-batch-technical-scores.component';
 import { getWeekYearWithOptions } from 'date-fns/fp';
-import { BatchService } from 'src/app/services/batch.service';
+import { GetBatchService } from 'src/app/services/get-batch.service';
 import { combineLatest, of } from 'rxjs';
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { By } from '@angular/platform-browser';
