@@ -61,9 +61,7 @@ export class QcOverallWeekTechnicalScoresComponent
       .getTechnicalStatusByWeek()
       .subscribe(
         (resp) => {
-          console.log('Fetching statusByWeek successful:\n');
-          console.log(resp);
-
+          
           this.thirdGraphObj = resp;
           this.batches = this.getBatches();
           this.pickedBatch = this.batches[0];
