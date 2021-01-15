@@ -1,47 +1,38 @@
-import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
-import { faChartBar } from '@fortawesome/free-solid-svg-icons';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
-import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { BatchService } from 'src/app/services/batch.service';
 
 @Component({
-  selector: 'app-qc-overall-week-technical-scores',
-  templateUrl: './qc-overall-week-technical-scores.component.html',
-  styleUrls: ['./qc-overall-week-technical-scores.component.css'],
+  selector: 'app-qc-overall-batch-technical-scores',
+  templateUrl: './qc-overall-batch-technical-scores.component.html',
+  styleUrls: ['./qc-overall-batch-technical-scores.component.css'],
 })
-export class QcOverallWeekTechnicalScoresComponent
-  implements OnInit, OnDestroy {
-  private batchServiceSubscription: Subscription;
+export class QcOverallBatchTechnicalScoresComponent implements OnInit {
   barGraphIcon = faChartBar;
+  tableGraphIcon = faTable;
   width: number;
   isBig: boolean;
 
-  thirdGraphObj: any;
-  batches: string[];
-  pickedBatch: any;
-
-  xlabels: string[]; // week numbers
-  nullCount: any[];
-  nullData: any[];
-  poorCount: any[];
+  firstGraphObj: any;
+  batchNames: string[];
+  technicalStatus: any[];
   poorData: any[];
-  averageCount: any[];
   averageData: any[];
-  goodCount: any[];
   goodData: any[];
-  superstarCount: any[];
   superstarData: any[];
-  categories: string[];
-
+  nullData: any[];
+  poorRawData: any[];
+  averageRawData: any[];
+  goodRawData: any[];
+  superstarRawData: any[];
+  nullRawData: any[];
   selectedValue: any;
 
-  errorMessage: string;
-
   myGraph: any;
-  public noStatusByWeekData: boolean;
 
   constructor(
     private batchService: BatchService,
@@ -53,78 +44,130 @@ export class QcOverallWeekTechnicalScoresComponent
   ngOnInit(): void {
     this.selectedValue = this.qcTS.selectedValue;
     this.graphAdjust();
-    // This method receives the JSON object from the URL GET request
 
     let trainerId = this.localStorageServ.get('selectedId');
 
-    this.batchServiceSubscription = this.batchService
-      .getTechnicalStatusByWeek()
-      .subscribe(
-        (resp) => {
-          console.log('Fetching statusByWeek successful:\n');
-          console.log(resp);
+    // This method receives the JSON object from the URL GET request
 
-          this.thirdGraphObj = resp;
-          this.batches = this.getBatches();
-          this.pickedBatch = this.batches[0];
+    this.batchService.getTechnicalStatusPerBatch().subscribe((resp) => {
+      this.firstGraphObj = resp;
 
-          if (this.pickedBatch === undefined) {
-            this.displayErrorMassage('No Data to Display');
-            return;
-          }
+      // Initializing the arrays for our data
+      this.goodData = [];
+      this.averageData = [];
+      this.poorData = [];
+      this.superstarData = [];
+      this.nullData = [];
+      this.superstarRawData = [];
+      this.goodRawData = [];
+      this.averageRawData = [];
+      this.poorRawData = [];
+      this.nullRawData = [];
+      this.batchNames = [];
+      this.technicalStatus = [];
+      let rawDataArray: any[] = [];
 
-          let graphArray = [this.thirdGraphObj, this.batches[0]];
-          this.localStorageServ.set('graphArray3' + trainerId, graphArray);
-
-          this.displayGraph();
-        },
-        (error) => {
-          console.log('Error fetching statusByWeek:\n' + error);
-          this.displayErrorMassage('Data Source Unavailable');
-          return;
-        }
-      );
-  }
-
-  // returns array of the batch ids (need for populating batch drop-down list)
-  getBatches(): string[] {
-    const batches = [];
-    for (const batch of this.thirdGraphObj) {
-      console.log(batch);
-      if (batches.indexOf(batch.category) === -1) {
-        batches.push(batch.category);
+      // Store batch names
+      for (const batch of this.firstGraphObj) {
+        this.batchNames.push(batch.batchName);
+        this.technicalStatus.push(batch.technicalStatus);
       }
-    }
-    return batches;
+
+      // This for loop goes through each batch
+      for (const batches of this.technicalStatus) {
+        // This for loop calculates the total technical scores for each batch
+        let total = 0;
+        for (const num of batches) {
+          total += num;
+        }
+
+        this.poorRawData.push(batches[0]);
+        this.averageRawData.push(batches[1]);
+        this.goodRawData.push(batches[2]);
+        this.superstarRawData.push(batches[3]);
+        this.nullRawData.push(batches[4]);
+        rawDataArray = [
+          this.poorRawData,
+          this.averageRawData,
+          this.goodRawData,
+          this.superstarRawData,
+          this.nullRawData,
+        ];
+
+        // Seperates data into each technical score type (good, bad, avg) and performs math
+        // to get the weighted value out of 100%
+        // Expects order to be from bad[0] -> avg[1] -> good[2] -> superstar[3] -> null[4]
+        if (batches[0] === 0) {
+          this.poorData.push(0.5);
+        } else {
+          this.poorData.push(
+            Math.round(((batches[0] * 100) / total) * 100) / 100
+          );
+        }
+        if (batches[1] === 0) {
+          this.averageData.push(0.5);
+        } else {
+          this.averageData.push(
+            Math.round(((batches[1] * 100) / total) * 100) / 100
+          );
+        }
+        if (batches[2] === 0) {
+          this.goodData.push(0.5);
+        } else {
+          this.goodData.push(
+            Math.round(((batches[2] * 100) / total) * 100) / 100
+          );
+        }
+        if (batches[3] === 0) {
+          this.superstarData.push(0.5);
+        } else {
+          this.superstarData.push(
+            Math.round(((batches[3] * 100) / total) * 100) / 100
+          );
+        }
+        if (batches[4] === 0) {
+          this.nullData.push(0.5);
+        } else {
+          this.nullData.push(
+            Math.round(((batches[4] * 100) / total) * 100) / 100
+          );
+        }
+      }
+
+      let graphArray: any[] = [
+        this.batchNames,
+        this.poorData,
+        this.averageData,
+        this.goodData,
+        this.superstarData,
+        this.nullData,
+        this.batchNames,
+        this.technicalStatus,
+        rawDataArray,
+      ];
+      this.localStorageServ.set('gA1' + trainerId, graphArray);
+      // This actually passes the data to display the graph after receiving the data from the observables
+      this.displayGraphAll();
+    });
   }
 
-  displayGraph() {
-    const elmnt = document.getElementById('thirdChart');
-    const y = elmnt.scrollTop;
-    if (this.getXData(this.pickedBatch).length === 0) {
+  displayGraphAll() {
+    if (this.batchNames.length === 0) {
       this.myGraph.destroy();
     }
 
     if (this.myGraph) {
       this.myGraph.destroy();
     }
-
-    this.myGraph = new Chart('thirdChart', {
+    const graphText = 'Percent of each QC technical status per batch';
+    this.myGraph = new Chart('firstChart', {
       type: 'bar',
       data: {
-        labels: this.getXData(this.pickedBatch),
+        labels: this.batchNames,
         datasets: [
           {
-            label: 'SuperStar',
-            data: this.getSuperstarScores(this.pickedBatch),
-            backgroundColor: '#2196f3',
-            backgroundHoverColor: '#2196f3',
-            borderWidth: 1,
-            fill: false,
-          },
-          {
             label: 'Good',
-            data: this.getGoodScores(this.pickedBatch),
+            data: this.goodData,
             backgroundColor: '#3fe86c',
             backgroundHoverColor: '#3fe86c',
             borderWidth: 1,
@@ -132,135 +175,70 @@ export class QcOverallWeekTechnicalScoresComponent
           },
           {
             label: 'Average',
-            data: this.getAverageScores(this.pickedBatch),
+            data: this.averageData,
             backgroundColor: '#ebc634',
             backgroundHoverColor: '#ebc634',
             borderWidth: 1,
           },
           {
             label: 'Poor',
-            data: this.getPoorScores(this.pickedBatch),
+            data: this.poorData,
             backgroundColor: '#e33936',
             backgroundHoverColor: '#e33936',
             borderWidth: 1,
           },
-          {
-            label: 'Null',
-            data: this.getNullScores(this.pickedBatch),
-            backgroundColor: '#7a7b7d',
-            backgroundHoverColor: '#7a7b7d',
-            borderWidth: 1,
-          },
         ],
       },
-      options: {
-        scales: {
-          xAxes: [{ stacked: true }],
-          yAxes: [
-            {
-              stacked: true,
-              ticks: {
-                beginAtZero: true,
-                suggestedMax: 50,
-                callback(value, index, values) {
-                  return value + '%';
-                },
-              },
-            },
-          ],
-        },
-        tooltips: {
-          callbacks: {
-            label: (tooltipItem, data) => {
-              return (
-                data.datasets[tooltipItem.datasetIndex].label +
-                ': ' +
-                tooltipItem.yLabel +
-                '%'
-              );
-            },
-          },
-        },
-        title: {
-          display: true,
-          text: 'Percent of each QC technical status per week',
-        },
-        responsive: true,
-        hover: {
-          mode: 'nearest',
-          intersect: true,
-        },
-      },
+      options: this.displayGraphService.graphOptions(graphText),
     });
 
-    const htmlElement = document.documentElement;
-    htmlElement.scrollTop = y;
-  }
-
-  getXData(batch: string): string[] {
-    this.xlabels = [];
-    for (let batchCategory of this.thirdGraphObj) {
-      this.xlabels.push(batchCategory.category);
+    let superstarTotal = 0;
+    for (const num of this.superstarData) {
+      superstarTotal += num;
     }
-    return this.xlabels;
-  }
 
-  getSuperstarScores(batch: string): any[] {
-    this.superstarData = [];
-    this.superstarCount = [];
-    for (const batchCategory of this.thirdGraphObj) {
-      this.superstarData.push(batchCategory.superstarAvg);
-      this.superstarCount.push(batchCategory.superstarCount);
+    if (superstarTotal > 0) {
+      this.appendSuperstarDataset(this.superstarData);
     }
-    return this.superstarData;
-  }
 
-  getGoodScores(batch: string): any[] {
-    this.goodData = [];
-    this.goodCount = [];
-    for (const batchCategory of this.thirdGraphObj) {
-      this.goodData.push(batchCategory.goodAvg);
-      this.goodCount.push(batchCategory.goodCount);
+    let nullTotal = 0;
+    for (const num of this.nullData) {
+      nullTotal += num;
     }
-    return this.goodData;
-  }
 
-  getAverageScores(batch: string): any[] {
-    this.averageData = [];
-    this.averageCount = [];
-    for (const batchCategory of this.thirdGraphObj) {
-      this.averageData.push(batchCategory.averageAvg);
-      this.averageCount.push(batchCategory.averageCount);
+    if (nullTotal > 0) {
+      this.appendNullDataset(this.nullData);
     }
-    return this.averageData;
   }
 
-  getPoorScores(batch: string): any[] {
-    this.poorData = [];
-    this.poorCount = [];
-    for (const batchCategory of this.thirdGraphObj) {
-      this.poorData.push(batchCategory.poorAvg);
-      this.poorCount.push(batchCategory.poorCount);
-    }
-    return this.poorData;
+  appendSuperstarDataset(superstarDisplayData: any[]) {
+    const dataset = {
+      label: 'Superstar',
+      data: superstarDisplayData,
+      backgroundColor: 'blue',
+      backgroundHoverColor: 'blue',
+      borderWidth: 1,
+    };
+
+    this.myGraph.data.datasets.push(dataset);
+    this.myGraph.update();
   }
 
-  getNullScores(batch: string): any[] {
-    this.nullData = [];
-    this.nullCount = [];
-    for (const batchCategory of this.thirdGraphObj) {
-      this.nullData.push(batchCategory.nullAvg);
-      this.nullCount.push(batchCategory.nullCount);
-    }
-    return this.nullData;
-  }
+  appendNullDataset(nullDisplayData: any[]) {
+    const dataset = {
+      label: 'Not Graded',
+      data: nullDisplayData,
+      backgroundColor: '#7a7b7d',
+      backgroundHoverColor: '#7a7b7d',
+      borderWidth: 1,
+    };
 
-  scroll(el: HTMLElement) {
-    el.scrollIntoView();
+    this.myGraph.data.datasets.push(dataset);
+    this.myGraph.update();
   }
 
   graphAdjust() {
-    const chartElem = document.getElementById('divChart3');
+    const chartElem = document.getElementById('divChart1');
     this.isBig = this.displayGraphService.graphAdjust(
       chartElem,
       this.qcTS.selectedValue,
@@ -274,24 +252,14 @@ export class QcOverallWeekTechnicalScoresComponent
   }
 
   // This method selects the large view of the graph when double clicking the graph title.
-  doubleClickGraph3(): void {
+  doubleClickGraph1(): void {
     const graphSelector = document.getElementById(
       'qc-graph-selector'
     ) as HTMLSelectElement;
-    if (graphSelector.value === 'week') {
+    if (graphSelector.value === 'status') {
       graphSelector.value = 'all';
     } else {
-      graphSelector.value = 'week';
+      graphSelector.value = 'status';
     }
-  }
-
-  ngOnDestroy() {
-    this.batchServiceSubscription.unsubscribe();
-  }
-
-  displayErrorMassage(message: string) {
-    console.log(message);
-    this.errorMessage = message;
-    this.noStatusByWeekData = true;
   }
 }
