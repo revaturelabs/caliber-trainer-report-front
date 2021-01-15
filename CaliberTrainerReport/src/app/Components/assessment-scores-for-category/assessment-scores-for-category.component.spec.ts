@@ -3,11 +3,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { AssessScoresByCategoryAllBatchesService } from 'src/app/services/AssessScoresByCategoryAllBatches.service';
+import { AssessmentService } from 'src/app/services/assessment.service';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { UrlService } from 'src/app/services/url.service';
 import { AssessmentComponent } from '../assessment/assessment.component';
-import {FilterPipe} from '../../filter.pipe';
+import { FilterPipe } from '../../filter.pipe';
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { AssessmentScoresForCategoryComponent } from './assessment-scores-for-category.component';
 
@@ -85,12 +85,12 @@ describe('AssessmentScoresForCategoryComponent', () => {
   let fixture: ComponentFixture<AssessmentScoresForCategoryComponent>;
 
   beforeEach(async(() => {
-    let mockASBCABS = jasmine.createSpyObj("AssessScoresByCategoryAllBatchesService", ["getSixthGraphData"]);
+    let mockASBCABS = jasmine.createSpyObj("Assessmentervice", ["getSixthGraphData"]);
     mockASBCABS.getSixthGraphData.and.returnValue(of(mockResponse));
     TestBed.configureTestingModule({
       declarations: [ AssessmentScoresForCategoryComponent, FilterPipe],
       providers: [
-        { provide: AssessScoresByCategoryAllBatchesService, 
+        { provide: AssessmentService, 
           useValue: mockASBCABS
         },
       AssessmentComponent, DisplayGraphService, HttpClient, UrlService, HttpHandler],

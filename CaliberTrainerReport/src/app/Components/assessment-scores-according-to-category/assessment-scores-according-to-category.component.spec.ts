@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
-import { AssessmentByCategoryService } from 'src/app/services/AssessmentByCategory.service';
+import { AssessmentService } from 'src/app/services/assessment.service';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { AssessmentComponent } from '../assessment/assessment.component';
 import { DebugElement } from '@angular/core';
@@ -48,12 +48,12 @@ describe('AssessmentScoresAccordingToCategoryComponent', () => {
       }
     ];
 
-    let mockABCS = jasmine.createSpyObj("AssessmentByCategoryService", ["getScorePerCategory"])
+    let mockABCS = jasmine.createSpyObj("AssessmentService", ["getScorePerCategory"])
     mockABCS.getScorePerCategory.and.returnValue(of(mockResponse));
     TestBed.configureTestingModule({
       declarations: [ AssessmentScoresAccordingToCategoryComponent ],
       providers: [{
-        provide: AssessmentByCategoryService,
+        provide: AssessmentService,
         useValue: mockABCS
       }, AssessmentComponent, DisplayGraphService],
       imports: [ FormsModule ]
