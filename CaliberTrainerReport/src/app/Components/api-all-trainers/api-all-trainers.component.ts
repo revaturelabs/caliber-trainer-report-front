@@ -5,7 +5,6 @@ import { GetBatchService } from 'src/app/services/get-batch.service';
 import { Batch } from 'src/app/class/batch';
 import { GetQcNoteService } from 'src/app/services/get-qc-note.service';
 import { QCNote } from 'src/app/class/QCNote';
-import { GetAssessmentService } from 'src/app/services/get-assessment.service';
 import { Assessment } from 'src/app/class/assessment';
 import { GetCategoryService } from 'src/app/services/get-category.service';
 import { SendJSONAsStringService } from 'src/app/services/send-json-as-string.service';
@@ -15,20 +14,27 @@ import { CompleteBatchDataService } from 'src/app/services/complete-batch-data.s
 @Component({
   selector: 'app-api-all-trainers',
   templateUrl: './api-all-trainers.component.html',
-  styleUrls: ['./api-all-trainers.component.css']
+  styleUrls: ['./api-all-trainers.component.css'],
 })
 export class ApiAllTrainersComponent implements OnInit {
-
   trainers: any[];
   selectedValue: any;
   allData = {
-    "employee": {},
-    "batches": []
+    employee: {},
+    batches: [],
   };
 
   mockData: string;
 
-  constructor(private trainerService: GetTrainerService, private batchService: GetBatchService, private qcs: GetQcNoteService, private as: GetAssessmentService, private cs: GetCategoryService, private sendJsonService : SendJSONAsStringService, private urls : UrlService, private completeBatchServ: CompleteBatchDataService) { }
+  constructor(
+    private trainerService: GetTrainerService,
+    private batchService: GetBatchService,
+    private qcs: GetQcNoteService,
+    private cs: GetCategoryService,
+    private sendJsonService: SendJSONAsStringService,
+    private urls: UrlService,
+    private completeBatchServ: CompleteBatchDataService
+  ) {}
 
   ngOnInit(): void {
     this.getAllTrainers();
@@ -38,29 +44,35 @@ export class ApiAllTrainersComponent implements OnInit {
     this.trainerService.getAllTrainers().subscribe(
       (response) => {
         this.trainers = response;
-        this.trainers.push({email:"none",firstName:"Mock 2000",lastName:"Employee 2000",tier:"ROLE_LEAD_TRAINER",trainingBatches:[]})
-        console.log("All trainers:");
+        this.trainers.push({
+          email: 'none',
+          firstName: 'Mock 2000',
+          lastName: 'Employee 2000',
+          tier: 'ROLE_LEAD_TRAINER',
+          trainingBatches: [],
+        });
+        console.log('All trainers:');
         console.log(this.trainers);
-        if (this.trainers.length == 0) {this.mockData = 'fail-no-trainers';console.log("No trainer data");}        
+        if (this.trainers.length == 0) {
+          this.mockData = 'fail-no-trainers';
+          console.log('No trainer data');
+        }
       },
       (response) => {
         this.mockData = 'fail-caliber-unreached';
-        console.log("Request failed");
+        console.log('Request failed');
       }
-    )
-
+    );
   }
-
 
   async getDataByTrainer(selected) {
     let tempTrainer: Trainer = this.trainers[selected];
     this.mockData = 'loading';
 
-
     this.allData.employee = {
-      "email": tempTrainer.email,
-      "firstName": tempTrainer.firstName,
-      "lastName": tempTrainer.lastName
+      email: tempTrainer.email,
+      firstName: tempTrainer.firstName,
+      lastName: tempTrainer.lastName,
     };
 
     let batchIds: string[];
@@ -69,57 +81,62 @@ export class ApiAllTrainersComponent implements OnInit {
     // Error Message if there is a server or client side error
     // Creates an XMLHttpRequest and attempts a get request, then reads the request status
 
-    var request; 
-    if(window.XMLHttpRequest) 
-      request = new XMLHttpRequest(); 
+    var request;
+    if (window.XMLHttpRequest) request = new XMLHttpRequest();
     request.open('GET', this.urls.getUrl(), false);
     request.send();
-    if (request.status < 500 && request.status > 399 ) { this.mockData = 'fail-400'; }
-    else if (request.status < 600 && request.status > 499 ) { this.mockData = 'fail-500'; }
-    
-    try{
+    if (request.status < 500 && request.status > 399) {
+      this.mockData = 'fail-400';
+    } else if (request.status < 600 && request.status > 499) {
+      this.mockData = 'fail-500';
+    }
 
+    try {
+      await this.batchService
+        .getBatchesByTrainerEmail(tempTrainer.email)
+        .toPromise()
+        .then(
+          //Get the batch ids
+          async (response) => {
+            console.log('Response with all batch ids: ');
+            console.log(response);
+            batchIds = response;
 
-      
-      await this.batchService.getBatchesByTrainerEmail(tempTrainer.email).toPromise().then(
-        //Get the batch ids
-        async (response) => {
-          console.log("Response with all batch ids: ");
-          console.log(response);
-          batchIds = response;
-
-          if (batchIds.length == 0 && this.mockData == 'loading') {this.mockData = 'fail-no-batches';console.log("Trainer has no batches.");}        
-
-
-          //let allbatches : Batch[] = new Array<Batch>();
-
-          for(let ids of batchIds)
-          {
-            //this really should be a Batch object, but the typescript yells at us over qcnotes
-            let newBatch: any;
-            newBatch = await this.completeBatchServ.getCompleteBatchDataById(ids).toPromise();
-            let temp = {
-              "id": newBatch.id,
-              "batchId": newBatch.batchId,
-              "name": newBatch.name,
-              "startDate": newBatch.startDate,
-              "endDate": newBatch.endDate,
-              "skill": newBatch.skill,
-              "location": newBatch.location,
-              "type": newBatch.type,
-              "qcNotes": newBatch.qcnotes,
-              "assessments": newBatch.assessments
+            if (batchIds.length == 0 && this.mockData == 'loading') {
+              this.mockData = 'fail-no-batches';
+              console.log('Trainer has no batches.');
             }
-            console.log("qcnotes value",newBatch.qcnotes);
-            //console.log("qcNotes value ",newBatch.qcNotes);
-            console.log(temp);
-            //allbatches.push(newBatch);
-            this.allData.batches.push(temp);
-          }
-          
-          //this.allData.batches = allbatches;
-          
-          /*
+
+            //let allbatches : Batch[] = new Array<Batch>();
+
+            for (let ids of batchIds) {
+              //this really should be a Batch object, but the typescript yells at us over qcnotes
+              let newBatch: any;
+              newBatch = await this.completeBatchServ
+                .getCompleteBatchDataById(ids)
+                .toPromise();
+              let temp = {
+                id: newBatch.id,
+                batchId: newBatch.batchId,
+                name: newBatch.name,
+                startDate: newBatch.startDate,
+                endDate: newBatch.endDate,
+                skill: newBatch.skill,
+                location: newBatch.location,
+                type: newBatch.type,
+                qcNotes: newBatch.qcnotes,
+                assessments: newBatch.assessments,
+              };
+              console.log('qcnotes value', newBatch.qcnotes);
+              //console.log("qcNotes value ",newBatch.qcNotes);
+              console.log(temp);
+              //allbatches.push(newBatch);
+              this.allData.batches.push(temp);
+            }
+
+            //this.allData.batches = allbatches;
+
+            /*
           let temp;
           let success: boolean = true;
           let calls = 0;
@@ -251,32 +268,30 @@ export class ApiAllTrainersComponent implements OnInit {
           }
           console.log("num of calls: " + calls);
           */
-          console.log("recorded batches: " + JSON.stringify(this.allData.batches));
-        },
-        (response) => {
-          this.mockData = 'fail-IDs';
-          
-          
-        }
-      );
+            console.log(
+              'recorded batches: ' + JSON.stringify(this.allData.batches)
+            );
+          },
+          (response) => {
+            this.mockData = 'fail-IDs';
+          }
+        );
       if (this.mockData == 'loading') {
         console.log(this.allData);
         this.sendJsonService.sendJSON(JSON.stringify(this.allData)).subscribe(
           (response) => {
             console.log(response);
             this.mockData = 'done';
-          }, 
+          },
           (response) => {
             console.log(response);
             this.mockData = 'fail';
           }
-        ); 
+        );
       }
-    } catch (miscFailure){
+    } catch (miscFailure) {
       console.log(miscFailure);
       this.mockData = 'fail';
     }
-    
   }
-
 }
