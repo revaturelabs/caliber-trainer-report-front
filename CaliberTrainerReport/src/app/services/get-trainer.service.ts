@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UrlService } from './url.service';
 import { catchError, map } from 'rxjs/operators';
-import { ErrorHandlerService } from './error-handler.service';
+// import { ErrorHandlerService } from './error-handler.service';
 import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
@@ -42,7 +42,6 @@ export class GetTrainerService {
   }
 
   async getTrainerList() {
-
     try {
       const resp = await this.http
         .get<Trainer>(`${environment.backEndUrl}Trainer`)

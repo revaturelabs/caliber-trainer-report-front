@@ -474,7 +474,7 @@ toggleBatchDropdown(): void {
   if(!this.cat_dropdown_flag){
     this.cat_dropdown_flag = true;
   }
-
+}
 
 cat_dropdown_flag: boolean = true;
 toggleCatDropdown(): void{
@@ -483,61 +483,61 @@ toggleCatDropdown(): void{
   if(!this.batch_dropdown_flag){
     this.batch_dropdown_flag = true;
   }
+}
 
+cleanYValues(dataWith0Values: number[]) {
+  //filter out no data values and replace with averages
+  let finalYValues = [];
 
-  cleanYValues(dataWith0Values: number[]) {
-    //filter out no data values and replace with averages
-    let finalYValues = [];
-
-    if (dataWith0Values[0] == 0) {
-      //the first value is zero, replace it with the first non-zero value
-      for (let k = 1; k < dataWith0Values.length; k++) {
-        if (dataWith0Values[k] != 0) {
-          dataWith0Values[0] = dataWith0Values[k];
-          break;
-        }
+  if (dataWith0Values[0] == 0) {
+    //the first value is zero, replace it with the first non-zero value
+    for (let k = 1; k < dataWith0Values.length; k++) {
+      if (dataWith0Values[k] != 0) {
+        dataWith0Values[0] = dataWith0Values[k];
+        break;
       }
     }
-
-    if (dataWith0Values[dataWith0Values.length - 1] == 0) {
-      //the last value is zero, replace it with the first previous non-zero value
-      for (let k = dataWith0Values.length - 1; k >= 0; k--) {
-        if (dataWith0Values[k] != 0) {
-          dataWith0Values[dataWith0Values.length - 1] = dataWith0Values[k];
-          break;
-        }
-      }
-    }
-
-    finalYValues.push(dataWith0Values[0]);
-    //replace any zero inner y values with averages of values around them
-    for (let k = 1; k < dataWith0Values.length - 1; k++) {
-      if (dataWith0Values[k] == 0) {
-        let prev;
-        for (let h = k - 1; h >= 0; h--) {
-          if (dataWith0Values[h] != 0) {
-            prev = dataWith0Values[h];
-            break;
-          }
-        }
-
-        let next;
-        for (let h = k + 1; h < dataWith0Values.length; h++) {
-          if (dataWith0Values[h] != 0) {
-            next = dataWith0Values[h];
-            break;
-          }
-        }
-
-        let avg = (next + prev) / 2;
-        finalYValues.push(avg);
-      } else {
-        finalYValues.push(dataWith0Values[k]);
-      }
-    }
-    finalYValues.push(dataWith0Values[dataWith0Values.length - 1]);
-    return finalYValues;
   }
+
+  if (dataWith0Values[dataWith0Values.length - 1] == 0) {
+    //the last value is zero, replace it with the first previous non-zero value
+    for (let k = dataWith0Values.length - 1; k >= 0; k--) {
+      if (dataWith0Values[k] != 0) {
+        dataWith0Values[dataWith0Values.length - 1] = dataWith0Values[k];
+        break;
+      }
+    }
+  }
+
+  finalYValues.push(dataWith0Values[0]);
+  //replace any zero inner y values with averages of values around them
+  for (let k = 1; k < dataWith0Values.length - 1; k++) {
+    if (dataWith0Values[k] == 0) {
+      let prev;
+      for (let h = k - 1; h >= 0; h--) {
+        if (dataWith0Values[h] != 0) {
+          prev = dataWith0Values[h];
+          break;
+        }
+      }
+
+      let next;
+      for (let h = k + 1; h < dataWith0Values.length; h++) {
+        if (dataWith0Values[h] != 0) {
+          next = dataWith0Values[h];
+          break;
+        }
+      }
+
+      let avg = (next + prev) / 2;
+      finalYValues.push(avg);
+    } else {
+      finalYValues.push(dataWith0Values[k]);
+    }
+  }
+  finalYValues.push(dataWith0Values[dataWith0Values.length - 1]);
+  return finalYValues;
+}
 
   displayErrorMassage(message: string) {
     console.log(message);
