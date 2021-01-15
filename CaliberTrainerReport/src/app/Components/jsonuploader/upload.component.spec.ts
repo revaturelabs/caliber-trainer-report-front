@@ -34,7 +34,7 @@ describe('UploadComponent', () => {
     let event = {target: {files:[{name: "countryroads.json", data: {"west virginia": "the western part of Virginia"}}]}};
     let mySpySelectJson = spyOn(component, 'onFileChange').withArgs(event).and.callThrough();
     let fileSelectorSelector: HTMLInputElement = fixture.debugElement.query(By.css("[type=file]")).nativeElement;
-    fileSelectorSelector.dispatchEvent(new Event("onFileChange"));
+    fileSelectorSelector.dispatchEvent(new Event("change"));
     fixture.detectChanges();
     expect(mySpySelectJson).toHaveBeenCalled();
     expect(component.formGroup.get('file')[0]).not.toBeNull();  //that is, 
