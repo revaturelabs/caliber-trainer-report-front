@@ -4,11 +4,11 @@ import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { UrlService } from 'src/app/services/url.service';
 import { Batch } from '../class/batch';
-// import { ErrorHandlerService } from './error-handler.service';
+import { ErrorHandlerService } from './error-handler.service';
 import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GetBatchService {
   constructor(
@@ -26,16 +26,20 @@ export class GetBatchService {
     );
   }
 
-  getBatchesByTrainerEmail(email : string) : Observable<string[]> {
-    return this.http.post<string[]>(this.url.getUrl() + "/Batch/batches", email);
+  getBatchesByTrainerEmail(email: string): Observable<string[]> {
+    return this.http.post<string[]>(
+      this.url.getUrl() + '/Batch/batches',
+      email
+    );
   }
 
-  getBatchById(batchId : string) : Observable<Batch>{
-    return this.http.get<Batch>(this.url.getUrl() + "/Batch/batch/"+batchId);
+  getBatchById(batchId: string): Observable<Batch> {
+    return this.http.get<Batch>(this.url.getUrl() + '/Batch/batch/' + batchId);
   }
 
-  getPromiseBatchById(batchId : string) : Promise<Batch>{
-    return this.http.get<Batch>(this.url.getUrl() + "/Batch/batch/"+batchId).toPromise();
+  getPromiseBatchById(batchId: string): Promise<Batch> {
+    return this.http
+      .get<Batch>(this.url.getUrl() + '/Batch/batch/' + batchId)
+      .toPromise();
   }
-
 }
