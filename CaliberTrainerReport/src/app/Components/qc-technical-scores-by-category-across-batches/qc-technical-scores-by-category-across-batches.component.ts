@@ -12,8 +12,9 @@ import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service'; 
 import { FilterBatch } from 'src/app/utility/FilterBatch';
-import {FilterPipe} from '../../filter.pipe';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import {FilterPipe} from '../../filter.pipe';
+
 
 @Component({
   selector: 'app-qc-technical-scores-by-category-across-batches',
@@ -198,11 +199,6 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
       );
     }
   }
-<<<<<<< HEAD
-
-=======
-  setAllScoreValues() {}
->>>>>>> 30556c7a59575a6173e5a00114ae2a13a99a385b
   setScoreValues() {
     if (this.pickedCategory == 0) {
       this.categoriesObj.forEach((c) => {
@@ -445,7 +441,7 @@ export class QcTechnicalScoresByCategoryAcrossBatchesComponent
     this.updateGraph();
   }
 
-<<<<<<< HEAD
+
 checkSelectAll(): void {
   this.selectAll = !this.selectAll;
   for(let i = 0 ; i<this.batchNames.length; i ++){
@@ -477,114 +473,71 @@ toggleBatchDropdown(): void {
   this.filterText = "";
   if(!this.cat_dropdown_flag){
     this.cat_dropdown_flag = true;
-=======
-  checkSelectAll(): void {
-    this.selectAll = !this.selectAll;
-    for (let i = 0; i < this.batchNames.length; i++) {
-      this.batchFlags[i] = this.selectAll;
-    }
-    //deselect all option needs to be unchecked:
-    this.updateGraph();
-  }
-  catCheckSelectAll(): void {
-    this.catSelectAll = !this.catSelectAll;
-    for (let i = 0; i < this.categoriesName.length; i++) {
-      this.categoryFlags[i] = this.catSelectAll;
-    }
-
-    //deselect all option needs to be unchecked:
-    this.updateGraph();
-  }
-
-  toggleCategory(name: string): void {
-    let index = this.categoriesName.indexOf(name);
-    this.categoryFlags[index] = !this.categoryFlags[index];
-    this.updateGraph();
-  }
-
-  batch_dropdown_flag: boolean = true;
-  toggleBatchDropdown(): void {
-    this.batch_dropdown_flag = !this.batch_dropdown_flag;
-    this.filterText = '';
-    if (!this.cat_dropdown_flag) {
-      this.cat_dropdown_flag = true;
-    }
->>>>>>> 30556c7a59575a6173e5a00114ae2a13a99a385b
   }
 }
 
-<<<<<<< HEAD
 cat_dropdown_flag: boolean = true;
 toggleCatDropdown(): void{
   this.cat_dropdown_flag = !this.cat_dropdown_flag;
   this.filterText = "";
   if(!this.batch_dropdown_flag){
     this.batch_dropdown_flag = true;
-=======
-  cat_dropdown_flag: boolean = true;
-  toggleCatDropdown(): void {
-    this.cat_dropdown_flag = !this.cat_dropdown_flag;
-    this.filterText = '';
-    if (!this.batch_dropdown_flag) {
-      this.batch_dropdown_flag = true;
-    }
->>>>>>> 30556c7a59575a6173e5a00114ae2a13a99a385b
   }
 }
 
-  cleanYValues(dataWith0Values: number[]) {
-    //filter out no data values and replace with averages
-    let finalYValues = [];
+cleanYValues(dataWith0Values: number[]) {
+  //filter out no data values and replace with averages
+  let finalYValues = [];
 
-    if (dataWith0Values[0] == 0) {
-      //the first value is zero, replace it with the first non-zero value
-      for (let k = 1; k < dataWith0Values.length; k++) {
-        if (dataWith0Values[k] != 0) {
-          dataWith0Values[0] = dataWith0Values[k];
-          break;
-        }
+  if (dataWith0Values[0] == 0) {
+    //the first value is zero, replace it with the first non-zero value
+    for (let k = 1; k < dataWith0Values.length; k++) {
+      if (dataWith0Values[k] != 0) {
+        dataWith0Values[0] = dataWith0Values[k];
+        break;
       }
     }
-
-    if (dataWith0Values[dataWith0Values.length - 1] == 0) {
-      //the last value is zero, replace it with the first previous non-zero value
-      for (let k = dataWith0Values.length - 1; k >= 0; k--) {
-        if (dataWith0Values[k] != 0) {
-          dataWith0Values[dataWith0Values.length - 1] = dataWith0Values[k];
-          break;
-        }
-      }
-    }
-
-    finalYValues.push(dataWith0Values[0]);
-    //replace any zero inner y values with averages of values around them
-    for (let k = 1; k < dataWith0Values.length - 1; k++) {
-      if (dataWith0Values[k] == 0) {
-        let prev;
-        for (let h = k - 1; h >= 0; h--) {
-          if (dataWith0Values[h] != 0) {
-            prev = dataWith0Values[h];
-            break;
-          }
-        }
-
-        let next;
-        for (let h = k + 1; h < dataWith0Values.length; h++) {
-          if (dataWith0Values[h] != 0) {
-            next = dataWith0Values[h];
-            break;
-          }
-        }
-
-        let avg = (next + prev) / 2;
-        finalYValues.push(avg);
-      } else {
-        finalYValues.push(dataWith0Values[k]);
-      }
-    }
-    finalYValues.push(dataWith0Values[dataWith0Values.length - 1]);
-    return finalYValues;
   }
+
+  if (dataWith0Values[dataWith0Values.length - 1] == 0) {
+    //the last value is zero, replace it with the first previous non-zero value
+    for (let k = dataWith0Values.length - 1; k >= 0; k--) {
+      if (dataWith0Values[k] != 0) {
+        dataWith0Values[dataWith0Values.length - 1] = dataWith0Values[k];
+        break;
+      }
+    }
+  }
+
+  finalYValues.push(dataWith0Values[0]);
+  //replace any zero inner y values with averages of values around them
+  for (let k = 1; k < dataWith0Values.length - 1; k++) {
+    if (dataWith0Values[k] == 0) {
+      let prev;
+      for (let h = k - 1; h >= 0; h--) {
+        if (dataWith0Values[h] != 0) {
+          prev = dataWith0Values[h];
+          break;
+        }
+      }
+
+      let next;
+      for (let h = k + 1; h < dataWith0Values.length; h++) {
+        if (dataWith0Values[h] != 0) {
+          next = dataWith0Values[h];
+          break;
+        }
+      }
+
+      let avg = (next + prev) / 2;
+      finalYValues.push(avg);
+    } else {
+      finalYValues.push(dataWith0Values[k]);
+    }
+  }
+  finalYValues.push(dataWith0Values[dataWith0Values.length - 1]);
+  return finalYValues;
+}
 
   displayErrorMassage(message: string) {
     console.log(message);

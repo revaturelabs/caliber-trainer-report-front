@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { UrlService } from './url.service';
 import { catchError, map } from 'rxjs/operators';
-import { ErrorHandlingServiceService } from './error-handling-service.service';
+// import { ErrorHandlingServiceService } from './error-handling-service.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class BatchTechnicalStatusBySkillCategoryService {
   constructor(
     private http: HttpClient,
     private urlService: UrlService,
-    private errorHandler: ErrorHandlingServiceService
+    // private errorHandler: ErrorHandlingServiceService
   ) {}
 
   getAvgCategoryScoresObservables(): Observable<any> {
@@ -25,8 +25,9 @@ export class BatchTechnicalStatusBySkillCategoryService {
         this.urlService.getUrlWithId() + 'BatchTechnicalStatusBySkillCategory/'
       )
       .pipe(
-        map((resp) => resp),
-        catchError(this.errorHandler.handleError)
+        map((resp) => resp)
+        // map((resp) => resp),
+        // catchError(this.errorHandler.handleError)
       );
   }
 

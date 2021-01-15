@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { UrlService } from 'src/app/services/url.service';
 import { Batch } from '../class/batch';
-import { ErrorHandlerService } from './error-handler.service';
+// import { ErrorHandlerService } from './error-handler.service';
 import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
