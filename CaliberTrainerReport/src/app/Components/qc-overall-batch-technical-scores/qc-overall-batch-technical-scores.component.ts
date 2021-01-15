@@ -37,8 +37,7 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
   constructor(
     private batchService: BatchService,
     private qcTS: QCComponent,
-    private displayGraphService: DisplayGraphService,
-    private localStorageServ: LocalStorageService
+    private displayGraphService: DisplayGraphService
   ) {}
 
   ngOnInit(): void {
