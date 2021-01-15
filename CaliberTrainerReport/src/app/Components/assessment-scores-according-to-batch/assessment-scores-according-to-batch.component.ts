@@ -5,13 +5,15 @@ import { AssessmentByBatchService } from 'src/app/services/AssessmentByBatch.ser
 import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-assessment-scores-according-to-batch',
   templateUrl: './assessment-scores-according-to-batch.component.html',
   styleUrls: ['./assessment-scores-according-to-batch.component.css'],
 })
-export class AssessmentScoresAccordingToBatchComponent implements OnInit, OnDestroy {
+export class AssessmentScoresAccordingToBatchComponent
+  implements OnInit, OnDestroy {
   private AssessmentByBatchServiceSubscription: Subscription;
   radarChartIcon = faChartArea;
   pickedBatch: any;
@@ -28,7 +30,8 @@ export class AssessmentScoresAccordingToBatchComponent implements OnInit, OnDest
   constructor(
     private assessmentByBatchService: AssessmentByBatchService,
     private assessmentTS: AssessmentComponent,
-    private displayGraphService: DisplayGraphService
+    private displayGraphService: DisplayGraphService,
+    private localStorageServ: LocalStorageService
   ) {}
 
   ngOnInit(): void {
@@ -39,32 +42,35 @@ export class AssessmentScoresAccordingToBatchComponent implements OnInit, OnDest
     this.batchesObj = [];
     this.scoreNames = ['Exam', 'Verbal', 'Presentation', 'Project', 'Other'];
     this.allBatches = [];
-    
-    let trainerId: string = sessionStorage.getItem("selectedId");
-    console.log("ACESSING DB");
 
-    
-    this.AssessmentByBatchServiceSubscription = this.assessmentByBatchService.getAssessmentByBatch().subscribe((resp) => {
-      this.allBatches = resp;
-      for (const i of this.allBatches.keys()) {
-        for (const [j, value] of this.allBatches[i].assessmentScores.entries()) {
-          this.allBatches[i].assessmentScores[j] =
-            Math.round(value * 100) / 100;
+    let trainerId: string = this.localStorageServ.get('selectedId');
+    console.log('ACESSING DB');
+
+    this.AssessmentByBatchServiceSubscription = this.assessmentByBatchService
+      .getAssessmentByBatch()
+      .subscribe((resp) => {
+        this.allBatches = resp;
+        for (const i of this.allBatches.keys()) {
+          for (const [j, value] of this.allBatches[
+            i
+          ].assessmentScores.entries()) {
+            this.allBatches[i].assessmentScores[j] =
+              Math.round(value * 100) / 100;
+          }
         }
-      }
 
-      for (const item of resp) {
-        this.batchNames.push(item.batchName);
-      }
+        for (const item of resp) {
+          this.batchNames.push(item.batchName);
+        }
 
-      this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
+        this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
 
-      let graphArray4 = [this.batchesObj, this.allBatches, this.batchNames];
-      sessionStorage.setItem("graphArray4" + trainerId, JSON.stringify(graphArray4));
+        let graphArray4 = [this.batchesObj, this.allBatches, this.batchNames];
 
-      this.displayGraph(this.batchesObj);
-    });
-  
+        this.localStorageServ.set('graphArray4' + trainerId, graphArray4);
+
+        this.displayGraph(this.batchesObj);
+      });
   }
 
   updateGraph() {
@@ -130,11 +136,10 @@ export class AssessmentScoresAccordingToBatchComponent implements OnInit, OnDest
   graphAdjust() {
     const chartElem = document.getElementById('divChart4');
     this.isBig = this.displayGraphService.graphAdjust(
-          chartElem,
-          this.assessmentTS.selectedValue,
-          this.isBig
-        );
-
+      chartElem,
+      this.assessmentTS.selectedValue,
+      this.isBig
+    );
   }
 
   @HostListener('window:resize', ['$event'])
@@ -156,9 +161,8 @@ export class AssessmentScoresAccordingToBatchComponent implements OnInit, OnDest
   }
 
   ngOnDestroy() {
-    if(this.AssessmentByBatchServiceSubscription != undefined){
+    if (this.AssessmentByBatchServiceSubscription != undefined) {
       this.AssessmentByBatchServiceSubscription.unsubscribe();
-
     }
   }
 }
