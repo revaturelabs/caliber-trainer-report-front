@@ -85,7 +85,7 @@ describe('AssessmentScoresForCategoryComponent', () => {
   let fixture: ComponentFixture<AssessmentScoresForCategoryComponent>;
 
   beforeEach(async(() => {
-    let mockASBCABS = jasmine.createSpyObj("Assessmentervice", ["getSixthGraphData"]);
+    let mockASBCABS = jasmine.createSpyObj("AssessmentService", ["getSixthGraphData"]);
     mockASBCABS.getSixthGraphData.and.returnValue(of(mockResponse));
     TestBed.configureTestingModule({
       declarations: [ AssessmentScoresForCategoryComponent, FilterPipe],

@@ -5,7 +5,7 @@ import {  ReactiveFormsModule } from '@angular/forms';
 import { UploadComponent } from './upload.component';
 import { By } from '@angular/platform-browser';
 
-fdescribe('UploadComponent', () => {
+describe('UploadComponent', () => {
   let component: UploadComponent;
   let fixture: ComponentFixture<UploadComponent>;
 
@@ -31,10 +31,13 @@ fdescribe('UploadComponent', () => {
 
   it('should upload a file I have selected', () => {
     
-    let event = {target: {files: [{name: "countryroads.json", data: {"west virginia": "the western part of Virginia"}}]}};
-    let mySpySelectJson = spyOn(component, 'onFileChange');
-    component.onFileChange(event);
-    expect(component.formGroup.get('file')[0]).not.toBeNull;  //that is, 
+    let event = {target: {files:[{name: "countryroads.json", data: {"west virginia": "the western part of Virginia"}}]}};
+    let mySpySelectJson = spyOn(component, 'onFileChange').withArgs(event).and.callThrough();
+    let fileSelectorSelector: HTMLInputElement = fixture.debugElement.query(By.css("[type=file]")).nativeElement;
+    fileSelectorSelector.dispatchEvent(new Event("onFileChange"));
+    fixture.detectChanges();
+    expect(mySpySelectJson).toHaveBeenCalled();
+    expect(component.formGroup.get('file')[0]).not.toBeNull();  //that is, 
 
     
   //let fileSelectorSelector: HTMLInputElement = fixture.debugElement.query(By.css("[type=file]")).nativeElement;
