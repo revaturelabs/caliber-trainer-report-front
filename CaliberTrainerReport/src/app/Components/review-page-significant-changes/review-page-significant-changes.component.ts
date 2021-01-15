@@ -44,7 +44,7 @@ export class ReviewPageSignificantChangesComponent implements OnInit {
   }
 }
 
-class Change {
+export class Change {
   public batchName: string;
   public category: string;
   public oldScore: number;
@@ -61,12 +61,5 @@ class Change {
 
     this.increase = this.newScore>this.oldScore?"up":"down";
     this.difference = Math.abs(this.newScore-this.oldScore).toFixed(2);
-  }
-}
-
-function log(r:ReviewPageSignificantChangesComponent): void {
-  console.log("changes:")
-  for(const c in r.changes) {
-    console.log(c)
   }
 }
