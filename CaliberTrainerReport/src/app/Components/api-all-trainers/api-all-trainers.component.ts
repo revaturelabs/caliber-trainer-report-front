@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GetTrainerService } from 'src/app/services/get-trainer.service';
 import { Trainer } from 'src/app/class/trainer';
-import { GetBatchService } from 'src/app/services/get-batch.service';
 import { Batch } from 'src/app/class/batch';
 import { GetQcNoteService } from 'src/app/services/get-qc-note.service';
 import { QCNote } from 'src/app/class/QCNote';
@@ -9,7 +7,8 @@ import { Assessment } from 'src/app/class/assessment';
 import { GetCategoryService } from 'src/app/services/get-category.service';
 import { SendJSONAsStringService } from 'src/app/services/send-json-as-string.service';
 import { UrlService } from 'src/app/services/url.service';
-import { CompleteBatchDataService } from 'src/app/services/complete-batch-data.service';
+import { BatchService } from 'src/app/services/batch.service';
+import { TrainerService } from 'src/app/services/trainer.service';
 
 @Component({
   selector: 'app-api-all-trainers',
@@ -27,13 +26,12 @@ export class ApiAllTrainersComponent implements OnInit {
   mockData: string;
 
   constructor(
-    private trainerService: GetTrainerService,
-    private batchService: GetBatchService,
+    private trainerService: TrainerService,
+    private batchService: BatchService,
     private qcs: GetQcNoteService,
     private cs: GetCategoryService,
     private sendJsonService: SendJSONAsStringService,
-    private urls: UrlService,
-    private completeBatchServ: CompleteBatchDataService
+    private urls: UrlService
   ) {}
 
   ngOnInit(): void {
@@ -112,7 +110,7 @@ export class ApiAllTrainersComponent implements OnInit {
             for (let ids of batchIds) {
               //this really should be a Batch object, but the typescript yells at us over qcnotes
               let newBatch: any;
-              newBatch = await this.completeBatchServ
+              newBatch = await this.batchService
                 .getCompleteBatchDataById(ids)
                 .toPromise();
               let temp = {
