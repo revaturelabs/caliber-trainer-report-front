@@ -29,17 +29,43 @@ describe('BestWorstCategoriesComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should initialize the fields of the component', () => {
+    let fakeInfo = [{category: 'cat', average: [1, 2, 3, 4, 5]}, 
+      {category: 'dog', average: [6, 7, 8, 9, 10]}, 
+      {category: 'hamster', average: [11, 12, 13, 14, 15]},
+      {category: 'fish', average: [16, 17, 18, 19, 20]}];
+
+    component.initField(fakeInfo);
+    expect(component.categories).toEqual(['cat', 'dog', 'hamster']);
+    expect(component.allCategoryScores).toEqual([
+      new CategoryScore('cat', 3),
+      new CategoryScore('dog', 8),
+      new CategoryScore('hamster', 13),
+      new CategoryScore('fish', 18)
+    ]);
+    expect(component.best3).toEqual([      
+      new CategoryScore('dog', 8),
+      new CategoryScore('hamster', 13),
+      new CategoryScore('fish', 18)]);
+    expect(component.worst3).toEqual([
+      new CategoryScore('cat', 3),
+      new CategoryScore('dog', 8),
+      new CategoryScore('hamster', 13),
+    ]);
+
+  });
+
   it('should round to 2 decimal places', ()=>{
     expect(component.roundTwoDigits(0.125)).toBe(0.13);
     expect(component.roundTwoDigits(98.9988)).toBe(99)
-  })
+  });
 
   it('should return the best 3 categories along with their scores', ()=>{
     expect(component.getCategoryScores(true, 3)).toEqual([
       new CategoryScore("Spring", 92.12), 
       new CategoryScore("Java", 90.05), 
       new CategoryScore("AWS", 88.88)]);
-  })
+  });
 
   it('should return the worst 3 categories along with their scores', ()=>{
 
@@ -47,7 +73,7 @@ describe('BestWorstCategoriesComponent', () => {
       new CategoryScore("DevOps", 12.12), 
       new CategoryScore("Jenkins", 25.02), 
       new CategoryScore("Git", 25.25)]);
-  })
+  });
 
   // For the expandable feature
   it('should display all the categories', ()=> {
@@ -60,13 +86,21 @@ describe('BestWorstCategoriesComponent', () => {
       new CategoryScore("Jenkins", 25.02), 
       new CategoryScore("DevOps", 12.12)]
     );
-  })
+  });
 
   // For the expandable feature
   it('the allCategoryScores list should be sorted by score in a descending order', () => {
     for (let i = 1; i < component.getCategoryScores().length; i++) {
       expect(component.getCategoryScores()[i].score >= component.getCategoryScores()[i - 1].score);
     }
-  })
+  });
+
+  it('should toggle the viewAll boolean', () => {
+    component.viewAll = true;
+    component.toggleViewAll();
+    expect(component.viewAll).toBeFalse();
+    component.toggleViewAll();
+    expect(component.viewAll).toBeTrue();
+  });
   
 });

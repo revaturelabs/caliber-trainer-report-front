@@ -1,6 +1,6 @@
 import { FilterPipe } from './filter.pipe';
 
-fdescribe('FilterPipe', () => {
+describe('FilterPipe', () => {
 
   it('create an instance', () => {
     const pipe = new FilterPipe();
