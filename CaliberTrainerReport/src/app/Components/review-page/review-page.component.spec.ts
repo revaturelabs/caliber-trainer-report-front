@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReviewPageComponent } from './review-page.component';
 
-fdescribe('ReviewPageComponent', () => {
+describe('ReviewPageComponent', () => {
   let component: ReviewPageComponent;
   let fixture: ComponentFixture<ReviewPageComponent>;
 
