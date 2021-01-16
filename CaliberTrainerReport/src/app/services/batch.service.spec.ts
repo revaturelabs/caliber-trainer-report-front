@@ -1,16 +1,16 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { AssessmentByBatchService } from './AssessmentByBatch.service';
+import { BatchService } from './batch.service';
 
-describe('AssessmentByBatchService', () => {
-  let service: AssessmentByBatchService;
+describe('BatchService', () => {
+  let service: BatchService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports:[HttpClientTestingModule]
     });
-    service = TestBed.inject(AssessmentByBatchService);
+    service = TestBed.inject(BatchService);
   });
 
   it('should be created', () => {

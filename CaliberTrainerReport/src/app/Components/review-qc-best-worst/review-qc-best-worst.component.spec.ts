@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { reverse } from 'dns';
 
 import { ReviewQcBestWorstComponent } from './review-qc-best-worst.component';
 
@@ -77,15 +78,26 @@ describe('ReviewQcBestWorstComponent', () => {
   })
 
   it('should return an array sorted by category score', () => {
-    expect(JSON.stringify(component.sortCategoryScores(Categories)) == JSON.stringify(sortedCategories)).toBeTruthy();
+    expect(JSON.stringify(component.sortCategoryScores(Categories)) == JSON.stringify(sortedCategories)).toBeTrue();
   })
 
   it('should return an array of top three CategoryScore objects sorted by score', () => {
-    expect(JSON.stringify(component.findBestCategories(sortedCategories)) == JSON.stringify(top3)).toBeTruthy();
+    expect(JSON.stringify(component.findBestCategories(sortedCategories)) == JSON.stringify(top3)).toBeTrue();
+    expect(JSON.stringify(component.findBestCategories(sortedCategories.slice(0,2))) == JSON.stringify(top3.slice(0,2))).toBeTrue();
   })
 
   it('should return an array of bottom three CategoryScore objects sorted by score', () => {
-    expect(JSON.stringify(component.findWorstCategories(sortedCategories)) == JSON.stringify(bottom3)).toBeTruthy();
+    expect(JSON.stringify(component.findWorstCategories(sortedCategories)) == JSON.stringify(bottom3)).toBeTrue();
+    let sortedWorstTwo = [sortedCategories[4], sortedCategories[5]];
+    expect(JSON.stringify(component.findWorstCategories(sortedWorstTwo)) == JSON.stringify(bottom3.slice(0,2))).toBeTrue();
+  })
+
+  it('should toggle the view all variable', () => {
+    component.viewAllQCCategories = 0;
+    component.toggleViewAll();
+    expect(component.viewAllQCCategories).toEqual(1);
+    component.toggleViewAll();
+    expect(component.viewAllQCCategories).toEqual(0);
   })
 
 });
