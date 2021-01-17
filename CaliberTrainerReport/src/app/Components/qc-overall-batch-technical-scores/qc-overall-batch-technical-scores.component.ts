@@ -46,12 +46,7 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
     this.graphAdjust();
 
     let trainerId = this.localStorageServ.get('selectedId');
-
-    // This method receives the JSON object from the URL GET request
-
-    this.batchService.getTechnicalStatusPerBatch().subscribe((resp) => {
-      this.firstGraphObj = resp;
-
+    
       // Initializing the arrays for our data
       this.goodData = [];
       this.averageData = [];
@@ -66,13 +61,107 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
       this.batchNames = [];
       this.technicalStatus = [];
       let rawDataArray: any[] = [];
+    // This method receives the JSON object from the URL GET request
 
+    this.batchService.getTechnicalStatusPerBatch().subscribe((resp) => {
+      //console.log(resp);
+      this.utilityFunction(resp);
+      // this.firstGraphObj = resp;
+
+
+      // // Store batch names
+      // for (const batch of this.firstGraphObj) {
+      //   this.batchNames.push(batch.batchName);
+      //   this.technicalStatus.push(batch.technicalStatus);
+      // }
+      // console.log(this.batchNames);
+      // // This for loop goes through each batch
+      // for (const batches of this.technicalStatus) {
+      //   // This for loop calculates the total technical scores for each batch
+      //   let total = 0;
+      //   for (const num of batches) {
+      //     total += num;
+      //   }
+
+      //   this.poorRawData.push(batches[0]);
+      //   this.averageRawData.push(batches[1]);
+      //   this.goodRawData.push(batches[2]);
+      //   this.superstarRawData.push(batches[3]);
+      //   this.nullRawData.push(batches[4]);
+      //   rawDataArray = [
+      //     this.poorRawData,
+      //     this.averageRawData,
+      //     this.goodRawData,
+      //     this.superstarRawData,
+      //     this.nullRawData,
+      //   ];
+
+      //   // Seperates data into each technical score type (good, bad, avg) and performs math
+      //   // to get the weighted value out of 100%
+      //   // Expects order to be from bad[0] -> avg[1] -> good[2] -> superstar[3] -> null[4]
+      //   if (batches[0] === 0) {
+      //     this.poorData.push(0.5);
+      //   } else {
+      //     this.poorData.push(
+      //       Math.round(((batches[0] * 100) / total) * 100) / 100
+      //     );
+      //   }
+      //   if (batches[1] === 0) {
+      //     this.averageData.push(0.5);
+      //   } else {
+      //     this.averageData.push(
+      //       Math.round(((batches[1] * 100) / total) * 100) / 100
+      //     );
+      //   }
+      //   if (batches[2] === 0) {
+      //     this.goodData.push(0.5);
+      //   } else {
+      //     this.goodData.push(
+      //       Math.round(((batches[2] * 100) / total) * 100) / 100
+      //     );
+      //   }
+      //   if (batches[3] === 0) {
+      //     this.superstarData.push(0.5);
+      //   } else {
+      //     this.superstarData.push(
+      //       Math.round(((batches[3] * 100) / total) * 100) / 100
+      //     );
+      //   }
+      //   if (batches[4] === 0) {
+      //     this.nullData.push(0.5);
+      //   } else {
+      //     this.nullData.push(
+      //       Math.round(((batches[4] * 100) / total) * 100) / 100
+      //     );
+      //   }
+      // }
+
+      // let graphArray: any[] = [
+      //   this.batchNames,
+      //   this.poorData,
+      //   this.averageData,
+      //   this.goodData,
+      //   this.superstarData,
+      //   this.nullData,
+      //   this.batchNames,
+      //   this.technicalStatus,
+      //   rawDataArray,
+      // ];
+      // this.localStorageServ.set('gA1' + trainerId, graphArray);
+      // // This actually passes the data to display the graph after receiving the data from the observables
+      // this.displayGraphAll();
+    });
+  }
+
+  //utility function created to test the functionality inside of the subscribe
+  utilityFunction(resp){
+    this.firstGraphObj = resp;
       // Store batch names
       for (const batch of this.firstGraphObj) {
+        console.log(batch);
         this.batchNames.push(batch.batchName);
         this.technicalStatus.push(batch.technicalStatus);
       }
-
       // This for loop goes through each batch
       for (const batches of this.technicalStatus) {
         // This for loop calculates the total technical scores for each batch
@@ -80,19 +169,12 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
         for (const num of batches) {
           total += num;
         }
-
+        
         this.poorRawData.push(batches[0]);
         this.averageRawData.push(batches[1]);
         this.goodRawData.push(batches[2]);
         this.superstarRawData.push(batches[3]);
         this.nullRawData.push(batches[4]);
-        rawDataArray = [
-          this.poorRawData,
-          this.averageRawData,
-          this.goodRawData,
-          this.superstarRawData,
-          this.nullRawData,
-        ];
 
         // Seperates data into each technical score type (good, bad, avg) and performs math
         // to get the weighted value out of 100%
@@ -133,7 +215,14 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
           );
         }
       }
-
+      let rawDataArray = [
+        this.poorRawData,
+        this.averageRawData,
+        this.goodRawData,
+        this.superstarRawData,
+        this.nullRawData,
+      ];
+      let trainerId = this.localStorageServ.get('selectedId');
       let graphArray: any[] = [
         this.batchNames,
         this.poorData,
@@ -148,7 +237,6 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
       this.localStorageServ.set('gA1' + trainerId, graphArray);
       // This actually passes the data to display the graph after receiving the data from the observables
       this.displayGraphAll();
-    });
   }
 
   displayGraphAll() {
@@ -232,7 +320,6 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
       backgroundHoverColor: '#7a7b7d',
       borderWidth: 1,
     };
-
     this.myGraph.data.datasets.push(dataset);
     this.myGraph.update();
   }
