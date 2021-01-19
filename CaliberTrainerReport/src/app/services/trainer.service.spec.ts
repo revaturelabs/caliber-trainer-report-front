@@ -2,15 +2,19 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Trainer } from '../class/trainer';
+import { ErrorHandlerService } from './error-handler.service';
+import { LocalStorageService } from './local-storage.service';
 
 import { TrainerService } from './trainer.service';
+import { UrlService } from './url.service';
 
-fdescribe('TrainerService', () => {
+describe('TrainerService', () => {
   let service: TrainerService;
 
   beforeEach(async() => {
     TestBed.configureTestingModule({
-      imports:[HttpClientTestingModule, HttpClientModule]
+      imports:[HttpClientTestingModule, HttpClientModule],
+      providers: [TrainerService, UrlService, ErrorHandlerService, LocalStorageService]
     });
     service = TestBed.inject(TrainerService);
   });
