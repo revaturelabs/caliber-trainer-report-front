@@ -1,5 +1,4 @@
 import { HttpClientModule } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Trainer } from '../class/trainer';
 import { ErrorHandlerService } from './error-handler.service';
@@ -13,13 +12,14 @@ describe('TrainerService', () => {
 
   beforeEach(async() => {
     TestBed.configureTestingModule({
-      imports:[HttpClientTestingModule, HttpClientModule],
+      imports:[HttpClientModule],
       providers: [TrainerService, UrlService, ErrorHandlerService, LocalStorageService]
     });
     service = TestBed.inject(TrainerService);
   });
 
   it('should be created', () => {
+    const service: TrainerService = TestBed.get(TrainerService);
     expect(service).toBeTruthy();
   });
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faChartBar, faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { faChartBar,faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
 import { DisplayQcAverageGraphService } from 'src/app/services/display-qc-average-graph.service';
 import { BatchService } from 'src/app/services/batch.service';
