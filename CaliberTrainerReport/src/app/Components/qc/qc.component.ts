@@ -18,8 +18,7 @@ export class QCComponent implements OnInit {
   ngOnInit(): void {
     this.selectedValue = 'all';
   }
-
-
+  
   public downloadPDF() {
    let content = window.document.getElementById('qc-body');
    content.style.margin = "auto";

@@ -16,4 +16,21 @@ describe('FileUploadService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  
+  it('should upload when I call "upload()"', () => {
+    let fakeFileName: string = "oneTwoFashionBlack.json";
+    let fakeFileContents: string = "{ wow: \"lol, but in the League of Legends manner\"}";
+
+    service.upload(fakeFileName, fakeFileContents);
+    let fileNameExistence = false;
+    service.fileList.forEach((element) => {
+      if (element === fakeFileName){
+        fileNameExistence = true;
+      }
+    })
+    expect(fileNameExistence).toBeTrue();
+  
+  });
+  
 });
