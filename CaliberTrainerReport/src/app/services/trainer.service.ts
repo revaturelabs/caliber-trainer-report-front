@@ -39,14 +39,6 @@ export class TrainerService {
     private localStorageServ: LocalStorageService
   ) {}
 
-  getTrainer(trainer: Trainer) {
-    return trainer;
-  }
-
-  getTrainerId(trainer: Trainer) {
-    return trainer.id;
-  }
-
   async getTrainerList() {
     try {
       const resp = await this.http
@@ -71,18 +63,22 @@ export class TrainerService {
 
   // This code could probably be refactored out since it called a local method
   setTrainerList(trainerList): string {
-    this.getTrainerList().then((resp) => {
-      const ct = this.localStorageServ.get('currentTrainers');
-      console.log('CT:');
-      console.log(ct);
-      for (const iter of ct) {
-        trainerList.push(iter);
-      }
-      if (ct.length != 0 && !this.localStorageServ.get('selectedId')) {
-        this.localStorageServ.set('selectedId', ct[0].id);
-        this.selectedValue = ct[0].id;
-      }
+    this.getTrainerList().then(() => {
+      this.getSelectedValue(trainerList);
     });
     return this.selectedValue;
+  }
+
+  getSelectedValue(trainerList) {
+    const ct = this.localStorageServ.get('currentTrainers');
+    console.log('CT:');
+    console.log(ct);
+    for (const iter of ct) {
+      trainerList.push(iter);
+    }
+    if (ct.length != 0 && !this.localStorageServ.get('selectedId')) {
+      this.localStorageServ.set('selectedId', ct[0].id);
+      this.selectedValue = ct[0].id;
+    }
   }
 }
