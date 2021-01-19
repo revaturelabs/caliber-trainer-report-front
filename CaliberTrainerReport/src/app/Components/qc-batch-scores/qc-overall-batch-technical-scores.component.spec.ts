@@ -37,5 +37,4 @@ describe('QcOverallBatchTechnicalScoresComponent', () => {
     expect(mySpy).toHaveBeenCalled();
     expect(secondSpy).toHaveBeenCalled();
   });
-
 });

@@ -5,10 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainNavBarComponent } from './Components/main-nav-bar/main-nav-bar.component';
-import { QcOverallBatchTechnicalScoresComponent } from './Components/qc-overall-batch-technical-scores/qc-overall-batch-technical-scores.component';
-import { QcOverallWeekTechnicalScoresComponent } from './Components/qc-overall-week-technical-scores/qc-overall-week-technical-scores.component';
-import { AssessmentScoresAccordingToBatchComponent } from './Components/assessment-scores-according-to-batch/assessment-scores-according-to-batch.component';
-import { AssessmentScoresForCategoryComponent } from './Components/assessment-scores-for-category/assessment-scores-for-category.component';
+import { QcOverallBatchTechnicalScoresComponent } from './Components/qc-batch-scores/qc-overall-batch-technical-scores.component';
+import { QcOverallWeekTechnicalScoresComponent } from './Components/qc-week-scores/qc-overall-week-technical-scores.component';
+import { AssessmentScoresAccordingToBatchComponent } from './Components/assess-scores-by-batch/assessment-scores-according-to-batch.component';
+import { AssessmentScoresForCategoryComponent } from './Components/filter-scores-for-category/assessment-scores-for-category.component';
 import { QCComponent } from './Components/qc/qc.component';
 import { AssessmentComponent } from './Components/assessment/assessment.component';
 import { HomeComponent } from './Components/home/home.component';
@@ -26,17 +26,17 @@ import { CalendarViewComponent } from './Components/calendar-view/calendar-view.
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { AssessmentScoresAccordingToCategoryComponent } from './Components/assessment-scores-according-to-category/assessment-scores-according-to-category.component';
-import { QcTechnicalScoresByCategoryAcrossBatchesComponent } from './Components/qc-technical-scores-by-category-across-batches/qc-technical-scores-by-category-across-batches.component';
+import { AssessmentScoresAccordingToCategoryComponent } from './Components/assess-scores-by-category/assessment-scores-according-to-category.component';
+import { QcTechnicalScoresByCategoryAcrossBatchesComponent } from './Components/qc-dropdown-scores/qc-technical-scores-by-category-across-batches.component';
 import { ReviewPageComponent } from './Components/review-page/review-page.component';
 
-import { ReviewPageTotalAvgAssessmentComponent } from './Components/review-page-total-avg-assessment/review-page-total-avg-assessment.component';
+import { ReviewPageTotalAvgAssessmentComponent } from './Components/review-page-total-avg-assess/review-page-total-avg-assessment.component';
 
-import { ReviewPageBestWorstCategoriesComponent } from './Components/review-page-best-worst-categories/review-page-best-worst-categories.component';
+import { ReviewPageBestWorstCategoriesComponent } from './Components/review-page-best-worst-cat/review-page-best-worst-categories.component';
 import { ReviewQcBestWorstComponent } from './Components/review-qc-best-worst/review-qc-best-worst.component';
 
-import { ReviewPageAvgQcScoreComponent } from './Components/review-page-avg-qc-score/review-page-avg-qc-score.component';
-import { ReviewPageSignificantChangesComponent } from './Components/review-page-significant-changes/review-page-significant-changes.component';
+import { ReviewPageAvgQcScoreComponent } from './Components/avg-qc-score-review/review-page-avg-qc-score.component';
+import { ReviewPageSignificantChangesComponent } from './Components/review-page-sig-changes/review-page-significant-changes.component';
 import { DxChartModule } from 'devextreme-angular';
 import { FilterPipe } from './filter.pipe';
 import { BatchService } from './services/batch.service';

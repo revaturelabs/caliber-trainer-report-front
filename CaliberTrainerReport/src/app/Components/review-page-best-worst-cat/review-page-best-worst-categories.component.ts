@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  faBalanceScale,
-  faCheckCircle,
-  faTimesCircle,
-} from '@fortawesome/free-solid-svg-icons';
+import { faBalanceScale, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { AssessmentService } from 'src/app/services/assessment.service';
 
 @Component({
@@ -44,7 +40,6 @@ export class ReviewPageBestWorstCategoriesComponent implements OnInit {
       this.initField(resp);
     });
   }
-
   initField(resp) {
     // Get categories and add to list
     for (const cat of resp) {
@@ -60,8 +55,10 @@ export class ReviewPageBestWorstCategoriesComponent implements OnInit {
 
       // Sum up scores and record number of scores
       for (let i = 0; i < 5; i++) {
-        count++;
-        sum += scores.average[i];
+        if (scores.average[i] !== 0) {
+          count++;
+          sum += scores.average[i];
+        }
       }
 
       // Set the average score for the category rounded to 2 decimal places
@@ -78,7 +75,7 @@ export class ReviewPageBestWorstCategoriesComponent implements OnInit {
 
     // Get worst 3 scores and category
     this.worst3 = this.getCategoryScores(false, 3);
-  }
+  };
 
   // Round number to 2 decimal places
   roundTwoDigits(val: number): number {
