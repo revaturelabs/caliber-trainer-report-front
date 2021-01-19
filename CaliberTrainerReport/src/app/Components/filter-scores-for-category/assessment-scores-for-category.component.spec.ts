@@ -157,7 +157,6 @@ describe('AssessmentScoresForCategoryComponent', () => {
     const categorySelector: HTMLSelectElement = fixture.debugElement.query(By.css("#Java")).nativeElement;
     categorySelector.value = option+"";
     categorySelector.dispatchEvent(new Event('change'));
-    fixture.detectChanges();
   }
 
   it('should change the selected value when a category is clicked', () => {
@@ -165,6 +164,9 @@ describe('AssessmentScoresForCategoryComponent', () => {
     let yValues: number[] = [];
 
     expect(component.categoryFlags[0]).toBeTrue(); //confirming the default value
+    
+    component.filterText = "Java";
+    fixture.detectChanges();
 
     chooseOptionFromDropdown(1);
     yValues = getAveragesOfAssessments(mockResponse.categories[0].batchAssessments);
