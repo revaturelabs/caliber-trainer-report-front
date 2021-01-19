@@ -41,41 +41,43 @@ export class ReviewPageBestWorstCategoriesComponent implements OnInit {
   ngOnInit(): void {
     // Get scores per category
     this.assessmentService.getScorePerCategory().subscribe((resp) => {
-      // Get categories and add to list
-      for (const cat of resp) {
-        this.categories.push(cat.category);
-      }
-
-      // Index for categories
-      let index: number = 0;
-
-      for (const scores of resp) {
-        let count: number = 0;
-        let sum: number = 0;
-
-        // Sum up scores and record number of scores
-        for (let i = 0; i < 5; i++) {
-          if (scores.average[i] !== 0) {
-            count++;
-            sum += scores.average[i];
-          }
-        }
-
-        // Set the average score for the category rounded to 2 decimal places
-        this.averageScores[index] = this.roundTwoDigits(sum / count);
-        // Increment index for category
-        index++;
-      }
-
-      // Get all categories and scores
-      this.allCategoryScores = this.getCategoryScores();
-
-      // Get best 3 scores and category
-      this.best3 = this.getCategoryScores(true, 3);
-
-      // Get worst 3 scores and category
-      this.worst3 = this.getCategoryScores(false, 3);
+      this.initField(resp);
     });
+  }
+
+  initField(resp) {
+    // Get categories and add to list
+    for (const cat of resp) {
+      this.categories.push(cat.category);
+    }
+
+    // Index for categories
+    let index: number = 0;
+
+    for (const scores of resp) {
+      let count: number = 0;
+      let sum: number = 0;
+
+      // Sum up scores and record number of scores
+      for (let i = 0; i < 5; i++) {
+        count++;
+        sum += scores.average[i];
+      }
+
+      // Set the average score for the category rounded to 2 decimal places
+      this.averageScores[index] = this.roundTwoDigits(sum / count);
+      // Increment index for category
+      index++;
+    }
+
+    // Get all categories and scores
+    this.allCategoryScores = this.getCategoryScores();
+
+    // Get best 3 scores and category
+    this.best3 = this.getCategoryScores(true, 3);
+
+    // Get worst 3 scores and category
+    this.worst3 = this.getCategoryScores(false, 3);
   }
 
   // Round number to 2 decimal places
