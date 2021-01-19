@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {By} from '@angular/platform-browser';
 
 
-fdescribe('ReviewPageTotalAvgAssessmentComponent', () => {
+describe('ReviewPageTotalAvgAssessmentComponent', () => {
   let component: ReviewPageTotalAvgAssessmentComponent;
   
   let fixture: ComponentFixture<ReviewPageTotalAvgAssessmentComponent>;
