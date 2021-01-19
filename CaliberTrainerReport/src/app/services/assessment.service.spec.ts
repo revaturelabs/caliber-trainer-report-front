@@ -1,19 +1,11 @@
-<<<<<<< HEAD
-import { TestBed } from '@angular/core/testing';
-
-=======
 import { getTestBed, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
->>>>>>> b0404044ae419a7b841ab41f79b73d895d6df3ac
 import { AssessmentService } from './assessment.service';
 import { Assessment } from '../class/assessment';
 import { promise } from 'protractor';
 
 describe('AssessmentService', () => {
-<<<<<<< HEAD
-  beforeEach(() => TestBed.configureTestingModule({}));
-=======
   let service: AssessmentService;
   let injector: TestBed;
   let httpMock: HttpTestingController;
@@ -31,7 +23,6 @@ describe('AssessmentService', () => {
     service = TestBed.inject(AssessmentService);
     httpMock = injector.get(HttpTestingController);
   });
->>>>>>> b0404044ae419a7b841ab41f79b73d895d6df3ac
 
   it('should be created', () => {
     const service: AssessmentService = TestBed.get(AssessmentService);

@@ -47,16 +47,7 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
     this.graphAdjust();
 
     let trainerId = this.localStorageServ.get('selectedId');
-<<<<<<< HEAD:CaliberTrainerReport/src/app/Components/qc-batch-scores/qc-overall-batch-technical-scores.component.ts
-
-    // This method receives the JSON object from the URL GET request
-
-    this.batchService.getTechnicalStatusPerBatch().subscribe((resp) => {
-      this.firstGraphObj = resp;
-
-=======
     
->>>>>>> b0404044ae419a7b841ab41f79b73d895d6df3ac:CaliberTrainerReport/src/app/Components/qc-overall-batch-technical-scores/qc-overall-batch-technical-scores.component.ts
       // Initializing the arrays for our data
       this.goodData = [];
       this.averageData = [];
@@ -161,10 +152,6 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
       this.localStorageServ.set('gA1' + trainerId, graphArray);
       // This actually passes the data to display the graph after receiving the data from the observables
       this.displayGraphAll();
-<<<<<<< HEAD:CaliberTrainerReport/src/app/Components/qc-batch-scores/qc-overall-batch-technical-scores.component.ts
-    });
-=======
->>>>>>> b0404044ae419a7b841ab41f79b73d895d6df3ac:CaliberTrainerReport/src/app/Components/qc-overall-batch-technical-scores/qc-overall-batch-technical-scores.component.ts
   }
 
   displayGraphAll() {
