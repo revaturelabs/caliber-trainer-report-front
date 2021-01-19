@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ChangeDetectorRef } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { ReviewPageSignificantChangesComponent } from './review-page-significant-changes.component';
 import { Change } from './review-page-significant-changes.component';
 

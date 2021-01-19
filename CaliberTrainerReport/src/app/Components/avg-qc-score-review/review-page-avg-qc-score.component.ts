@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faChartBar, faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { faChartBar,faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
 import { DisplayQcAverageGraphService } from 'src/app/services/display-qc-average-graph.service';
 import { BatchService } from 'src/app/services/batch.service';
@@ -27,14 +27,19 @@ export class ReviewPageAvgQcScoreComponent implements OnInit {
 
   ngOnInit(): void {
     this.batchService.getTechnicalStatusPerBatch().subscribe((resp) => {
-      this.avgQCGraphObj = resp;
+      this.initializeComponent(resp);
+    });
+  }
 
+  initializeComponent(resp) {
+    if (resp != null && resp != undefined) {
+      this.avgQCGraphObj = resp;
       // Get batch names
       for (const batch of this.avgQCGraphObj) {
         this.batchNames.push(batch.batchName);
         this.technicalStatus.push(batch.technicalStatus);
       }
-
+  
       for (const batchScores of this.technicalStatus) {
         let totalScores: number = 0;
         let avgScore: number = 0;
@@ -60,7 +65,9 @@ export class ReviewPageAvgQcScoreComponent implements OnInit {
           }
         }
         //finds the numerical average.
-        avgScore = Math.round(avgScore / totalScores);
+        if (totalScores > 0) avgScore = Math.round(avgScore / totalScores);
+        else avgScore = 1;
+        if (avgScore < 1) avgScore = 1;
         switch (avgScore) {
           case 1:
             this.batchLabel.push('Poor');
@@ -82,8 +89,9 @@ export class ReviewPageAvgQcScoreComponent implements OnInit {
         this.avgScores.push(avgScore);
       }
       this.displayGraph();
-    });
+    }
   }
+
   displayGraph() {
     const graphText = 'QC Average Batch Score';
     this.avgQCGraph = new Chart('qcAvgScoreGraph', {
