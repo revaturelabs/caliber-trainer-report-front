@@ -36,9 +36,6 @@ export class AssessmentService {
   }
 
   getSixthGraphData(): Observable<any> {
-    console.log(
-      this.urlService.getUrlWithId() + 'AssessScoresByCategoryAllBatches'
-    );
     return this.http
       .get(this.urlService.getUrlWithId() + 'AssessScoresByCategoryAllBatches')
       .pipe(
