@@ -15,7 +15,6 @@ import { HomeComponent } from './Components/home/home.component';
 import { FileUploadService } from './services/file-upload.service';
 import { UrlService } from './services/url.service';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UploadComponent } from './Components/jsonuploader/upload.component';
 import { ProgressPage } from './Components/progresspage/progress.component';
@@ -78,7 +77,6 @@ FullCalendarModule.registerPlugins([dayGridPlugin, interactionPlugin]);
     FontAwesomeModule,
     FormsModule,
     HttpClientModule,
-    HttpClientTestingModule, 
     ReactiveFormsModule,
     FullCalendarModule,
     NgbModule,
