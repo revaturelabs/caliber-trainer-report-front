@@ -65,7 +65,9 @@ export class ReviewPageAvgQcScoreComponent implements OnInit {
           }
         }
         //finds the numerical average.
-        avgScore = Math.round(avgScore / totalScores);
+        if (totalScores > 0) avgScore = Math.round(avgScore / totalScores);
+        else avgScore = 1;
+        if (avgScore < 1) avgScore = 1;
         switch (avgScore) {
           case 1:
             this.batchLabel.push('Poor');

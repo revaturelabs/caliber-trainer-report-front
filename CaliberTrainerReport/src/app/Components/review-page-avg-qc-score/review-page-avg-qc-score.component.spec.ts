@@ -33,11 +33,27 @@ describe('ReviewPageAvgQcScoreComponent', () => {
 
   function test_init_up_to_three(i) {
     it('will initialize the component', () => {
-        let fakeData = [
-          {batchId: "1", batchName: "2001 Jan1 JWA", technicalStatus: [i, i, i, i, i]}
-        ];
-    
-        console.log(fakeData);
+        let fakeData = [];
+        switch(i) {
+          case 0:
+            fakeData = [{batchId: "1", batchName: "2001 Jan1 JWA", technicalStatus: [0, 0, 0, 0, 0]}];
+            break;
+          case 1:
+            fakeData = [{batchId: "1", batchName: "2001 Jan1 JWA", technicalStatus: [10, 0, 0, 0, 0]}];
+            break;
+          case 2:
+            fakeData = [{batchId: "1", batchName: "2001 Jan1 JWA", technicalStatus: [0, 10, 0, 0, 0]}];
+            break;
+          case 3:
+            fakeData = [{batchId: "1", batchName: "2001 Jan1 JWA", technicalStatus: [0, 0, 10, 0, 0]}];
+            break;
+          case 4:
+            fakeData = [{batchId: "1", batchName: "2001 Jan1 JWA", technicalStatus: [0, 0, 0, 10, 0]}];
+            break;
+          case 5:
+            fakeData = [{batchId: "1", batchName: "2001 Jan1 JWA", technicalStatus: [0, 0, 0, 0, 10]}];
+            break;
+        }
   
         component.batchNames = [];
         component.technicalStatus = [];
@@ -52,11 +68,11 @@ describe('ReviewPageAvgQcScoreComponent', () => {
         expect(component.batchLabel.length).toBeGreaterThan(0);
         expect(component.bgColor.length).toBeGreaterThan(0);
         expect(component.avgScores.length).toBeGreaterThan(0);
-        expect(component.avgQCGraph.length).toBeGreaterThan(0);
+        expect(component.avgQCGraph).toBeTruthy();
     });
   }
 
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 6; i++) {
     test_init_up_to_three(i);
   }
 
@@ -73,7 +89,7 @@ describe('ReviewPageAvgQcScoreComponent', () => {
     expect(component.batchLabel.length).toEqual(0);
     expect(component.bgColor.length).toEqual(0);
     expect(component.avgScores.length).toEqual(0);
-    expect(component.avgQCGraph.length).toEqual(0);
+    expect(component.avgQCGraph).toBeFalsy();
   });
 
   afterAll(() => {
