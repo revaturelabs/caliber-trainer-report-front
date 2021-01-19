@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 
 import { BatchService } from './batch.service';
@@ -8,7 +8,7 @@ describe('BatchService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[HttpClientTestingModule]
+      imports:[HttpClientModule]
     });
     service = TestBed.inject(BatchService);
   });
@@ -16,4 +16,11 @@ describe('BatchService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  // it(`should return value from observable`, () => {
+  //   service.getTechnicalStatusPerBatch().subscribe(value => {
+  //       expect(value).toHaveBeenCalled();
+  //   });
+  // });
+  
 });

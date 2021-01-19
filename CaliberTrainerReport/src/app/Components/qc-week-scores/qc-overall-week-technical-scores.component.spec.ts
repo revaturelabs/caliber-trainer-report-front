@@ -28,6 +28,7 @@ describe('QcOverallWeekTechnicalScoresComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
   // run getBatches()
   it('should call getBatches', () =>{
     let mySpy = spyOn(component, 'getBatches').and.callThrough();

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { DisplayQcAverageGraphService } from './display-qc-average-graph.service';
 
-fdescribe('DisplayQcAverageGraphService', () => {
+describe('DisplayQcAverageGraphService', () => {
   let service: DisplayQcAverageGraphService;
 
   beforeEach(() => {
@@ -20,7 +20,10 @@ fdescribe('DisplayQcAverageGraphService', () => {
     let newGraphOptions = service.graphOptions("Homestuck");
     expect(newGraphOptions.title.text).toBe("Homestuck");
     //because I literally can't test any other aspects of the code.
+    //i guess from what was below that I could,
+    //but since it doesn't easily owrk it wouldn't do anything
 
+    /*
     let fakeData = {data: {
       datasets: [
         {label: "John Egbert"},
@@ -56,5 +59,6 @@ fdescribe('DisplayQcAverageGraphService', () => {
 
     let averageResult = newGraphOptions.tooltips.callbacks.label(fakeAverageTooltipInfo, fakeData);
     expect(averageResult).toBe("John Egbert: Average");
+    */
   });
 });

@@ -1,6 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { reverse } from 'dns';
 
 import { ReviewQcBestWorstComponent } from './review-qc-best-worst.component';
 

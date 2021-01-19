@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReviewPageBestWorstCategoriesComponent, CategoryScore } from './review-page-best-worst-categories.component';
 
 let testCategories:string[] = ["Jenkins", "Java", "AWS",  "Git", "DevOps", "Spring", "Junit"]
-let testScores:number[] =     [    25.02,  90.05, 88.88,  25.25,   12.12,    92.12,   70.75]
+let testScores:number[] =     [    25.02,  90.05, 88.88,  25.25,    12.12,    92.12,   70.75]
 
 describe('BestWorstCategoriesComponent', () => {
   let component: ReviewPageBestWorstCategoriesComponent;
