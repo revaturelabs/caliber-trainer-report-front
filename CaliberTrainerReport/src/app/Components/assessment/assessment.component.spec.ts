@@ -22,12 +22,8 @@ describe('AssessmentComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
 
-
     component.ngOnInit();
     expect(component.selectedValue == 'all');
-
-    component.ngDoCheck();
-    expect(component.selectedValue).toBeTruthy();
     
     component.downloadPDF();
 
