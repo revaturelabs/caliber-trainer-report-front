@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { LocalStorageService } from './local-storage.service';
 
-fdescribe('LocalStorageService', () => {
+describe('LocalStorageService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
