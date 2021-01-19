@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { FileUploadService } from './file-upload.service';
 
-fdescribe('FileUploadService', () => {
+describe('FileUploadService', () => {
   let service: FileUploadService;
 
   beforeEach(() => {
