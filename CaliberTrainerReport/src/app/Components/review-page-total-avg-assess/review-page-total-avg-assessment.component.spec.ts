@@ -28,6 +28,7 @@ describe('ReviewPageTotalAvgAssessmentComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+
   });
   
   it('should have a span tag of `Total Average Assessment Scores`', () =>{
@@ -40,7 +41,14 @@ describe('ReviewPageTotalAvgAssessmentComponent', () => {
 
   it('graph should be displayed', () =>{
     expect(component.displayGraph).toHaveBeenCalled;
-  })
+  });
+
+  it('should trigger graphAdjust method when window is resized', () => {
+    const spyOnResize = spyOn(component, 'graphAdjust');
+    window.dispatchEvent(new Event('resize'));
+    expect(spyOnResize).toHaveBeenCalled();
+  });
+
 
  
 
