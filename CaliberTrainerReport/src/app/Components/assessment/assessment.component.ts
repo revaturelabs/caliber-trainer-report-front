@@ -8,7 +8,7 @@ import html2canvas from 'html2canvas';
   templateUrl: './assessment.component.html',
   styleUrls: ['./assessment.component.css']
 })
-export class AssessmentComponent implements OnInit, DoCheck {
+export class AssessmentComponent implements OnInit {
   selectedValue: string;
 
   constructor() { }
@@ -17,6 +17,7 @@ export class AssessmentComponent implements OnInit, DoCheck {
     this.selectedValue = 'all';
   }
 
+<<<<<<< HEAD
   ngDoCheck(): void {
     const graphSelector = document.getElementById('assessment-graph-selector') as HTMLSelectElement;
     if (!graphSelector.value) {
@@ -25,6 +26,8 @@ export class AssessmentComponent implements OnInit, DoCheck {
     this.selectedValue = graphSelector.value;
   }
 
+=======
+>>>>>>> b0404044ae419a7b841ab41f79b73d895d6df3ac
   public downloadPDF() {
     let content = window.document.getElementById('assessment-body');
     content.style.margin = "auto";

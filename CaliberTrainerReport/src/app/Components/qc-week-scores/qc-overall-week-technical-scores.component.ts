@@ -49,7 +49,7 @@ export class QcOverallWeekTechnicalScoresComponent
     private qcTS: QCComponent,
     private displayGraphService: DisplayGraphService,
     private localStorageServ: LocalStorageService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.selectedValue = this.qcTS.selectedValue;
@@ -62,8 +62,11 @@ export class QcOverallWeekTechnicalScoresComponent
       .getTechnicalStatusByWeek()
       .subscribe(
         (resp) => {
+<<<<<<< HEAD:CaliberTrainerReport/src/app/Components/qc-week-scores/qc-overall-week-technical-scores.component.ts
           console.log('Fetching statusByWeek successful:\n');
           console.log(resp);
+=======
+>>>>>>> b0404044ae419a7b841ab41f79b73d895d6df3ac:CaliberTrainerReport/src/app/Components/qc-overall-week-technical-scores/qc-overall-week-technical-scores.component.ts
 
           this.thirdGraphObj = resp;
           this.batches = this.getBatches();
@@ -256,10 +259,6 @@ export class QcOverallWeekTechnicalScoresComponent
     return this.nullData;
   }
 
-  scroll(el: HTMLElement) {
-    el.scrollIntoView();
-  }
-
   graphAdjust() {
     const chartElem = document.getElementById('divChart3');
     this.isBig = this.displayGraphService.graphAdjust(
@@ -279,10 +278,12 @@ export class QcOverallWeekTechnicalScoresComponent
     const graphSelector = document.getElementById(
       'qc-graph-selector'
     ) as HTMLSelectElement;
-    if (graphSelector.value === 'week') {
-      graphSelector.value = 'all';
-    } else {
-      graphSelector.value = 'week';
+    if (graphSelector != null) {
+      if (graphSelector.value === 'week') {
+        graphSelector.value = 'all';
+      } else {
+        graphSelector.value = 'week';
+      }
     }
   }
 

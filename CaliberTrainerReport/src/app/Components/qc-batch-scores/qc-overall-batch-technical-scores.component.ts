@@ -47,12 +47,16 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
     this.graphAdjust();
 
     let trainerId = this.localStorageServ.get('selectedId');
+<<<<<<< HEAD:CaliberTrainerReport/src/app/Components/qc-batch-scores/qc-overall-batch-technical-scores.component.ts
 
     // This method receives the JSON object from the URL GET request
 
     this.batchService.getTechnicalStatusPerBatch().subscribe((resp) => {
       this.firstGraphObj = resp;
 
+=======
+    
+>>>>>>> b0404044ae419a7b841ab41f79b73d895d6df3ac:CaliberTrainerReport/src/app/Components/qc-overall-batch-technical-scores/qc-overall-batch-technical-scores.component.ts
       // Initializing the arrays for our data
       this.goodData = [];
       this.averageData = [];
@@ -67,13 +71,21 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
       this.batchNames = [];
       this.technicalStatus = [];
       let rawDataArray: any[] = [];
+    // This method receives the JSON object from the URL GET request
 
+    this.batchService.getTechnicalStatusPerBatch().subscribe((resp) => {
+      this.utilityFunction(resp);
+    });
+  }
+
+  //utility function created to test the functionality inside of the subscribe
+  utilityFunction(resp){
+    this.firstGraphObj = resp;
       // Store batch names
       for (const batch of this.firstGraphObj) {
         this.batchNames.push(batch.batchName);
         this.technicalStatus.push(batch.technicalStatus);
       }
-
       // This for loop goes through each batch
       for (const batches of this.technicalStatus) {
         // This for loop calculates the total technical scores for each batch
@@ -81,19 +93,12 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
         for (const num of batches) {
           total += num;
         }
-
+        
         this.poorRawData.push(batches[0]);
         this.averageRawData.push(batches[1]);
         this.goodRawData.push(batches[2]);
         this.superstarRawData.push(batches[3]);
         this.nullRawData.push(batches[4]);
-        rawDataArray = [
-          this.poorRawData,
-          this.averageRawData,
-          this.goodRawData,
-          this.superstarRawData,
-          this.nullRawData,
-        ];
 
         // Seperates data into each technical score type (good, bad, avg) and performs math
         // to get the weighted value out of 100%
@@ -134,7 +139,14 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
           );
         }
       }
-
+      let rawDataArray = [
+        this.poorRawData,
+        this.averageRawData,
+        this.goodRawData,
+        this.superstarRawData,
+        this.nullRawData,
+      ];
+      let trainerId = this.localStorageServ.get('selectedId');
       let graphArray: any[] = [
         this.batchNames,
         this.poorData,
@@ -149,7 +161,10 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
       this.localStorageServ.set('gA1' + trainerId, graphArray);
       // This actually passes the data to display the graph after receiving the data from the observables
       this.displayGraphAll();
+<<<<<<< HEAD:CaliberTrainerReport/src/app/Components/qc-batch-scores/qc-overall-batch-technical-scores.component.ts
     });
+=======
+>>>>>>> b0404044ae419a7b841ab41f79b73d895d6df3ac:CaliberTrainerReport/src/app/Components/qc-overall-batch-technical-scores/qc-overall-batch-technical-scores.component.ts
   }
 
   displayGraphAll() {
@@ -172,23 +187,23 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
             backgroundColor: '#3fe86c',
             backgroundHoverColor: '#3fe86c',
             borderWidth: 1,
-            fill: false,
+            fill: false
           },
           {
             label: 'Average',
             data: this.averageData,
             backgroundColor: '#ebc634',
             backgroundHoverColor: '#ebc634',
-            borderWidth: 1,
+            borderWidth: 1
           },
           {
             label: 'Poor',
             data: this.poorData,
             backgroundColor: '#e33936',
             backgroundHoverColor: '#e33936',
-            borderWidth: 1,
-          },
-        ],
+            borderWidth: 1
+          }
+        ]
       },
       options: this.displayGraphService.graphOptions(graphText),
     });
@@ -218,7 +233,7 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
       data: superstarDisplayData,
       backgroundColor: 'blue',
       backgroundHoverColor: 'blue',
-      borderWidth: 1,
+      borderWidth: 1
     };
 
     this.myGraph.data.datasets.push(dataset);
@@ -231,9 +246,8 @@ export class QcOverallBatchTechnicalScoresComponent implements OnInit {
       data: nullDisplayData,
       backgroundColor: '#7a7b7d',
       backgroundHoverColor: '#7a7b7d',
-      borderWidth: 1,
+      borderWidth: 1
     };
-
     this.myGraph.data.datasets.push(dataset);
     this.myGraph.update();
   }
