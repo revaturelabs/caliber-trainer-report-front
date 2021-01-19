@@ -68,7 +68,7 @@ FullCalendarModule.registerPlugins([dayGridPlugin, interactionPlugin]);
     ReviewQcBestWorstComponent,
     ReviewPageAvgQcScoreComponent,
     ReviewPageSignificantChangesComponent,
-    FilterPipe,
+    FilterPipe
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
@@ -81,9 +81,9 @@ FullCalendarModule.registerPlugins([dayGridPlugin, interactionPlugin]);
     FullCalendarModule,
     NgbModule,
     BrowserAnimationsModule,
-    DxChartModule,
+    DxChartModule
   ],
   providers: [AssessmentService, BatchService, UrlService, FileUploadService],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
