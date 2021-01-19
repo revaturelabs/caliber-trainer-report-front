@@ -21,5 +21,13 @@ describe('ReviewPageComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+
+    component.ngOnInit();
+    expect(component.selectedValue == 'all');
+    
+    component.downloadPDF();
   });
+
+
+  
 });
