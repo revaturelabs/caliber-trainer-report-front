@@ -17,11 +17,6 @@ export class AssessmentComponent implements OnInit {
     this.selectedValue = 'all';
   }
 
-  // ngDoCheck(): void {
-  //   const graphSelector = document.getElementById('assessment-graph-selector') as HTMLSelectElement;
-  //   this.selectedValue = graphSelector.value;
-  // }
-
   public downloadPDF() {
     let content = window.document.getElementById('assessment-body');
     content.style.margin = "auto";

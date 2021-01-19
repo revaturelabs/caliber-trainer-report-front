@@ -254,10 +254,6 @@ export class QcOverallWeekTechnicalScoresComponent
     return this.nullData;
   }
 
-  scroll(el: HTMLElement) {
-    el.scrollIntoView();
-  }
-
   graphAdjust() {
     const chartElem = document.getElementById('divChart3');
     this.isBig = this.displayGraphService.graphAdjust(
