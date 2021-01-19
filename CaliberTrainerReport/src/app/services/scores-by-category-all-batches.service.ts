@@ -26,9 +26,4 @@ export class AssessScoresByCategoryAllBatchesService {
         catchError(this.errorHandler.handleError)
       );
   }
-
-  // getXData(){
-  //   this.xlabels = ['1804 Apr16 -2', '1901 Jan06 Other', '1903 Mar04 Full Stack Java/JEE', '1909 Sep30 Other'];
-  //   return this.xlabels;
-  // }
 }
