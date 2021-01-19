@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  faBalanceScale,
-  faCheckCircle,
-  faTimesCircle,
-} from '@fortawesome/free-solid-svg-icons';
+import { faBalanceScale, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { AssessmentService } from 'src/app/services/assessment.service';
 
 @Component({

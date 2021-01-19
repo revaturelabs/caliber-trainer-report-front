@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
-import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/BatchTechnicalStatusBySkillCategory.service';
+import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/batch-status-by-skill-cat.service';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { QCComponent } from '../qc/qc.component';
 import {FilterPipe} from '../../filter.pipe';
