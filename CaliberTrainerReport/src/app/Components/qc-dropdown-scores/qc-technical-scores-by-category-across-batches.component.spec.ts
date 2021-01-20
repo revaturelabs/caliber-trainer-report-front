@@ -187,7 +187,8 @@ describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
   //This next part of tests will test that components show up when they are clicked
   //and not show up when they aren't.
   it("should set the Java option to false when the Java option is unchecked", () => {
-    
+    component.filterText = "Java";
+    fixture.detectChanges();
     let categorySelector: HTMLInputElement = fixture.debugElement.query(By.css("#Java")).nativeElement;
 
     categorySelector.dispatchEvent(new Event('change'));
@@ -202,6 +203,8 @@ describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
 
   //this is to check that unchecking/checking for all options works.
   it("should set the Java option to true when the Java option is checked", () => {
+    component.filterText = "Java";
+    fixture.detectChanges();
     let categorySelector: HTMLInputElement = fixture.debugElement.query(By.css("#Java")).nativeElement;
 
     //because of the event above, it is confirmed that doing so will flip things around/
@@ -226,6 +229,8 @@ describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
   //next, you must make sure that the batches is the same.
   //the logic is the same as testing categories.
   it("should set the 'batch 1 12/34/5678' batch to false when that batch is unchecked", () =>{
+    component.filterText = "batch";
+    fixture.detectChanges();
     let categorySelector: HTMLInputElement = fixture.debugElement.query(By.css("[id = \"batch 1 12/34/5678\"]")).nativeElement;
     categorySelector.dispatchEvent(new Event('change'));
     fixture.detectChanges();
