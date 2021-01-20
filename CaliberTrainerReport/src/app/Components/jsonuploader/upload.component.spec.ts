@@ -6,7 +6,7 @@ import { DebugElement } from '@angular/core';
 import { UploadComponent } from './upload.component';
 import { By } from '@angular/platform-browser';
 
-fdescribe('UploadComponent', () => {
+describe('UploadComponent', () => {
   let component: UploadComponent;
   let fixture: ComponentFixture<UploadComponent>;
 
@@ -37,23 +37,10 @@ fdescribe('UploadComponent', () => {
 
   it('should call onFileChange', () =>{
     let mySpy = spyOn(component, 'onFileChange').and.callThrough();
-    component.onFileChange(new Event('click'));
-    fixture.detectChanges();
     let fileSelector: HTMLInputElement = fixture.debugElement.query(By.css("[type=file]")).nativeElement;
     fileSelector.dispatchEvent(new Event('change'));
     fixture.detectChanges();
     expect(mySpy).toHaveBeenCalled();
   });
-
-  /*
-  it('should upload a file I have selected', () => {
-    let fileSelectorSelector: HTMLInputElement = fixture.debugElement.query(By.css("[type=file]")).nativeElement;
-    let submitSelector: HTMLInputElement = fixture.debugElement.query(By.css("[type=submit]")).nativeElement;
-
-    fileSelectorSelector.dispatchEvent(new Event("onFileChange"));
-    fixture.detectChanges();
-    expect(component.)
-  });
-  */
  
 });
