@@ -7,7 +7,7 @@ import { AssessmentService } from 'src/app/services/assessment.service';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { UrlService } from 'src/app/services/url.service';
 import { AssessmentComponent } from '../assessment/assessment.component';
-import {FilterPipe} from '../../filter.pipe';
+import { FilterPipe } from '../../filter.pipe';
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { AssessmentScoresForCategoryComponent } from './assessment-scores-for-category.component';
 
