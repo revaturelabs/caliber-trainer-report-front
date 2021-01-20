@@ -99,4 +99,50 @@ describe('ReviewQcBestWorstComponent', () => {
     expect(component.viewAllQCCategories).toEqual(0);
   })
 
+  it('should get the observables given data', () => {
+    let fakeData  = {
+      batchByCategory: [
+        { categoryName: 'cat1', batches: [
+          {batchName: 'batch1', score: {
+            average: 0,
+            avgAverage: 0,
+            avgGood: 100,
+            avgPoor: 0,
+            avgSuperstar: 0,
+            good: 1,
+            poor: 0,
+            superstar: 0
+          }}
+        ]}
+      ]
+    };
+
+    component.getObservables(fakeData);
+    expect(component.sortedCategories.length).toEqual(1);
+    expect(component.bestCategories.length).toEqual(1);
+    expect(component.worstCategories.length).toEqual(1);
+
+    fakeData  = {
+      batchByCategory: [
+        { categoryName: 'cat1', batches: [
+          {batchName: 'batch1', score: {
+            average: 0,
+            avgAverage: 0,
+            avgGood: 0,
+            avgPoor: 0,
+            avgSuperstar: 0,
+            good: 0,
+            poor: 0,
+            superstar: 0
+          }}
+        ]}
+      ]
+    };
+
+    component.getObservables(fakeData);
+    expect(component.sortedCategories.length).toEqual(1);
+    expect(component.bestCategories.length).toEqual(1);
+    expect(component.worstCategories.length).toEqual(1);
+  });
+
 });
