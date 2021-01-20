@@ -1,0 +1,91 @@
+<div class="card-layout" id="graph6Header" (dblclick)="doubleClickGraph6()">
+    <div class="card-title">
+        <span>Assessment Scores For Category</span>
+        <fa-icon class="lineGraphIcon" [icon]="lineGraphIcon"></fa-icon>
+
+        <div id="category-dropdown" (dblclick)="emptyDoubleClick()">
+            <div id="categories" (click)="toggleCatDropdown()"><p>Categories</p></div>
+            <div id="qc-graph2-selector" [hidden]="cat_dropdown_flag">
+                <input name="search" type="text" [(ngModel)]="filterText" placeholder="Search" ><br>
+                <ng-container *ngIf="!filterText"><input type="checkbox" id="catSelectAll" name="catSelectAll" (change)="catCheckSelectAll()" checked>
+                <label for="catSelectAll">Select/Deselect All</label>
+                <br></ng-container>
+                <ng-container *ngFor="let name of categoriesName| filter:filterText; let i = index">
+
+                    <ng-container *ngIf ="catSelectAll; else elseCatBlock">
+                    <input type="checkbox" [id]="name" [value]="i" (change)="toggleCategory(name)" checked>
+                    <label [for]="name">{{name}}</label>
+                    <br></ng-container>
+
+                    <ng-template #elseCatBlock>
+                        <input type="checkbox" [id]="name" [value]="i" (change)="toggleCategory(name)">
+                        <label [for]="name">{{name}}</label><br>
+                    </ng-template>
+                </ng-container>
+            </div>
+        </div>
+        <div id="batch-dropdown" (dblclick)="emptyDoubleClick()">
+            <div id="batches" (click)="toggleBatchDropdown()"><p>Batches</p></div>
+            <div id="batch-list" [hidden]="batch_dropdown_flag">
+
+                
+                
+
+                
+                <input name="search" type="text" [(ngModel)]="filterText" placeholder="Search" ><br>
+                <ng-container *ngIf="!filterText"><input type="checkbox" id="batchSelectAll" name="batchSelectAll" (change)="checkSelectAll()" checked>
+                <label for="batchSelectAll">Select/Deselect All</label>
+                <br></ng-container>
+                <ng-container *ngFor="let name of batchNames | filter:filterText; let i = index">
+
+                    <ng-container *ngIf ="selectAll; else elseBatchBlock">
+                        <input  type="checkbox" [id]="name" [value]="i" (change)="toggleBatch(name)" checked>
+                        <label [for]="name">{{name}}</label>
+                        <br>
+                    </ng-container>
+
+                    <ng-template #elseBatchBlock> 
+                        <input  type="checkbox" [id]="name" [value]="i" (change)="toggleBatch(name)">
+                        <label [for]="name">{{name}}</label>
+                        <br>
+                    </ng-template>
+
+                </ng-container>
+                
+            </div>
+        </div>
+    </div>
+    <div #targetLocation class="card-body">
+        <div id="divChart6" class="divChart">
+            <canvas id="sixthChart">
+
+            </canvas>
+        </div>
+        <div *ngIf="selectedValue == 'trend'" class="extraDataTable">
+            <hr class="breakPoint">
+            <h4 class="tableTitle">
+                <fa-icon class="barGraphIcon" [icon]="tableGraphIcon"></fa-icon>
+                Raw Assessment Scores for Category
+                <fa-icon class="" [icon]="tableGraphIcon"></fa-icon>
+            </h4>
+            <table *ngIf="pickedCategory == 0">
+                <caption></caption>
+                <th scope="col"></th>
+                <th scope="col" *ngFor="let batch of batchNames">{{batch}}</th>
+                <tr *ngFor="let category of categoriesName.slice(1); let i = index">
+                    <td class="description">{{category}}</td>
+                    <td *ngFor="let score of multiGraphYValues[i]">{{score}}%</td>
+                </tr>
+            </table>
+            <table *ngIf="pickedCategory != 0">
+                <caption></caption>
+                <th scope="col"></th>
+                <th scope="col" *ngFor="let batch of batchNames; let i = index">{{batch}}</th>
+                <tr>
+                    <td class="description">{{categoriesName[pickedCategory]}}</td>
+                    <td *ngFor="let score of multiGraphYValues[pickedCategory - 1]">{{score}}%</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

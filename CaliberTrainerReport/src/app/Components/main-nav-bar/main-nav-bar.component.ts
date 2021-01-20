@@ -15,6 +15,10 @@ export class MainNavBarComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.checkSize();
+  }
+
+  checkSize() {
     this.width = window.innerWidth;
 
     if (this.width < 1010) {
@@ -23,8 +27,6 @@ export class MainNavBarComponent implements OnInit {
     } else {
       this.isBig = true;
     }
-
-
   }
 
   openMenu(){

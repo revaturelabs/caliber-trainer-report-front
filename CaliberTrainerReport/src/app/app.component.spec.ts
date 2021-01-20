@@ -7,7 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let component: AppComponent;
-  beforeEach(async(() => {
+
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
@@ -18,9 +19,6 @@ describe('AppComponent', () => {
         AppComponent
       ],
     }).compileComponents();
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

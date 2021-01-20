@@ -6,14 +6,12 @@ describe('AssessmentComponent', () => {
   let component: AssessmentComponent;
   let fixture: ComponentFixture<AssessmentComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ AssessmentComponent ]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AssessmentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -21,5 +19,12 @@ describe('AssessmentComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+
+    component.ngOnInit();
+    expect(component.selectedValue == 'all');
+    
+    component.downloadPDF();
+
   });
+
 });

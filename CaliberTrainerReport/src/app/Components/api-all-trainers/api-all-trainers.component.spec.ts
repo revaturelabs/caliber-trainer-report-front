@@ -6,15 +6,12 @@ describe('ApiAllTrainersComponent', () => {
   let component: ApiAllTrainersComponent;
   let fixture: ComponentFixture<ApiAllTrainersComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ ApiAllTrainersComponent],
       imports:[HttpClientTestingModule]
     })
     .compileComponents();
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(ApiAllTrainersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -22,12 +19,5 @@ describe('ApiAllTrainersComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should not be loading after getting trainer', () => {
-    component.trainers = [];
-    component.trainers.push({email:"",firstName:"",lastName:"",trainingBatches:[]});
-    component.getDataByTrainer(0);
-    expect(component.mockData).not.toEqual('loading');
   });
 });

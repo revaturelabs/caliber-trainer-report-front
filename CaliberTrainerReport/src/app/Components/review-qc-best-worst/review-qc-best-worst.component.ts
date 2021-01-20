@@ -1,94 +1,153 @@
 import { Component, OnInit } from '@angular/core';
-import { faBalanceScale, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/BatchTechnicalStatusBySkillCategory.service';
+import {
+  faBalanceScale,
+  faCheckCircle,
+  faTimesCircle,
+} from '@fortawesome/free-solid-svg-icons';
+import { BatchService } from 'src/app/services/batch.service';
 
 @Component({
   selector: 'review-qc-best-worst',
   templateUrl: './review-qc-best-worst.component.html',
-  styleUrls: ['./review-qc-best-worst.component.css']
+  styleUrls: ['./review-qc-best-worst.component.css'],
 })
 export class ReviewQcBestWorstComponent implements OnInit {
-
   public scaleIcon;
-
   public goodIcon;
-  
   public badIcon;
 
-  public categoryScores:Object = {};
+  public categoryScores: Object = {};
 
-  //Both Best Categories and Worst Categories are rendederd in the browser 
-  public bestCategories:string[] = []
-  public worstCategories:string[] = []
+  // 1 or 0 for switching view between all categories and best/worst
+  public viewAllQCCategories;
 
+  //Both Best Categories and Worst Categories are rendered in the browser
+  public bestCategories: string[] = [];
+  public worstCategories: string[] = [];
 
+  //Array of CategoryScore objects sorted by score
+  public sortedCategories: CategoryScore[];
 
-  constructor(private QCscores:BatchTechnicalStatusBySkillCategoryService) { 
+  constructor(private batchService: BatchService) {
     this.scaleIcon = faBalanceScale;
     this.goodIcon = faCheckCircle;
     this.badIcon = faTimesCircle;
+    this.viewAllQCCategories = 0; //default shows best/worst
   }
 
   //Creates a point system which corresponds to the possible results of a QC.
-// (Poor 1, Average 2, Good 3, Superstar 4)
+  // (Poor 1, Average 2, Good 3, Superstar 4)
+  public calculateTotalBatchScore(batch) {
+    let result =
+      batch.score.poor * 1 +
+      batch.score.average * 2 +
+      batch.score.good * 3 +
+      batch.score.superstar * 4;
+    return result;
+  }
+  public calculateTotalBatchQuantity(batch) {
+    let result =
+      batch.score.poor +
+      batch.score.average +
+      batch.score.good +
+      batch.score.superstar;
+    return result;
+  }
+  //takes the presorted array of CategoryScore objects and returns an array of the three with the highest scores
+  public findBestCategories(categories) {
+    let bestCategoriesArray = [];
+    if (categories.length >= 3) {
+      for (let i = 0; i < 3; i++) {
+        bestCategoriesArray[i] = categories[i];
+      }
+    } else {
+      for (let cat of categories) {
+        bestCategoriesArray.push(cat);
+      }
+    }
+    return bestCategoriesArray;
+  }
+  //takes the presorted array of CategoryScore objects and returns an array of the three with the lowest scores
+  public findWorstCategories(categories) {
+    let worstCategoriesArray = [];
+    let length = categories.length;
+    if (length >= 3) {
+      for (let i = 1; i < 4; i++) {
+        worstCategoriesArray[i - 1] = categories[length - i];
+      }
+    } else {
+      for (let i = categories.length - 1; i >= 0; i--) {
+        worstCategoriesArray.push(categories[i]);
+      }
+    }
+    return worstCategoriesArray;
+  }
 
-public calculateTotalBatchScore(batch){
-  let result = batch.score.poor * 1 +
-  batch.score.average * 2 +
-  batch.score.good * 3 +
-  batch.score.superstar * 4
-  return result
-}
-public calculateTotalBatchQuantity(batch){
-  let result = batch.score.poor +
-  batch.score.average +
-  batch.score.good +
-  batch.score.superstar
-  return result
-}
-public findBestCategories(categories){
-  let arrayOfScoresByCategory = Object.values(this.categoryScores)
-  let bestScore = Math.max(...arrayOfScoresByCategory)
-  let bestCategoriesArray = []
-  for(let category in categories){
-    if(this.categoryScores[category] === bestScore){
-      bestCategoriesArray.push(category)
+  //sorts CategoryScore objects by score
+  public sortCategoryScores(categoryScores: Object) {
+    let keys = Object.keys(categoryScores);
+    let catScores = [];
+    for (let key of keys) {
+      let newCatScore = new CategoryScore(key, categoryScores[key]);
+      newCatScore.score = parseFloat(newCatScore.score.toFixed(2));
+      catScores.push(newCatScore);
     }
-  }
-  return bestCategoriesArray
-}
-public findWorstCategories(categories){
-  let arrayOfScoresByCategory = Object.values(this.categoryScores)
-  let worstScore = Math.min(...arrayOfScoresByCategory)
-  let worstCategoriesArray = []
-  for(let category in categories){
-    if(this.categoryScores[category] === worstScore){
-      worstCategoriesArray.push(category)
+    catScores.sort((a, b) => (a.score < b.score ? 1 : -1));
+    let sortedCats = new Array();
+    for (let i = catScores.length - 1; i >= 0; i--) {
+      sortedCats.push(catScores[i].category);
     }
+    return catScores;
   }
-  return worstCategoriesArray
-}
+
+  // switches the variable controlling the view all/view best & worst 3
+  public toggleViewAll() {
+    this.viewAllQCCategories = 1 - this.viewAllQCCategories;
+  }
 
   ngOnInit(): void {
-    this.QCscores.getAvgCategoryScoresObservables().subscribe(data =>{
+    this.batchService.getAvgCategoryScoresObservables().subscribe((data) => {
       //
-      for(let category in data.batchByCategory){
-        let totalScores = 0;
-        let totalQuantity = 0;
-        let catAverage = 0;
-        for(let batch in data.batchByCategory[category].batches){
-          let currentBatch = data.batchByCategory[category].batches[batch]
-          totalScores += this.calculateTotalBatchScore(currentBatch)
-          totalQuantity += this.calculateTotalBatchQuantity(currentBatch)
-          catAverage = totalScores/totalQuantity
-        }
-        if(!isNaN(catAverage)){
-          let categoryName = data.batchByCategory[category].categoryName
-          this.categoryScores[categoryName] = catAverage 
-        }
+      this.getObservables(data);
+    });
+  }
+
+  getObservables(data) {
+    for (let category of data.batchByCategory) {
+      let totalScores = 0;
+      let totalQuantity = 0;
+      let catAverage = 0;
+
+      for (let batch of category.batches) {
+        let currentBatch = batch;
+        totalScores += this.calculateTotalBatchScore(currentBatch);
+        totalQuantity += this.calculateTotalBatchQuantity(currentBatch);
       }
-      this.bestCategories = this.findBestCategories(this.categoryScores)
-      this.worstCategories = this.findWorstCategories(this.categoryScores)
-    })
+      if (totalQuantity == 0 && totalScores == 0) {
+        catAverage = 0;
+      } else {
+        catAverage = totalScores / totalQuantity;
+      }
+
+      if (!isNaN(catAverage) && catAverage > 0) {
+        let categoryName = category.categoryName;
+        this.categoryScores[categoryName] = catAverage;
+      }
+    }
+    this.sortedCategories = this.sortCategoryScores(this.categoryScores);
+    this.bestCategories = this.findBestCategories(this.sortedCategories);
+    this.worstCategories = this.findWorstCategories(this.sortedCategories);
+  };
+  
+}
+
+// Object that combines category and score
+export class CategoryScore {
+  category: string;
+  score: number;
+
+  constructor(s: string, n: number) {
+    this.category = s;
+    this.score = n;
   }
 }

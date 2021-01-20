@@ -13,4 +13,11 @@ describe('DisplayQcAverageGraphService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  //the resizing thing cannot be done in Jasmine/Karma so it is useless.
+
+  it('should make a graph with name "Homestuck" when I give it the title "Homestuck"', () => {
+    let newGraphOptions = service.graphOptions("Homestuck");
+    expect(newGraphOptions.title.text).toBe("Homestuck");
+  });
 });

@@ -1,0 +1,72 @@
+/* CSS is located in main style.css */
+
+.qc-body {
+  margin: 0 auto;
+  width: 75%;
+  margin-bottom: 100px;
+}
+
+#batch-dropdown {
+  width: 325px;
+  margin-right: 2vw;
+}
+
+#category-dropdown {
+  width: 325px;
+  margin-right: 2vw;
+}
+
+#batch-list,#qc-graph2-selector {
+  position: absolute;
+  color: black;
+  z-index: 1;
+  width: 325px;
+  max-height: 250px;
+  overflow: auto;
+  background-color: #f7f7f7;
+  white-space: nowrap;
+  border: solid gray 1px;
+}
+
+.error-msg {
+  font-weight: bolder;
+  margin: auto;
+  width: fit-content;
+}
+
+input[type="checkbox"] {
+  margin: 0px 8px;
+}
+
+label,
+p {
+  margin: 0px;
+  line-height: normal;
+}
+
+label {
+  height: 26px;
+  vertical-align: middle;
+  padding-top: 0.5px;
+}
+
+p {
+  padding-top: 1px;
+  padding-left: 5px;
+}
+
+#batches {
+  border: gray 1px;
+  border-style: solid;
+  background: white;
+  color: black;
+  height: 28px;
+}
+
+#categories {
+  border: gray 1px;
+  border-style: solid;
+  background: white;
+  color: black;
+  height: 28px;
+}

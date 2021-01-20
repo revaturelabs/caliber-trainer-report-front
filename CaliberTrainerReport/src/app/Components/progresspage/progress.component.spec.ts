@@ -6,15 +6,13 @@ describe('ProgressPage', () => {
   let component: ProgressPage;
   let fixture: ComponentFixture<ProgressPage>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ ProgressPage ],
       imports:[HttpClientTestingModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ProgressPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
