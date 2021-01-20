@@ -7,16 +7,7 @@ import { ErrorHandlerService } from './error-handler.service';
 import { LocalStorageService } from './local-storage.service';
 import { UrlService } from './url.service';
 
-/**
- *
- * TechnicalStatusByWeek
- * TechnicalStatusPerBatch
- * BatchhTechicalStatusBySkillCategory
- * get-batch
- * complete=batch-data
- *
- *
- */
+
 
 @Injectable({
   providedIn: 'root',

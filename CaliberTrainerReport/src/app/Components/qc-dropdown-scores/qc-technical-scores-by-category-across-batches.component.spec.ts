@@ -147,8 +147,6 @@ describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
     let categoryObjs = [];
     trimEmpty();
 
-    //categoryNames.push("Overview");
-    //categoryObjs.push(mockResponse.batchByCategory[0].batches);
     for(const category of mockResponse.batchByCategory) {
       categoryNames.push(category.categoryName);
       categoryObjs.push(category.batches);
@@ -258,19 +256,6 @@ describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
     fixture.detectChanges();
     expect(mySpy).toHaveBeenCalled();
   });
-
-
-
-  /* This should work, but qc-graph-selector is not in qc-technical-scores
-  it('should "expand" the graph into large view when I double click on the title.', () => {
-    let titleSelector: HTMLDivElement = fixture.debugElement.query(By.css("#card-title")).nativeElement;
-    let graphSelector: HTMLSelectElement = fixture.debugElement.query(By.css("#qc-graph-selector")).nativeElement;
-    titleSelector.dispatchEvent(new Event("dblclick"));
-    fixture.detectChanges();
-
-    expect(graphSelector.value).toBe("all");
-  });
-  */
 
   //next, check that when all category option is unselected
   //all category flags are unselected and no data is shown.

@@ -15,12 +15,5 @@ describe('BatchService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-  });
-
-  // it(`should return value from observable`, () => {
-  //   service.getTechnicalStatusPerBatch().subscribe(value => {
-  //       expect(value).toHaveBeenCalled();
-  //   });
-  // });
-  
+  }); 
 });

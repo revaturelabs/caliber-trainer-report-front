@@ -9,11 +9,6 @@ import { QcOverallBatchTechnicalScoresComponent } from './qc-overall-batch-techn
 describe('QcOverallBatchTechnicalScoresComponent', () => {
   let component: QcOverallBatchTechnicalScoresComponent;
   let fixture: ComponentFixture<QcOverallBatchTechnicalScoresComponent>;
-  // let mockTechnicalStatus = [[0,10,1,10,5], 
-  //       [10,15,0,0,0], 
-  //       [10,0,5,2,3], 
-  //       [10,15,0,20,10], 
-  //       [10,15,20,10,0]];
   let mockData = [
     {category: "Java",
     batchName: "test1",

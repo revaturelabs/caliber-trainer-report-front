@@ -8,14 +8,11 @@ import { ErrorHandlerService } from './error-handler.service';
 import { LocalStorageService } from './local-storage.service';
 import { UrlService } from './url.service';
 
-/**
- * trainer-session
- * get-trainer
- */
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class TrainerService {
   trainerList: Trainer[];
   currentTrainers: Observable<Trainer>;
