@@ -9,8 +9,8 @@ describe('ReviewPageAvgQcScoreComponent', () => {
   let component: ReviewPageAvgQcScoreComponent;
   let fixture: ComponentFixture<ReviewPageAvgQcScoreComponent>;
   let de: DebugElement;
-  
-  beforeEach(async(() => {
+
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ ReviewPageAvgQcScoreComponent ],
       imports: [HttpClientModule],
@@ -18,9 +18,7 @@ describe('ReviewPageAvgQcScoreComponent', () => {
     })
     .compileComponents();
     sessionStorage.setItem('selectedId', '1');
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ReviewPageAvgQcScoreComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

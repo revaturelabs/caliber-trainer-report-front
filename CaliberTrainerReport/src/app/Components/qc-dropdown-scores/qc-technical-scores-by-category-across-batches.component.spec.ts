@@ -16,7 +16,7 @@ describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
   let component: QcTechnicalScoresByCategoryAcrossBatchesComponent;
   let fixture: ComponentFixture<QcTechnicalScoresByCategoryAcrossBatchesComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     mockResponse = { batchByCategory:
       [
         {
@@ -126,9 +126,7 @@ describe('QcTechnicalScoresByCategoryAcrossBatchesComponent', () => {
       imports: [ FormsModule ]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(QcTechnicalScoresByCategoryAcrossBatchesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

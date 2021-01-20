@@ -20,98 +20,77 @@ export class CalendarViewComponent implements OnInit {
   ngOnInit() {
     this.dataSource = [];
     this.batchServ.getBatches().subscribe((response) => {
-      this.batches = response;
-      for (let batch of this.batches) {
-        let latest = this.batches.reduce(function (r, a) {
-          return r.startDate > a.startDate ? r : a;
-        });
-        let latestSplit = latest.startDate.split('-');
-        let latestYear = parseInt(latestSplit[0]);
-        this.years[this.pickedYear] = latestYear;
-        let sd = batch.startDate.split('-');
-        let ed = batch.endDate.split('-');
-
-        if (parseInt(sd[0]) == this.years[this.pickedYear]) {
-          let d = {
-            batchName: batch.batchName,
-            trainer: batch.name,
-            start: new Date(
-              parseInt(sd[0]),
-              parseInt(sd[1]) - 1,
-              parseInt(sd[2])
-            ),
-            end: new Date(
-              parseInt(ed[0]),
-              parseInt(ed[1]) - 1,
-              parseInt(ed[2])
-            ),
-          };
-          let y = {
-            batchName: batch.batchName,
-            trainer: batch.name,
-
-            start: new Date(parseInt(sd[0]), 0, 1),
-            end: new Date(parseInt(sd[0]), 0, 1),
-          };
-          let g = {
-            batchName: batch.batchName,
-            trainer: batch.name,
-
-            start: new Date(parseInt(sd[0]), 11, 31),
-            end: new Date(parseInt(sd[0]), 11, 31),
-          };
-          this.dataSource.push(d);
-          this.dataSource.push(g);
-          this.dataSource.push(y);
-        }
-      }
+      this.initGraph(response);
     });
+  }
+
+  initGraph(resp) {
+    this.batches = resp;
+    for (let batch of this.batches) {
+      let latest = this.batches.reduce(function (r, a) {
+        return r.startDate > a.startDate ? r : a;
+      });
+      let latestSplit = latest.startDate.split('-');
+      let latestYear = parseInt(latestSplit[0]);
+      this.years[this.pickedYear] = latestYear;
+
+    }
   }
 
   updateGraph() {
     this.dataSource = [];
     this.batchServ.getBatches().subscribe((response) => {
-      this.batches = response;
-      for (let batch of this.batches) {
-        let sd = batch.startDate.split('-');
-        let ed = batch.endDate.split('-');
-        if (parseInt(sd[0]) == this.years[this.pickedYear]) {
-          let d = {
-            batchName: batch.batchName,
-            trainer: batch.name,
-            start: new Date(
-              parseInt(sd[0]),
-              parseInt(sd[1]) - 1,
-              parseInt(sd[2])
-            ),
-            end: new Date(
-              parseInt(ed[0]),
-              parseInt(ed[1]) - 1,
-              parseInt(ed[2])
-            ),
-          };
-          let y = {
-            batchName: batch.batchName,
-            trainer: batch.name,
-
-            start: new Date(parseInt(sd[0]), 0, 1),
-            end: new Date(parseInt(sd[0]), 0, 1),
-          };
-          let g = {
-            batchName: batch.batchName,
-            trainer: batch.name,
-
-            start: new Date(parseInt(sd[0]), 11, 31),
-            end: new Date(parseInt(sd[0]), 11, 31),
-          };
-
-          this.dataSource.push(d);
-          this.dataSource.push(y);
-          this.dataSource.push(g);
-        }
-      }
+      this.performUpdate(response);
     });
   }
+
+  performUpdate(response) {
+    this.batches = response;
+    for (let batch of this.batches) {
+      this.drawGraph(batch);
+    }
+  }
+
+  drawGraph(batch) {
+    let sd = batch.startDate.split('-');
+    let ed = batch.endDate.split('-');
+    if (parseInt(sd[0]) == this.years[this.pickedYear]) {
+      console.log('hello world');
+      let d = {
+        batchName: batch.batchName,
+        trainer: batch.name,
+        start: new Date(
+          parseInt(sd[0]),
+          parseInt(sd[1]) - 1,
+          parseInt(sd[2])
+        ),
+        end: new Date(
+          parseInt(ed[0]),
+          parseInt(ed[1]) - 1,
+          parseInt(ed[2])
+        ),
+      };
+      let y = {
+        batchName: batch.batchName,
+        trainer: batch.name,
+
+        start: new Date(parseInt(sd[0]), 0, 1),
+        end: new Date(parseInt(sd[0]), 0, 1),
+      };
+      let g = {
+        batchName: batch.batchName,
+        trainer: batch.name,
+
+        start: new Date(parseInt(sd[0]), 11, 31),
+        end: new Date(parseInt(sd[0]), 11, 31),
+      };
+
+      this.dataSource.push(d);
+      this.dataSource.push(y);
+      this.dataSource.push(g);
+    }
+  }
+  
 }
 
 class Data {

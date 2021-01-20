@@ -28,7 +28,7 @@ describe('AssessmentScoresAccordingToCategoryComponent', () => {
     otherRawScore: number
   }
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     mockResponse = [
       {
         category: "Java",
@@ -59,9 +59,7 @@ describe('AssessmentScoresAccordingToCategoryComponent', () => {
       imports: [ FormsModule ]
     })
     .compileComponents();
-  }));
-
-  beforeEach(() => {
+    
     fixture = TestBed.createComponent(AssessmentScoresAccordingToCategoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -30,33 +30,38 @@ export class ReviewPageSignificantChangesComponent implements OnInit {
       //exam, verbal, presentation, project, other
 
       //iterate through each batch in the array
-      for (let i = 0; i < datum.length; i++) {
-        //ignore the case where i==0, as there's no previous batch to compare to
-        if (i != 0) {
-          //iterate through each category's score, comparing it to the batch previous
-          for (let j = 0; j < datum[i].assessmentScores.length; j++) {
-            let oldScore = datum[i - 1].assessmentScores[j];
-            let newScore = datum[i].assessmentScores[j];
-            //if the difference exceeds our threshold, add it to this.changes
-            //scores of 0 are assumed to be errors, and as such are discarded
-            if (
-              Math.abs(newScore - oldScore) > this.threshold &&
-              oldScore != 0 &&
-              newScore != 0
-            ) {
-              let change = new Change(
-                datum[i].batchName,
-                this.categories[j],
-                oldScore,
-                newScore
-              );
-              this.changes.push(change);
-            }
+      this.handleDatum(datum);
+    });
+  };
+
+  handleDatum(datum) {
+    for (let i = 0; i < datum.length; i++) {
+      //ignore the case where i==0, as there's no previous batch to compare to
+      if (i != 0) {
+        //iterate through each category's score, comparing it to the batch previous
+        for (let j = 0; j < datum[i].assessmentScores.length; j++) {
+          let oldScore = datum[i - 1].assessmentScores[j];
+          let newScore = datum[i].assessmentScores[j];
+          //if the difference exceeds our threshold, add it to this.changes
+          //scores of 0 are assumed to be errors, and as such are discarded
+          if (
+            Math.abs(newScore - oldScore) > this.threshold &&
+            oldScore != 0 &&
+            newScore != 0
+          ) {
+            let change = new Change(
+              datum[i].batchName,
+              this.categories[j],
+              oldScore,
+              newScore
+            );
+            this.changes.push(change);
           }
         }
       }
-    });
-  }
+    }
+  };
+  
 }
 
 export class Change {

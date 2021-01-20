@@ -10,15 +10,13 @@ describe('UploadComponent', () => {
   let component: UploadComponent;
   let fixture: ComponentFixture<UploadComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ UploadComponent],
       imports:[HttpClientTestingModule, ReactiveFormsModule]
     })
-    .compileComponents();
-  }));
+    .compileComponents(); 
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(UploadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

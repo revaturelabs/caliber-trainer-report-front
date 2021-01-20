@@ -7,14 +7,12 @@ describe('QCComponent', () => {
   let component: QCComponent;
   let fixture: ComponentFixture<QCComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ QCComponent ]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(QCComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -34,51 +34,56 @@ export class ReviewPageTotalAvgAssessmentComponent implements OnInit {
     this.batchNames = [];
     this.batchAverages = [];
     this.pickedBatch = 0;
-    let trainerId: string = this.localStorageServ.get('selectedId');
 
     // Performance workaround to prevent constantly loading from DB.
 
     this.assessmentSubscription = this.assessmentService
       .getAssessmentByBatch()
       .subscribe((resp) => {
-        this.allBatches = resp;
-        for (const i of this.allBatches.keys()) {
-          for (const [j, value] of this.allBatches[
-            i
-          ].assessmentScores.entries()) {
-            this.allBatches[i].assessmentScores[j] =
-              Math.round(value * 100) / 100;
-          }
-        }
-
-        for (const item of resp) {
-          this.batchNames.push(item.batchName);
-        }
-
-        this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
-
-        let reviewPageAvgTotal = [
-          this.batchesObj,
-          this.allBatches,
-          this.batchNames,
-        ];
-        for (const i of this.allBatches.keys()) {
-          let batch_total = 0;
-          let batch_avg = 0;
-          for (let j = 0; j < this.allBatches[i].assessmentScores.length; j++) {
-            batch_total = batch_total + this.allBatches[i].assessmentScores[j];
-            batch_avg = batch_total / (j + 1);
-          }
-          batch_avg = Math.round(batch_avg * 100) / 100;
-          this.batchAverages[i] = batch_avg;
-        }
-        this.localStorageServ.set(
-          'reviewPageAvgTotal' + trainerId,
-          reviewPageAvgTotal
-        );
-
-        this.displayGraph(this.batchNames, this.batchAverages);
+        this.setComponent(resp);
       });
+  }
+
+  setComponent(resp) {
+    let trainerId: string = this.localStorageServ.get('selectedId');
+
+    this.allBatches = resp;
+    for (const i of this.allBatches.keys()) {
+      for (const [j, value] of this.allBatches[
+        i
+      ].assessmentScores.entries()) {
+        this.allBatches[i].assessmentScores[j] =
+          Math.round(value * 100) / 100;
+      }
+    }
+
+    for (const item of resp) {
+      this.batchNames.push(item.batchName);
+    }
+
+    this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
+
+    let reviewPageAvgTotal = [
+      this.batchesObj,
+      this.allBatches,
+      this.batchNames,
+    ];
+    for (const i of this.allBatches.keys()) {
+      let batch_total = 0;
+      let batch_avg = 0;
+      for (let j = 0; j < this.allBatches[i].assessmentScores.length; j++) {
+        batch_total = batch_total + this.allBatches[i].assessmentScores[j];
+        batch_avg = batch_total / (j + 1);
+      }
+      batch_avg = Math.round(batch_avg * 100) / 100;
+      this.batchAverages[i] = batch_avg;
+    }
+    this.localStorageServ.set(
+      'reviewPageAvgTotal' + trainerId,
+      reviewPageAvgTotal
+    );
+
+    this.displayGraph(this.batchNames, this.batchAverages);
   }
 
   displayGraph(batchDisplayNames: string[], batchAverages: any[]) {
