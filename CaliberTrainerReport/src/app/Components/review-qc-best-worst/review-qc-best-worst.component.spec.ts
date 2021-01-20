@@ -51,15 +51,13 @@ describe('ReviewQcBestWorstComponent', () => {
   bottom3.push(new CategoryScore('Hibernate', 1.5));
   bottom3.push(new CategoryScore('Java', 2));
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ ReviewQcBestWorstComponent],
       imports:[HttpClientTestingModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ReviewQcBestWorstComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -77,15 +75,72 @@ describe('ReviewQcBestWorstComponent', () => {
   })
 
   it('should return an array sorted by category score', () => {
-    expect(JSON.stringify(component.sortCategoryScores(Categories)) == JSON.stringify(sortedCategories)).toBeTruthy();
+    expect(JSON.stringify(component.sortCategoryScores(Categories)) == JSON.stringify(sortedCategories)).toBeTrue();
   })
 
   it('should return an array of top three CategoryScore objects sorted by score', () => {
-    expect(JSON.stringify(component.findBestCategories(sortedCategories)) == JSON.stringify(top3)).toBeTruthy();
+    expect(JSON.stringify(component.findBestCategories(sortedCategories)) == JSON.stringify(top3)).toBeTrue();
+    expect(JSON.stringify(component.findBestCategories(sortedCategories.slice(0,2))) == JSON.stringify(top3.slice(0,2))).toBeTrue();
   })
 
   it('should return an array of bottom three CategoryScore objects sorted by score', () => {
-    expect(JSON.stringify(component.findWorstCategories(sortedCategories)) == JSON.stringify(bottom3)).toBeTruthy();
+    expect(JSON.stringify(component.findWorstCategories(sortedCategories)) == JSON.stringify(bottom3)).toBeTrue();
+    let sortedWorstTwo = [sortedCategories[4], sortedCategories[5]];
+    expect(JSON.stringify(component.findWorstCategories(sortedWorstTwo)) == JSON.stringify(bottom3.slice(0,2))).toBeTrue();
   })
+
+  it('should toggle the view all variable', () => {
+    component.viewAllQCCategories = 0;
+    component.toggleViewAll();
+    expect(component.viewAllQCCategories).toEqual(1);
+    component.toggleViewAll();
+    expect(component.viewAllQCCategories).toEqual(0);
+  })
+
+  it('should get the observables given data', () => {
+    let fakeData  = {
+      batchByCategory: [
+        { categoryName: 'cat1', batches: [
+          {batchName: 'batch1', score: {
+            average: 0,
+            avgAverage: 0,
+            avgGood: 100,
+            avgPoor: 0,
+            avgSuperstar: 0,
+            good: 1,
+            poor: 0,
+            superstar: 0
+          }}
+        ]}
+      ]
+    };
+
+    component.getObservables(fakeData);
+    expect(component.sortedCategories.length).toEqual(1);
+    expect(component.bestCategories.length).toEqual(1);
+    expect(component.worstCategories.length).toEqual(1);
+
+    fakeData  = {
+      batchByCategory: [
+        { categoryName: 'cat1', batches: [
+          {batchName: 'batch1', score: {
+            average: 0,
+            avgAverage: 0,
+            avgGood: 0,
+            avgPoor: 0,
+            avgSuperstar: 0,
+            good: 0,
+            poor: 0,
+            superstar: 0
+          }}
+        ]}
+      ]
+    };
+
+    component.getObservables(fakeData);
+    expect(component.sortedCategories.length).toEqual(1);
+    expect(component.bestCategories.length).toEqual(1);
+    expect(component.worstCategories.length).toEqual(1);
+  });
 
 });

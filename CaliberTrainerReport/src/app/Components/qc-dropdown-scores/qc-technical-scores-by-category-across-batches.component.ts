@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
-import { BatchTechnicalStatusBySkillCategoryService } from 'src/app/services/batch-status-by-skill-cat.service';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';

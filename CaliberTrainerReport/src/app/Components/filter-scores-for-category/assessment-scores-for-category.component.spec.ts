@@ -3,11 +3,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { AssessScoresByCategoryAllBatchesService } from 'src/app/services/scores-by-category-all-batches.service';
+import { AssessmentService } from 'src/app/services/assessment.service';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
 import { UrlService } from 'src/app/services/url.service';
 import { AssessmentComponent } from '../assessment/assessment.component';
-import {FilterPipe} from '../../filter.pipe';
+import { FilterPipe } from '../../filter.pipe';
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { AssessmentScoresForCategoryComponent } from './assessment-scores-for-category.component';
 
@@ -84,22 +84,20 @@ describe('AssessmentScoresForCategoryComponent', () => {
   let component: AssessmentScoresForCategoryComponent;
   let fixture: ComponentFixture<AssessmentScoresForCategoryComponent>;
 
-  beforeEach(async(() => {
-    let mockASBCABS = jasmine.createSpyObj("AssessScoresByCategoryAllBatchesService", ["getSixthGraphData"]);
+  beforeEach(() => {
+    let mockASBCABS = jasmine.createSpyObj("AssessmentService", ["getSixthGraphData"]);
     mockASBCABS.getSixthGraphData.and.returnValue(of(mockResponse));
     TestBed.configureTestingModule({
       declarations: [ AssessmentScoresForCategoryComponent, FilterPipe],
       providers: [
-        { provide: AssessScoresByCategoryAllBatchesService, 
+        { provide: AssessmentService, 
           useValue: mockASBCABS
         },
       AssessmentComponent, DisplayGraphService, HttpClient, UrlService, HttpHandler],
       imports: [ FormsModule ]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AssessmentScoresForCategoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -157,7 +155,6 @@ describe('AssessmentScoresForCategoryComponent', () => {
     const categorySelector: HTMLSelectElement = fixture.debugElement.query(By.css("#Java")).nativeElement;
     categorySelector.value = option+"";
     categorySelector.dispatchEvent(new Event('change'));
-    fixture.detectChanges();
   }
 
   it('should change the selected value when a category is clicked', () => {
@@ -165,6 +162,9 @@ describe('AssessmentScoresForCategoryComponent', () => {
     let yValues: number[] = [];
 
     expect(component.categoryFlags[0]).toBeTrue(); //confirming the default value
+    
+    component.filterText = "Java";
+    fixture.detectChanges();
 
     chooseOptionFromDropdown(1);
     yValues = getAveragesOfAssessments(mockResponse.categories[0].batchAssessments);

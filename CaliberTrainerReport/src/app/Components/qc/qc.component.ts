@@ -9,7 +9,7 @@ import html2canvas from 'html2canvas';
   templateUrl: './qc.component.html',
   styleUrls: ['./qc.component.css']
 })
-export class QCComponent implements OnInit, DoCheck {
+export class QCComponent implements OnInit {
   selectedValue: string;
 
   @ViewChild('qcbody') qcBody:ElementRef;
@@ -18,13 +18,7 @@ export class QCComponent implements OnInit, DoCheck {
   ngOnInit(): void {
     this.selectedValue = 'all';
   }
-
-  ngDoCheck(): void {
-    const graphSelector = document.getElementById('qc-graph-selector') as HTMLSelectElement;
-    this.selectedValue = graphSelector.value;
-  }
-
-
+  
   public downloadPDF() {
    let content = window.document.getElementById('qc-body');
    content.style.margin = "auto";

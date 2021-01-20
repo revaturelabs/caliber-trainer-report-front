@@ -10,24 +10,24 @@ describe('ReviewPageTotalAvgAssessmentComponent', () => {
   
   let fixture: ComponentFixture<ReviewPageTotalAvgAssessmentComponent>;
   let de: DebugElement;
-  beforeEach(async(() => {
-    
+
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ ReviewPageTotalAvgAssessmentComponent ],
       imports: [HttpClientModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ReviewPageTotalAvgAssessmentComponent);
     component = fixture.componentInstance;
     de = fixture.debugElement;
     fixture.detectChanges();
+    sessionStorage.setItem('selectedId', '1');
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+
   });
   
   it('should have a span tag of `Total Average Assessment Scores`', () =>{
@@ -38,11 +38,29 @@ describe('ReviewPageTotalAvgAssessmentComponent', () => {
     expect(component.myLineChart).toBeUndefined();
   });
 
-  it('graph should be displayed', () =>{
-    expect(component.displayGraph).toHaveBeenCalled;
-  })
+  it('should trigger graphAdjust method when window is resized', () => {
+    const spyOnResize = spyOn(component, 'graphAdjust');
+    window.dispatchEvent(new Event('resize'));
+    expect(spyOnResize).toHaveBeenCalled();
+  });
 
- 
+  it('should set the component propery following ngOnInit', () => {
+    let batch = [{
+      batchId: 'id',
+      batchName: 'name',
+      assessmentScores: [1, 2, 3, 4, 5]
+    },
+    {
+      batchId: 'id2',
+      batchName: 'name2',
+      assessmentScores: [5, 4, 5, 4, 5]
+    }];
 
+    component.setComponent(batch);
+
+    expect(component.allBatches).toEqual(batch);
+    expect(component.batchesObj.length).toBeGreaterThan(0);
+    expect(component.batchAverages.length).toBeGreaterThan(0);
+  });
 
 });

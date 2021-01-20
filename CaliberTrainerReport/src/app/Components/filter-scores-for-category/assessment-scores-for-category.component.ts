@@ -1,7 +1,6 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { Chart } from 'node_modules/chart.js';
 import { faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
-import { AssessScoresByCategoryAllBatchesService } from 'src/app/services/scores-by-category-all-batches.service';
 import { AssessmentComponent } from 'src/app/Components/assessment/assessment.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';

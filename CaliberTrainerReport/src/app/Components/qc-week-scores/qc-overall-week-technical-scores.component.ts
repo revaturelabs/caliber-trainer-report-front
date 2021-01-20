@@ -1,7 +1,6 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { faChartBar } from '@fortawesome/free-solid-svg-icons';
 import { Chart } from 'node_modules/chart.js';
-import { TechnicalStatusByWeekService } from 'src/app/services/tech-status-by-week.service';
 import { QCComponent } from 'src/app/Components/qc/qc.component';
 import { Subscription } from 'rxjs';
 import { DisplayGraphService } from 'src/app/services/display-graph.service';
@@ -49,35 +48,18 @@ export class QcOverallWeekTechnicalScoresComponent
     private qcTS: QCComponent,
     private displayGraphService: DisplayGraphService,
     private localStorageServ: LocalStorageService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.selectedValue = this.qcTS.selectedValue;
     this.graphAdjust();
     // This method receives the JSON object from the URL GET request
 
-    let trainerId = this.localStorageServ.get('selectedId');
-
     this.batchServiceSubscription = this.batchService
       .getTechnicalStatusByWeek()
       .subscribe(
         (resp) => {
-          console.log('Fetching statusByWeek successful:\n');
-          console.log(resp);
-
-          this.thirdGraphObj = resp;
-          this.batches = this.getBatches();
-          this.pickedBatch = this.batches[0];
-
-          if (this.pickedBatch === undefined) {
-            this.displayErrorMassage('No Data to Display');
-            return;
-          }
-
-          let graphArray = [this.thirdGraphObj, this.batches[0]];
-          this.localStorageServ.set('graphArray3' + trainerId, graphArray);
-
-          this.displayGraph();
+          this.initComponent(resp);
         },
         (error) => {
           console.log('Error fetching statusByWeek:\n' + error);
@@ -85,6 +67,24 @@ export class QcOverallWeekTechnicalScoresComponent
           return;
         }
       );
+  }
+
+  initComponent(resp) {
+    let trainerId = this.localStorageServ.get('selectedId');
+
+    this.thirdGraphObj = resp;
+    this.batches = this.getBatches();
+    this.pickedBatch = this.batches[0];
+
+    if (this.pickedBatch === undefined) {
+      this.displayErrorMassage('No Data to Display');
+      return;
+    }
+
+    let graphArray = [this.thirdGraphObj, this.batches[0]];
+    this.localStorageServ.set('graphArray3' + trainerId, graphArray);
+
+    this.displayGraph();
   }
 
   // returns array of the batch ids (need for populating batch drop-down list)
@@ -256,10 +256,6 @@ export class QcOverallWeekTechnicalScoresComponent
     return this.nullData;
   }
 
-  scroll(el: HTMLElement) {
-    el.scrollIntoView();
-  }
-
   graphAdjust() {
     const chartElem = document.getElementById('divChart3');
     this.isBig = this.displayGraphService.graphAdjust(
@@ -279,10 +275,12 @@ export class QcOverallWeekTechnicalScoresComponent
     const graphSelector = document.getElementById(
       'qc-graph-selector'
     ) as HTMLSelectElement;
-    if (graphSelector.value === 'week') {
-      graphSelector.value = 'all';
-    } else {
-      graphSelector.value = 'week';
+    if (graphSelector != null) {
+      if (graphSelector.value === 'week') {
+        graphSelector.value = 'all';
+      } else {
+        graphSelector.value = 'week';
+      }
     }
   }
 

@@ -13,4 +13,8 @@ describe('MockDataReturnService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('should return the trainers', () => {
+    expect(service.getAllMockTrainers()).toEqual(service.trainers);
+  });
 });

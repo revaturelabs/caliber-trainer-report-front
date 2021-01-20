@@ -25,7 +25,7 @@ export class DisplayQcAverageGraphService {
       windowSize.style.width = '60vw';
     }
     return largeWindow;
-    }
+  }
 
     graphOptions(titleText) {
       const graphOpt = {

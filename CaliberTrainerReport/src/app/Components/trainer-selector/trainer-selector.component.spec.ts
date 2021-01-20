@@ -10,15 +10,13 @@ describe('TrainerSelectorComponent', () => {
   let component: TrainerSelectorComponent;
   let fixture: ComponentFixture<TrainerSelectorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ TrainerSelectorComponent],
       imports:[HttpClientTestingModule, RouterTestingModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(TrainerSelectorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

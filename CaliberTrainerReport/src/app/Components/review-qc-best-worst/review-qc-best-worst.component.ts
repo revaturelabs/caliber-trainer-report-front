@@ -108,32 +108,37 @@ export class ReviewQcBestWorstComponent implements OnInit {
   ngOnInit(): void {
     this.batchService.getAvgCategoryScoresObservables().subscribe((data) => {
       //
-      for (let category of data.batchByCategory) {
-        let totalScores = 0;
-        let totalQuantity = 0;
-        let catAverage = 0;
-
-        for (let batch of category.batches) {
-          let currentBatch = batch;
-          totalScores += this.calculateTotalBatchScore(currentBatch);
-          totalQuantity += this.calculateTotalBatchQuantity(currentBatch);
-        }
-        if (totalQuantity == 0 && totalScores == 0) {
-          catAverage = 0;
-        } else {
-          catAverage = totalScores / totalQuantity;
-        }
-
-        if (!isNaN(catAverage) && catAverage > 0) {
-          let categoryName = category.categoryName;
-          this.categoryScores[categoryName] = catAverage;
-        }
-      }
-      this.sortedCategories = this.sortCategoryScores(this.categoryScores);
-      this.bestCategories = this.findBestCategories(this.sortedCategories);
-      this.worstCategories = this.findWorstCategories(this.sortedCategories);
+      this.getObservables(data);
     });
   }
+
+  getObservables(data) {
+    for (let category of data.batchByCategory) {
+      let totalScores = 0;
+      let totalQuantity = 0;
+      let catAverage = 0;
+
+      for (let batch of category.batches) {
+        let currentBatch = batch;
+        totalScores += this.calculateTotalBatchScore(currentBatch);
+        totalQuantity += this.calculateTotalBatchQuantity(currentBatch);
+      }
+      if (totalQuantity == 0 && totalScores == 0) {
+        catAverage = 0;
+      } else {
+        catAverage = totalScores / totalQuantity;
+      }
+
+      if (!isNaN(catAverage) && catAverage > 0) {
+        let categoryName = category.categoryName;
+        this.categoryScores[categoryName] = catAverage;
+      }
+    }
+    this.sortedCategories = this.sortCategoryScores(this.categoryScores);
+    this.bestCategories = this.findBestCategories(this.sortedCategories);
+    this.worstCategories = this.findWorstCategories(this.sortedCategories);
+  };
+  
 }
 
 // Object that combines category and score

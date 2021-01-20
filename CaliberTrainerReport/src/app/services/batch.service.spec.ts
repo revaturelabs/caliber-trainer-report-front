@@ -1,12 +1,26 @@
+import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 
 import { BatchService } from './batch.service';
 
 describe('BatchService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  let service: BatchService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports:[HttpClientModule]
+    });
+    service = TestBed.inject(BatchService);
+  });
 
   it('should be created', () => {
-    const service: BatchService = TestBed.get(BatchService);
     expect(service).toBeTruthy();
   });
+
+  // it(`should return value from observable`, () => {
+  //   service.getTechnicalStatusPerBatch().subscribe(value => {
+  //       expect(value).toHaveBeenCalled();
+  //   });
+  // });
+  
 });
