@@ -8,7 +8,7 @@ export class FilterPipe implements PipeTransform {
   transform(value: any[], searchText: string): any[] {
     const matches = [];
     if (!value || value == null || value == undefined || value.length == 0) return value;
-    if (!searchText || searchText == null || searchText == undefined || searchText.length == 0) return matches;
+    if (!searchText || searchText == null || searchText == undefined || searchText.length == 0) return value;
 
     for (const m of value) {
       
