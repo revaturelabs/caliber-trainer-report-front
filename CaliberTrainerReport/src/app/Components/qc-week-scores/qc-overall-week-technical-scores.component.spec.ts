@@ -8,7 +8,7 @@ describe('QcOverallWeekTechnicalScoresComponent', () => {
   let component: QcOverallWeekTechnicalScoresComponent;
   let fixture: ComponentFixture<QcOverallWeekTechnicalScoresComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ QcOverallWeekTechnicalScoresComponent ],
       imports:[HttpClientTestingModule],
@@ -16,9 +16,7 @@ describe('QcOverallWeekTechnicalScoresComponent', () => {
     
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(QcOverallWeekTechnicalScoresComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -115,5 +113,33 @@ describe('QcOverallWeekTechnicalScoresComponent', () => {
     component.displayErrorMassage("String");
     fixture.detectChanges();
     expect(mySpy).toHaveBeenCalled();
+  });
+
+  //initComponent(resp)
+  it('should propery fill the fields of the component following ngOnInit', () => {
+    let mockResponse = [
+      {
+        category: "Java",
+        average: [10, 30.5, 50.7, 70.2, 0]
+      },
+      {
+        category: "SQL",
+        average: [10, 0, 0, 70.2, 0]
+      },
+      {
+        category: "Nothing",
+        average: [0, 0, 0, 0, 0]
+      },
+      {
+        category: "gRPC",
+        average: [0, 20, 99, 100, 99.2342312232]
+      }
+    ];
+
+    sessionStorage.setItem('selectedId', '1');
+    component.initComponent(mockResponse);
+    expect(component.thirdGraphObj).toEqual(mockResponse);
+    expect(component.batches);
+    expect(component.pickedBatch);
   });
 });

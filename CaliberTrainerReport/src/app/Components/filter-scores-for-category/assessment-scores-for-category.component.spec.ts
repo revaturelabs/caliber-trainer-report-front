@@ -84,7 +84,7 @@ describe('AssessmentScoresForCategoryComponent', () => {
   let component: AssessmentScoresForCategoryComponent;
   let fixture: ComponentFixture<AssessmentScoresForCategoryComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     let mockASBCABS = jasmine.createSpyObj("AssessmentService", ["getSixthGraphData"]);
     mockASBCABS.getSixthGraphData.and.returnValue(of(mockResponse));
     TestBed.configureTestingModule({
@@ -97,9 +97,7 @@ describe('AssessmentScoresForCategoryComponent', () => {
       imports: [ FormsModule ]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AssessmentScoresForCategoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

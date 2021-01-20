@@ -35,42 +35,47 @@ export class AssessmentScoresAccordingToBatchComponent
   ) {}
 
   ngOnInit(): void {
-    this.selectedValue = this.assessmentTS.selectedValue;
-    this.graphAdjust();
     this.pickedBatch = 0;
     this.batchNames = [];
     this.batchesObj = [];
     this.scoreNames = ['Exam', 'Verbal', 'Presentation', 'Project', 'Other'];
     this.allBatches = [];
 
-    let trainerId: string = this.localStorageServ.get('selectedId');
-    console.log('ACESSING DB');
+    this.selectedValue = this.assessmentTS.selectedValue;
+    this.graphAdjust();
 
     this.AssessmentServiceSubscription = this.assessmentService
       .getAssessmentByBatch()
       .subscribe((resp) => {
-        this.allBatches = resp;
-        for (const i of this.allBatches.keys()) {
-          for (const [j, value] of this.allBatches[
-            i
-          ].assessmentScores.entries()) {
-            this.allBatches[i].assessmentScores[j] =
-              Math.round(value * 100) / 100;
-          }
-        }
-
-        for (const item of resp) {
-          this.batchNames.push(item.batchName);
-        }
-
-        this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
-
-        let graphArray4 = [this.batchesObj, this.allBatches, this.batchNames];
-
-        this.localStorageServ.set('graphArray4' + trainerId, graphArray4);
-
-        this.displayGraph(this.batchesObj);
+        this.setComponent(resp);
       });
+  }
+
+  setComponent(resp) {
+
+    let trainerId: string = this.localStorageServ.get('selectedId');
+
+    this.allBatches = resp;
+    for (const i of this.allBatches.keys()) {
+      for (const [j, value] of this.allBatches[
+        i
+      ].assessmentScores.entries()) {
+        this.allBatches[i].assessmentScores[j] =
+          Math.round(value * 100) / 100;
+      }
+    }
+
+    for (const item of resp) {
+      this.batchNames.push(item.batchName);
+    }
+
+    this.batchesObj = this.allBatches[this.pickedBatch].assessmentScores;
+
+    let graphArray4 = [this.batchesObj, this.allBatches, this.batchNames];
+
+    this.localStorageServ.set('graphArray4' + trainerId, graphArray4);
+
+    this.displayGraph(this.batchesObj);
   }
 
   updateGraph() {

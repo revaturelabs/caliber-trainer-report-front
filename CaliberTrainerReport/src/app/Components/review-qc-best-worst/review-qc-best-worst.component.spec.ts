@@ -51,15 +51,13 @@ describe('ReviewQcBestWorstComponent', () => {
   bottom3.push(new CategoryScore('Hibernate', 1.5));
   bottom3.push(new CategoryScore('Java', 2));
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ ReviewQcBestWorstComponent],
       imports:[HttpClientTestingModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ReviewQcBestWorstComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

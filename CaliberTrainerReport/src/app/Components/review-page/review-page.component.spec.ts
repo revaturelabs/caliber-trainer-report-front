@@ -6,14 +6,12 @@ describe('ReviewPageComponent', () => {
   let component: ReviewPageComponent;
   let fixture: ComponentFixture<ReviewPageComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ ReviewPageComponent ]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ReviewPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

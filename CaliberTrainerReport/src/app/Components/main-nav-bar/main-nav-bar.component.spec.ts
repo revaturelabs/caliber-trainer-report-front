@@ -5,14 +5,12 @@ describe('MainNavBarComponent', () => {
   let component: MainNavBarComponent;
   let fixture: ComponentFixture<MainNavBarComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ MainNavBarComponent ]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(MainNavBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

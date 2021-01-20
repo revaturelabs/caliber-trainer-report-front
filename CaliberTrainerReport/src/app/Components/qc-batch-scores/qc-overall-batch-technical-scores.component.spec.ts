@@ -55,16 +55,14 @@ describe('QcOverallBatchTechnicalScoresComponent', () => {
     superstarAvg: 0,
     superstarCount: 0}];
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ QcOverallBatchTechnicalScoresComponent],
       imports:[HttpClientTestingModule],
       providers:[QCComponent]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(QcOverallBatchTechnicalScoresComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -7,7 +7,8 @@ describe('CalendarViewComponent', () => {
   let component: CalendarViewComponent;
   let fixture: ComponentFixture<CalendarViewComponent>;
   let latestYear;
-  beforeEach(async(() => {
+
+  beforeEach(() => {
     let mockBatches: {batches: Batch[]} = {
       batches: [
         {id : 1,
@@ -49,9 +50,7 @@ describe('CalendarViewComponent', () => {
       imports:[HttpClientTestingModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CalendarViewComponent);
     component = fixture.componentInstance;
     

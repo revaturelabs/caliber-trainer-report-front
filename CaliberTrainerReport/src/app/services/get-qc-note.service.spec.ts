@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 
 import { GetQcNoteService } from './get-qc-note.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('GetQcNoteService', () => {
   let service: GetQcNoteService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[HttpClientTestingModule]
+      imports:[HttpClientModule]
     });
     service = TestBed.inject(GetQcNoteService);
   });
@@ -16,4 +16,5 @@ describe('GetQcNoteService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
 });

@@ -55,26 +55,11 @@ export class QcOverallWeekTechnicalScoresComponent
     this.graphAdjust();
     // This method receives the JSON object from the URL GET request
 
-    let trainerId = this.localStorageServ.get('selectedId');
-
     this.batchServiceSubscription = this.batchService
       .getTechnicalStatusByWeek()
       .subscribe(
         (resp) => {
-
-          this.thirdGraphObj = resp;
-          this.batches = this.getBatches();
-          this.pickedBatch = this.batches[0];
-
-          if (this.pickedBatch === undefined) {
-            this.displayErrorMassage('No Data to Display');
-            return;
-          }
-
-          let graphArray = [this.thirdGraphObj, this.batches[0]];
-          this.localStorageServ.set('graphArray3' + trainerId, graphArray);
-
-          this.displayGraph();
+          this.initComponent(resp);
         },
         (error) => {
           console.log('Error fetching statusByWeek:\n' + error);
@@ -82,6 +67,24 @@ export class QcOverallWeekTechnicalScoresComponent
           return;
         }
       );
+  }
+
+  initComponent(resp) {
+    let trainerId = this.localStorageServ.get('selectedId');
+
+    this.thirdGraphObj = resp;
+    this.batches = this.getBatches();
+    this.pickedBatch = this.batches[0];
+
+    if (this.pickedBatch === undefined) {
+      this.displayErrorMassage('No Data to Display');
+      return;
+    }
+
+    let graphArray = [this.thirdGraphObj, this.batches[0]];
+    this.localStorageServ.set('graphArray3' + trainerId, graphArray);
+
+    this.displayGraph();
   }
 
   // returns array of the batch ids (need for populating batch drop-down list)

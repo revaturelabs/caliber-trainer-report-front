@@ -9,16 +9,13 @@ describe('AssessmentScoresAccordingToBatchComponent', () => {
   let component: AssessmentScoresAccordingToBatchComponent;
   let fixture: ComponentFixture<AssessmentScoresAccordingToBatchComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ AssessmentScoresAccordingToBatchComponent],
       imports:[HttpClientTestingModule],
       providers:[AssessmentComponent]
     })
     .compileComponents();
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(AssessmentScoresAccordingToBatchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -41,6 +38,25 @@ describe('AssessmentScoresAccordingToBatchComponent', () => {
     component.updateGraph();
     expect(mySpy).toHaveBeenCalled();
   })
+
+  // setComponent()
+  it('should set the component given the response from service', () => {
+    let batch = [{
+      batchId: 'id',
+      batchName: 'name',
+      assessmentScores: [1, 2, 3, 4, 5]
+    },
+    {
+      batchId: 'id2',
+      batchName: 'name2',
+      assessmentScores: [5, 4, 5, 4, 5]
+    }];
+    component.setComponent(batch);
+    expect(component.allBatches).toEqual(batch);
+    expect(component.batchesObj.length).toBeGreaterThan(0);
+
+  })
+
   it('should call emptyDoubleClick to stop event propagation when double clicked', () =>{
     let mySpy = spyOn(component, 'doubleClickGraph4').and.callThrough();
     const doubleClickEl: DebugElement[] = fixture.debugElement.queryAll(By.css("#graph4Header"));
@@ -48,5 +64,11 @@ describe('AssessmentScoresAccordingToBatchComponent', () => {
     fixture.detectChanges();
     expect(mySpy).toHaveBeenCalled();
   });
-
+  // onResize() {
+    it('should call onResize', () =>{
+      let mySpy = spyOn(component, 'onResize').and.callThrough();
+      component.onResize();
+      fixture.detectChanges();
+      expect(mySpy).toHaveBeenCalled();
+    });
 });

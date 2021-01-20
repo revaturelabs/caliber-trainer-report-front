@@ -6,15 +6,12 @@ describe('ApiAllTrainersComponent', () => {
   let component: ApiAllTrainersComponent;
   let fixture: ComponentFixture<ApiAllTrainersComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ ApiAllTrainersComponent],
       imports:[HttpClientTestingModule]
     })
     .compileComponents();
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(ApiAllTrainersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

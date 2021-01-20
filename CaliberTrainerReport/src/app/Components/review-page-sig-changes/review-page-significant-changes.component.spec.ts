@@ -8,15 +8,12 @@ describe('ReviewPageSignificantChangesComponent', () => {
   let component: ReviewPageSignificantChangesComponent;
   let fixture: ComponentFixture<ReviewPageSignificantChangesComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ ReviewPageSignificantChangesComponent ],
       imports:[HttpClientTestingModule]
     })
     .compileComponents();
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(ReviewPageSignificantChangesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
