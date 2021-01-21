@@ -2,6 +2,19 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.6.
 
+### 1/21/2021: 
+Batch 865 was assigned a job in order to refactor a legacy application. Our specific objectives were listed below
+# BATCH 865 User Stories
+- I should be able to expand the metrics by category on the review page to include all categories sorted and ranked by score (Completed)
+- I should be able to filter categories in the same way I filter batches (Completed)
+- do not include a value on the graphs if there is no data to include (Completed)
+- I should be able to expand the metrics by category on the review page to include all categories sorted and ranked by score (Completed)
+- I should be able to search dropdown menus to more easily find what I wish to select (Completed)
+- I should see one year at a time on the calendar view (Completed)
+- I should be able to de-select all selected options in a dropdown filter (Completed)
+- Refactor Caliber Data Fetching to the backend (Completed)
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
